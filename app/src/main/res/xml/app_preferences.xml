@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/settings_group_feed" >
+        <Preference
+            android:key="ngword"
+            android:summary="@string/settings_ngword_text"
+            android:title="@string/settings_ngword" />
+        <CheckBoxPreference
+            android:key="@string/key_is_share_with_title"
+            android:title="@string/settings_is_share_with_title_title"
+            android:summary="@string/settings_is_share_with_title_summary"
+            />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_group_other" >
+        <Preference
+            android:key="about"
+            android:title="@string/about_title" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

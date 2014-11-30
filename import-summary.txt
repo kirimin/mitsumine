@@ -1,0 +1,127 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Manifest Merging:
+-----------------
+Your project uses libraries that provide manifests, and your Eclipse
+project did not explicitly turn on manifest merging. In Android Gradle
+projects, manifests are always merged (meaning that contents from your
+libraries' manifests will be merged into the app manifest. If you had
+manually copied contents from library manifests into your app manifest
+you may need to remove these for the app to build correctly.
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+From Mitsumine:
+* .gitignore
+* ic_launcher-web.png
+* proguard-project.txt
+From Volley:
+* .gitignore
+* Android.mk
+* build.xml
+* custom_rules.xml
+* proguard-project.txt
+* proguard.cfg
+* tests\
+* tests\.classpath
+* tests\.project
+* tests\Android.mk
+* tests\AndroidManifest.xml
+* tests\project.properties
+* tests\res\
+* tests\res\raw\
+* tests\res\raw\large_jpeg_1024_500.jpg
+* tests\src\
+* tests\src\com\
+* tests\src\com\android\
+* tests\src\com\android\volley\
+* tests\src\com\android\volley\CacheDispatcherTest.java
+* tests\src\com\android\volley\NetworkDispatcherTest.java
+* tests\src\com\android\volley\RequestQueueTest.java
+* tests\src\com\android\volley\RequestTest.java
+* tests\src\com\android\volley\ResponseDeliveryTest.java
+* tests\src\com\android\volley\mock\
+* tests\src\com\android\volley\mock\MockCache.java
+* tests\src\com\android\volley\mock\MockHttpClient.java
+* tests\src\com\android\volley\mock\MockHttpStack.java
+* tests\src\com\android\volley\mock\MockHttpURLConnection.java
+* tests\src\com\android\volley\mock\MockNetwork.java
+* tests\src\com\android\volley\mock\MockRequest.java
+* tests\src\com\android\volley\mock\MockResponseDelivery.java
+* tests\src\com\android\volley\mock\TestRequest.java
+* tests\src\com\android\volley\mock\WaitableQueue.java
+* tests\src\com\android\volley\toolbox\
+* tests\src\com\android\volley\toolbox\BasicNetworkTest.java
+* tests\src\com\android\volley\toolbox\ByteArrayPoolTest.java
+* tests\src\com\android\volley\toolbox\HttpClientStackTest.java
+* tests\src\com\android\volley\toolbox\HttpHeaderParserTest.java
+* tests\src\com\android\volley\toolbox\HurlStackTest.java
+* tests\src\com\android\volley\toolbox\ImageRequestTest.java
+* tests\src\com\android\volley\toolbox\PoolingByteArrayOutputStreamTest.java
+* tests\src\com\android\volley\utils\
+* tests\src\com\android\volley\utils\CacheTestUtils.java
+* tests\src\com\android\volley\utils\ImmediateResponseDelivery.java
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+robotium-solo-5.1.jar => com.jayway.android.robotium:robotium-solo:5.1
+android-support-v4.jar => com.android.support:support-v4:+
+
+Potentially Missing Dependency:
+-------------------------------
+When we replaced the following .jar files with a Gradle dependency, we
+inferred the dependency version number from the filename. This
+specific version may not actually be available from the repository.
+If you get a build error stating that the dependency is missing, edit
+the version number to for example "+" to pick up the latest version
+instead. (This may require you to update your code if the library APIs
+have changed.)
+
+robotium-solo-5.1.jar => version 5.1 in com.jayway.android.robotium:robotium-solo:5.1
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+In Volley:
+* AndroidManifest.xml => volley\src\main\AndroidManifest.xml
+* res\ => volley\src\main\res\
+* src\ => volley\src\main\java\
+In Mitsumine:
+* AndroidManifest.xml => mitsumine\src\main\AndroidManifest.xml
+* assets\ => mitsumine\src\main\assets\
+* libs\activeandroid.jar => mitsumine\libs\activeandroid.jar
+* res\ => mitsumine\src\main\res\
+* src\ => mitsumine\src\main\java\
+* Test\libs\robotium-solo-5.1.jar => mitsumine\libs\robotium-solo-5.1.jar
+* Test\res\ => mitsumine\src\androidTest\res\
+* Test\src\ => mitsumine\src\androidTest\java\
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

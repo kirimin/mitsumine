@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Mitsumine</string>
+    <string name="feed_new">新着</string>
+    <string name="feed_hot">人気</string>
+    <string name="feed_main">総合</string>
+    <string name="feed_social">世の中</string>
+    <string name="feed_economics">政治と経済</string>
+    <string name="feed_life">暮らし</string>
+    <string name="feed_knowledge">学び</string>
+    <string name="feed_it">テクノロジー</string>
+    <string name="feed_fun">おもしろ</string>
+    <string name="feed_entertainment">エンタメ</string>
+    <string name="feed_game">アニメとゲーム</string>
+    <string name="feed_share_url">URLをシェア</string>
+    <string name="feed_share_url_with_title">URLとタイトルをシェア</string>
+    <string name="type_read">既読</string>
+    <string name="type_read_later">あとで読む</string>
+    <string name="read_later_empty">記事を左にスワイプするとここに記事を追加出来ます。</string>
+    <string name="reload">更新</string>
+    <string name="read_title">既読リスト</string>
+    <string name="urlreceive_title">ブックマークページを見る</string>
+    <string name="search_search">検索</string>
+    <string name="search_favorite">お気に入り登録</string>
+    <string name="keyword_search_title">キーワード検索</string>
+    <string name="keyword_search_toast_favorite">キーワードを保存しました。</string>
+    <string name="keyword_search_toast_notfound">フィードが見つかりませんでした。</string>
+    <string name="user_search_title">ユーザーID検索</string>
+    <string name="user_search_toast_favorite">ユーザーを保存しました。</string>
+    <string name="user_search_toast_notfound">ユーザーが見つかりませんでした。</string>
+    <string name="settings_title">設定</string>
+    <string name="settings_ngword">NGワード編集</string>
+    <string name="settings_ngword_text">NGワードがタイトルまたはURLに含まれているフィードは表示されなくなります。</string>
+    <string name="settings_ngword_add">NGワードを追加する</string>
+    <string name="settings_ngword_delete">リストから削除しますか？</string>
+    <string name="settings_group_feed">フィード設定</string>
+    <string name="settings_group_other">その他</string>
+    <string name="settings_is_share_with_title_title">共有時にタイトルも本文に含める</string>
+    <string name="settings_is_share_with_title_summary">ボタン長押しで設定と逆の動作が出来ます。</string>
+    <string name="about_title">このアプリについて</string>
+    <string name="about_develop">開発：きりみん</string>
+    <string name="about_develop_url">http://kirimin.me</string>
+    <string name="about_other_app">他のアプリもよろしくお願いします</string>
+    <string name="about_other_app_url">https://play.google.com/store/apps/developer?id=kirimin</string>
+    <string name="about_review">レビューを頂けると励みになります</string>
+    <string name="about_review_url">https://play.google.com/store/apps/details?id=me.kirimin.mitsumine</string>
+    <string name="about_license">以下のライブラリを使用しています</string>
+    <string name="volley_license_title">■Volley</string>
+    <string name="active_android_license_title">■ActiveAndroid</string>
+    <string name="picasso_license_title">■Picasso</string>
+    <string name="volley_license">Copyright (C) 2011 The Android Open Source Project\n
+\n
+Licensed under the Apache License, Version 2.0 (the "License");\n
+you may not use this file except in compliance with the License.\n
+You may obtain a copy of the License at\n
+\n
+     http://www.apache.org/licenses/LICENSE-2.0\n
+\n
+Unless required by applicable law or agreed to in writing, software\n
+distributed under the License is distributed on an "AS IS" BASIS,\n
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n
+See the License for the specific language governing permissions and\n
+limitations under the License.</string>
+    <string name="active_android_license">Copyright (C) 2010 Michael Pardo\n
+\n
+Licensed under the Apache License, Version 2.0 (the "License");\n
+you may not use this file except in compliance with the License.\n
+You may obtain a copy of the License at\n
+\n
+   http://www.apache.org/licenses/LICENSE-2.0\n
+\n
+Unless required by applicable law or agreed to in writing, software\n
+distributed under the License is distributed on an "AS IS" BASIS,\n
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n
+See the License for the specific language governing permissions and\n
+limitations under the License.</string>
+
+    <string name="picasso_license">Copyright 2013 Square, Inc.\n
+\n
+Licensed under the Apache License, Version 2.0 (the "License");\n
+you may not use this file except in compliance with the License.\n
+You may obtain a copy of the License at\n
+\n
+   http://www.apache.org/licenses/LICENSE-2.0\n
+\n
+Unless required by applicable law or agreed to in writing, software\n
+distributed under the License is distributed on an "AS IS" BASIS,\n
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n
+See the License for the specific language governing permissions and\n
+limitations under the License.</string>
+
+</resources>

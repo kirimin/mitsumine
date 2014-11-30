@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:kirimin="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/SearchMenuItemSearchView"
+        kirimin:actionViewClass="android.support.v7.widget.SearchView"
+        kirimin:showAsAction="collapseActionView|always"
+        android:icon="@drawable/ic_action_search_white"
+        android:title="@string/search_search"/>
+    <item
+        android:id="@+id/SearchMenuItemFavorite"
+        android:icon="@drawable/ic_action_favorite"
+        kirimin:showAsAction="always"
+        android:title="@string/search_favorite"/>
+    
+    <item 
+        android:id="@+id/SearchMenuItemReload"
+        android:icon="@drawable/ic_action_refresh"
+        kirimin:showAsAction="always"
+        android:title="@string/reload"/>
+
+</menu>

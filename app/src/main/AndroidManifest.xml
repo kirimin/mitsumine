@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="me.kirimin.mitsumine"
+    android:versionCode="10700"
+    android:versionName="1.7.0" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="me.kirimin.mitsumine.ui.activity.TopActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="me.kirimin.mitsumine.ui.activity.ReadActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name="me.kirimin.mitsumine.ui.activity.ReadLaterActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name="me.kirimin.mitsumine.ui.activity.search.KeywordSearchActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name="me.kirimin.mitsumine.ui.activity.search.UserSearchActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name="me.kirimin.mitsumine.ui.activity.SettingsActivity" />
+        <activity android:name="me.kirimin.mitsumine.ui.activity.AboutActivity" />
+        <activity
+            android:name="me.kirimin.mitsumine.ui.activity.UrlReceiveActivity"
+            android:label="@string/urlreceive_title" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+
+                <action android:name="android.intent.action.SEND" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
