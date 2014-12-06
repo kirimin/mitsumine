@@ -7,8 +7,8 @@ import com.activeandroid.annotation.Table;
 @Table(name = "feed")
 public class Feed extends Model {
 
-    public static String TYPE_READ = "read";
-    public static String TYPE_READ_LATER = "readlater";
+    public static final String TYPE_READ = "read";
+    public static final String TYPE_READ_LATER = "readlater";
 
     @Column(name = "title")
     public String title = "";
