@@ -14,15 +14,18 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-abstract public class AbstractFeedFragment extends Fragment implements FeedAdapterListener {
+abstract public class AbstractFeedFragment extends Fragment implements FeedAdapterListener, SwipeRefreshLayout.OnRefreshListener {
 
     private ListView mListView;
     private FeedAdapter mAdapter;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     abstract void requestFeed();
 
@@ -33,11 +36,20 @@ abstract public class AbstractFeedFragment extends Fragment implements FeedAdapt
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_feed, container, false);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.FeedFragmentSwipeLayout);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.blue, R.color.orange);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setProgressViewOffset(false, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
         mAdapter = new FeedAdapter(getActivity().getApplicationContext(), this, isUseReadLater(), isUseRead());
         mListView = (ListView) rootView.findViewById(R.id.FeedFragmentListViewFeed);
         mListView.setAdapter(mAdapter);
         requestFeed();
         return rootView;
+    }
+
+    @Override
+    public void onRefresh() {
+        reloadFeed();
     }
 
     @Override
@@ -103,6 +115,14 @@ abstract public class AbstractFeedFragment extends Fragment implements FeedAdapt
 
     protected void setFeed(List<Feed> feedList) {
         mAdapter.addAll(feedList);
+    }
+
+    protected void showRefreshing() {
+        mSwipeRefreshLayout.setRefreshing(true);
+    }
+
+    protected void dismissRefreshing() {
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     private static Intent buildShareUrlIntent(Feed feed) {

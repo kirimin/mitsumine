@@ -25,6 +25,7 @@ public class KeywordFeedFragment extends AbstractFeedFragment implements FeedLis
     @Override
     void requestFeed() {
         BookmarkFeedAccessor.requestKeyword(RequestQueueSingleton.getRequestQueue(getActivity()), this, getArguments().getString("keyword"));
+        showRefreshing();
     }
 
     @Override
@@ -32,13 +33,16 @@ public class KeywordFeedFragment extends AbstractFeedFragment implements FeedLis
         clearFeed();
         if (feedList.isEmpty()) {
             Toast.makeText(getActivity(), R.string.keyword_search_toast_notfound, Toast.LENGTH_SHORT).show();
+            dismissRefreshing();
             return;
         }
         setFeed(FeedListFilter.filter(feedList));
+        dismissRefreshing();
     }
 
     @Override
     public void onError(String errorMessage) {
+        dismissRefreshing();
     }
 
     @Override
