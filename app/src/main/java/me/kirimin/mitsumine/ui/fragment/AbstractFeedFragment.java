@@ -5,6 +5,7 @@ import java.util.List;
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.db.FeedDAO;
 import me.kirimin.mitsumine.model.Feed;
+import me.kirimin.mitsumine.network.RequestQueueSingleton;
 import me.kirimin.mitsumine.ui.adapter.FeedAdapter;
 import me.kirimin.mitsumine.ui.adapter.FeedAdapter.FeedAdapterListener;
 
@@ -105,6 +106,9 @@ abstract public class AbstractFeedFragment extends Fragment implements FeedAdapt
     }
 
     public void reloadFeed() {
+        if(getActivity() != null) {
+            RequestQueueSingleton.getRequestQueue(getActivity()).getCache().clear();
+        }
         mAdapter.clear();
         requestFeed();
     }

@@ -12,11 +12,5 @@
         android:icon="@drawable/ic_action_favorite"
         kirimin:showAsAction="always"
         android:title="@string/search_favorite"/>
-    
-    <item 
-        android:id="@+id/SearchMenuItemReload"
-        android:icon="@drawable/ic_action_refresh"
-        kirimin:showAsAction="always"
-        android:title="@string/reload"/>
 
 </menu>

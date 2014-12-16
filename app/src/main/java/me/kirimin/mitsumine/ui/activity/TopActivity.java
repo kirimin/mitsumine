@@ -157,10 +157,6 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
         MenuItem unRead = menu.add(Menu.NONE, 1, Menu.NONE, R.string.type_read_later);
         unRead.setIcon(R.drawable.ic_action_labels);
         MenuItemCompat.setShowAsAction(unRead, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
-
-        MenuItem reload = menu.add(Menu.NONE, 2, Menu.NONE, R.string.reload);
-        reload.setIcon(R.drawable.ic_action_refresh);
-        MenuItemCompat.setShowAsAction(reload, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
         return true;
     }
 
@@ -172,10 +168,6 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
 
         if (item.getTitle().equals(getString(R.string.type_read_later))) {
             startActivity(new Intent(this, ReadLaterActivity.class));
-        } else if (item.getTitle().equals(getString(R.string.reload))) {
-            RequestQueueSingleton.getRequestQueue(this).getCache().clear();
-            AbstractFeedFragment feedFragment = (AbstractFeedFragment) getFragmentManager().findFragmentById(R.id.containerFrameLayout);
-            feedFragment.reloadFeed();
         }
         return super.onOptionsItemSelected(item);
     }
