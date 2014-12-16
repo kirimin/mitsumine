@@ -8,6 +8,7 @@ public class ReadLaterFeedFragment extends AbstractFeedFragment {
     @Override
     void requestFeed() {
         setFeed(FeedDAO.findByType(Feed.TYPE_READ_LATER));
+        dismissRefreshing();
     }
 
     @Override

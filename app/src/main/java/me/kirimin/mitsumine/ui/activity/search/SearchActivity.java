@@ -72,12 +72,6 @@ public abstract class SearchActivity extends ActionBarActivity implements Search
             doFavorite();
         } else if (R.id.SearchMenuItemSearchView == item.getItemId()) {
             mSearchItem.expandActionView();
-        } else if (R.id.SearchMenuItemReload == item.getItemId()) {
-            RequestQueueSingleton.getRequestQueue(this).getCache().clear();
-            AbstractFeedFragment feedFragment = (AbstractFeedFragment) getFragmentManager().findFragmentById(R.id.containerFrameLayout);
-            if (feedFragment != null) {
-                feedFragment.reloadFeed();
-            }
         }
         return super.onOptionsItemSelected(item);
     }
