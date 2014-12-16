@@ -84,11 +84,11 @@ abstract public class AbstractFeedFragment extends Fragment implements FeedAdapt
     @Override
     public void onFeedShareClick(View view) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-        if(pref.getBoolean(getString(R.string.key_is_share_with_title), false)){
-            Intent intent = buildShareUrlWithTitleIntent((Feed)view.getTag());
+        if (pref.getBoolean(getString(R.string.key_is_share_with_title), false)) {
+            Intent intent = buildShareUrlWithTitleIntent((Feed) view.getTag());
             startActivity(Intent.createChooser(intent, getString(R.string.feed_share_url_with_title)));
-        }else{
-            Intent intent = buildShareUrlIntent((Feed)view.getTag());
+        } else {
+            Intent intent = buildShareUrlIntent((Feed) view.getTag());
             startActivity(Intent.createChooser(intent, getString(R.string.feed_share_url)));
         }
     }
@@ -96,21 +96,13 @@ abstract public class AbstractFeedFragment extends Fragment implements FeedAdapt
     @Override
     public void onFeedShareLongClick(View view) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-        if(!pref.getBoolean(getString(R.string.key_is_share_with_title), false)){
-            Intent intent = buildShareUrlWithTitleIntent((Feed)view.getTag());
+        if (!pref.getBoolean(getString(R.string.key_is_share_with_title), false)) {
+            Intent intent = buildShareUrlWithTitleIntent((Feed) view.getTag());
             startActivity(Intent.createChooser(intent, getString(R.string.feed_share_url_with_title)));
-        }else{
-            Intent intent = buildShareUrlIntent((Feed)view.getTag());
+        } else {
+            Intent intent = buildShareUrlIntent((Feed) view.getTag());
             startActivity(Intent.createChooser(intent, getString(R.string.feed_share_url)));
         }
-    }
-
-    public void reloadFeed() {
-        if(getActivity() != null) {
-            RequestQueueSingleton.getRequestQueue(getActivity()).getCache().clear();
-        }
-        mAdapter.clear();
-        requestFeed();
     }
 
     protected void clearFeed() {
@@ -129,6 +121,14 @@ abstract public class AbstractFeedFragment extends Fragment implements FeedAdapt
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
+    private void reloadFeed() {
+        if (getActivity() != null) {
+            RequestQueueSingleton.getRequestQueue(getActivity()).getCache().clear();
+        }
+        mAdapter.clear();
+        requestFeed();
+    }
+
     private static Intent buildShareUrlIntent(Feed feed) {
         Intent share = new Intent(android.content.Intent.ACTION_SEND);
         share.setType("text/plain");
@@ -139,7 +139,7 @@ abstract public class AbstractFeedFragment extends Fragment implements FeedAdapt
         return share;
     }
 
-    private static Intent buildShareUrlWithTitleIntent(Feed feed){
+    private static Intent buildShareUrlWithTitleIntent(Feed feed) {
         Intent share = new Intent(android.content.Intent.ACTION_SEND);
         share.setType("text/plain");
         share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
