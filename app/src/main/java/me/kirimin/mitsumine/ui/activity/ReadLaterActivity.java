@@ -15,7 +15,9 @@ public class ReadLaterActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top);
 
-        setSupportActionBar((Toolbar) findViewById(R.id.tool_bar));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.orange));
+        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(R.string.type_read_later);
         actionBar.setDisplayHomeAsUpEnabled(true);

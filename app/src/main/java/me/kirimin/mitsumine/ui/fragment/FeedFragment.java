@@ -13,7 +13,7 @@ import me.kirimin.mitsumine.network.RequestQueueSingleton;
 import me.kirimin.mitsumine.util.FeedListFilter;
 
 public class FeedFragment extends AbstractFeedFragment implements FeedListener {
-    
+
     public static FeedFragment newFragment(CATEGORY category, TYPE type) {
         FeedFragment fragment = new FeedFragment();
         Bundle bundle = new Bundle();
@@ -25,6 +25,7 @@ public class FeedFragment extends AbstractFeedFragment implements FeedListener {
 
     @Override
     void requestFeed() {
+        showRefreshing();
         CATEGORY category = (CATEGORY) getArguments().getSerializable(CATEGORY.class.getCanonicalName());
         TYPE type = (TYPE) getArguments().getSerializable(TYPE.class.getCanonicalName());
         BookmarkFeedAccessor.requestCategory(RequestQueueSingleton.getRequestQueue(getActivity()), this, category, type);
@@ -34,10 +35,12 @@ public class FeedFragment extends AbstractFeedFragment implements FeedListener {
     public void onSuccess(List<Feed> feedList) {
         clearFeed();
         setFeed(FeedListFilter.filter(feedList));
+        dismissRefreshing();
     }
 
     @Override
     public void onError(String errorMessage) {
+        dismissRefreshing();
     }
 
     @Override

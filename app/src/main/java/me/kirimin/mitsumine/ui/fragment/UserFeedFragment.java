@@ -25,6 +25,7 @@ public class UserFeedFragment extends AbstractFeedFragment implements FeedListen
     @Override
     void requestFeed() {
         BookmarkFeedAccessor.requestUserBookmark(RequestQueueSingleton.getRequestQueue(getActivity()), this, getArguments().getString("user"));
+        showRefreshing();
     }
 
     @Override
@@ -32,13 +33,16 @@ public class UserFeedFragment extends AbstractFeedFragment implements FeedListen
         clearFeed();
         if (feedList.isEmpty()) {
             Toast.makeText(getActivity(), R.string.user_search_toast_notfound, Toast.LENGTH_SHORT).show();
+            dismissRefreshing();
             return;
         }
         setFeed(FeedListFilter.filter(feedList));
+        dismissRefreshing();
     }
 
     @Override
     public void onError(String errorMessage) {
+        dismissRefreshing();
     }
 
     @Override

@@ -5,6 +5,7 @@ import java.util.List;
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.db.FeedDAO;
 import me.kirimin.mitsumine.model.Feed;
+import me.kirimin.mitsumine.network.RequestQueueSingleton;
 import me.kirimin.mitsumine.ui.adapter.FeedAdapter;
 import me.kirimin.mitsumine.ui.adapter.FeedAdapter.FeedAdapterListener;
 
@@ -14,15 +15,18 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-abstract public class AbstractFeedFragment extends Fragment implements FeedAdapterListener {
+abstract public class AbstractFeedFragment extends Fragment implements FeedAdapterListener, SwipeRefreshLayout.OnRefreshListener {
 
     private ListView mListView;
     private FeedAdapter mAdapter;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     abstract void requestFeed();
 
@@ -33,11 +37,20 @@ abstract public class AbstractFeedFragment extends Fragment implements FeedAdapt
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_feed, container, false);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.FeedFragmentSwipeLayout);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.blue, R.color.orange);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setProgressViewOffset(false, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
         mAdapter = new FeedAdapter(getActivity().getApplicationContext(), this, isUseReadLater(), isUseRead());
         mListView = (ListView) rootView.findViewById(R.id.FeedFragmentListViewFeed);
         mListView.setAdapter(mAdapter);
         requestFeed();
         return rootView;
+    }
+
+    @Override
+    public void onRefresh() {
+        reloadFeed();
     }
 
     @Override
@@ -71,11 +84,11 @@ abstract public class AbstractFeedFragment extends Fragment implements FeedAdapt
     @Override
     public void onFeedShareClick(View view) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-        if(pref.getBoolean(getString(R.string.key_is_share_with_title), false)){
-            Intent intent = buildShareUrlWithTitleIntent((Feed)view.getTag());
+        if (pref.getBoolean(getString(R.string.key_is_share_with_title), false)) {
+            Intent intent = buildShareUrlWithTitleIntent((Feed) view.getTag());
             startActivity(Intent.createChooser(intent, getString(R.string.feed_share_url_with_title)));
-        }else{
-            Intent intent = buildShareUrlIntent((Feed)view.getTag());
+        } else {
+            Intent intent = buildShareUrlIntent((Feed) view.getTag());
             startActivity(Intent.createChooser(intent, getString(R.string.feed_share_url)));
         }
     }
@@ -83,18 +96,13 @@ abstract public class AbstractFeedFragment extends Fragment implements FeedAdapt
     @Override
     public void onFeedShareLongClick(View view) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-        if(!pref.getBoolean(getString(R.string.key_is_share_with_title), false)){
-            Intent intent = buildShareUrlWithTitleIntent((Feed)view.getTag());
+        if (!pref.getBoolean(getString(R.string.key_is_share_with_title), false)) {
+            Intent intent = buildShareUrlWithTitleIntent((Feed) view.getTag());
             startActivity(Intent.createChooser(intent, getString(R.string.feed_share_url_with_title)));
-        }else{
-            Intent intent = buildShareUrlIntent((Feed)view.getTag());
+        } else {
+            Intent intent = buildShareUrlIntent((Feed) view.getTag());
             startActivity(Intent.createChooser(intent, getString(R.string.feed_share_url)));
         }
-    }
-
-    public void reloadFeed() {
-        mAdapter.clear();
-        requestFeed();
     }
 
     protected void clearFeed() {
@@ -103,6 +111,22 @@ abstract public class AbstractFeedFragment extends Fragment implements FeedAdapt
 
     protected void setFeed(List<Feed> feedList) {
         mAdapter.addAll(feedList);
+    }
+
+    protected void showRefreshing() {
+        mSwipeRefreshLayout.setRefreshing(true);
+    }
+
+    protected void dismissRefreshing() {
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    private void reloadFeed() {
+        if (getActivity() != null) {
+            RequestQueueSingleton.getRequestQueue(getActivity()).getCache().clear();
+        }
+        mAdapter.clear();
+        requestFeed();
     }
 
     private static Intent buildShareUrlIntent(Feed feed) {
@@ -115,7 +139,7 @@ abstract public class AbstractFeedFragment extends Fragment implements FeedAdapt
         return share;
     }
 
-    private static Intent buildShareUrlWithTitleIntent(Feed feed){
+    private static Intent buildShareUrlWithTitleIntent(Feed feed) {
         Intent share = new Intent(android.content.Intent.ACTION_SEND);
         share.setType("text/plain");
         share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);

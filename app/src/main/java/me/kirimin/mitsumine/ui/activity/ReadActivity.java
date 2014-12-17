@@ -15,7 +15,9 @@ public class ReadActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top);
 
-        setSupportActionBar((Toolbar) findViewById(R.id.tool_bar));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.blue));
+        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(R.string.read_title);
         actionBar.setDisplayHomeAsUpEnabled(true);
