@@ -1,15 +1,24 @@
 package me.kirimin.mitsumine.test;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import me.kirimin.mitsumine.model.Feed;
 import me.kirimin.mitsumine.util.FeedListFilter;
-import junit.framework.TestCase;
 
-public class FeedListFilterTest extends TestCase {
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-    public void testContainsはリスト内に同じオブジェクトがある時にtrueを返す() {
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class FeedListFilterTest {
+
+    @Test
+    public void containsはリスト内に同じオブジェクトがある時にtrueを返す() {
         Feed test1 = new Feed();
         test1.title = "test1";
 
@@ -29,7 +38,8 @@ public class FeedListFilterTest extends TestCase {
         assertTrue(FeedListFilter.contains(test3, list));
     }
 
-    public void testContainsは同じリスト内に同じタイトルのフィードがある時にtrueを返す() {
+    @Test
+    public void containsは同じリスト内に同じタイトルのフィードがある時にtrueを返す() {
         Feed test1 = new Feed();
         test1.title = "test1";
 
@@ -42,7 +52,8 @@ public class FeedListFilterTest extends TestCase {
         assertTrue(FeedListFilter.contains(test2, list));
     }
 
-    public void testContainsは同じリスト内に同じタイトルのフィードがない時にfalseを返す() {
+    @Test
+    public void containsは同じリスト内に同じタイトルのフィードがない時にfalseを返す() {
         Feed test1 = new Feed();
         test1.title = "test1";
 
@@ -55,7 +66,8 @@ public class FeedListFilterTest extends TestCase {
         assertFalse(FeedListFilter.contains(test2, list));
     }
 
-    public void testContainsWordはリスト内のワードがタイトルに含まれればtrueを返す() {
+    @Test
+    public void containsWordはリスト内のワードがタイトルに含まれればtrueを返す() {
         Feed test1 = new Feed();
         test1.title = "test1";
         test1.linkUrl = "testLink";
@@ -68,7 +80,8 @@ public class FeedListFilterTest extends TestCase {
         assertTrue(FeedListFilter.containsWord(test1, list));
     }
 
-    public void testContainsWordはリスト内のワードがタイトルに含まれなければfalseを返す() {
+    @Test
+    public void containsWordはリスト内のワードがタイトルに含まれなければfalseを返す() {
         Feed test1 = new Feed();
         test1.title = "test1";
         test1.linkUrl = "testLink";
@@ -82,7 +95,8 @@ public class FeedListFilterTest extends TestCase {
         assertFalse(FeedListFilter.containsWord(test1, list));
     }
 
-    public void testContainsWordはリスト内のワードがlinkUrlに含まれればtrueを返す() {
+    @Test
+    public void containsWordはリスト内のワードがlinkUrlに含まれればtrueを返す() {
         Feed test1 = new Feed();
         test1.title = "test1";
         test1.linkUrl = "testLink";
