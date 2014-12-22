@@ -1,16 +1,11 @@
 package me.kirimin.mitsumine.test.suite;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 import me.kirimin.mitsumine.test.FeedListFilterTest;
 
-public class UnitTestSuite extends TestCase {
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite();
-        suite.addTestSuite(FeedListFilterTest.class);
-        return suite;
-    }
+@RunWith(Suite.class)
+@Suite.SuiteClasses({FeedListFilterTest.class})
+public class UnitTestSuite {
 }

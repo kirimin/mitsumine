@@ -1,18 +1,11 @@
 package me.kirimin.mitsumine.test.suite;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 import me.kirimin.mitsumine.test.BookmarkFeedAccessorTest;
-import me.kirimin.mitsumine.test.FeedListFilterTest;
 
-public class AndroidTestSuite extends TestCase {
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite();
-        suite.addTestSuite(BookmarkFeedAccessorTest.class);
-        return suite;
-
-    }
+@RunWith(Suite.class)
+@Suite.SuiteClasses({BookmarkFeedAccessorTest.class})
+public class AndroidTestSuite {
 }
