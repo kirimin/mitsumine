@@ -6,6 +6,7 @@ import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.db.FeedDAO;
 import me.kirimin.mitsumine.model.Feed;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
+import me.kirimin.mitsumine.ui.activity.EntryInfoActivity;
 import me.kirimin.mitsumine.ui.adapter.FeedAdapter;
 import me.kirimin.mitsumine.ui.adapter.FeedAdapter.FeedAdapterListener;
 
@@ -62,7 +63,8 @@ abstract public class AbstractFeedFragment extends Fragment implements FeedAdapt
     @Override
     public void onFeedLongClick(View view) {
         Feed feed = (Feed) view.getTag();
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(feed.entryLinkUrl)));
+        //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(feed.entryLinkUrl)));
+        startActivity(new Intent(getActivity(), EntryInfoActivity.class));
     }
 
     @Override

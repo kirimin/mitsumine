@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.kirimin.mitsumine"
     android:versionCode="10800"
-    android:versionName="1.8.0" >
+    android:versionName="1.8.0">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,7 +11,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name="me.kirimin.mitsumine.ui.activity.TopActivity"
             android:label="@string/app_name"
@@ -22,19 +22,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="me.kirimin.mitsumine.ui.activity.ReadActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name="me.kirimin.mitsumine.ui.activity.ReadLaterActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name="me.kirimin.mitsumine.ui.activity.search.KeywordSearchActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name="me.kirimin.mitsumine.ui.activity.search.UserSearchActivity"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name="me.kirimin.mitsumine.ui.activity.ReadActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name="me.kirimin.mitsumine.ui.activity.ReadLaterActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name="me.kirimin.mitsumine.ui.activity.search.KeywordSearchActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name="me.kirimin.mitsumine.ui.activity.search.UserSearchActivity"
+            android:launchMode="singleTask" />
         <activity android:name="me.kirimin.mitsumine.ui.activity.SettingsActivity" />
         <activity android:name="me.kirimin.mitsumine.ui.activity.AboutActivity" />
         <activity
+            android:name="me.kirimin.mitsumine.ui.activity.EntryInfoActivity"
+            android:launchMode="singleTask" />
+        <activity
             android:name="me.kirimin.mitsumine.ui.activity.UrlReceiveActivity"
-            android:label="@string/urlreceive_title" >
+            android:label="@string/urlreceive_title">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
