@@ -5,14 +5,13 @@
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
 
     -->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
-    </style>
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar" />
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary</item>
-        <item name="colorAccent">@color/primary_light</item>
+        <item name="colorAccent">@color/blue</item>
     </style>
 
     <style name="MyToolbarStyle" parent="Widget.AppCompat.Toolbar">

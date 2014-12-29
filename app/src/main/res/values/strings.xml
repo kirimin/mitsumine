@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Mitsumine</string>
+    <string name="users">USERS</string>
     <string name="feed_new">新着</string>
     <string name="feed_hot">人気</string>
     <string name="feed_main">総合</string>
@@ -46,6 +47,9 @@
     <string name="about_review">レビューを頂けると励みになります</string>
     <string name="about_review_url">https://play.google.com/store/apps/details?id=me.kirimin.mitsumine</string>
     <string name="about_license">以下のライブラリを使用しています</string>
+    <string name="entry_info_title">コメントを見る</string>
+    <string name="entry_info_all_bookmarks">すべてのブックマーク</string>
+    <string name="entry_info_comments">コメント</string>
     <string name="volley_license_title">■Volley</string>
     <string name="active_android_license_title">■ActiveAndroid</string>
     <string name="picasso_license_title">■Picasso</string>

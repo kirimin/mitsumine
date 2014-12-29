@@ -1,54 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:card_view="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="4dp"
         card_view:cardCornerRadius="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:background="@drawable/background_feed_list"
-            >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/FeedFragmentTextViewTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    android:layout_marginRight="8dp"
                     android:scrollHorizontally="true"
                     android:textColor="@color/text"
                     android:textSize="@dimen/text_medium"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/FeedFragmentImageViewShare"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:src="@drawable/button_share"/>
+                    android:src="@drawable/button_share" />
             </LinearLayout>
 
             <LinearLayout
@@ -68,24 +67,24 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:layout_marginBottom="16dp"
                         android:gravity="center_vertical"
-                        android:layout_marginBottom="16dp">
+                        android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/FeedFragmentImageViewBookmarkCount"
                             android:layout_width="64dp"
                             android:layout_height="16dp"
-                            android:layout_marginRight="8dp"
                             android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
                             android:scaleType="fitStart"
-                            android:src="@drawable/empty"/>
+                            android:src="@drawable/empty" />
 
                         <ImageView
                             android:id="@+id/FeedFragmentImageViewFavicon"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:paddingRight="4dp"/>
+                            android:paddingRight="4dp" />
 
                         <TextView
                             android:id="@+id/FeedFragmentTextViewDomain"
@@ -97,7 +96,7 @@
                             android:singleLine="true"
                             android:textColor="@color/text"
                             android:textSize="@dimen/text_medium"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -112,14 +111,14 @@
                             android:layout_marginLeft="8dp"
                             android:layout_marginRight="8dp"
                             android:scaleType="fitStart"
-                            android:src="@color/gray_light"/>
+                            android:src="@color/gray_light" />
 
                         <TextView
                             android:id="@+id/FeedFragmentTextViewContent"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/text_secondary"
-                            android:textSize="@dimen/text_small"/>
+                            android:textSize="@dimen/text_small" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

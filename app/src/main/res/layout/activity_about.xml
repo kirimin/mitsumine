@@ -101,7 +101,6 @@
                 android:text="@string/picasso_license" />
         </LinearLayout>
     </ScrollView>
-
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"
         android:layout_height="wrap_content"
@@ -109,6 +108,7 @@
         android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         style="@style/MyToolbarStyle"/>
+
 
 
 </LinearLayout>
