@@ -3,6 +3,8 @@ package me.kirimin.mitsumine.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,8 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -23,19 +27,18 @@ import me.kirimin.mitsumine.network.EntryInfoAccessor;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
 import me.kirimin.mitsumine.ui.activity.search.UserSearchActivity;
 import me.kirimin.mitsumine.ui.adapter.EntryInfoAdapter;
+import me.kirimin.mitsumine.ui.adapter.EntryInfoPagerAdapter;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
-public class EntryInfoActivity extends ActionBarActivity implements EntryInfoAdapter.EntryInfoAdapterListener {
+public class EntryInfoActivity extends ActionBarActivity {
 
     public static Bundle buildBundle(Context context, String url) {
         Bundle bundle = new Bundle();
         bundle.putString("url", url);
         return bundle;
     }
-
-    private EntryInfoAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +54,7 @@ public class EntryInfoActivity extends ActionBarActivity implements EntryInfoAda
         if (url == null) {
             finish();
         }
-        adapter = new EntryInfoAdapter(this, this);
-        ListView listView = (ListView) findViewById(R.id.EntryInfoListView);
-        listView.setAdapter(adapter);
+
         EntryInfoAccessor.request(RequestQueueSingleton.getRequestQueue(getApplicationContext()), new EntryInfoAccessor.EntryInfoListener() {
             @Override
             public void onSuccess(final EntryInfo feedDetail) {
@@ -74,10 +75,14 @@ public class EntryInfoActivity extends ActionBarActivity implements EntryInfoAda
                         .toList()
                         .subscribe(new Action1<List<Bookmark>>() {
                             @Override
-                            public void call(List<Bookmark> b) {
-                                adapter.addAll(b);
+                            public void call(List<Bookmark> commentList) {
                                 TextView commentCountText = (TextView) findViewById(R.id.EntryInfoCommentCountTextView);
-                                commentCountText.setText(String.valueOf(b.size()));
+                                commentCountText.setText(String.valueOf(commentList.size()));
+                                ViewPager viewPager = (ViewPager) findViewById(R.id.EntryInfoCommentsViewPager);
+                                viewPager.setAdapter(new EntryInfoPagerAdapter(getSupportFragmentManager(), feedDetail.getBookmarkList(), commentList, getApplicationContext()));
+                                viewPager.setCurrentItem(1);
+                                PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.EntryInfoTabs);
+                                tabs.setViewPager(viewPager);
                             }
                         });
             }
@@ -94,12 +99,5 @@ public class EntryInfoActivity extends ActionBarActivity implements EntryInfoAda
             finish();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onCommentClick(View v, Bookmark bookmark) {
-        Intent intent = new Intent(this, UserSearchActivity.class);
-        intent.putExtras(UserSearchActivity.buildBundle(bookmark.getUser()));
-        startActivity(intent);
     }
 }
