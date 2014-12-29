@@ -8,15 +8,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import me.kirimin.mitsumine.R;
@@ -32,10 +29,10 @@ import rx.functions.Func1;
 
 public class EntryInfoActivity extends ActionBarActivity implements EntryInfoAdapter.EntryInfoAdapterListener {
 
-    public static Intent buildStartActivityIntent(Context context, String url) {
-        Intent intent = new Intent(context, EntryInfoActivity.class);
-        intent.putExtra("url", url);
-        return intent;
+    public static Bundle buildBundle(Context context, String url) {
+        Bundle bundle = new Bundle();
+        bundle.putString("url", url);
+        return bundle;
     }
 
     private EntryInfoAdapter adapter;
