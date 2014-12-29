@@ -74,10 +74,13 @@ public class EntryInfoActivity extends ActionBarActivity implements EntryInfoAda
                                 return !bookmark.getComment().equals("");
                             }
                         })
-                        .subscribe(new Action1<Bookmark>() {
+                        .toList()
+                        .subscribe(new Action1<List<Bookmark>>() {
                             @Override
-                            public void call(Bookmark b) {
-                                adapter.add(b);
+                            public void call(List<Bookmark> b) {
+                                adapter.addAll(b);
+                                TextView commentCountText = (TextView) findViewById(R.id.EntryInfoCommentCountTextView);
+                                commentCountText.setText(String.valueOf(b.size()));
                             }
                         });
             }

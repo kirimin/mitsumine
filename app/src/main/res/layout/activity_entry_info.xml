@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_light"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
     <LinearLayout
@@ -65,6 +65,22 @@
                     android:text="@string/users"
                     android:textColor="@color/orange"
                     android:textSize="@dimen/text_small" />
+
+                <TextView
+                    android:id="@+id/EntryInfoCommentCountTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="2dp"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/text_large3" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="COMMENTS"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/text_small2" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -72,15 +88,15 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/gray"/>
+        android:background="@color/gray" />
 
     <ListView
         android:id="@+id/EntryInfoListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:divider="@null"
-        android:background="@color/gray_light2"/>
+        android:background="@color/gray_light2"
+        android:divider="@null" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"

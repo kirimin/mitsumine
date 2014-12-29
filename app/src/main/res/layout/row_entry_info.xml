@@ -55,7 +55,7 @@
                         android:layout_marginLeft="8dp"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:textColor="@color/orange"
+                        android:textColor="@color/gray_light3"
                         android:textSize="@dimen/text_small2" />
                 </LinearLayout>
 
