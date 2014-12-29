@@ -13,7 +13,6 @@ import com.squareup.picasso.Picasso;
 
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.model.Bookmark;
-import me.kirimin.mitsumine.ui.activity.EntryInfoActivity;
 
 public class EntryInfoAdapter extends ArrayAdapter<Bookmark> implements View.OnClickListener {
 

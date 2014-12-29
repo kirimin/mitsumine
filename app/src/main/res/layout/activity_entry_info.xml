@@ -55,7 +55,6 @@
                     android:id="@+id/EntryInfoBookmarkCountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="2dp"
                     android:textColor="@color/orange"
                     android:textSize="@dimen/text_large3" />
 
@@ -70,8 +69,7 @@
                     android:id="@+id/EntryInfoCommentCountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="2dp"
+                    android:layout_marginLeft="8dp"
                     android:textColor="@color/blue"
                     android:textSize="@dimen/text_large3" />
 
