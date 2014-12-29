@@ -13,12 +13,19 @@ import com.squareup.picasso.Picasso;
 
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.model.Bookmark;
+import me.kirimin.mitsumine.ui.activity.EntryInfoActivity;
 
-public class EntryInfoAdapter extends ArrayAdapter<Bookmark> {
+public class EntryInfoAdapter extends ArrayAdapter<Bookmark> implements View.OnClickListener {
 
+    public interface EntryInfoAdapterListener {
+        void onCommentClick(View v, Bookmark bookmark);
+    }
 
-    public EntryInfoAdapter(Context context) {
+    private final EntryInfoAdapterListener listener;
+
+    public EntryInfoAdapter(Context context, EntryInfoAdapterListener listener) {
         super(context, 0);
+        this.listener = listener;
     }
 
     @Override
@@ -27,6 +34,7 @@ public class EntryInfoAdapter extends ArrayAdapter<Bookmark> {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_entry_info, null);
             holder = new ViewHolder();
+            holder.cardView = convertView.findViewById(R.id.card_view);
             holder.userName = (TextView) convertView.findViewById(R.id.EntryInfoUserNameTextView);
             holder.comment = (TextView) convertView.findViewById(R.id.EntryInfoCommentTextView);
             holder.userIcon = (ImageView) convertView.findViewById(R.id.EntryInfoUserIconImageView);
@@ -36,6 +44,8 @@ public class EntryInfoAdapter extends ArrayAdapter<Bookmark> {
             holder = (ViewHolder) convertView.getTag();
         }
         Bookmark bookmark = getItem(position);
+        holder.cardView.setOnClickListener(this);
+        holder.cardView.setTag(bookmark);
         holder.userName.setText(bookmark.getUser());
         holder.comment.setText(bookmark.getComment());
         holder.tag.setText(TextUtils.join(", ", bookmark.getTags()));
@@ -43,7 +53,17 @@ public class EntryInfoAdapter extends ArrayAdapter<Bookmark> {
         return convertView;
     }
 
+    @Override
+    public void onClick(View v) {
+        if (listener == null) {
+            return;
+        }
+        listener.onCommentClick(v, (Bookmark) v.getTag());
+    }
+
+
     static class ViewHolder {
+        View cardView;
         TextView userName;
         ImageView userIcon;
         TextView comment;

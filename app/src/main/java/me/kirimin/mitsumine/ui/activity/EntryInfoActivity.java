@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -23,12 +24,13 @@ import me.kirimin.mitsumine.model.Bookmark;
 import me.kirimin.mitsumine.model.EntryInfo;
 import me.kirimin.mitsumine.network.EntryInfoAccessor;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
+import me.kirimin.mitsumine.ui.activity.search.UserSearchActivity;
 import me.kirimin.mitsumine.ui.adapter.EntryInfoAdapter;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
-public class EntryInfoActivity extends ActionBarActivity {
+public class EntryInfoActivity extends ActionBarActivity implements EntryInfoAdapter.EntryInfoAdapterListener {
 
     public static Intent buildStartActivityIntent(Context context, String url) {
         Intent intent = new Intent(context, EntryInfoActivity.class);
@@ -52,7 +54,7 @@ public class EntryInfoActivity extends ActionBarActivity {
         if (url == null) {
             finish();
         }
-        adapter = new EntryInfoAdapter(this);
+        adapter = new EntryInfoAdapter(this, this);
         ListView listView = (ListView) findViewById(R.id.EntryInfoListView);
         listView.setAdapter(adapter);
         EntryInfoAccessor.request(RequestQueueSingleton.getRequestQueue(getApplicationContext()), new EntryInfoAccessor.EntryInfoListener() {
@@ -92,5 +94,12 @@ public class EntryInfoActivity extends ActionBarActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCommentClick(View v, Bookmark bookmark) {
+        Intent intent = new Intent(this, UserSearchActivity.class);
+        intent.putExtras(UserSearchActivity.buildBundle(bookmark.getUser()));
+        startActivity(intent);
     }
 }
