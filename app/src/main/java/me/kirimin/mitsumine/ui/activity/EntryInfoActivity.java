@@ -58,6 +58,7 @@ public class EntryInfoActivity extends ActionBarActivity {
         EntryInfoAccessor.request(RequestQueueSingleton.getRequestQueue(getApplicationContext()), new EntryInfoAccessor.EntryInfoListener() {
             @Override
             public void onSuccess(final EntryInfo feedDetail) {
+                findViewById(R.id.EntryInfoCountLayout).setVisibility(View.VISIBLE);
                 TextView titleText = (TextView) findViewById(R.id.EntryInfoTitleTextView);
                 titleText.setText(feedDetail.getTitle());
                 TextView bookmarkCountText = (TextView) findViewById(R.id.EntryInfoBookmarkCountTextView);

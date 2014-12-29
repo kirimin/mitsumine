@@ -47,9 +47,11 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/EntryInfoCountLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="invisible">
 
                 <TextView
                     android:id="@+id/EntryInfoBookmarkCountTextView"
