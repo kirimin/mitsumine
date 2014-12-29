@@ -8,12 +8,14 @@ public class Bookmark {
     private final List<String> tags;
     private final String timeStamp;
     private final String comment;
+    private final String userIcon;
 
-    public Bookmark(String user, List<String> tags, String timeStamp, String comment) {
+    public Bookmark(String user, List<String> tags, String timeStamp, String comment, String userIcon) {
         this.user = user;
         this.tags = tags;
         this.timeStamp = timeStamp;
         this.comment = comment;
+        this.userIcon = userIcon;
     }
 
     public String getUser() {
@@ -30,5 +32,9 @@ public class Bookmark {
 
     public String getComment() {
         return comment;
+    }
+
+    public String getUserIcon() {
+        return userIcon;
     }
 }
