@@ -38,6 +38,7 @@ public class EntryInfoAdapter extends ArrayAdapter<Bookmark> implements View.OnC
             holder.comment = (TextView) convertView.findViewById(R.id.EntryInfoCommentTextView);
             holder.userIcon = (ImageView) convertView.findViewById(R.id.EntryInfoUserIconImageView);
             holder.tag = (TextView) convertView.findViewById(R.id.EntryInfoUserTagTextView);
+            holder.timeStamp = (TextView) convertView.findViewById(R.id.EntryInfoTimeStampTextView);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -48,6 +49,7 @@ public class EntryInfoAdapter extends ArrayAdapter<Bookmark> implements View.OnC
         holder.userName.setText(bookmark.getUser());
         holder.comment.setText(bookmark.getComment());
         holder.tag.setText(TextUtils.join(", ", bookmark.getTags()));
+        holder.timeStamp.setText(bookmark.getTimeStamp().substring(0, bookmark.getTimeStamp().indexOf(" ")));
         Picasso.with(getContext()).load(bookmark.getUserIcon()).fit().into(holder.userIcon);
         return convertView;
     }
@@ -67,5 +69,6 @@ public class EntryInfoAdapter extends ArrayAdapter<Bookmark> implements View.OnC
         ImageView userIcon;
         TextView comment;
         TextView tag;
+        TextView timeStamp;
     }
 }
