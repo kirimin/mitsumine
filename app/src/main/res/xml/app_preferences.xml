@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/settings_group_feed" >
+    <PreferenceCategory android:title="@string/settings_group_feed">
         <Preference
             android:key="ngword"
             android:summary="@string/settings_ngword_text"
             android:title="@string/settings_ngword" />
         <CheckBoxPreference
             android:key="@string/key_is_share_with_title"
-            android:title="@string/settings_is_share_with_title_title"
             android:summary="@string/settings_is_share_with_title_summary"
-            />
+            android:title="@string/settings_is_share_with_title_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/key_use_browser_to_comment_list"
+            android:summary="ブックマークコメントの一覧画面をブラウザで表示します。"
+            android:title="コメントをブラウザで見る" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/settings_group_other" >
+    <PreferenceCategory android:title="@string/settings_group_other">
         <Preference
             android:key="about"
             android:title="@string/about_title" />

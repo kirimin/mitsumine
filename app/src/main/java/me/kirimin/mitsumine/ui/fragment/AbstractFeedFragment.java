@@ -63,9 +63,14 @@ abstract public class AbstractFeedFragment extends Fragment implements FeedAdapt
     @Override
     public void onFeedLongClick(View view) {
         Feed feed = (Feed) view.getTag();
-        Intent intent = new Intent(getActivity(), EntryInfoActivity.class);
-        intent.putExtras(EntryInfoActivity.buildBundle(getActivity(), feed.linkUrl));
-        startActivity(intent);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        if (pref.getBoolean(getString(R.string.key_use_browser_to_comment_list), false)) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(feed.entryLinkUrl)));
+        } else {
+            Intent intent = new Intent(getActivity(), EntryInfoActivity.class);
+            intent.putExtras(EntryInfoActivity.buildBundle(getActivity(), feed.linkUrl));
+            startActivity(intent);
+        }
     }
 
     @Override
