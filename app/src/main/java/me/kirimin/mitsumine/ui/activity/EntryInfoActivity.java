@@ -19,13 +19,12 @@ import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.model.Bookmark;
 import me.kirimin.mitsumine.model.EntryInfo;
 import me.kirimin.mitsumine.network.EntryInfoAccessor;
-import me.kirimin.mitsumine.network.EntryInfoJsonParser;
+import me.kirimin.mitsumine.util.EntryInfoFunc;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
 import me.kirimin.mitsumine.ui.adapter.EntryInfoPagerAdapter;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class EntryInfoActivity extends ActionBarActivity {
@@ -53,8 +52,8 @@ public class EntryInfoActivity extends ActionBarActivity {
         EntryInfoAccessor.request(RequestQueueSingleton.getRequestQueue(getApplicationContext()), url)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(EntryInfoJsonParser.parseResponse())
-                .filter(EntryInfoJsonParser.isNullEntryInfo())
+                .map(EntryInfoFunc.mapToEntryInfo())
+                .filter(EntryInfoFunc.isNotNullEntryInfo())
                 .subscribe(new Action1<EntryInfo>() {
                     @Override
                     public void call(final EntryInfo entryInfo) {
@@ -66,7 +65,7 @@ public class EntryInfoActivity extends ActionBarActivity {
                         ImageView thumbnail = (ImageView) findViewById(R.id.EntryInfoThumbnailImageVIew);
                         Picasso.with(getApplicationContext()).load(entryInfo.getThumbnailUrl()).fit().into(thumbnail);
                         Observable.from(entryInfo.getBookmarkList())
-                                .filter(EntryInfoJsonParser.hasCommentFilter())
+                                .filter(EntryInfoFunc.hasComment())
                                 .toList()
                                 .subscribe(new Action1<List<Bookmark>>() {
                                     @Override

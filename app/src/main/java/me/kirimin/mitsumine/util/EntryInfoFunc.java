@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine.network;
+package me.kirimin.mitsumine.util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,12 +9,11 @@ import java.util.List;
 
 import me.kirimin.mitsumine.model.Bookmark;
 import me.kirimin.mitsumine.model.EntryInfo;
-import rx.Observable;
 import rx.functions.Func1;
 
-public class EntryInfoJsonParser {
+public class EntryInfoFunc {
 
-    public static Func1<JSONObject, EntryInfo> parseResponse() {
+    public static Func1<JSONObject, EntryInfo> mapToEntryInfo() {
         return new Func1<JSONObject, EntryInfo>() {
             @Override
             public EntryInfo call(JSONObject response) {
@@ -32,7 +31,7 @@ public class EntryInfoJsonParser {
         };
     }
 
-    public static Func1<EntryInfo, Boolean> isNullEntryInfo() {
+    public static Func1<EntryInfo, Boolean> isNotNullEntryInfo() {
         return new Func1<EntryInfo, Boolean>() {
             @Override
             public Boolean call(EntryInfo entryInfo) {
@@ -41,7 +40,7 @@ public class EntryInfoJsonParser {
         };
     }
 
-    public static Func1<Bookmark, Boolean> hasCommentFilter() {
+    public static Func1<Bookmark, Boolean> hasComment() {
         return new Func1<Bookmark, Boolean>() {
             @Override
             public Boolean call(Bookmark bookmark) {
