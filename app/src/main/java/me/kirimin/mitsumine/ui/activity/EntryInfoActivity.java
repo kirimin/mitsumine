@@ -56,16 +56,7 @@ public class EntryInfoActivity extends ActionBarActivity {
         EntryInfoAccessor.request(RequestQueueSingleton.getRequestQueue(getApplicationContext()), url)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(new Func1<JSONObject, EntryInfo>() {
-                    @Override
-                    public EntryInfo call(JSONObject jsonObject) {
-                        try {
-                            return EntryInfoJsonParser.parseResponse(jsonObject);
-                        } catch (JSONException e) {
-                            return null;
-                        }
-                    }
-                })
+                .map(EntryInfoJsonParser.parseResponse())
                 .filter(new Func1<EntryInfo, Boolean>() {
                     @Override
                     public Boolean call(EntryInfo entryInfo) {

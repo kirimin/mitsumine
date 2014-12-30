@@ -9,16 +9,27 @@ import java.util.List;
 
 import me.kirimin.mitsumine.model.Bookmark;
 import me.kirimin.mitsumine.model.EntryInfo;
+import rx.Observable;
+import rx.functions.Func1;
 
 public class EntryInfoJsonParser {
 
-    public static EntryInfo parseResponse(JSONObject response) throws JSONException {
-        String title = response.getString("title");
-        int count = response.getInt("count");
-        String url = response.getString("url");
-        String thumbnail = response.getString("screenshot");
-        List<Bookmark> bookmarkList = parseBookmarkList(response.getJSONArray("bookmarks"));
-        return new EntryInfo(title, count, url, thumbnail, bookmarkList);
+    public static Func1<JSONObject, EntryInfo> parseResponse() {
+        return new Func1<JSONObject, EntryInfo>() {
+            @Override
+            public EntryInfo call(JSONObject response) {
+                try {
+                    String title = response.getString("title");
+                    int count = response.getInt("count");
+                    String url = response.getString("url");
+                    String thumbnail = response.getString("screenshot");
+                    List<Bookmark> bookmarkList = parseBookmarkList(response.getJSONArray("bookmarks"));
+                    return new EntryInfo(title, count, url, thumbnail, bookmarkList);
+                } catch (JSONException e) {
+                    return null;
+                }
+            }
+        };
     }
 
     private static List<Bookmark> parseBookmarkList(JSONArray bookmarks) throws JSONException {
