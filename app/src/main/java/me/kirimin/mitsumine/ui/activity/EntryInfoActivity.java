@@ -1,9 +1,6 @@
 package me.kirimin.mitsumine.ui.activity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -11,8 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -25,8 +20,6 @@ import me.kirimin.mitsumine.model.Bookmark;
 import me.kirimin.mitsumine.model.EntryInfo;
 import me.kirimin.mitsumine.network.EntryInfoAccessor;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
-import me.kirimin.mitsumine.ui.activity.search.UserSearchActivity;
-import me.kirimin.mitsumine.ui.adapter.EntryInfoAdapter;
 import me.kirimin.mitsumine.ui.adapter.EntryInfoPagerAdapter;
 import rx.Observable;
 import rx.functions.Action1;
