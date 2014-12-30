@@ -34,7 +34,7 @@ import rx.functions.Func1;
 
 public class EntryInfoActivity extends ActionBarActivity {
 
-    public static Bundle buildBundle(Context context, String url) {
+    public static Bundle buildBundle(String url) {
         Bundle bundle = new Bundle();
         bundle.putString("url", url);
         return bundle;

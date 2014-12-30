@@ -68,7 +68,7 @@ abstract public class AbstractFeedFragment extends Fragment implements FeedAdapt
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(feed.entryLinkUrl)));
         } else {
             Intent intent = new Intent(getActivity(), EntryInfoActivity.class);
-            intent.putExtras(EntryInfoActivity.buildBundle(getActivity(), feed.linkUrl));
+            intent.putExtras(EntryInfoActivity.buildBundle(feed.linkUrl));
             startActivity(intent);
         }
     }
