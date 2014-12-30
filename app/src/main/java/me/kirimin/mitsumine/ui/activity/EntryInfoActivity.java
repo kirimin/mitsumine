@@ -13,9 +13,6 @@ import android.widget.TextView;
 import com.astuetz.PagerSlidingTabStrip;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.List;
 
 import me.kirimin.mitsumine.R;
@@ -57,12 +54,7 @@ public class EntryInfoActivity extends ActionBarActivity {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(EntryInfoJsonParser.parseResponse())
-                .filter(new Func1<EntryInfo, Boolean>() {
-                    @Override
-                    public Boolean call(EntryInfo entryInfo) {
-                        return entryInfo != null;
-                    }
-                })
+                .filter(EntryInfoJsonParser.isNullEntryInfo())
                 .subscribe(new Action1<EntryInfo>() {
                     @Override
                     public void call(final EntryInfo entryInfo) {
@@ -74,12 +66,7 @@ public class EntryInfoActivity extends ActionBarActivity {
                         ImageView thumbnail = (ImageView) findViewById(R.id.EntryInfoThumbnailImageVIew);
                         Picasso.with(getApplicationContext()).load(entryInfo.getThumbnailUrl()).fit().into(thumbnail);
                         Observable.from(entryInfo.getBookmarkList())
-                                .filter(new Func1<Bookmark, Boolean>() {
-                                    @Override
-                                    public Boolean call(Bookmark bookmark) {
-                                        return !bookmark.getComment().equals("");
-                                    }
-                                })
+                                .filter(EntryInfoJsonParser.hasCommentFilter())
                                 .toList()
                                 .subscribe(new Action1<List<Bookmark>>() {
                                     @Override

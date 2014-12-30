@@ -32,6 +32,24 @@ public class EntryInfoJsonParser {
         };
     }
 
+    public static Func1<EntryInfo, Boolean> isNullEntryInfo() {
+        return new Func1<EntryInfo, Boolean>() {
+            @Override
+            public Boolean call(EntryInfo entryInfo) {
+                return entryInfo != null;
+            }
+        };
+    }
+
+    public static Func1<Bookmark, Boolean> hasCommentFilter() {
+        return new Func1<Bookmark, Boolean>() {
+            @Override
+            public Boolean call(Bookmark bookmark) {
+                return !bookmark.getComment().equals("");
+            }
+        };
+    }
+
     private static List<Bookmark> parseBookmarkList(JSONArray bookmarks) throws JSONException {
         List<Bookmark> bookmarkList = new ArrayList<>();
         for (int i = 0; i < bookmarks.length(); i++) {
