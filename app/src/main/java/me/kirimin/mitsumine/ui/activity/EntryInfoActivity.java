@@ -13,17 +13,23 @@ import android.widget.TextView;
 import com.astuetz.PagerSlidingTabStrip;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.model.Bookmark;
 import me.kirimin.mitsumine.model.EntryInfo;
 import me.kirimin.mitsumine.network.EntryInfoAccessor;
+import me.kirimin.mitsumine.network.EntryInfoJsonParser;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
 import me.kirimin.mitsumine.ui.adapter.EntryInfoPagerAdapter;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 public class EntryInfoActivity extends ActionBarActivity {
 
@@ -47,44 +53,62 @@ public class EntryInfoActivity extends ActionBarActivity {
         if (url == null) {
             finish();
         }
-
-        EntryInfoAccessor.request(RequestQueueSingleton.getRequestQueue(getApplicationContext()), new EntryInfoAccessor.EntryInfoListener() {
-            @Override
-            public void onSuccess(final EntryInfo feedDetail) {
-                findViewById(R.id.EntryInfoCountLayout).setVisibility(View.VISIBLE);
-                TextView titleText = (TextView) findViewById(R.id.EntryInfoTitleTextView);
-                titleText.setText(feedDetail.getTitle());
-                TextView bookmarkCountText = (TextView) findViewById(R.id.EntryInfoBookmarkCountTextView);
-                bookmarkCountText.setText(String.valueOf(feedDetail.getBookmarkCount()));
-                ImageView thumbnail = (ImageView) findViewById(R.id.EntryInfoThumbnailImageVIew);
-                Picasso.with(getApplicationContext()).load(feedDetail.getThumbnailUrl()).fit().into(thumbnail);
-
-                Observable.from(feedDetail.getBookmarkList())
-                        .filter(new Func1<Bookmark, Boolean>() {
-                            @Override
-                            public Boolean call(Bookmark bookmark) {
-                                return !bookmark.getComment().equals("");
-                            }
-                        })
-                        .toList()
-                        .subscribe(new Action1<List<Bookmark>>() {
-                            @Override
-                            public void call(List<Bookmark> commentList) {
-                                TextView commentCountText = (TextView) findViewById(R.id.EntryInfoCommentCountTextView);
-                                commentCountText.setText(String.valueOf(commentList.size()));
-                                ViewPager viewPager = (ViewPager) findViewById(R.id.EntryInfoCommentsViewPager);
-                                viewPager.setAdapter(new EntryInfoPagerAdapter(getSupportFragmentManager(), feedDetail.getBookmarkList(), commentList, getApplicationContext()));
-                                viewPager.setCurrentItem(1);
-                                PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.EntryInfoTabs);
-                                tabs.setViewPager(viewPager);
-                            }
-                        });
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-            }
-        }, url);
+        EntryInfoAccessor.request(RequestQueueSingleton.getRequestQueue(getApplicationContext()), url)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Func1<JSONObject, EntryInfo>() {
+                    @Override
+                    public EntryInfo call(JSONObject jsonObject) {
+                        try {
+                            return EntryInfoJsonParser.parseResponse(jsonObject);
+                        } catch (JSONException e) {
+                            return null;
+                        }
+                    }
+                })
+                .filter(new Func1<EntryInfo, Boolean>() {
+                    @Override
+                    public Boolean call(EntryInfo entryInfo) {
+                        return entryInfo != null;
+                    }
+                })
+                .subscribe(new Action1<EntryInfo>() {
+                    @Override
+                    public void call(final EntryInfo entryInfo) {
+                        findViewById(R.id.EntryInfoCountLayout).setVisibility(View.VISIBLE);
+                        TextView titleText = (TextView) findViewById(R.id.EntryInfoTitleTextView);
+                        titleText.setText(entryInfo.getTitle());
+                        TextView bookmarkCountText = (TextView) findViewById(R.id.EntryInfoBookmarkCountTextView);
+                        bookmarkCountText.setText(String.valueOf(entryInfo.getBookmarkCount()));
+                        ImageView thumbnail = (ImageView) findViewById(R.id.EntryInfoThumbnailImageVIew);
+                        Picasso.with(getApplicationContext()).load(entryInfo.getThumbnailUrl()).fit().into(thumbnail);
+                        Observable.from(entryInfo.getBookmarkList())
+                                .filter(new Func1<Bookmark, Boolean>() {
+                                    @Override
+                                    public Boolean call(Bookmark bookmark) {
+                                        return !bookmark.getComment().equals("");
+                                    }
+                                })
+                                .toList()
+                                .subscribe(new Action1<List<Bookmark>>() {
+                                    @Override
+                                    public void call(List<Bookmark> commentList) {
+                                        TextView commentCountText = (TextView) findViewById(R.id.EntryInfoCommentCountTextView);
+                                        commentCountText.setText(String.valueOf(commentList.size()));
+                                        ViewPager viewPager = (ViewPager) findViewById(R.id.EntryInfoCommentsViewPager);
+                                        viewPager.setAdapter(new EntryInfoPagerAdapter(getSupportFragmentManager(), entryInfo.getBookmarkList(), commentList, getApplicationContext()));
+                                        viewPager.setCurrentItem(1);
+                                        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.EntryInfoTabs);
+                                        tabs.setViewPager(viewPager);
+                                    }
+                                });
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        // TODO
+                    }
+                });
     }
 
     @Override
