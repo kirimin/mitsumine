@@ -28,6 +28,7 @@ public class EntryInfoJsonParser {
             String user = bookmark.getString("user");
             String comment = bookmark.getString("comment");
             String timeStamp = bookmark.getString("timestamp");
+            timeStamp = timeStamp.substring(0, timeStamp.indexOf(" "));
             String userIcon = "http://n.hatena.com/" + user + "/profile/image.gif?type=face&size=64";
             List<String> tags = parseTags(bookmark.getJSONArray("tags"));
             bookmarkList.add(new Bookmark(user, tags, timeStamp, comment, userIcon));
