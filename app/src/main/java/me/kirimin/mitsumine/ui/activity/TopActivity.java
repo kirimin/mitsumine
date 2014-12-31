@@ -3,12 +3,10 @@ package me.kirimin.mitsumine.ui.activity;
 import me.kirimin.mitsumine.db.FeedDAO;
 import me.kirimin.mitsumine.db.KeywordDAO;
 import me.kirimin.mitsumine.db.UserIdDAO;
-import me.kirimin.mitsumine.network.BookmarkFeedAccessor.CATEGORY;
-import me.kirimin.mitsumine.network.BookmarkFeedAccessor.TYPE;
-import me.kirimin.mitsumine.network.RequestQueueSingleton;
+import me.kirimin.mitsumine.network.FeedApiAccessor.CATEGORY;
+import me.kirimin.mitsumine.network.FeedApiAccessor.TYPE;
 import me.kirimin.mitsumine.ui.activity.search.KeywordSearchActivity;
 import me.kirimin.mitsumine.ui.activity.search.UserSearchActivity;
-import me.kirimin.mitsumine.ui.fragment.AbstractFeedFragment;
 import me.kirimin.mitsumine.ui.fragment.FeedFragment;
 
 import me.kirimin.mitsumine.R;

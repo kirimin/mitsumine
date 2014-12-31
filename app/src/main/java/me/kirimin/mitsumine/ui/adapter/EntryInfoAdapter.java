@@ -49,7 +49,7 @@ public class EntryInfoAdapter extends ArrayAdapter<Bookmark> implements View.OnC
         holder.userName.setText(bookmark.getUser());
         holder.comment.setText(bookmark.getComment());
         holder.tag.setText(TextUtils.join(", ", bookmark.getTags()));
-        holder.timeStamp.setText(bookmark.getTimeStamp().substring(0, bookmark.getTimeStamp().indexOf(" ")));
+        holder.timeStamp.setText(bookmark.getTimeStamp());
         Picasso.with(getContext()).load(bookmark.getUserIcon()).fit().into(holder.userIcon);
         return convertView;
     }

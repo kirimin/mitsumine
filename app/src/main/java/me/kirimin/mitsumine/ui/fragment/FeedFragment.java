@@ -4,15 +4,19 @@ import java.util.List;
 
 import android.os.Bundle;
 
+import me.kirimin.mitsumine.db.FeedDAO;
+import me.kirimin.mitsumine.db.NGWordDAO;
 import me.kirimin.mitsumine.model.Feed;
-import me.kirimin.mitsumine.network.BookmarkFeedAccessor;
-import me.kirimin.mitsumine.network.BookmarkFeedAccessor.CATEGORY;
-import me.kirimin.mitsumine.network.BookmarkFeedAccessor.FeedListener;
-import me.kirimin.mitsumine.network.BookmarkFeedAccessor.TYPE;
+import me.kirimin.mitsumine.network.FeedApiAccessor;
+import me.kirimin.mitsumine.network.FeedApiAccessor.CATEGORY;
+import me.kirimin.mitsumine.network.FeedApiAccessor.TYPE;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
-import me.kirimin.mitsumine.util.FeedListFilter;
+import me.kirimin.mitsumine.util.FeedFunc;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
-public class FeedFragment extends AbstractFeedFragment implements FeedListener {
+public class FeedFragment extends AbstractFeedFragment {
 
     public static FeedFragment newFragment(CATEGORY category, TYPE type) {
         FeedFragment fragment = new FeedFragment();
@@ -28,19 +32,29 @@ public class FeedFragment extends AbstractFeedFragment implements FeedListener {
         showRefreshing();
         CATEGORY category = (CATEGORY) getArguments().getSerializable(CATEGORY.class.getCanonicalName());
         TYPE type = (TYPE) getArguments().getSerializable(TYPE.class.getCanonicalName());
-        BookmarkFeedAccessor.requestCategory(RequestQueueSingleton.getRequestQueue(getActivity()), this, category, type);
-    }
-
-    @Override
-    public void onSuccess(List<Feed> feedList) {
-        clearFeed();
-        setFeed(FeedListFilter.filter(feedList));
-        dismissRefreshing();
-    }
-
-    @Override
-    public void onError(String errorMessage) {
-        dismissRefreshing();
+        final List<Feed> readFeedList = FeedDAO.findAll();
+        final List<String> ngWordList = NGWordDAO.findAll();
+        FeedApiAccessor
+                .requestCategory(RequestQueueSingleton.getRequestQueue(getActivity()), category, type)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(FeedFunc.mapToFeedList())
+                .filter(FeedFunc.notContains(readFeedList))
+                .filter(FeedFunc.notContainsWord(ngWordList))
+                .toList()
+                .subscribe(new Action1<List<Feed>>() {
+                    @Override
+                    public void call(List<Feed> feedList) {
+                        clearFeed();
+                        setFeed(feedList);
+                        dismissRefreshing();
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        dismissRefreshing();
+                    }
+                });
     }
 
     @Override
