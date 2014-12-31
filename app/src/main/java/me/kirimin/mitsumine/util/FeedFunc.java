@@ -13,7 +13,7 @@ import rx.functions.Func1;
 
 public class FeedFunc {
 
-    public static Func1<JSONObject, Observable<Feed>> mapToEntryInfo() {
+    public static Func1<JSONObject, Observable<Feed>> mapToFeedList() {
         return new Func1<JSONObject, Observable<Feed>>() {
             @Override
             public Observable<Feed> call(JSONObject response) {

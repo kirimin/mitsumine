@@ -34,7 +34,7 @@ public class UserFeedFragment extends AbstractFeedFragment {
                 .requestUserBookmark(RequestQueueSingleton.getRequestQueue(getActivity()), getArguments().getString("user"))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .flatMap(FeedFunc.mapToEntryInfo())
+                .flatMap(FeedFunc.mapToFeedList())
                 .filter(FeedFunc.notContains(readFeedList))
                 .filter(FeedFunc.notContainsWord(ngWordList))
                 .toList()

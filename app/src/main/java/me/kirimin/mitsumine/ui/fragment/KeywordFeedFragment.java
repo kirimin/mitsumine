@@ -34,7 +34,7 @@ public class KeywordFeedFragment extends AbstractFeedFragment {
                 .requestKeyword(RequestQueueSingleton.getRequestQueue(getActivity()), getArguments().getString("keyword"))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .flatMap(FeedFunc.mapToEntryInfo())
+                .flatMap(FeedFunc.mapToFeedList())
                 .filter(FeedFunc.notContains(readFeedList))
                 .filter(FeedFunc.notContainsWord(ngWordList))
                 .toList()

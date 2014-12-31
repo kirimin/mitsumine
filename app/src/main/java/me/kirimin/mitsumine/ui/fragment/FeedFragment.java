@@ -38,7 +38,7 @@ public class FeedFragment extends AbstractFeedFragment {
                 .requestCategory(RequestQueueSingleton.getRequestQueue(getActivity()), category, type)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .flatMap(FeedFunc.mapToEntryInfo())
+                .flatMap(FeedFunc.mapToFeedList())
                 .filter(FeedFunc.notContains(readFeedList))
                 .filter(FeedFunc.notContainsWord(ngWordList))
                 .toList()
