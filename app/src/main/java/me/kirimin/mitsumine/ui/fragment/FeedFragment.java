@@ -49,6 +49,11 @@ public class FeedFragment extends AbstractFeedFragment {
                         setFeed(feedList);
                         dismissRefreshing();
                     }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        dismissRefreshing();
+                    }
                 });
     }
 
