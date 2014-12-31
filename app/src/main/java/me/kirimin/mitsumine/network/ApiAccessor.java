@@ -13,7 +13,7 @@ import rx.Subscriber;
 
 public abstract class ApiAccessor {
 
-    protected static final Observable<JSONObject> apiRequest(final RequestQueue requestQueue, final String url) {
+    protected static Observable<JSONObject> apiRequest(final RequestQueue requestQueue, final String url) {
         return Observable.create(new Observable.OnSubscribe<JSONObject>() {
             @Override
             public void call(Subscriber<? super JSONObject> subscriber) {
@@ -22,6 +22,7 @@ public abstract class ApiAccessor {
                 try {
                     JSONObject response = future.get();
                     subscriber.onNext(response);
+                    subscriber.onCompleted();
                 } catch (InterruptedException | ExecutionException e) {
                     subscriber.onError(new ApiRequestException(e.getMessage()));
                 }
