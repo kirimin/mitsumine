@@ -10,9 +10,9 @@ import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import me.kirimin.mitsumine.network.BookmarkFeedAccessor;
-import me.kirimin.mitsumine.network.BookmarkFeedAccessor.CATEGORY;
-import me.kirimin.mitsumine.network.BookmarkFeedAccessor.TYPE;
+import me.kirimin.mitsumine.network.FeedApiAccessor;
+import me.kirimin.mitsumine.network.FeedApiAccessor.CATEGORY;
+import me.kirimin.mitsumine.network.FeedApiAccessor.TYPE;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
 import rx.functions.Action1;
 
@@ -20,14 +20,14 @@ import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
-public class BookmarkFeedAccessorTest {
+public class FeedApiAccessorTest {
 
-    public BookmarkFeedAccessorTest() {
+    public FeedApiAccessorTest() {
     }
 
     @Test
     public void requestCategoryはFeedを取得できる() throws InterruptedException {
-        BookmarkFeedAccessor.requestCategory(RequestQueueSingleton.getRequestQueue(InstrumentationRegistry.getContext()), CATEGORY.MAIN, TYPE.HOT)
+        FeedApiAccessor.requestCategory(RequestQueueSingleton.getRequestQueue(InstrumentationRegistry.getContext()), CATEGORY.MAIN, TYPE.HOT)
                 .subscribe(new Action1<JSONObject>() {
                     @Override
                     public void call(JSONObject jsonObject) {
@@ -42,7 +42,7 @@ public class BookmarkFeedAccessorTest {
 
     @Test
     public void requestKeywordはFeedを取得できる() throws InterruptedException {
-        BookmarkFeedAccessor.requestKeyword(RequestQueueSingleton.getRequestQueue(InstrumentationRegistry.getContext()), "java")
+        FeedApiAccessor.requestKeyword(RequestQueueSingleton.getRequestQueue(InstrumentationRegistry.getContext()), "java")
                 .subscribe(new Action1<JSONObject>() {
                     @Override
                     public void call(JSONObject jsonObject) {
@@ -57,7 +57,7 @@ public class BookmarkFeedAccessorTest {
 
     @Test
     public void requestUserBookmarkはFeedを取得できる() throws InterruptedException {
-        BookmarkFeedAccessor.requestUserBookmark(RequestQueueSingleton.getRequestQueue(InstrumentationRegistry.getContext()), "hajimepg")
+        FeedApiAccessor.requestUserBookmark(RequestQueueSingleton.getRequestQueue(InstrumentationRegistry.getContext()), "hajimepg")
                 .subscribe(new Action1<JSONObject>() {
                     @Override
                     public void call(JSONObject jsonObject) {

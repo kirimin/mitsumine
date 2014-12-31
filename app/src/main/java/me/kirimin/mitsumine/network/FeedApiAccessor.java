@@ -20,7 +20,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 
-public class BookmarkFeedAccessor extends ApiAccessor {
+public class FeedApiAccessor extends ApiAccessor {
 
     public enum TYPE {
         HOT("hotentry"), NEW("entrylist");

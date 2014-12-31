@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutionException;
 import rx.Observable;
 import rx.Subscriber;
 
-public class EntryInfoAccessor extends ApiAccessor {
+public class EntryInfoApiAccessor extends ApiAccessor {
 
     private static final String REQUEST_URL = "http://b.hatena.ne.jp/entry/jsonlite/?url=";
 

@@ -7,9 +7,9 @@ import android.os.Bundle;
 import me.kirimin.mitsumine.db.FeedDAO;
 import me.kirimin.mitsumine.db.NGWordDAO;
 import me.kirimin.mitsumine.model.Feed;
-import me.kirimin.mitsumine.network.BookmarkFeedAccessor;
-import me.kirimin.mitsumine.network.BookmarkFeedAccessor.CATEGORY;
-import me.kirimin.mitsumine.network.BookmarkFeedAccessor.TYPE;
+import me.kirimin.mitsumine.network.FeedApiAccessor;
+import me.kirimin.mitsumine.network.FeedApiAccessor.CATEGORY;
+import me.kirimin.mitsumine.network.FeedApiAccessor.TYPE;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
 import me.kirimin.mitsumine.util.FeedFunc;
 import rx.android.schedulers.AndroidSchedulers;
@@ -34,7 +34,7 @@ public class FeedFragment extends AbstractFeedFragment {
         TYPE type = (TYPE) getArguments().getSerializable(TYPE.class.getCanonicalName());
         final List<Feed> readFeedList = FeedDAO.findAll();
         final List<String> ngWordList = NGWordDAO.findAll();
-        BookmarkFeedAccessor
+        FeedApiAccessor
                 .requestCategory(RequestQueueSingleton.getRequestQueue(getActivity()), category, type)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

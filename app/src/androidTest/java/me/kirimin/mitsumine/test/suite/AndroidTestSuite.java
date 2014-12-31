@@ -3,10 +3,10 @@ package me.kirimin.mitsumine.test.suite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import me.kirimin.mitsumine.test.BookmarkFeedAccessorTest;
-import me.kirimin.mitsumine.test.EntryInfoAccessorTest;
+import me.kirimin.mitsumine.test.EntryInfoApiAccessorTest;
+import me.kirimin.mitsumine.test.FeedApiAccessorTest;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({BookmarkFeedAccessorTest.class, EntryInfoAccessorTest.class})
+@Suite.SuiteClasses({FeedApiAccessorTest.class, EntryInfoApiAccessorTest.class})
 public class AndroidTestSuite {
 }

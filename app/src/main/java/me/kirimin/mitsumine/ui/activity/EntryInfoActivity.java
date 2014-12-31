@@ -18,7 +18,7 @@ import java.util.List;
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.model.Bookmark;
 import me.kirimin.mitsumine.model.EntryInfo;
-import me.kirimin.mitsumine.network.EntryInfoAccessor;
+import me.kirimin.mitsumine.network.EntryInfoApiAccessor;
 import me.kirimin.mitsumine.util.EntryInfoFunc;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
 import me.kirimin.mitsumine.ui.adapter.EntryInfoPagerAdapter;
@@ -49,7 +49,7 @@ public class EntryInfoActivity extends ActionBarActivity {
         if (url == null) {
             finish();
         }
-        EntryInfoAccessor.request(RequestQueueSingleton.getRequestQueue(getApplicationContext()), url)
+        EntryInfoApiAccessor.request(RequestQueueSingleton.getRequestQueue(getApplicationContext()), url)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(EntryInfoFunc.mapToEntryInfo())
