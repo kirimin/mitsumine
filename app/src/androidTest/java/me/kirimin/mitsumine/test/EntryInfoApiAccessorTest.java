@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import me.kirimin.mitsumine.network.ApiRequestException;
-import me.kirimin.mitsumine.network.EntryInfoApiAccessor;
+import me.kirimin.mitsumine.network.api.EntryInfoApiAccessor;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
 import rx.functions.Action1;
 

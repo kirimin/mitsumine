@@ -18,7 +18,7 @@ import java.util.List;
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.model.Bookmark;
 import me.kirimin.mitsumine.model.EntryInfo;
-import me.kirimin.mitsumine.network.EntryInfoApiAccessor;
+import me.kirimin.mitsumine.network.api.EntryInfoApiAccessor;
 import me.kirimin.mitsumine.util.EntryInfoFunc;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
 import me.kirimin.mitsumine.ui.adapter.EntryInfoPagerAdapter;

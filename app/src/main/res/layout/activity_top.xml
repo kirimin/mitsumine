@@ -26,6 +26,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <Button
+                    android:id="@+id/MainNavigationLoginButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ログイン"/>
+
                 <LinearLayout
                     android:id="@+id/MainNavigationCategories"
                     android:layout_width="match_parent"

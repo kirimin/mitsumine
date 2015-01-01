@@ -1,24 +1,13 @@
-package me.kirimin.mitsumine.network;
+package me.kirimin.mitsumine.network.api;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
-import me.kirimin.mitsumine.model.Feed;
 import rx.Observable;
-import rx.Subscriber;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.Request.Method;
-import com.android.volley.Response.ErrorListener;
-import com.android.volley.Response.Listener;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.RequestFuture;
 
 public class FeedApiAccessor extends ApiAccessor {
 

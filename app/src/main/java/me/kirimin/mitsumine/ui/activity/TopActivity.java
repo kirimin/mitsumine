@@ -3,8 +3,8 @@ package me.kirimin.mitsumine.ui.activity;
 import me.kirimin.mitsumine.db.FeedDAO;
 import me.kirimin.mitsumine.db.KeywordDAO;
 import me.kirimin.mitsumine.db.UserIdDAO;
-import me.kirimin.mitsumine.network.FeedApiAccessor.CATEGORY;
-import me.kirimin.mitsumine.network.FeedApiAccessor.TYPE;
+import me.kirimin.mitsumine.network.api.FeedApiAccessor.CATEGORY;
+import me.kirimin.mitsumine.network.api.FeedApiAccessor.TYPE;
 import me.kirimin.mitsumine.ui.activity.search.KeywordSearchActivity;
 import me.kirimin.mitsumine.ui.activity.search.UserSearchActivity;
 import me.kirimin.mitsumine.ui.fragment.FeedFragment;
@@ -123,6 +123,13 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
         navigationLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_fun), CATEGORY.FUN));
         navigationLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_entertainment), CATEGORY.ENTERTAINMENT));
         navigationLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_game), CATEGORY.GAME));
+
+        findViewById(R.id.MainNavigationLoginButton).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TopActivity.this, LoginActivity.class));
+            }
+        });
     }
 
     @Override

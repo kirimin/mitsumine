@@ -9,7 +9,7 @@ import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.db.FeedDAO;
 import me.kirimin.mitsumine.db.NGWordDAO;
 import me.kirimin.mitsumine.model.Feed;
-import me.kirimin.mitsumine.network.FeedApiAccessor;
+import me.kirimin.mitsumine.network.api.FeedApiAccessor;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
 import me.kirimin.mitsumine.util.FeedFunc;
 import rx.android.schedulers.AndroidSchedulers;

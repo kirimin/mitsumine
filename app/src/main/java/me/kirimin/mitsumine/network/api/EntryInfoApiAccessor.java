@@ -1,15 +1,10 @@
-package me.kirimin.mitsumine.network;
+package me.kirimin.mitsumine.network.api;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.RequestFuture;
 
 import org.json.JSONObject;
 
-import java.util.concurrent.ExecutionException;
-
 import rx.Observable;
-import rx.Subscriber;
 
 public class EntryInfoApiAccessor extends ApiAccessor {
 

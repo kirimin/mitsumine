@@ -10,9 +10,9 @@ import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import me.kirimin.mitsumine.network.FeedApiAccessor;
-import me.kirimin.mitsumine.network.FeedApiAccessor.CATEGORY;
-import me.kirimin.mitsumine.network.FeedApiAccessor.TYPE;
+import me.kirimin.mitsumine.network.api.FeedApiAccessor;
+import me.kirimin.mitsumine.network.api.FeedApiAccessor.CATEGORY;
+import me.kirimin.mitsumine.network.api.FeedApiAccessor.TYPE;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
 import rx.functions.Action1;
 
