@@ -33,6 +33,7 @@
                     android:text="ログイン"/>
 
                 <LinearLayout
+                    android:id="@+id/MainNavigationUserInfoLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"

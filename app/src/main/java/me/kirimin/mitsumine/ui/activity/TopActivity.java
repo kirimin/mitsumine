@@ -135,21 +135,24 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
         super.onStart();
         loadNavigationButtons();
         View loginButton = findViewById(R.id.MainNavigationLoginButton);
+        View userInfoLayout = findViewById(R.id.MainNavigationUserInfoLayout);
         Account account = AccountDAO.get();
         if (account != null) {
+            userInfoLayout.setVisibility(View.VISIBLE);
             loginButton.setVisibility(View.GONE);
+            TextView userName = (TextView) findViewById(R.id.MainNavigationUserName);
+            userName.setText(account.displayName);
+            ImageView imageView = (ImageView) findViewById(R.id.MainNavigationUserIconImageView);
+            Picasso.with(this).load(account.imageUrl).fit().into(imageView);
+        } else {
+            userInfoLayout.setVisibility(View.GONE);
+            loginButton.setVisibility(View.VISIBLE);
             loginButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(TopActivity.this, LoginActivity.class));
                 }
             });
-            TextView userName = (TextView) findViewById(R.id.MainNavigationUserName);
-            userName.setText(account.displayName);
-            ImageView imageView = (ImageView) findViewById(R.id.MainNavigationUserIconImageView);
-            Picasso.with(this).load(account.imageUrl).fit().into(imageView);
-        } else {
-            loginButton.setVisibility(View.VISIBLE);
         }
     }
 
