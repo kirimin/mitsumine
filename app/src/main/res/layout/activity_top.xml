@@ -30,10 +30,9 @@
                     android:id="@+id/MainNavigationUserInfoLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:background="@color/primary_dark"
-                    android:orientation="horizontal"
-                    android:padding="8dp">
+                    android:background="@color/orange"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <ImageView
                         android:id="@+id/MainNavigationUserIconImageView"
@@ -42,10 +41,10 @@
 
                     <TextView
                         android:id="@+id/MainNavigationUserName"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="8dp"
+                        android:paddingTop="8dp"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/text_large" />
 
@@ -61,8 +60,8 @@
                     android:id="@+id/MainNavigationAdditions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="1dp"/>
+                    android:layout_marginBottom="1dp"
+                    android:orientation="vertical" />
 
                 <TextView
                     android:id="@+id/MainNavigationKeywordSearchTextView"

@@ -141,7 +141,7 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
             userInfoLayout.setVisibility(View.VISIBLE);
             loginButton.setVisibility(View.GONE);
             TextView userName = (TextView) findViewById(R.id.MainNavigationUserName);
-            userName.setText(account.displayName);
+            userName.setText(account.urlName);
             ImageView imageView = (ImageView) findViewById(R.id.MainNavigationUserIconImageView);
             Picasso.with(this).load(account.imageUrl).fit().into(imageView);
         } else {
