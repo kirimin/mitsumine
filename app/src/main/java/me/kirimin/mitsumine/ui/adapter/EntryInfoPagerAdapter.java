@@ -55,7 +55,7 @@ public class EntryInfoPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return context.getString(R.string.entry_info_comments);
             case 2:
-                return context.getString(R.string.a);
+                return context.getString(R.string.entry_info_register_bookmark);
             default:
                 throw new IllegalArgumentException();
         }
