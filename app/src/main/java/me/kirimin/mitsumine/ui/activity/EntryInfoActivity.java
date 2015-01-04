@@ -73,7 +73,8 @@ public class EntryInfoActivity extends ActionBarActivity {
                                         TextView commentCountText = (TextView) findViewById(R.id.EntryInfoCommentCountTextView);
                                         commentCountText.setText(String.valueOf(commentList.size()));
                                         ViewPager viewPager = (ViewPager) findViewById(R.id.EntryInfoCommentsViewPager);
-                                        viewPager.setAdapter(new EntryInfoPagerAdapter(getSupportFragmentManager(), entryInfo.getBookmarkList(), commentList, getApplicationContext()));
+                                        viewPager.setAdapter(new EntryInfoPagerAdapter(getSupportFragmentManager(),
+                                                entryInfo.getBookmarkList(), commentList, entryInfo.getUrl(), getApplicationContext()));
                                         viewPager.setCurrentItem(1);
                                         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.EntryInfoTabs);
                                         tabs.setViewPager(viewPager);

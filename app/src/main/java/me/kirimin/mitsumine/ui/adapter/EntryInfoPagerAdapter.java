@@ -10,17 +10,20 @@ import java.util.List;
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.model.Bookmark;
 import me.kirimin.mitsumine.ui.fragment.EntryInfoFragment;
+import me.kirimin.mitsumine.ui.fragment.RegisterBookmarkFragment;
 
 public class EntryInfoPagerAdapter extends FragmentPagerAdapter {
 
     private final List<Bookmark> allBookmarkList;
     private final List<Bookmark> commentList;
+    private final String url;
     private final Context context;
 
-    public EntryInfoPagerAdapter(FragmentManager fm, List<Bookmark> allBookmarkList, List<Bookmark> commentList, Context context) {
+    public EntryInfoPagerAdapter(FragmentManager fm, List<Bookmark> allBookmarkList, List<Bookmark> commentList, String url, Context context) {
         super(fm);
         this.allBookmarkList = allBookmarkList;
         this.commentList = commentList;
+        this.url = url;
         this.context = context;
     }
 
@@ -32,6 +35,8 @@ public class EntryInfoPagerAdapter extends FragmentPagerAdapter {
                 return EntryInfoFragment.newFragment(allBookmarkList);
             case 1:
                 return EntryInfoFragment.newFragment(commentList);
+            case 2:
+                return RegisterBookmarkFragment.newFragment(url);
             default:
                 throw new IllegalArgumentException();
         }
@@ -39,7 +44,7 @@ public class EntryInfoPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -49,6 +54,8 @@ public class EntryInfoPagerAdapter extends FragmentPagerAdapter {
                 return context.getString(R.string.entry_info_all_bookmarks);
             case 1:
                 return context.getString(R.string.entry_info_comments);
+            case 2:
+                return context.getString(R.string.a);
             default:
                 throw new IllegalArgumentException();
         }
