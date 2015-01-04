@@ -55,7 +55,6 @@ public class RegisterBookmarkFragment extends Fragment {
             @Override
             public void onClick(final View v) {
                 v.setEnabled(false);
-                TextView comment = (TextView) rootView.findViewById(R.id.RegisterBookmarkCommentEditText);
                 if (isAlreadyBookmark) {
                     BookmarkApiAccessor.requestDeleteBookmark(url, AccountDAO.get())
                             .subscribeOn(Schedulers.newThread())
@@ -74,7 +73,8 @@ public class RegisterBookmarkFragment extends Fragment {
                             });
 
                 } else {
-                    BookmarkApiAccessor.requestAddBookmark(url, AccountDAO.get())
+                    TextView comment = (TextView) rootView.findViewById(R.id.RegisterBookmarkCommentEditText);
+                    BookmarkApiAccessor.requestAddBookmark(url, AccountDAO.get(), comment.getText().toString())
                             .subscribeOn(Schedulers.newThread())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Action1<JSONObject>() {
