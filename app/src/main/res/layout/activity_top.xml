@@ -1,8 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@android:color/white"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawerLayout"
@@ -13,7 +13,7 @@
         <FrameLayout
             android:id="@+id/containerFrameLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <ScrollView
             android:layout_width="240dp"
@@ -26,34 +26,28 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/MainNavigationLoginButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="ログイン"/>
-
                 <LinearLayout
                     android:id="@+id/MainNavigationUserInfoLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
                     android:layout_marginBottom="1dp"
                     android:background="@color/primary_dark"
+                    android:orientation="horizontal"
                     android:padding="8dp">
 
                     <ImageView
                         android:id="@+id/MainNavigationUserIconImageView"
                         android:layout_width="40dp"
-                        android:layout_height="40dp"/>
+                        android:layout_height="40dp" />
 
                     <TextView
                         android:id="@+id/MainNavigationUserName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_large"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginLeft="8dp"
-                        android:layout_gravity="center_vertical"/>
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_large" />
 
                 </LinearLayout>
 
@@ -61,13 +55,13 @@
                     android:id="@+id/MainNavigationCategories"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"/>
+                    android:orientation="vertical" />
 
                 <LinearLayout
                     android:id="@+id/MainNavigationAdditions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"/>
+                    android:orientation="vertical" />
 
                 <TextView
                     android:id="@+id/MainNavigationKeywordSearchTextView"
@@ -81,7 +75,7 @@
                     android:padding="4dp"
                     android:text="@string/keyword_search_title"
                     android:textColor="@color/gray_dark"
-                    android:textSize="@dimen/text_large"/>
+                    android:textSize="@dimen/text_large" />
 
                 <TextView
                     android:id="@+id/MainNavigationUserSearchTextView"
@@ -95,7 +89,7 @@
                     android:padding="4dp"
                     android:text="@string/user_search_title"
                     android:textColor="@color/gray_dark"
-                    android:textSize="@dimen/text_large"/>
+                    android:textSize="@dimen/text_large" />
 
                 <TextView
                     android:id="@+id/MainNavigationReadTextView"
@@ -109,13 +103,12 @@
                     android:padding="4dp"
                     android:text="@string/read_title"
                     android:textColor="@color/gray_dark"
-                    android:textSize="@dimen/text_large"/>
+                    android:textSize="@dimen/text_large" />
 
                 <TextView
                     android:id="@+id/MainNavigationSettingsTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="1dp"
                     android:background="@drawable/background_navigation_option_button"
                     android:drawableLeft="@drawable/ic_action_settings"
                     android:drawablePadding="4dp"
@@ -123,7 +116,20 @@
                     android:padding="4dp"
                     android:text="@string/settings_title"
                     android:textColor="@color/gray_dark"
-                    android:textSize="@dimen/text_large"/>
+                    android:textSize="@dimen/text_large" />
+
+                <Button
+                    android:id="@+id/MainNavigationLoginButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@drawable/background_navigation_option_button"
+                    android:drawableLeft="@drawable/ic_account"
+                    android:drawablePadding="32dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="16dp"
+                    android:text="@string/settings_login"
+                    android:textColor="@color/gray_dark"
+                    android:textSize="@dimen/text_medium" />
             </LinearLayout>
         </ScrollView>
 
@@ -135,6 +141,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"/>
+        android:minHeight="?attr/actionBarSize" />
 
 </LinearLayout>
