@@ -43,7 +43,8 @@
     <string name="settings_logout">ログアウト</string>
     <string name="login_oauth_text">ブラウザではてなにアクセスしてピンコードを取得してください。</string>
     <string name="login_oauth_button">はてなにアクセス</string>
-    <string name="login_pin_code_hint">ここにピンコードを貼り付けてください</string>
+    <string name="login_pin_code_hint">ここにピンコードを貼り付けてください。</string>
+    <string name="login_success">ログインに成功しました。</string>
     <string name="login_error">認証に失敗したようです。</string>
     <string name="about_title">このアプリについて</string>
     <string name="about_develop">開発：きりみん</string>

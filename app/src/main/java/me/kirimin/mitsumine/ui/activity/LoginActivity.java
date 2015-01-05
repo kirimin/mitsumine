@@ -64,6 +64,8 @@ public class LoginActivity extends ActionBarActivity {
                             @Override
                             public void call(Account account) {
                                 AccountDAO.save(account);
+                                Toast.makeText(getApplicationContext(), getString(R.string.login_success), Toast.LENGTH_SHORT).show();
+                                finish();
                             }
                         }, new Action1<Throwable>() {
                             @Override
