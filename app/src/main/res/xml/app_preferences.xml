@@ -18,6 +18,9 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_group_other">
         <Preference
+            android:key="logout"
+            android:title="@string/settings_logout" />
+        <Preference
             android:key="about"
             android:title="@string/about_title" />
     </PreferenceCategory>

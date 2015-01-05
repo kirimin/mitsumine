@@ -10,6 +10,13 @@ public class AccountDAO {
         account.save();
     }
 
+    public static void delete() {
+        Account account = new Select().from(Account.class).executeSingle();
+        if (account != null) {
+            account.delete();
+        }
+    }
+
     public static Account get() {
         return new Select().from(Account.class).executeSingle();
     }

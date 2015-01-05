@@ -41,6 +41,7 @@
     <string name="settings_is_share_with_title_summary">ボタン長押しで設定と逆の動作が出来ます。</string>
     <string name="settings_login">ログイン</string>
     <string name="settings_logout">ログアウト</string>
+    <string name="settings_logout_toast">ログアウトしました。</string>
     <string name="login_oauth_text">ブラウザではてなにアクセスしてピンコードを取得してください。</string>
     <string name="login_oauth_button">はてなにアクセス</string>
     <string name="login_pin_code_hint">ここにピンコードを貼り付けてください。</string>
