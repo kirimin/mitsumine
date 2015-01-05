@@ -3,7 +3,10 @@ package me.kirimin.mitsumine.ui.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -21,6 +24,11 @@ public class LoginActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setSupportActionBar((Toolbar) findViewById(R.id.tool_bar));
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(R.string.settings_login);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
 
         final OAuthApiManager OAuthApiManager = new OAuthApiManager();
         findViewById(R.id.LoginAuthButton).setOnClickListener(new View.OnClickListener() {
@@ -52,5 +60,13 @@ public class LoginActivity extends ActionBarActivity {
                         });
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (android.R.id.home == item.getItemId()) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
