@@ -45,6 +45,11 @@ public class LoginActivity extends ActionBarActivity {
                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(authUrl)));
                                 v.setEnabled(true);
                             }
+                        }, new Action1<Throwable>() {
+                            @Override
+                            public void call(Throwable throwable) {
+                                v.setEnabled(true);
+                            }
                         });
             }
         });
