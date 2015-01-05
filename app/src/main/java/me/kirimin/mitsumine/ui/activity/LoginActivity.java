@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.db.AccountDAO;
@@ -33,7 +34,8 @@ public class LoginActivity extends ActionBarActivity {
         final OAuthApiManager OAuthApiManager = new OAuthApiManager();
         findViewById(R.id.LoginAuthButton).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
+                v.setEnabled(false);
                 OAuthApiManager.requestAuthUrl()
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -41,6 +43,7 @@ public class LoginActivity extends ActionBarActivity {
                             @Override
                             public void call(String authUrl) {
                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(authUrl)));
+                                v.setEnabled(true);
                             }
                         });
             }
@@ -56,6 +59,11 @@ public class LoginActivity extends ActionBarActivity {
                             @Override
                             public void call(Account account) {
                                 AccountDAO.save(account);
+                            }
+                        }, new Action1<Throwable>() {
+                            @Override
+                            public void call(Throwable throwable) {
+                                Toast.makeText(getApplicationContext(), getString(R.string.login_error), Toast.LENGTH_SHORT).show();
                             }
                         });
             }
