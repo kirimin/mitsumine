@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -85,18 +86,20 @@
         </LinearLayout>
     </LinearLayout>
 
-    <com.astuetz.PagerSlidingTabStrip
-        android:id="@+id/EntryInfoTabs"
-        android:layout_width="match_parent"
-        android:background="@color/gray_light"
-        android:layout_height="?attr/actionBarSize"
-        android:textSize="@dimen/text_medium"/>
-
     <android.support.v4.view.ViewPager
         android:id="@+id/EntryInfoCommentsViewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/EntryInfoTabs"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primary"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_medium"
+        tab:pstsIndicatorColor="@android:color/white" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"
