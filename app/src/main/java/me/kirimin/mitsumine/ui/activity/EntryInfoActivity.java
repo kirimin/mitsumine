@@ -86,6 +86,7 @@ public class EntryInfoActivity extends ActionBarActivity {
                                         ViewPager viewPager = (ViewPager) findViewById(R.id.EntryInfoCommentsViewPager);
                                         viewPager.setAdapter(adapter);
                                         viewPager.setCurrentItem(1);
+                                        viewPager.setOffscreenPageLimit(2);
                                         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.EntryInfoTabs);
                                         tabs.setViewPager(viewPager);
                                     }
