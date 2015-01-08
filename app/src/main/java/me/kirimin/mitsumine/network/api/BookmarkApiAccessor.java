@@ -84,10 +84,10 @@ public class BookmarkApiAccessor {
         });
     }
 
-    public static Observable<JSONObject> requestIsAlreadyBookmark(final String url, final Account account) {
-        return Observable.create(new Observable.OnSubscribe<JSONObject>() {
+    public static Observable<Boolean> requestIsAlreadyBookmark(final String url, final Account account) {
+        return Observable.create(new Observable.OnSubscribe<Boolean>() {
             @Override
-            public void call(Subscriber<? super JSONObject> subscriber) {
+            public void call(Subscriber<? super Boolean> subscriber) {
                 OAuthService oAuthService = new ServiceBuilder()
                         .provider(HatenaOAuthApi.class)
                         .apiKey(Consumer.K)
@@ -100,15 +100,14 @@ public class BookmarkApiAccessor {
                 request.addQuerystringParameter("url", url);
                 oAuthService.signRequest(accessToken, request);
                 Response response = request.send();
-                if (response.getCode() != 200) {
-                    subscriber.onError(new ApiRequestException("error code:" + response.getCode()));
-                    return;
-                }
-                try {
-                    subscriber.onNext(new JSONObject(response.getBody()));
+                if (response.getCode() == 200) {
+                    subscriber.onNext(true);
                     subscriber.onCompleted();
-                } catch (JSONException e) {
-                    subscriber.onError(new ApiRequestException(e.getMessage()));
+                } else if (response.getCode() == 404) {
+                    subscriber.onNext(false);
+                    subscriber.onCompleted();
+                } else {
+                    subscriber.onError(new ApiRequestException(""));
                 }
             }
         });
