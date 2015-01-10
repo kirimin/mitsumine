@@ -75,15 +75,6 @@ public class BookmarkApiAccessor {
         });
     }
 
-    public static Observable<Boolean> requestEditBookmark() {
-        return Observable.create(new Observable.OnSubscribe<Boolean>() {
-            @Override
-            public void call(Subscriber<? super Boolean> subscriber) {
-
-            }
-        });
-    }
-
     public static Observable<JSONObject> requestBookmarkInfo(final String url, final Account account) {
         return Observable.create(new Observable.OnSubscribe<JSONObject>() {
             @Override
