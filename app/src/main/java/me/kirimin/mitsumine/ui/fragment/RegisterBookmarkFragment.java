@@ -9,11 +9,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.db.AccountDAO;
 import me.kirimin.mitsumine.network.api.BookmarkApiAccessor;
+import me.kirimin.mitsumine.util.EntryInfoFunc;
 import rx.android.events.OnTextChangeEvent;
 import rx.android.observables.ViewObservable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -43,14 +46,25 @@ public class RegisterBookmarkFragment extends Fragment {
         final View cardView = rootView.findViewById(R.id.card_view);
         cardView.setVisibility(View.INVISIBLE);
 
-        BookmarkApiAccessor.requestIsAlreadyBookmark(url, AccountDAO.get())
+        BookmarkApiAccessor.requestBookmarkInfo(url, AccountDAO.get())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Boolean>() {
+                .subscribe(new Action1<JSONObject>() {
                     @Override
-                    public void call(Boolean aBoolean) {
-                        changeBookmarkStatus(aBoolean);
+                    public void call(JSONObject jsonObject) {
+                        changeBookmarkStatus(jsonObject != null);
                         cardView.setVisibility(View.VISIBLE);
+                        TextView commentText = (TextView) rootView.findViewById(R.id.RegisterBookmarkCommentEditText);
+                        if (jsonObject != null) {
+                            try {
+                                String comment = jsonObject.getString("comment");
+                                JSONArray tags = jsonObject.getJSONArray("tags");
+                                commentText.setText(comment);
+                            } catch (JSONException e) {
+                            }
+                        } else {
+                            commentText.setText("");
+                        }
                     }
                 }, new Action1<Throwable>() {
                     @Override
