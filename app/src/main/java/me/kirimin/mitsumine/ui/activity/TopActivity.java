@@ -37,7 +37,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.makeramen.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 public class TopActivity extends ActionBarActivity implements ActionBar.OnNavigationListener {
 
@@ -143,7 +145,8 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
             TextView userName = (TextView) findViewById(R.id.MainNavigationUserName);
             userName.setText(account.urlName);
             ImageView imageView = (ImageView) findViewById(R.id.MainNavigationUserIconImageView);
-            Picasso.with(this).load(account.imageUrl).fit().into(imageView);
+            Transformation transformation = new RoundedTransformationBuilder().borderWidthDp(0).cornerRadiusDp(48).oval(false).build();
+            Picasso.with(this).load(account.imageUrl).transform(transformation).fit().into(imageView);
         } else {
             userInfoLayout.setVisibility(View.GONE);
             loginButton.setVisibility(View.VISIBLE);
