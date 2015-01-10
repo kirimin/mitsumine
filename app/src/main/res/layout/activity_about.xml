@@ -7,13 +7,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:scrollbars="none"
-        android:padding="16dp" >
+        android:padding="16dp"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
@@ -99,16 +99,68 @@
                 android:background="@color/gray_light"
                 android:padding="8dp"
                 android:text="@string/picasso_license" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/material_tab_strip_license_title"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray_light"
+                android:padding="8dp"
+                android:text="@string/material_tab_strip_license" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rounded_image_view_license_title"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray_light"
+                android:padding="8dp"
+                android:text="@string/rounded_image_view_license" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rx_android_license_title"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray_light"
+                android:padding="8dp"
+                android:text="@string/rx_android_license" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/scribe_java_license_title"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray_light"
+                android:padding="8dp"
+                android:text="@string/scribe_java_license" />
         </LinearLayout>
     </ScrollView>
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"
-        android:layout_height="wrap_content"
+        style="@style/MyToolbarStyle"
         android:layout_width="match_parent"
-        android:minHeight="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        style="@style/MyToolbarStyle"/>
-
+        android:minHeight="?attr/actionBarSize" />
 
 
 </LinearLayout>
