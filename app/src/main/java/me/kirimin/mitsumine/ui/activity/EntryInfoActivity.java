@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.squareup.picasso.Picasso;
@@ -16,9 +17,12 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import me.kirimin.mitsumine.R;
+import me.kirimin.mitsumine.db.AccountDAO;
 import me.kirimin.mitsumine.model.Bookmark;
 import me.kirimin.mitsumine.model.EntryInfo;
-import me.kirimin.mitsumine.network.EntryInfoApiAccessor;
+import me.kirimin.mitsumine.network.api.EntryInfoApiAccessor;
+import me.kirimin.mitsumine.ui.fragment.EntryInfoFragment;
+import me.kirimin.mitsumine.ui.fragment.RegisterBookmarkFragment;
 import me.kirimin.mitsumine.util.EntryInfoFunc;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
 import me.kirimin.mitsumine.ui.adapter.EntryInfoPagerAdapter;
@@ -64,6 +68,9 @@ public class EntryInfoActivity extends ActionBarActivity {
                         bookmarkCountText.setText(String.valueOf(entryInfo.getBookmarkCount()));
                         ImageView thumbnail = (ImageView) findViewById(R.id.EntryInfoThumbnailImageVIew);
                         Picasso.with(getApplicationContext()).load(entryInfo.getThumbnailUrl()).fit().into(thumbnail);
+
+                        final EntryInfoPagerAdapter adapter = new EntryInfoPagerAdapter(getSupportFragmentManager());
+                        adapter.addPage(EntryInfoFragment.newFragment(entryInfo.getBookmarkList()), getString(R.string.entry_info_all_bookmarks));
                         Observable.from(entryInfo.getBookmarkList())
                                 .filter(EntryInfoFunc.hasComment())
                                 .toList()
@@ -72,9 +79,15 @@ public class EntryInfoActivity extends ActionBarActivity {
                                     public void call(List<Bookmark> commentList) {
                                         TextView commentCountText = (TextView) findViewById(R.id.EntryInfoCommentCountTextView);
                                         commentCountText.setText(String.valueOf(commentList.size()));
+
+                                        adapter.addPage(EntryInfoFragment.newFragment(commentList), getString(R.string.entry_info_comments));
+                                        if (AccountDAO.get() != null) {
+                                            adapter.addPage(RegisterBookmarkFragment.newFragment(entryInfo.getUrl()), getString(R.string.entry_info_register_bookmark));
+                                        }
                                         ViewPager viewPager = (ViewPager) findViewById(R.id.EntryInfoCommentsViewPager);
-                                        viewPager.setAdapter(new EntryInfoPagerAdapter(getSupportFragmentManager(), entryInfo.getBookmarkList(), commentList, getApplicationContext()));
+                                        viewPager.setAdapter(adapter);
                                         viewPager.setCurrentItem(1);
+                                        viewPager.setOffscreenPageLimit(2);
                                         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.EntryInfoTabs);
                                         tabs.setViewPager(viewPager);
                                     }
@@ -83,7 +96,7 @@ public class EntryInfoActivity extends ActionBarActivity {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        // TODO
+                        Toast.makeText(getApplicationContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
                     }
                 });
     }

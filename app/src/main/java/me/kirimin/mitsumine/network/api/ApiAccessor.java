@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine.network;
+package me.kirimin.mitsumine.network.api;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
+import me.kirimin.mitsumine.network.ApiRequestException;
 import rx.Observable;
 import rx.Subscriber;
 

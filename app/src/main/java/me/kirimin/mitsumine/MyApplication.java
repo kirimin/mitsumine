@@ -13,7 +13,7 @@ public class MyApplication extends Application {
         Configuration.Builder builder = new Configuration.Builder(getBaseContext());
         builder.setCacheSize(1024 * 1024 * 4);
         builder.setDatabaseName("mitsumine.db");
-        builder.setDatabaseVersion(3);
+        builder.setDatabaseVersion(4);
         ActiveAndroid.initialize(builder.create(), true);
     }
 

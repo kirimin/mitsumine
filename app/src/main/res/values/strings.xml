@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Mitsumine</string>
+    <string name="network_error">通信に失敗しました。</string>
     <string name="users">USERS</string>
     <string name="feed_new">新着</string>
     <string name="feed_hot">人気</string>
@@ -39,6 +40,14 @@
     <string name="settings_group_other">その他</string>
     <string name="settings_is_share_with_title_title">共有時にタイトルも本文に含める</string>
     <string name="settings_is_share_with_title_summary">ボタン長押しで設定と逆の動作が出来ます。</string>
+    <string name="settings_login">ログイン</string>
+    <string name="settings_logout">ログアウト</string>
+    <string name="settings_logout_toast">ログアウトしました。</string>
+    <string name="login_oauth_text">ブラウザではてなにアクセスしてピンコードを取得してください。</string>
+    <string name="login_oauth_button">はてなにアクセス</string>
+    <string name="login_pin_code_hint">ここにピンコードを貼り付けてください。</string>
+    <string name="login_success">ログインに成功しました。</string>
+    <string name="login_error">認証に失敗したようです。</string>
     <string name="about_title">このアプリについて</string>
     <string name="about_develop">開発：きりみん</string>
     <string name="about_develop_url">http://kirimin.me</string>
@@ -48,8 +57,17 @@
     <string name="about_review_url">https://play.google.com/store/apps/details?id=me.kirimin.mitsumine</string>
     <string name="about_license">以下のライブラリを使用しています</string>
     <string name="entry_info_title">コメントを見る</string>
-    <string name="entry_info_all_bookmarks">すべてのブックマーク</string>
+    <string name="entry_info_all_bookmarks">すべて</string>
+    <string name="entry_info_register_bookmark">ブックマークする</string>
     <string name="entry_info_comments">コメント</string>
+    <string name="register_bookmark_limit">%1$d/100</string>
+    <string name="register_bookmark_delete">ブックマーク削除</string>
+    <string name="register_bookmark_resister">ブックマーク登録</string>
+    <string name="register_bookmark_edit">ブックマーク編集</string>
+    <string name="register_bookmark_delete_success">ブックマークを削除しました。</string>
+    <string name="register_bookmark_register_success">ブックマークに登録しました。</string>
+    <string name="register_bookmark_edit_success">ブックマークを編集しました。</string>
+    <string name="register_bookmark_comment_hint">コメント</string>
     <string name="volley_license_title">■Volley</string>
     <string name="active_android_license_title">■ActiveAndroid</string>
     <string name="picasso_license_title">■Picasso</string>

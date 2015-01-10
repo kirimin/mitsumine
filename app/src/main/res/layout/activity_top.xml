@@ -27,6 +27,30 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/MainNavigationUserInfoLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/orange"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/MainNavigationUserIconImageView"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" />
+
+                    <TextView
+                        android:id="@+id/MainNavigationUserName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingTop="8dp"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_large" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/MainNavigationCategories"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -36,63 +60,38 @@
                     android:id="@+id/MainNavigationAdditions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
                     android:orientation="vertical" />
 
                 <TextView
                     android:id="@+id/MainNavigationKeywordSearchTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="1dp"
-                    android:background="@drawable/background_navigation_option_button"
+                    style="@style/NavigationItemOptions"
                     android:drawableLeft="@drawable/ic_action_search"
-                    android:drawablePadding="4dp"
-                    android:gravity="center_vertical"
-                    android:padding="4dp"
-                    android:text="@string/keyword_search_title"
-                    android:textColor="@color/gray_dark"
-                    android:textSize="@dimen/text_large" />
+                    android:text="@string/keyword_search_title" />
 
                 <TextView
                     android:id="@+id/MainNavigationUserSearchTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="1dp"
-                    android:background="@drawable/background_navigation_option_button"
+                    style="@style/NavigationItemOptions"
                     android:drawableLeft="@drawable/ic_action_search"
-                    android:drawablePadding="4dp"
-                    android:gravity="center_vertical"
-                    android:padding="4dp"
-                    android:text="@string/user_search_title"
-                    android:textColor="@color/gray_dark"
-                    android:textSize="@dimen/text_large" />
+                    android:text="@string/user_search_title" />
 
                 <TextView
                     android:id="@+id/MainNavigationReadTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="1dp"
-                    android:background="@drawable/background_navigation_option_button"
+                    style="@style/NavigationItemOptions"
                     android:drawableLeft="@drawable/ic_action_accept"
-                    android:drawablePadding="4dp"
-                    android:gravity="center_vertical"
-                    android:padding="4dp"
-                    android:text="@string/read_title"
-                    android:textColor="@color/gray_dark"
-                    android:textSize="@dimen/text_large" />
+                    android:text="@string/read_title" />
 
                 <TextView
                     android:id="@+id/MainNavigationSettingsTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="1dp"
-                    android:background="@drawable/background_navigation_option_button"
+                    style="@style/NavigationItemOptions"
                     android:drawableLeft="@drawable/ic_action_settings"
-                    android:drawablePadding="4dp"
-                    android:gravity="center_vertical"
-                    android:padding="4dp"
-                    android:text="@string/settings_title"
-                    android:textColor="@color/gray_dark"
-                    android:textSize="@dimen/text_large" />
+                    android:text="@string/settings_title" />
+
+                <Button
+                    android:id="@+id/MainNavigationLoginButton"
+                    style="@style/NavigationItemOptions"
+                    android:drawableLeft="@drawable/ic_account"
+                    android:text="@string/settings_login" />
             </LinearLayout>
         </ScrollView>
 

@@ -1,6 +1,7 @@
 package me.kirimin.mitsumine.ui.activity;
 
 import me.kirimin.mitsumine.R;
+
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;

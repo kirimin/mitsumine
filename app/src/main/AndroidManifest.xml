@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="me.kirimin.mitsumine"
-    android:versionCode="10800"
-    android:versionName="1.8.0">
+          package="me.kirimin.mitsumine"
+          android:versionCode="10800"
+          android:versionName="1.8.0">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".MyApplication"
@@ -17,37 +17,38 @@
             android:label="@string/app_name"
             android:launchMode="singleTask">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
             android:name="me.kirimin.mitsumine.ui.activity.ReadActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"/>
         <activity
             android:name="me.kirimin.mitsumine.ui.activity.ReadLaterActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"/>
         <activity
             android:name="me.kirimin.mitsumine.ui.activity.search.KeywordSearchActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"/>
         <activity
             android:name="me.kirimin.mitsumine.ui.activity.search.UserSearchActivity"
-            android:launchMode="singleTask" />
-        <activity android:name="me.kirimin.mitsumine.ui.activity.SettingsActivity" />
-        <activity android:name="me.kirimin.mitsumine.ui.activity.AboutActivity" />
+            android:launchMode="singleTask"/>
+        <activity android:name="me.kirimin.mitsumine.ui.activity.SettingsActivity"/>
+        <activity android:name="me.kirimin.mitsumine.ui.activity.AboutActivity"/>
         <activity
             android:name="me.kirimin.mitsumine.ui.activity.EntryInfoActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"/>
+        <activity android:name=".ui.activity.LoginActivity"/>
         <activity
             android:name="me.kirimin.mitsumine.ui.activity.UrlReceiveActivity"
             android:label="@string/urlreceive_title">
             <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
 
-                <data android:mimeType="text/plain" />
+                <data android:mimeType="text/plain"/>
 
-                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SEND"/>
             </intent-filter>
         </activity>
     </application>
