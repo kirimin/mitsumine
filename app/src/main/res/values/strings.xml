@@ -68,6 +68,10 @@
     <string name="register_bookmark_register_success">ブックマークに登録しました。</string>
     <string name="register_bookmark_edit_success">ブックマークを編集しました。</string>
     <string name="register_bookmark_comment_hint">コメント</string>
+    <string name="register_bookmark_tag_list_header">タグ:</string>
+    <string name="register_bookmark_tag_edit">タグ編集</string>
+    <string name="register_bookmark_tag_delete_icon">✖</string>
+    <string name="register_bookmark_tag_add">タグを追加</string>
     <string name="volley_license_title">■Volley</string>
     <string name="active_android_license_title">■ActiveAndroid</string>
     <string name="picasso_license_title">■Picasso</string>

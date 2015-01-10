@@ -11,52 +11,86 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
         android:orientation="vertical"
         card_view:cardCornerRadius="8dp">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/white"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <EditText
-                    android:id="@+id/RegisterBookmarkCommentEditText"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/register_bookmark_comment_hint" />
+                    android:layout_marginBottom="16dp"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/RegisterBookmarkCommentCountTextView"
-                    android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/RegisterBookmarkCommentEditText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/register_bookmark_comment_hint" />
+
+                    <TextView
+                        android:id="@+id/RegisterBookmarkCommentCountTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="8dp"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="@dimen/text_large" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_marginLeft="8dp"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="@dimen/text_large" />
+                    android:layout_marginBottom="32dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/register_bookmark_tag_list_header"
+                        android:textColor="@color/text"
+                        android:textSize="@dimen/text_large" />
+
+                    <TextView
+                        android:id="@+id/RegisterBookmarkTagListText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="8dp"
+                        android:textColor="@color/text"
+                        android:textSize="@dimen/text_large" />
+
+                    <Button
+                        android:id="@+id/RegisterBookmarkTagEditButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/register_bookmark_tag_edit" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/RegisterBookmarkRegisterButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="@dimen/text_medium" />
+
+                <Button
+                    android:id="@+id/RegisterBookmarkDeleteButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/register_bookmark_delete"
+                    android:textSize="@dimen/text_medium" />
             </LinearLayout>
-
-            <Button
-                android:id="@+id/RegisterBookmarkRegisterButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:textSize="@dimen/text_medium" />
-
-            <Button
-                android:id="@+id/RegisterBookmarkDeleteButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/register_bookmark_delete"
-                android:textSize="@dimen/text_medium" />
-        </LinearLayout>
+        </ScrollView>
     </android.support.v7.widget.CardView>
 </LinearLayout>
