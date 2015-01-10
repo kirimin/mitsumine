@@ -104,13 +104,13 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
                                 }
                                 changeBookmarkStatus(true);
                                 v.setEnabled(true);
-                                deleteButton.setEnabled(false);
+                                deleteButton.setEnabled(true);
                             }
                         }, new Action1<Throwable>() {
                             @Override
                             public void call(Throwable throwable) {
                                 v.setEnabled(true);
-                                deleteButton.setEnabled(false);
+                                deleteButton.setEnabled(true);
                                 showToastIfExistsActivity(R.string.network_error);
                             }
                         });
