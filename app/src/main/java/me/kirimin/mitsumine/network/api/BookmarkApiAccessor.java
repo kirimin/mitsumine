@@ -9,6 +9,8 @@ import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 
+import java.util.List;
+
 import me.kirimin.mitsumine.model.Account;
 import me.kirimin.mitsumine.network.ApiRequestException;
 import me.kirimin.mitsumine.network.api.oauth.Consumer;
@@ -18,7 +20,7 @@ import rx.Subscriber;
 
 public class BookmarkApiAccessor {
 
-    public static Observable<JSONObject> requestAddBookmark(final String url, final Account account, final String comment) {
+    public static Observable<JSONObject> requestAddBookmark(final String url, final Account account, final String comment, final List<String> tags) {
         return Observable.create(new Observable.OnSubscribe<JSONObject>() {
             @Override
             public void call(Subscriber<? super JSONObject> subscriber) {
@@ -33,6 +35,9 @@ public class BookmarkApiAccessor {
                 OAuthRequest request = new OAuthRequest(Verb.POST, "http://api.b.hatena.ne.jp/1/my/bookmark");
                 request.addQuerystringParameter("url", url);
                 request.addQuerystringParameter("comment", comment);
+                for (String tag : tags) {
+                    request.addQuerystringParameter("tags", tag);
+                }
                 oAuthService.signRequest(accessToken, request);
                 Response response = request.send();
                 if (response.getCode() != 200) {

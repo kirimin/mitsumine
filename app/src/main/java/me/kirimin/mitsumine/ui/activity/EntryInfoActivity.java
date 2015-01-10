@@ -35,7 +35,7 @@ public class EntryInfoActivity extends ActionBarActivity {
 
     public static Bundle buildBundle(String url) {
         Bundle bundle = new Bundle();
-        bundle.putString("url", url);
+        bundle.putString("url", "http://google.com");
         return bundle;
     }
 
