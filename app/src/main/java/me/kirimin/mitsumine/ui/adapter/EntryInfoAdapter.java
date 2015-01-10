@@ -9,7 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.makeramen.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.model.Bookmark;
@@ -50,7 +52,8 @@ public class EntryInfoAdapter extends ArrayAdapter<Bookmark> implements View.OnC
         holder.comment.setText(bookmark.getComment());
         holder.tag.setText(TextUtils.join(", ", bookmark.getTags()));
         holder.timeStamp.setText(bookmark.getTimeStamp());
-        Picasso.with(getContext()).load(bookmark.getUserIcon()).fit().into(holder.userIcon);
+        Transformation transformation = new RoundedTransformationBuilder().borderWidthDp(0).cornerRadiusDp(32).oval(false).build();
+        Picasso.with(getContext()).load(bookmark.getUserIcon()).fit().transform(transformation).into(holder.userIcon);
         return convertView;
     }
 
