@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.squareup.picasso.Picasso;
@@ -95,7 +96,7 @@ public class EntryInfoActivity extends ActionBarActivity {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        // TODO
+                        Toast.makeText(getApplicationContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
