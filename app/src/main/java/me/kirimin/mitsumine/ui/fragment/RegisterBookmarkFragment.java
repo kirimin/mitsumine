@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.db.AccountDAO;
 import me.kirimin.mitsumine.network.api.BookmarkApiAccessor;
-import me.kirimin.mitsumine.util.EntryInfoFunc;
 import rx.android.events.OnTextChangeEvent;
 import rx.android.observables.ViewObservable;
 import rx.android.schedulers.AndroidSchedulers;
