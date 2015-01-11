@@ -6,15 +6,16 @@ import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.db.FeedDAO;
 import me.kirimin.mitsumine.model.Feed;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
+import me.kirimin.mitsumine.ui.activity.EntryInfoActivity;
 import me.kirimin.mitsumine.ui.adapter.FeedAdapter;
 import me.kirimin.mitsumine.ui.adapter.FeedAdapter.FeedAdapterListener;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -62,7 +63,14 @@ abstract public class AbstractFeedFragment extends Fragment implements FeedAdapt
     @Override
     public void onFeedLongClick(View view) {
         Feed feed = (Feed) view.getTag();
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(feed.entryLinkUrl)));
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        if (pref.getBoolean(getString(R.string.key_use_browser_to_comment_list), false)) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(feed.entryLinkUrl)));
+        } else {
+            Intent intent = new Intent(getActivity(), EntryInfoActivity.class);
+            intent.putExtras(EntryInfoActivity.buildBundle(feed.linkUrl));
+            startActivity(intent);
+        }
     }
 
     @Override

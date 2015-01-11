@@ -23,7 +23,7 @@ public class ReadActivity extends ActionBarActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .replace(R.id.containerFrameLayout, new ReadFeedFragment())
                 .commit();
     }

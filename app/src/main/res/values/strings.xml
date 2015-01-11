@@ -2,6 +2,8 @@
 <resources>
 
     <string name="app_name">Mitsumine</string>
+    <string name="network_error">通信に失敗しました。</string>
+    <string name="users">USERS</string>
     <string name="feed_new">新着</string>
     <string name="feed_hot">人気</string>
     <string name="feed_main">総合</string>
@@ -38,6 +40,14 @@
     <string name="settings_group_other">その他</string>
     <string name="settings_is_share_with_title_title">共有時にタイトルも本文に含める</string>
     <string name="settings_is_share_with_title_summary">ボタン長押しで設定と逆の動作が出来ます。</string>
+    <string name="settings_login">ログイン</string>
+    <string name="settings_logout">ログアウト</string>
+    <string name="settings_logout_toast">ログアウトしました。</string>
+    <string name="login_oauth_text">ブラウザではてなにアクセスしてピンコードを取得してください。</string>
+    <string name="login_oauth_button">はてなにアクセス</string>
+    <string name="login_pin_code_hint">ここにピンコードを貼り付けてください。</string>
+    <string name="login_success">ログインに成功しました。</string>
+    <string name="login_error">認証に失敗したようです。</string>
     <string name="about_title">このアプリについて</string>
     <string name="about_develop">開発：きりみん</string>
     <string name="about_develop_url">http://kirimin.me</string>
@@ -46,10 +56,30 @@
     <string name="about_review">レビューを頂けると励みになります</string>
     <string name="about_review_url">https://play.google.com/store/apps/details?id=me.kirimin.mitsumine</string>
     <string name="about_license">以下のライブラリを使用しています</string>
+    <string name="entry_info_title">コメントを見る</string>
+    <string name="entry_info_all_bookmarks">すべて</string>
+    <string name="entry_info_register_bookmark">ブックマークする</string>
+    <string name="entry_info_comments">コメント</string>
+    <string name="register_bookmark_limit">%1$d/100</string>
+    <string name="register_bookmark_delete">ブックマーク削除</string>
+    <string name="register_bookmark_resister">ブックマーク登録</string>
+    <string name="register_bookmark_edit">ブックマーク編集</string>
+    <string name="register_bookmark_delete_success">ブックマークを削除しました。</string>
+    <string name="register_bookmark_register_success">ブックマークに登録しました。</string>
+    <string name="register_bookmark_edit_success">ブックマークを編集しました。</string>
+    <string name="register_bookmark_comment_hint">コメント</string>
+    <string name="register_bookmark_tag_list_header">タグ:</string>
+    <string name="register_bookmark_tag_edit">タグ編集</string>
+    <string name="register_bookmark_tag_delete_icon">✖</string>
+    <string name="register_bookmark_tag_add">タグを追加</string>
     <string name="volley_license_title">■Volley</string>
     <string name="active_android_license_title">■ActiveAndroid</string>
     <string name="picasso_license_title">■Picasso</string>
-    <string name="volley_license">Copyright (C) 2011 The Android Open Source Project\n
+    <string name="material_tab_strip_license_title">■PagerSlidingTabStrip</string>
+    <string name="rounded_image_view_license_title">■RoundedImageView</string>
+    <string name="rx_android_license_title">■RxAndroid</string>
+    <string name="scribe_java_license_title">■Scribe-Java</string>
+    <string name="volley_license">Copyright © 2011 The Android Open Source Project\n
 \n
 Licensed under the Apache License, Version 2.0 (the "License");\n
 you may not use this file except in compliance with the License.\n
@@ -62,7 +92,7 @@ distributed under the License is distributed on an "AS IS" BASIS,\n
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n
 See the License for the specific language governing permissions and\n
 limitations under the License.</string>
-    <string name="active_android_license">Copyright (C) 2010 Michael Pardo\n
+    <string name="active_android_license">Copyright © 2010 Michael Pardo\n
 \n
 Licensed under the Apache License, Version 2.0 (the "License");\n
 you may not use this file except in compliance with the License.\n
@@ -90,4 +120,58 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n
 See the License for the specific language governing permissions and\n
 limitations under the License.</string>
 
+    <string name="material_tab_strip_license">Copyright 2013 Andreas Stuetz\n
+\n
+Licensed under the Apache License, Version 2.0 (the "License");\n
+you may not use this file except in compliance with the License.\n
+You may obtain a copy of the License at\n
+\n
+   http://www.apache.org/licenses/LICENSE-2.0\n
+\n
+Unless required by applicable law or agreed to in writing, software\n
+distributed under the License is distributed on an "AS IS" BASIS,\n
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n
+See the License for the specific language governing permissions and\n
+limitations under the License.</string>
+
+    <string name="rounded_image_view_license">Copyright © 2014, Vincent Mi\n
+\n
+   Licensed under the Apache License, Version 2.0 (the "License");\n
+   you may not use this file except in compliance with the License.\n
+\n
+   Unless required by applicable law or agreed to in writing, software\n
+   distributed under the License is distributed on an "AS IS" BASIS,\n
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n
+   See the License for the specific language governing permissions and\n
+   limitations under the License.</string>
+
+    <string name="rx_android_license">Copyright 2013 Netflix, Inc.\n
+\n
+Licensed under the Apache License, Version 2.0 (the "License");\nyou may not use this file except in compliance with the License. You may obtain a copy of the License at\n
+\n
+http://www.apache.org/licenses/LICENSE-2.0\n
+\n
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
+
+    <string name="scribe_java_license">The MIT License\n
+\n
+Copyright © 2010 Pablo Fernandez\n
+\n
+Permission is hereby granted, free of charge, to any person obtaining a copy\n
+of this software and associated documentation files (the "Software"), to deal\n
+in the Software without restriction, including without limitation the rights\n
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n
+copies of the Software, and to permit persons to whom the Software is\n
+furnished to do so, subject to the following conditions:\n
+\n
+The above copyright notice and this permission notice shall be included in\n
+all copies or substantial portions of the Software.\n
+\n
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\n
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\n
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\n
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\n
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\n
+THE SOFTWARE.</string>
 </resources>

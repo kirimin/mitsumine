@@ -3,7 +3,10 @@ package me.kirimin.mitsumine.ui.activity;
 import java.util.List;
 
 import me.kirimin.mitsumine.R;
+import me.kirimin.mitsumine.db.AccountDAO;
 import me.kirimin.mitsumine.db.NGWordDAO;
+import me.kirimin.mitsumine.model.Account;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +19,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class SettingsActivity extends ActionBarActivity {
 
@@ -60,6 +64,19 @@ public class SettingsActivity extends ActionBarActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     createEditNGWordDialog().show();
+                    return false;
+                }
+            });
+
+            Account account = AccountDAO.get();
+            Preference preference = findPreference("logout");
+            preference.setEnabled(account != null);
+            preference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    AccountDAO.delete();
+                    Toast.makeText(getActivity(), getString(R.string.settings_logout_toast), Toast.LENGTH_SHORT).show();
+                    preference.setEnabled(false);
                     return false;
                 }
             });

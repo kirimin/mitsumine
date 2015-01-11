@@ -1,7 +1,15 @@
 mitsumine
 =========
-はてなブックマークを閲覧するためのAndroidアプリです。
+Mitsumineははてなブックマークを閲覧するためのAndroidアプリです。  
+はてブを快適に流し見するために自分用に開発しています。  
+同時に、kiriminが新しいライブラリやAPIを試すためのSandBox的なアプリでもあります。
 
-![screenshot](https://lh3.ggpht.com/5srrj7bJHRYTd_B47c3U32mWMn4s90MfHAzPd5eOdLdHwZMCO01GQrYPLhMhXRv5SO4=h900-rw)
+#Install
+<a href="https://play.google.com/store/apps/details?id=me.kirimin.mitsumine">
+  <img alt="Get it on Google Play"
+       src="https://developer.android.com/images/brand/en_generic_rgb_wo_60.png" />
+</a>
 
-![screenshot](https://lh3.ggpht.com/LbgrpX32BODHmQYRfKK6_pAF3BIlGiUNCBERUW2AduHN9KMugXPG2_G6MKTAvOGkuQ=h900-rw)
+#Screenshot
+
+![screenshot](http://f.st-hatena.com/images/fotolife/k/kirimin/20150111/20150111174505.gif) 

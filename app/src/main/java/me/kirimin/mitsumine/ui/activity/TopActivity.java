@@ -1,24 +1,24 @@
 package me.kirimin.mitsumine.ui.activity;
 
+import me.kirimin.mitsumine.db.AccountDAO;
 import me.kirimin.mitsumine.db.FeedDAO;
 import me.kirimin.mitsumine.db.KeywordDAO;
 import me.kirimin.mitsumine.db.UserIdDAO;
-import me.kirimin.mitsumine.network.BookmarkFeedAccessor.CATEGORY;
-import me.kirimin.mitsumine.network.BookmarkFeedAccessor.TYPE;
-import me.kirimin.mitsumine.network.RequestQueueSingleton;
+import me.kirimin.mitsumine.model.Account;
+import me.kirimin.mitsumine.network.api.FeedApiAccessor.CATEGORY;
+import me.kirimin.mitsumine.network.api.FeedApiAccessor.TYPE;
 import me.kirimin.mitsumine.ui.activity.search.KeywordSearchActivity;
 import me.kirimin.mitsumine.ui.activity.search.UserSearchActivity;
-import me.kirimin.mitsumine.ui.fragment.AbstractFeedFragment;
 import me.kirimin.mitsumine.ui.fragment.FeedFragment;
 
 import me.kirimin.mitsumine.R;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -33,8 +33,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.makeramen.RoundedTransformationBuilder;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 public class TopActivity extends ActionBarActivity implements ActionBar.OnNavigationListener {
 
@@ -60,7 +65,7 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
-        String[] data = new String[] { getString(R.string.feed_hot), getString(R.string.feed_new) };
+        String[] data = new String[]{getString(R.string.feed_hot), getString(R.string.feed_new)};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(actionBar.getThemedContext(), android.R.layout.simple_list_item_1, data);
         actionBar.setListNavigationCallbacks(adapter, this);
 
@@ -70,9 +75,9 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
         toolbar.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
                     mDrawerLayout.closeDrawer(Gravity.LEFT);
-                }else{
+                } else {
                     mDrawerLayout.openDrawer(Gravity.LEFT);
                 }
             }
@@ -131,6 +136,27 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
     protected void onStart() {
         super.onStart();
         loadNavigationButtons();
+        View loginButton = findViewById(R.id.MainNavigationLoginButton);
+        View userInfoLayout = findViewById(R.id.MainNavigationUserInfoLayout);
+        Account account = AccountDAO.get();
+        if (account != null) {
+            userInfoLayout.setVisibility(View.VISIBLE);
+            loginButton.setVisibility(View.GONE);
+            TextView userName = (TextView) findViewById(R.id.MainNavigationUserName);
+            userName.setText(account.urlName);
+            ImageView imageView = (ImageView) findViewById(R.id.MainNavigationUserIconImageView);
+            Transformation transformation = new RoundedTransformationBuilder().borderWidthDp(0).cornerRadiusDp(48).oval(false).build();
+            Picasso.with(this).load(account.imageUrl).transform(transformation).fit().into(imageView);
+        } else {
+            userInfoLayout.setVisibility(View.GONE);
+            loginButton.setVisibility(View.VISIBLE);
+            loginButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(TopActivity.this, LoginActivity.class));
+                }
+            });
+        }
     }
 
     @Override
@@ -146,7 +172,7 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
         } else {
             return true;
         }
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .replace(R.id.containerFrameLayout, fragment)
                 .commit();
         return true;
@@ -186,9 +212,9 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
 
     @Override
     public void onBackPressed() {
-        if(mDrawerLayout.isDrawerOpen(Gravity.LEFT)){
+        if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             mDrawerLayout.closeDrawer(Gravity.LEFT);
-        }else{
+        } else {
             super.onBackPressed();
         }
     }
@@ -240,7 +266,7 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
 
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction()
+                getSupportFragmentManager().beginTransaction()
                         .replace(R.id.containerFrameLayout, FeedFragment.newFragment(category, mSelectedType))
                         .commit();
                 mDrawerLayout.closeDrawers();

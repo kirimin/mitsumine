@@ -6,13 +6,17 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import me.kirimin.mitsumine.R;
+import me.kirimin.mitsumine.db.FeedDAO;
+import me.kirimin.mitsumine.db.NGWordDAO;
 import me.kirimin.mitsumine.model.Feed;
-import me.kirimin.mitsumine.network.BookmarkFeedAccessor;
-import me.kirimin.mitsumine.network.BookmarkFeedAccessor.FeedListener;
+import me.kirimin.mitsumine.network.api.FeedApiAccessor;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
-import me.kirimin.mitsumine.util.FeedListFilter;
+import me.kirimin.mitsumine.util.FeedFunc;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
-public class UserFeedFragment extends AbstractFeedFragment implements FeedListener {
+public class UserFeedFragment extends AbstractFeedFragment {
 
     public static UserFeedFragment newFragment(String user) {
         UserFeedFragment fragment = new UserFeedFragment();
@@ -24,25 +28,30 @@ public class UserFeedFragment extends AbstractFeedFragment implements FeedListen
 
     @Override
     void requestFeed() {
-        BookmarkFeedAccessor.requestUserBookmark(RequestQueueSingleton.getRequestQueue(getActivity()), this, getArguments().getString("user"));
+        final List<Feed> readFeedList = FeedDAO.findAll();
+        final List<String> ngWordList = NGWordDAO.findAll();
+        FeedApiAccessor
+                .requestUserBookmark(RequestQueueSingleton.getRequestQueue(getActivity()), getArguments().getString("user"))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(FeedFunc.mapToFeedList())
+                .filter(FeedFunc.notContains(readFeedList))
+                .filter(FeedFunc.notContainsWord(ngWordList))
+                .toList()
+                .subscribe(new Action1<List<Feed>>() {
+                    @Override
+                    public void call(List<Feed> feedList) {
+                        clearFeed();
+                        if (feedList.isEmpty() && getActivity() != null) {
+                            Toast.makeText(getActivity(), R.string.user_search_toast_notfound, Toast.LENGTH_SHORT).show();
+                            dismissRefreshing();
+                            return;
+                        }
+                        setFeed(feedList);
+                        dismissRefreshing();
+                    }
+                });
         showRefreshing();
-    }
-
-    @Override
-    public void onSuccess(List<Feed> feedList) {
-        clearFeed();
-        if (feedList.isEmpty()) {
-            Toast.makeText(getActivity(), R.string.user_search_toast_notfound, Toast.LENGTH_SHORT).show();
-            dismissRefreshing();
-            return;
-        }
-        setFeed(FeedListFilter.filter(feedList));
-        dismissRefreshing();
-    }
-
-    @Override
-    public void onError(String errorMessage) {
-        dismissRefreshing();
     }
 
     @Override

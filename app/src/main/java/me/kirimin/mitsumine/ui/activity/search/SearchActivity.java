@@ -45,7 +45,7 @@ public abstract class SearchActivity extends ActionBarActivity implements Search
         }
         mQueryStr = keyword;
         setTitle(keyword);
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .replace(R.id.containerFrameLayout, newFragment(keyword))
                 .commit();
     }
@@ -83,7 +83,7 @@ public abstract class SearchActivity extends ActionBarActivity implements Search
         mSearchItem.collapseActionView();
         MenuItemCompat.setOnActionExpandListener(mSearchItem, this);
 
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .replace(R.id.containerFrameLayout, newFragment(query))
                 .commit();
         return false;
