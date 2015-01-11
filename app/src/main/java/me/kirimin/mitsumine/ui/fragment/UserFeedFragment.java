@@ -42,7 +42,7 @@ public class UserFeedFragment extends AbstractFeedFragment {
                     @Override
                     public void call(List<Feed> feedList) {
                         clearFeed();
-                        if (feedList.isEmpty()) {
+                        if (feedList.isEmpty() && getActivity() != null) {
                             Toast.makeText(getActivity(), R.string.user_search_toast_notfound, Toast.LENGTH_SHORT).show();
                             dismissRefreshing();
                             return;

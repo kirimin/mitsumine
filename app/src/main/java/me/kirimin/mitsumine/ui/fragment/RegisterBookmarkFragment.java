@@ -171,7 +171,7 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
     }
 
     private void changeBookmarkStatus(boolean isAlreadyBookmark) {
-        if (getView() == null) return;
+        if (getView() == null || getActivity() == null) return;
 
         this.isAlreadyBookmark = isAlreadyBookmark;
         getView().findViewById(R.id.RegisterBookmarkDeleteButton).setEnabled(isAlreadyBookmark);

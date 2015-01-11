@@ -14,11 +14,11 @@ import me.kirimin.mitsumine.ui.fragment.FeedFragment;
 import me.kirimin.mitsumine.R;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -172,7 +172,7 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
         } else {
             return true;
         }
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .replace(R.id.containerFrameLayout, fragment)
                 .commit();
         return true;
@@ -266,7 +266,7 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
 
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction()
+                getSupportFragmentManager().beginTransaction()
                         .replace(R.id.containerFrameLayout, FeedFragment.newFragment(category, mSelectedType))
                         .commit();
                 mDrawerLayout.closeDrawers();
