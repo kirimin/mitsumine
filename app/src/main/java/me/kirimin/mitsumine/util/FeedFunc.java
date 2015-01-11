@@ -62,7 +62,7 @@ public class FeedFunc {
     private static Feed parseFeed(JSONObject entriesObject) throws JSONException {
         Feed feed = new Feed();
         feed.title = entriesObject.getString("title");
-        feed.linkUrl = entriesObject.getString("link");
+        feed.linkUrl = entriesObject.getString("link").replace("#", "%23");
         feed.content = entriesObject.getString("contentSnippet");
         String content = entriesObject.getString("content");
         feed.thumbnailUrl = parseThumbnailUrl(content);
