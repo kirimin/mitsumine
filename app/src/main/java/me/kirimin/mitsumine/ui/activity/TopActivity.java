@@ -1,5 +1,7 @@
 package me.kirimin.mitsumine.ui.activity;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import me.kirimin.mitsumine.db.AccountDAO;
 import me.kirimin.mitsumine.db.FeedDAO;
 import me.kirimin.mitsumine.db.KeywordDAO;
@@ -33,6 +35,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -43,7 +46,29 @@ import com.squareup.picasso.Transformation;
 
 public class TopActivity extends ActionBarActivity implements ActionBar.OnNavigationListener {
 
-    private DrawerLayout mDrawerLayout;
+    @InjectView(R.id.drawerLayout)
+    DrawerLayout mDrawerLayout;
+    @InjectView(R.id.MainNavigationReadTextView)
+    TextView navigationReadTextView;
+    @InjectView(R.id.MainNavigationSettingsTextView)
+    TextView navigationSettingTextView;
+    @InjectView(R.id.MainNavigationKeywordSearchTextView)
+    TextView navigationKeywordSearchTextView;
+    @InjectView(R.id.MainNavigationUserSearchTextView)
+    TextView navigationUserSearchTextView;
+    @InjectView(R.id.MainNavigationCategories)
+    LinearLayout navigationCategoriesLayout;
+    @InjectView(R.id.MainNavigationAdditions)
+    LinearLayout navigationAdditionsLayout;
+    @InjectView(R.id.MainNavigationLoginButton)
+    Button navigationLoginButton;
+    @InjectView(R.id.MainNavigationUserInfoLayout)
+    View navigationUserInfoLayout;
+    @InjectView(R.id.MainNavigationUserName)
+    TextView navigationUserNameTextView;
+    @InjectView(R.id.MainNavigationUserIconImageView)
+    ImageView navigationUserIconImageView;
+
     private ActionBarDrawerToggle mDrawerToggle;
     private CATEGORY mSelectedCategory;
     private TYPE mSelectedType;
@@ -52,6 +77,7 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top);
+        ButterKnife.inject(this);
 
         // 古い既読を削除
         FeedDAO.deleteOldData();
@@ -69,7 +95,6 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
         ArrayAdapter<String> adapter = new ArrayAdapter<>(actionBar.getThemedContext(), android.R.layout.simple_list_item_1, data);
         actionBar.setListNavigationCallbacks(adapter, this);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         toolbar.setOnClickListener(new OnClickListener() {
@@ -83,8 +108,7 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
             }
         });
         mSelectedCategory = CATEGORY.MAIN;
-        TextView textButtonRead = (TextView) findViewById(R.id.MainNavigationReadTextView);
-        textButtonRead.setOnClickListener(new OnClickListener() {
+        navigationReadTextView.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -92,8 +116,7 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
                 mDrawerLayout.closeDrawers();
             }
         });
-        TextView textButtonSettings = (TextView) findViewById(R.id.MainNavigationSettingsTextView);
-        textButtonSettings.setOnClickListener(new OnClickListener() {
+        navigationSettingTextView.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -101,8 +124,7 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
                 mDrawerLayout.closeDrawers();
             }
         });
-        TextView textButtonKeywordSearch = (TextView) findViewById(R.id.MainNavigationKeywordSearchTextView);
-        textButtonKeywordSearch.setOnClickListener(new OnClickListener() {
+        navigationKeywordSearchTextView.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -110,8 +132,7 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
                 mDrawerLayout.closeDrawers();
             }
         });
-        TextView textButtonUserSearch = (TextView) findViewById(R.id.MainNavigationUserSearchTextView);
-        textButtonUserSearch.setOnClickListener(new OnClickListener() {
+        navigationUserSearchTextView.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -120,37 +141,32 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
             }
         });
 
-        final LinearLayout navigationLayout = (LinearLayout) findViewById(R.id.MainNavigationCategories);
-        navigationLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_main), CATEGORY.MAIN));
-        navigationLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_social), CATEGORY.SOCIAL));
-        navigationLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_economics), CATEGORY.ECONOMICS));
-        navigationLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_life), CATEGORY.LIFE));
-        navigationLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_knowledge), CATEGORY.KNOWLEDGE));
-        navigationLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_it), CATEGORY.IT));
-        navigationLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_fun), CATEGORY.FUN));
-        navigationLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_entertainment), CATEGORY.ENTERTAINMENT));
-        navigationLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_game), CATEGORY.GAME));
+        navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_main), CATEGORY.MAIN));
+        navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_social), CATEGORY.SOCIAL));
+        navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_economics), CATEGORY.ECONOMICS));
+        navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_life), CATEGORY.LIFE));
+        navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_knowledge), CATEGORY.KNOWLEDGE));
+        navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_it), CATEGORY.IT));
+        navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_fun), CATEGORY.FUN));
+        navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_entertainment), CATEGORY.ENTERTAINMENT));
+        navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_game), CATEGORY.GAME));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         loadNavigationButtons();
-        View loginButton = findViewById(R.id.MainNavigationLoginButton);
-        View userInfoLayout = findViewById(R.id.MainNavigationUserInfoLayout);
         Account account = AccountDAO.get();
         if (account != null) {
-            userInfoLayout.setVisibility(View.VISIBLE);
-            loginButton.setVisibility(View.GONE);
-            TextView userName = (TextView) findViewById(R.id.MainNavigationUserName);
-            userName.setText(account.urlName);
-            ImageView imageView = (ImageView) findViewById(R.id.MainNavigationUserIconImageView);
+            navigationUserInfoLayout.setVisibility(View.VISIBLE);
+            navigationLoginButton.setVisibility(View.GONE);
+            navigationUserNameTextView.setText(account.urlName);
             Transformation transformation = new RoundedTransformationBuilder().borderWidthDp(0).cornerRadiusDp(48).oval(false).build();
-            Picasso.with(this).load(account.imageUrl).transform(transformation).fit().into(imageView);
+            Picasso.with(this).load(account.imageUrl).transform(transformation).fit().into(navigationUserIconImageView);
         } else {
-            userInfoLayout.setVisibility(View.GONE);
-            loginButton.setVisibility(View.VISIBLE);
-            loginButton.setOnClickListener(new OnClickListener() {
+            navigationUserInfoLayout.setVisibility(View.GONE);
+            navigationLoginButton.setVisibility(View.VISIBLE);
+            navigationLoginButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(TopActivity.this, LoginActivity.class));
@@ -220,9 +236,7 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
     }
 
     private void loadNavigationButtons() {
-        final LinearLayout navigationAdditionsLayout = (LinearLayout) findViewById(R.id.MainNavigationAdditions);
         navigationAdditionsLayout.removeAllViews();
-
         for (final String keyword : KeywordDAO.findAll()) {
             navigationAdditionsLayout.addView(makeNavigationButton(keyword, new OnClickListener() {
 
