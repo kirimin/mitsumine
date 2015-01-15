@@ -86,7 +86,6 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
 
-        actionBar.setTitle(R.string.feed_main);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
@@ -107,7 +106,6 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
                 }
             }
         });
-        mSelectedCategory = CATEGORY.MAIN;
         navigationReadTextView.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -150,6 +148,7 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
         navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_fun), CATEGORY.FUN));
         navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_entertainment), CATEGORY.ENTERTAINMENT));
         navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_game), CATEGORY.GAME));
+        changeShowCategory(getString(R.string.feed_main), CATEGORY.MAIN);
     }
 
     @Override
@@ -280,12 +279,8 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
 
             @Override
             public void onClick(View v) {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.containerFrameLayout, FeedFragment.newFragment(category, mSelectedType))
-                        .commit();
                 mDrawerLayout.closeDrawers();
-                getSupportActionBar().setTitle(label);
-                mSelectedCategory = category;
+                changeShowCategory(label, category);
             }
         }, null);
     }
@@ -297,6 +292,18 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
         textView.setOnClickListener(onClick);
         textView.setOnLongClickListener(onLongClick);
         return navigationView;
+    }
+
+    private void changeShowCategory(final String label, final CATEGORY category) {
+        mSelectedCategory = category;
+        getSupportActionBar().setTitle(label);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.containerFrameLayout, FeedFragment.newFragment(category, mSelectedType))
+                .commit();
+        for (int i = 0; i < navigationCategoriesLayout.getChildCount(); i++) {
+            TextView categoryButton = (TextView) navigationCategoriesLayout.getChildAt(i).findViewById(R.id.MainNavigationTextView);
+            categoryButton.setTextColor(getResources().getColor(categoryButton.getText().equals(label) ? R.color.orange : R.color.text));
+        }
     }
 
     private AlertDialog buildDeleteDialog(final String word, final View view) {
