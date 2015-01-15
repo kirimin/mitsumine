@@ -15,6 +15,7 @@ import me.kirimin.mitsumine.util.FeedFunc;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 public class UserFeedFragment extends AbstractFeedFragment {
 
@@ -26,11 +27,19 @@ public class UserFeedFragment extends AbstractFeedFragment {
         return fragment;
     }
 
+    private CompositeSubscription subscriptions = new CompositeSubscription();
+
+    @Override
+    public void onDestroyView() {
+        subscriptions.unsubscribe();
+        super.onDestroyView();
+    }
+
     @Override
     void requestFeed() {
         final List<Feed> readFeedList = FeedDAO.findAll();
         final List<String> ngWordList = NGWordDAO.findAll();
-        FeedApiAccessor
+        subscriptions.add(FeedApiAccessor
                 .requestUserBookmark(RequestQueueSingleton.getRequestQueue(getActivity()), getArguments().getString("user"))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -50,7 +59,7 @@ public class UserFeedFragment extends AbstractFeedFragment {
                         setFeed(feedList);
                         dismissRefreshing();
                     }
-                });
+                }));
         showRefreshing();
     }
 

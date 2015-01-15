@@ -15,6 +15,7 @@ import me.kirimin.mitsumine.util.FeedFunc;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 public class FeedFragment extends AbstractFeedFragment {
 
@@ -27,6 +28,14 @@ public class FeedFragment extends AbstractFeedFragment {
         return fragment;
     }
 
+    CompositeSubscription subscriptions = new CompositeSubscription();
+
+    @Override
+    public void onDestroyView() {
+        subscriptions.unsubscribe();
+        super.onDestroyView();
+    }
+
     @Override
     void requestFeed() {
         showRefreshing();
@@ -34,7 +43,7 @@ public class FeedFragment extends AbstractFeedFragment {
         TYPE type = (TYPE) getArguments().getSerializable(TYPE.class.getCanonicalName());
         final List<Feed> readFeedList = FeedDAO.findAll();
         final List<String> ngWordList = NGWordDAO.findAll();
-        FeedApiAccessor
+        subscriptions.add(FeedApiAccessor
                 .requestCategory(RequestQueueSingleton.getRequestQueue(getActivity()), category, type)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -54,7 +63,7 @@ public class FeedFragment extends AbstractFeedFragment {
                     public void call(Throwable throwable) {
                         dismissRefreshing();
                     }
-                });
+                }));
     }
 
     @Override

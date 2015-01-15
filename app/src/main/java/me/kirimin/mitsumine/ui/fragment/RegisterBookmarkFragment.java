@@ -27,6 +27,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 public class RegisterBookmarkFragment extends Fragment implements TagEditDialogFragment.OnOkClickListener {
 
@@ -55,6 +56,7 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
 
     private boolean isAlreadyBookmarked;
     private ArrayList<String> tags = new ArrayList<>();
+    private CompositeSubscription subscriptions = new CompositeSubscription();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,7 +67,7 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
         final View rootView = inflater.inflate(R.layout.fragment_register_bookmark, container, false);
         ButterKnife.inject(this, rootView);
         cardView.setVisibility(View.INVISIBLE);
-        BookmarkApiAccessor.requestBookmarkInfo(url, AccountDAO.get())
+        subscriptions.add(BookmarkApiAccessor.requestBookmarkInfo(url, AccountDAO.get())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<JSONObject>() {
@@ -73,7 +75,7 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
                     public void call(JSONObject jsonObject) {
                         cardView.setVisibility(View.VISIBLE);
                         boolean isAlreadyBookmarked = jsonObject != null;
-                        changeBookmarkStatus(RegisterBookmarkFragment.this.isAlreadyBookmarked);
+                        changeBookmarkStatus(isAlreadyBookmarked);
                         if (!isAlreadyBookmarked) {
                             commentTextView.setText("");
                             return;
@@ -95,14 +97,14 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
                     public void call(Throwable throwable) {
                         showToastIfExistsActivity(R.string.network_error);
                     }
-                });
+                }));
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 registerButton.setEnabled(false);
                 deleteButton.setEnabled(false);
-                BookmarkApiAccessor.requestAddBookmark(url, AccountDAO.get(), commentTextView.getText().toString(), tags)
+                subscriptions.add(BookmarkApiAccessor.requestAddBookmark(url, AccountDAO.get(), commentTextView.getText().toString(), tags)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Action1<JSONObject>() {
@@ -122,14 +124,14 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
                                 deleteButton.setEnabled(true);
                                 showToastIfExistsActivity(R.string.network_error);
                             }
-                        });
+                        }));
             }
         });
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 deleteButton.setEnabled(false);
-                BookmarkApiAccessor.requestDeleteBookmark(url, AccountDAO.get())
+                subscriptions.add(BookmarkApiAccessor.requestDeleteBookmark(url, AccountDAO.get())
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Action1<Boolean>() {
@@ -144,7 +146,7 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
                                 v.setEnabled(true);
                                 showToastIfExistsActivity(R.string.network_error);
                             }
-                        });
+                        }));
             }
         });
         ViewObservable.text(commentTextView)
@@ -170,6 +172,12 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
     }
 
     @Override
+    public void onDestroy() {
+        subscriptions.unsubscribe();
+        super.onDestroy();
+    }
+
+    @Override
     public void onOkClick(ArrayList<String> tags) {
         this.tags = tags;
         tagListTextView.setText(TextUtils.join(", ", tags));
@@ -184,8 +192,6 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
     }
 
     private void showToastIfExistsActivity(int messageResourceId) {
-        if (getActivity() != null) {
-            Toast.makeText(getActivity(), messageResourceId, Toast.LENGTH_SHORT).show();
-        }
+        Toast.makeText(getActivity(), messageResourceId, Toast.LENGTH_SHORT).show();
     }
 }

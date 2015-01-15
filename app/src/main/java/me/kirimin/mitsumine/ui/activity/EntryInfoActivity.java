@@ -32,6 +32,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 public class EntryInfoActivity extends ActionBarActivity {
 
@@ -56,6 +57,7 @@ public class EntryInfoActivity extends ActionBarActivity {
     @InjectView(R.id.EntryInfoTabs)
     PagerSlidingTabStrip tabs;
 
+    private CompositeSubscription subscriptions = new CompositeSubscription();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,7 @@ public class EntryInfoActivity extends ActionBarActivity {
         if (url == null) {
             finish();
         }
-        EntryInfoApiAccessor.request(RequestQueueSingleton.getRequestQueue(getApplicationContext()), url)
+        subscriptions.add(EntryInfoApiAccessor.request(RequestQueueSingleton.getRequestQueue(getApplicationContext()), url)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(EntryInfoFunc.mapToEntryInfo())
@@ -87,7 +89,7 @@ public class EntryInfoActivity extends ActionBarActivity {
 
                         final EntryInfoPagerAdapter adapter = new EntryInfoPagerAdapter(getSupportFragmentManager());
                         adapter.addPage(EntryInfoFragment.newFragment(entryInfo.getBookmarkList()), getString(R.string.entry_info_all_bookmarks));
-                        Observable.from(entryInfo.getBookmarkList())
+                        subscriptions.add(Observable.from(entryInfo.getBookmarkList())
                                 .filter(EntryInfoFunc.hasComment())
                                 .toList()
                                 .subscribe(new Action1<List<Bookmark>>() {
@@ -103,14 +105,20 @@ public class EntryInfoActivity extends ActionBarActivity {
                                         viewPager.setOffscreenPageLimit(2);
                                         tabs.setViewPager(viewPager);
                                     }
-                                });
+                                }));
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
                         Toast.makeText(getApplicationContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
                     }
-                });
+                }));
+    }
+
+    @Override
+    public void onDestroy() {
+        subscriptions.unsubscribe();
+        super.onDestroy();
     }
 
     @Override
