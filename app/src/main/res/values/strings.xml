@@ -72,6 +72,7 @@
     <string name="register_bookmark_tag_edit">タグ編集</string>
     <string name="register_bookmark_tag_delete_icon">✖</string>
     <string name="register_bookmark_tag_add">タグを追加</string>
+    <string name="register_bookmark_private">private</string>
     <string name="volley_license_title">■Volley</string>
     <string name="active_android_license_title">■ActiveAndroid</string>
     <string name="picasso_license_title">■Picasso</string>

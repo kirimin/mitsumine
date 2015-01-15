@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,8 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
     TextView commentCountTextView;
     @InjectView(R.id.RegisterBookmarkTagListText)
     TextView tagListTextView;
+    @InjectView(R.id.RegisterBookmarkBookmarkPrivateCheckBox)
+    CheckBox privateCheckBox;
     @InjectView(R.id.RegisterBookmarkDeleteButton)
     Button deleteButton;
     @InjectView(R.id.RegisterBookmarkRegisterButton)
@@ -84,6 +87,7 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
                         tags = new ArrayList<>(bookmark.getTags());
                         commentTextView.setText(bookmark.getComment());
                         tagListTextView.setText(TextUtils.join(", ", tags));
+                        privateCheckBox.setChecked(bookmark.isPrivate());
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -97,7 +101,8 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
             public void onClick(final View v) {
                 registerButton.setEnabled(false);
                 deleteButton.setEnabled(false);
-                subscriptions.add(BookmarkApiAccessor.requestAddBookmark(url, AccountDAO.get(), commentTextView.getText().toString(), tags)
+                subscriptions.add(BookmarkApiAccessor
+                        .requestAddBookmark(url, AccountDAO.get(), commentTextView.getText().toString(), tags, privateCheckBox.isChecked())
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Action1<JSONObject>() {
