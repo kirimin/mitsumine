@@ -104,7 +104,7 @@ public class BookmarkApiAccessor {
                         subscriber.onError(new ApiRequestException(""));
                     }
                 } else if (response.getCode() == 404) {
-                    subscriber.onNext(null);
+                    subscriber.onNext(new JSONObject());
                     subscriber.onCompleted();
                 } else {
                     subscriber.onError(new ApiRequestException(""));

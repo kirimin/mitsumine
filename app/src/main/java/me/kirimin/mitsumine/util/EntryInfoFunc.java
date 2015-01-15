@@ -49,6 +49,27 @@ public class EntryInfoFunc {
         };
     }
 
+    public static Func1<JSONObject, Bookmark> mapToMyBookmarkInfo() {
+        return new Func1<JSONObject, Bookmark>() {
+            @Override
+            public Bookmark call(JSONObject jsonObject) {
+                try {
+                    String user = jsonObject.getString("user");
+                    String comment = jsonObject.getString("comment");
+                    String timeStamp = jsonObject.getString("created_datetime");
+                    JSONArray tagJsonArray = jsonObject.getJSONArray("tags");
+                    List<String> tags = new ArrayList<>();
+                    for (int i = 0; i < tagJsonArray.length(); i++) {
+                        tags.add(tagJsonArray.getString(i));
+                    }
+                    return new Bookmark(user, tags, timeStamp, comment, "");
+                } catch (JSONException e) {
+                    return null;
+                }
+            }
+        };
+    }
+
     private static List<Bookmark> parseBookmarkList(JSONArray bookmarks) throws JSONException {
         List<Bookmark> bookmarkList = new ArrayList<>();
         for (int i = 0; i < bookmarks.length(); i++) {

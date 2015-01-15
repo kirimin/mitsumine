@@ -20,7 +20,9 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.db.AccountDAO;
+import me.kirimin.mitsumine.model.Bookmark;
 import me.kirimin.mitsumine.network.api.BookmarkApiAccessor;
+import me.kirimin.mitsumine.util.EntryInfoFunc;
 import rx.android.events.OnTextChangeEvent;
 import rx.android.observables.ViewObservable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -70,27 +72,20 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
         subscriptions.add(BookmarkApiAccessor.requestBookmarkInfo(url, AccountDAO.get())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<JSONObject>() {
+                .map(EntryInfoFunc.mapToMyBookmarkInfo())
+                .subscribe(new Action1<Bookmark>() {
                     @Override
-                    public void call(JSONObject jsonObject) {
+                    public void call(Bookmark bookmark) {
                         cardView.setVisibility(View.VISIBLE);
-                        boolean isAlreadyBookmarked = jsonObject != null;
+                        boolean isAlreadyBookmarked = bookmark != null;
                         changeBookmarkStatus(isAlreadyBookmarked);
                         if (!isAlreadyBookmarked) {
                             commentTextView.setText("");
                             return;
                         }
-                        try {
-                            String comment = jsonObject.getString("comment");
-                            JSONArray tagJsonArray = jsonObject.getJSONArray("tags");
-                            tags.clear();
-                            for (int i = 0; i < tagJsonArray.length(); i++) {
-                                tags.add(tagJsonArray.getString(i));
-                            }
-                            commentTextView.setText(comment);
-                            tagListTextView.setText(TextUtils.join(", ", tags));
-                        } catch (JSONException e) {
-                        }
+                        tags = new ArrayList<>(bookmark.getTags());
+                        commentTextView.setText(bookmark.getComment());
+                        tagListTextView.setText(TextUtils.join(", ", tags));
                     }
                 }, new Action1<Throwable>() {
                     @Override
