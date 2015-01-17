@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 import com.android.volley.RequestQueue;
 
-public class FeedApiAccessor extends ApiAccessor {
+public class FeedApi extends ApiAccessor {
 
     public enum TYPE {
         HOT("hotentry"), NEW("entrylist");

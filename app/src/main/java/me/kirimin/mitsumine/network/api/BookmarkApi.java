@@ -14,18 +14,18 @@ import java.util.List;
 import me.kirimin.mitsumine.model.Account;
 import me.kirimin.mitsumine.network.ApiRequestException;
 import me.kirimin.mitsumine.network.api.oauth.Consumer;
-import me.kirimin.mitsumine.network.api.oauth.HatenaOAuthApi;
+import me.kirimin.mitsumine.network.api.oauth.HatenaOAuthProvider;
 import rx.Observable;
 import rx.Subscriber;
 
-public class BookmarkApiAccessor {
+public class BookmarkApi {
 
     public static Observable<JSONObject> requestAddBookmark(final String url, final Account account, final String comment, final List<String> tags) {
         return Observable.create(new Observable.OnSubscribe<JSONObject>() {
             @Override
             public void call(Subscriber<? super JSONObject> subscriber) {
                 OAuthService oAuthService = new ServiceBuilder()
-                        .provider(HatenaOAuthApi.class)
+                        .provider(HatenaOAuthProvider.class)
                         .apiKey(Consumer.K)
                         .apiSecret(Consumer.S)
                         .build();
@@ -59,7 +59,7 @@ public class BookmarkApiAccessor {
             @Override
             public void call(Subscriber<? super Boolean> subscriber) {
                 OAuthService oAuthService = new ServiceBuilder()
-                        .provider(HatenaOAuthApi.class)
+                        .provider(HatenaOAuthProvider.class)
                         .apiKey(Consumer.K)
                         .apiSecret(Consumer.S)
                         .build();
@@ -85,7 +85,7 @@ public class BookmarkApiAccessor {
             @Override
             public void call(Subscriber<? super JSONObject> subscriber) {
                 OAuthService oAuthService = new ServiceBuilder()
-                        .provider(HatenaOAuthApi.class)
+                        .provider(HatenaOAuthProvider.class)
                         .apiKey(Consumer.K)
                         .apiSecret(Consumer.S)
                         .build();

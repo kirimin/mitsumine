@@ -9,7 +9,7 @@ import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.db.FeedDAO;
 import me.kirimin.mitsumine.db.NGWordDAO;
 import me.kirimin.mitsumine.model.Feed;
-import me.kirimin.mitsumine.network.api.FeedApiAccessor;
+import me.kirimin.mitsumine.network.api.FeedApi;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
 import me.kirimin.mitsumine.util.FeedFunc;
 import rx.android.schedulers.AndroidSchedulers;
@@ -39,7 +39,7 @@ public class UserFeedFragment extends AbstractFeedFragment {
     void requestFeed() {
         final List<Feed> readFeedList = FeedDAO.findAll();
         final List<String> ngWordList = NGWordDAO.findAll();
-        subscriptions.add(FeedApiAccessor
+        subscriptions.add(FeedApi
                 .requestUserBookmark(RequestQueueSingleton.getRequestQueue(getActivity()), getArguments().getString("user"))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

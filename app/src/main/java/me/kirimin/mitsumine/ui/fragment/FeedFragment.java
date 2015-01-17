@@ -7,9 +7,9 @@ import android.os.Bundle;
 import me.kirimin.mitsumine.db.FeedDAO;
 import me.kirimin.mitsumine.db.NGWordDAO;
 import me.kirimin.mitsumine.model.Feed;
-import me.kirimin.mitsumine.network.api.FeedApiAccessor;
-import me.kirimin.mitsumine.network.api.FeedApiAccessor.CATEGORY;
-import me.kirimin.mitsumine.network.api.FeedApiAccessor.TYPE;
+import me.kirimin.mitsumine.network.api.FeedApi;
+import me.kirimin.mitsumine.network.api.FeedApi.CATEGORY;
+import me.kirimin.mitsumine.network.api.FeedApi.TYPE;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
 import me.kirimin.mitsumine.util.FeedFunc;
 import rx.android.schedulers.AndroidSchedulers;
@@ -43,8 +43,7 @@ public class FeedFragment extends AbstractFeedFragment {
         TYPE type = (TYPE) getArguments().getSerializable(TYPE.class.getCanonicalName());
         final List<Feed> readFeedList = FeedDAO.findAll();
         final List<String> ngWordList = NGWordDAO.findAll();
-        subscriptions.add(FeedApiAccessor
-                .requestCategory(RequestQueueSingleton.getRequestQueue(getActivity()), category, type)
+        subscriptions.add(FeedApi.requestCategory(RequestQueueSingleton.getRequestQueue(getActivity()), category, type)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(FeedFunc.mapToFeedList())

@@ -22,7 +22,7 @@ import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.db.AccountDAO;
 import me.kirimin.mitsumine.model.Bookmark;
 import me.kirimin.mitsumine.model.EntryInfo;
-import me.kirimin.mitsumine.network.api.EntryInfoApiAccessor;
+import me.kirimin.mitsumine.network.api.EntryInfoApi;
 import me.kirimin.mitsumine.ui.fragment.EntryInfoFragment;
 import me.kirimin.mitsumine.ui.fragment.RegisterBookmarkFragment;
 import me.kirimin.mitsumine.util.EntryInfoFunc;
@@ -74,7 +74,7 @@ public class EntryInfoActivity extends ActionBarActivity {
         if (url == null) {
             finish();
         }
-        subscriptions.add(EntryInfoApiAccessor.request(RequestQueueSingleton.getRequestQueue(getApplicationContext()), url)
+        subscriptions.add(EntryInfoApi.request(RequestQueueSingleton.getRequestQueue(getApplicationContext()), url)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(EntryInfoFunc.mapToEntryInfo())

@@ -4,7 +4,7 @@ import org.scribe.builder.api.*;
 import org.scribe.model.*;
 import org.scribe.utils.OAuthEncoder;
 
-public class HatenaOAuthApi extends DefaultApi10a {
+public class HatenaOAuthProvider extends DefaultApi10a {
 
     @Override
     public String getAccessTokenEndpoint() {

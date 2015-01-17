@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import rx.Observable;
 
-public class EntryInfoApiAccessor extends ApiAccessor {
+public class EntryInfoApi extends ApiAccessor {
 
     private static final String REQUEST_URL = "http://b.hatena.ne.jp/entry/jsonlite/?url=";
 

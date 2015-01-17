@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import me.kirimin.mitsumine.network.ApiRequestException;
-import me.kirimin.mitsumine.network.api.EntryInfoApiAccessor;
+import me.kirimin.mitsumine.network.api.EntryInfoApi;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
 import rx.functions.Action1;
 
@@ -19,15 +19,15 @@ import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static org.hamcrest.Matchers.is;
 
 @RunWith(AndroidJUnit4.class)
-public class EntryInfoApiAccessorTest {
+public class EntryInfoApiTest {
 
-    public EntryInfoApiAccessorTest() {
+    public EntryInfoApiTest() {
     }
 
     @Test
     public void requestTest() throws InterruptedException, ApiRequestException {
         final String url = "http://kirimin.hatenablog.com/entry/20140629/1404039922";
-        EntryInfoApiAccessor.request(RequestQueueSingleton.getRequestQueue(InstrumentationRegistry.getContext()), url)
+        EntryInfoApi.request(RequestQueueSingleton.getRequestQueue(InstrumentationRegistry.getContext()), url)
                 .subscribe(new Action1<JSONObject>() {
                     @Override
                     public void call(JSONObject jsonObject) {

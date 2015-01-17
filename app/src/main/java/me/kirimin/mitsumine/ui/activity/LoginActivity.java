@@ -14,7 +14,7 @@ import android.widget.Toast;
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.db.AccountDAO;
 import me.kirimin.mitsumine.model.Account;
-import me.kirimin.mitsumine.network.api.oauth.OAuthApiManager;
+import me.kirimin.mitsumine.network.api.oauth.HatenaOAuth;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -34,7 +34,7 @@ public class LoginActivity extends ActionBarActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
-        final OAuthApiManager OAuthApiManager = new OAuthApiManager();
+        final HatenaOAuth OAuthApiManager = new HatenaOAuth();
         findViewById(R.id.LoginAuthButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {

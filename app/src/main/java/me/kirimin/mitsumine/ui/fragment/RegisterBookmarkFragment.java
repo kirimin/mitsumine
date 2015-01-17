@@ -19,7 +19,7 @@ import butterknife.InjectView;
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.db.AccountDAO;
 import me.kirimin.mitsumine.model.Bookmark;
-import me.kirimin.mitsumine.network.api.BookmarkApiAccessor;
+import me.kirimin.mitsumine.network.api.BookmarkApi;
 import me.kirimin.mitsumine.util.EntryInfoFunc;
 import rx.android.events.OnTextChangeEvent;
 import rx.android.observables.ViewObservable;
@@ -67,7 +67,7 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
         final View rootView = inflater.inflate(R.layout.fragment_register_bookmark, container, false);
         ButterKnife.inject(this, rootView);
         cardView.setVisibility(View.INVISIBLE);
-        subscriptions.add(BookmarkApiAccessor.requestBookmarkInfo(url, AccountDAO.get())
+        subscriptions.add(BookmarkApi.requestBookmarkInfo(url, AccountDAO.get())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(EntryInfoFunc.mapToMyBookmarkInfo())
@@ -97,7 +97,7 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
             public void onClick(final View v) {
                 registerButton.setEnabled(false);
                 deleteButton.setEnabled(false);
-                subscriptions.add(BookmarkApiAccessor.requestAddBookmark(url, AccountDAO.get(), commentTextView.getText().toString(), tags)
+                subscriptions.add(BookmarkApi.requestAddBookmark(url, AccountDAO.get(), commentTextView.getText().toString(), tags)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Action1<JSONObject>() {
@@ -124,7 +124,7 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
             @Override
             public void onClick(final View v) {
                 deleteButton.setEnabled(false);
-                subscriptions.add(BookmarkApiAccessor.requestDeleteBookmark(url, AccountDAO.get())
+                subscriptions.add(BookmarkApi.requestDeleteBookmark(url, AccountDAO.get())
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Action1<Boolean>() {
