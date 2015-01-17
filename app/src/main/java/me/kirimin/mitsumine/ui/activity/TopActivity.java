@@ -138,6 +138,18 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
                 mDrawerLayout.closeDrawers();
             }
         });
+        navigationUserInfoLayout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TopActivity.this, MyBookmarksActivity.class));
+            }
+        });
+        navigationLoginButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TopActivity.this, LoginActivity.class));
+            }
+        });
 
         navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_main), CATEGORY.MAIN));
         navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_social), CATEGORY.SOCIAL));
@@ -165,12 +177,6 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
         } else {
             navigationUserInfoLayout.setVisibility(View.GONE);
             navigationLoginButton.setVisibility(View.VISIBLE);
-            navigationLoginButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(TopActivity.this, LoginActivity.class));
-                }
-            });
         }
     }
 
