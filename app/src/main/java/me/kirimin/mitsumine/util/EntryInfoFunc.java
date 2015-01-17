@@ -62,7 +62,9 @@ public class EntryInfoFunc {
                     for (int i = 0; i < tagJsonArray.length(); i++) {
                         tags.add(tagJsonArray.getString(i));
                     }
-                    return new Bookmark(user, tags, timeStamp, comment, "");
+                    Bookmark bookmark = new Bookmark(user, tags, timeStamp, comment, "");
+                    bookmark.setPrivate(jsonObject.getBoolean("private"));
+                    return bookmark;
                 } catch (JSONException e) {
                     return null;
                 }

@@ -20,7 +20,7 @@ import rx.Subscriber;
 
 public class BookmarkApi {
 
-    public static Observable<JSONObject> requestAddBookmark(final String url, final Account account, final String comment, final List<String> tags) {
+    public static Observable<JSONObject> requestAddBookmark(final String url, final Account account, final String comment, final List<String> tags, final boolean isPrivate) {
         return Observable.create(new Observable.OnSubscribe<JSONObject>() {
             @Override
             public void call(Subscriber<? super JSONObject> subscriber) {
@@ -37,6 +37,9 @@ public class BookmarkApi {
                 request.addQuerystringParameter("comment", comment);
                 for (String tag : tags) {
                     request.addQuerystringParameter("tags", tag);
+                }
+                if (isPrivate) {
+                    request.addQuerystringParameter("private", "true");
                 }
                 oAuthService.signRequest(accessToken, request);
                 Response response = request.send();
