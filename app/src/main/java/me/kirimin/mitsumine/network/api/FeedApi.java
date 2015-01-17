@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 import com.android.volley.RequestQueue;
 
-public class FeedApi extends ApiAccessor {
+public class FeedApi {
 
     public enum TYPE {
         HOT("hotentry"), NEW("entrylist");
@@ -44,11 +44,11 @@ public class FeedApi extends ApiAccessor {
     private static final String FEED_URL_FOOTER = ".rss&num=-1";
 
     public static Observable<JSONObject> requestCategory(RequestQueue requestQueue, CATEGORY category, TYPE type) {
-        return apiRequest(requestQueue, FEED_URL_HEADER + type + category + FEED_URL_FOOTER);
+        return ApiAccessor.apiRequest(requestQueue, FEED_URL_HEADER + type + category + FEED_URL_FOOTER);
     }
 
     public static Observable<JSONObject> requestUserBookmark(RequestQueue requestQueue, String userName) {
-        return apiRequest(requestQueue, FEED_URL_HEADER + userName + "/bookmark" + FEED_URL_FOOTER);
+        return ApiAccessor.apiRequest(requestQueue, FEED_URL_HEADER + userName + "/bookmark" + FEED_URL_FOOTER);
     }
 
     public static Observable<JSONObject> requestKeyword(RequestQueue requestQueue, String keyword) {
@@ -56,6 +56,6 @@ public class FeedApi extends ApiAccessor {
             keyword = URLEncoder.encode(keyword, "UTF-8");
         } catch (UnsupportedEncodingException e) {
         }
-        return apiRequest(requestQueue, FEED_URL_HEADER + "keyword/" + keyword + "?mode=rss&num=-1");
+        return ApiAccessor.apiRequest(requestQueue, FEED_URL_HEADER + "keyword/" + keyword + "?mode=rss&num=-1");
     }
 }

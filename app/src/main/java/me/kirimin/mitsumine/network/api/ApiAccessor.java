@@ -12,9 +12,9 @@ import me.kirimin.mitsumine.network.ApiRequestException;
 import rx.Observable;
 import rx.Subscriber;
 
-public abstract class ApiAccessor {
+class ApiAccessor {
 
-    protected static Observable<JSONObject> apiRequest(final RequestQueue requestQueue, final String url) {
+    static Observable<JSONObject> apiRequest(final RequestQueue requestQueue, final String url) {
         return Observable.create(new Observable.OnSubscribe<JSONObject>() {
             @Override
             public void call(Subscriber<? super JSONObject> subscriber) {
