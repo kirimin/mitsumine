@@ -10,10 +10,12 @@ import android.widget.TextView;
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.model.MyBookmark;
 
-public class MyBookmarksAdapter extends ArrayAdapter<MyBookmark> implements View.OnClickListener {
+public class MyBookmarksAdapter extends ArrayAdapter<MyBookmark> implements View.OnClickListener, View.OnLongClickListener {
 
     public interface OnMyBookmarkClickListener {
         public void onMyBookmarkClick(View v, MyBookmark myBookmark);
+
+        public void onMyBookmarkLongClick(View v, MyBookmark myBookmark);
     }
 
     private final OnMyBookmarkClickListener listener;
@@ -40,6 +42,7 @@ public class MyBookmarksAdapter extends ArrayAdapter<MyBookmark> implements View
         MyBookmark bookmark = getItem(position);
         holder.cardView.setTag(bookmark);
         holder.cardView.setOnClickListener(this);
+        holder.cardView.setOnLongClickListener(this);
         holder.title.setText(bookmark.getTitle());
         holder.userCount.setText(bookmark.getBookmarkCount() + "users");
         holder.url.setText(bookmark.getLinkUrl());
@@ -49,6 +52,12 @@ public class MyBookmarksAdapter extends ArrayAdapter<MyBookmark> implements View
     @Override
     public void onClick(View v) {
         listener.onMyBookmarkClick(v, (MyBookmark) v.getTag());
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        listener.onMyBookmarkLongClick(v, (MyBookmark) v.getTag());
+        return false;
     }
 
     static class ViewHolder {

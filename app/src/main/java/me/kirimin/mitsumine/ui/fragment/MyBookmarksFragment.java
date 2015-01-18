@@ -1,6 +1,7 @@
 package me.kirimin.mitsumine.ui.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -63,6 +64,11 @@ public class MyBookmarksFragment extends Fragment implements MyBookmarksAdapter.
 
     @Override
     public void onMyBookmarkClick(View v, MyBookmark myBookmark) {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(myBookmark.getLinkUrl())));
+    }
+
+    @Override
+    public void onMyBookmarkLongClick(View v, MyBookmark myBookmark) {
         Intent intent = new Intent(getActivity(), EntryInfoActivity.class);
         intent.putExtras(EntryInfoActivity.buildBundle(myBookmark.getLinkUrl()));
         startActivity(intent);
