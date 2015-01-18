@@ -1,6 +1,7 @@
 package me.kirimin.mitsumine.ui.activity.search;
 
 import me.kirimin.mitsumine.R;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,14 +18,22 @@ public abstract class SearchActivity extends ActionBarActivity implements Search
     private MenuItem mSearchItem;
     private SearchView mSearchView;
     private String mQueryStr = "";
-    
+    private boolean mIsShowFavorite = true;
+
     abstract Fragment newFragment(String keyword);
+
     abstract void doFavorite();
+
     abstract String getSearchTitle();
 
     public static Bundle buildBundle(String keyword) {
+        return buildBundle(keyword, true);
+    }
+
+    public static Bundle buildBundle(String keyword, boolean isShowFavorite) {
         Bundle bundle = new Bundle();
         bundle.putString("keyword", keyword);
+        bundle.putBoolean("isShowFavorite", isShowFavorite);
         return bundle;
     }
 
@@ -43,6 +52,7 @@ public abstract class SearchActivity extends ActionBarActivity implements Search
             return;
         }
         mQueryStr = keyword;
+        mIsShowFavorite = getIntent().getBooleanExtra("isShowFavorite", true);
         setTitle(keyword);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.containerFrameLayout, newFragment(keyword))
@@ -59,6 +69,9 @@ public abstract class SearchActivity extends ActionBarActivity implements Search
         mSearchView.setOnQueryTextListener(this);
         if (mQueryStr.isEmpty()) {
             mSearchItem.expandActionView();
+        }
+        if (!mIsShowFavorite) {
+            menu.findItem(R.id.SearchMenuItemFavorite).setVisible(false);
         }
         return super.onCreateOptionsMenu(menu);
     }

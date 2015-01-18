@@ -143,7 +143,7 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TopActivity.this, MyBookmarksActivity.class);
-                intent.putExtras(MyBookmarksActivity.buildBundle(""));
+                intent.putExtras(MyBookmarksActivity.buildBundle("", false));
                 startActivity(intent);
             }
         });

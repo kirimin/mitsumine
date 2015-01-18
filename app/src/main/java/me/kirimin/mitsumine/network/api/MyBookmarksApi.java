@@ -17,7 +17,7 @@ import rx.Subscriber;
 
 public class MyBookmarksApi {
 
-    public static Observable<JSONObject> request(final Account account) {
+    public static Observable<JSONObject> request(final Account account, final String keyword) {
         return Observable.create(new Observable.OnSubscribe<JSONObject>() {
             @Override
             public void call(Subscriber<? super JSONObject> subscriber) {
@@ -30,9 +30,13 @@ public class MyBookmarksApi {
                 Token accessToken = new Token(account.token, account.tokenSecret);
 
                 OAuthRequest request = new OAuthRequest(Verb.GET, "http://b.hatena.ne.jp/" + account.urlName + "/search/json");
+                if (!keyword.isEmpty()) {
+                    request.addQuerystringParameter("q", keyword);
+                }
                 oAuthService.signRequest(accessToken, request);
                 Response response = request.send();
                 String body = response.getBody();
+                System.out.print(body);
                 try {
                     subscriber.onNext(new JSONObject(body));
                     subscriber.onCompleted();

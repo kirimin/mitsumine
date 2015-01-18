@@ -4,12 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/MyBookmarksListView"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/MyBookmarksSwipeLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/gray_light2"
-        android:divider="@null" />
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/MyBookmarksListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray_light2"
+            android:divider="@null" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>
