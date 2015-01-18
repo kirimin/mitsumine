@@ -7,29 +7,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.db.AccountDAO;
-import me.kirimin.mitsumine.network.api.BookmarkApiAccessor;
+import me.kirimin.mitsumine.model.Bookmark;
+import me.kirimin.mitsumine.network.api.BookmarkApi;
+import me.kirimin.mitsumine.util.EntryInfoFunc;
 import rx.android.events.OnTextChangeEvent;
 import rx.android.observables.ViewObservable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 public class RegisterBookmarkFragment extends Fragment implements TagEditDialogFragment.OnOkClickListener {
-
-    private boolean isAlreadyBookmark;
-    private ArrayList<String> tags = new ArrayList<>();
 
     public static RegisterBookmarkFragment newFragment(String url) {
         RegisterBookmarkFragment fragment = new RegisterBookmarkFragment();
@@ -39,6 +40,27 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
         return fragment;
     }
 
+    @InjectView(R.id.card_view)
+    View cardView;
+    @InjectView(R.id.RegisterBookmarkCommentEditText)
+    TextView commentTextView;
+    @InjectView(R.id.RegisterBookmarkCommentCountTextView)
+    TextView commentCountTextView;
+    @InjectView(R.id.RegisterBookmarkTagListText)
+    TextView tagListTextView;
+    @InjectView(R.id.RegisterBookmarkBookmarkPrivateCheckBox)
+    CheckBox privateCheckBox;
+    @InjectView(R.id.RegisterBookmarkDeleteButton)
+    Button deleteButton;
+    @InjectView(R.id.RegisterBookmarkRegisterButton)
+    Button registerButton;
+    @InjectView(R.id.RegisterBookmarkTagEditButton)
+    Button tagEditButton;
+
+    private boolean isAlreadyBookmarked;
+    private ArrayList<String> tags = new ArrayList<>();
+    private CompositeSubscription subscriptions = new CompositeSubscription();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final String url = getArguments().getString("url");
@@ -46,81 +68,68 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
             throw new IllegalStateException("url is null");
         }
         final View rootView = inflater.inflate(R.layout.fragment_register_bookmark, container, false);
-        final View cardView = rootView.findViewById(R.id.card_view);
+        ButterKnife.inject(this, rootView);
         cardView.setVisibility(View.INVISIBLE);
-
-        BookmarkApiAccessor.requestBookmarkInfo(url, AccountDAO.get())
+        subscriptions.add(BookmarkApi.requestBookmarkInfo(url, AccountDAO.get())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<JSONObject>() {
+                .map(EntryInfoFunc.mapToMyBookmarkInfo())
+                .subscribe(new Action1<Bookmark>() {
                     @Override
-                    public void call(JSONObject jsonObject) {
-                        changeBookmarkStatus(jsonObject != null);
+                    public void call(Bookmark bookmark) {
                         cardView.setVisibility(View.VISIBLE);
-                        TextView commentText = (TextView) rootView.findViewById(R.id.RegisterBookmarkCommentEditText);
-                        if (jsonObject != null) {
-                            try {
-                                String comment = jsonObject.getString("comment");
-                                JSONArray tagJsonArray = jsonObject.getJSONArray("tags");
-                                tags.clear();
-                                for (int i = 0; i < tagJsonArray.length(); i++) {
-                                    tags.add(tagJsonArray.getString(i));
-                                }
-                                commentText.setText(comment);
-                                if (getView() != null) {
-                                    TextView tagListText = (TextView) getView().findViewById(R.id.RegisterBookmarkTagListText);
-                                    tagListText.setText(TextUtils.join(", ", tags));
-                                }
-                            } catch (JSONException e) {
-                            }
-                        } else {
-                            commentText.setText("");
+                        boolean isAlreadyBookmarked = bookmark != null;
+                        changeBookmarkStatus(isAlreadyBookmarked);
+                        if (!isAlreadyBookmarked) {
+                            commentTextView.setText("");
+                            return;
                         }
+                        tags = new ArrayList<>(bookmark.getTags());
+                        commentTextView.setText(bookmark.getComment());
+                        tagListTextView.setText(TextUtils.join(", ", tags));
+                        privateCheckBox.setChecked(bookmark.isPrivate());
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
                         showToastIfExistsActivity(R.string.network_error);
                     }
-                });
+                }));
 
-        rootView.findViewById(R.id.RegisterBookmarkRegisterButton).setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                v.setEnabled(false);
-                final View deleteButton = rootView.findViewById(R.id.RegisterBookmarkDeleteButton);
+                registerButton.setEnabled(false);
                 deleteButton.setEnabled(false);
-                TextView comment = (TextView) rootView.findViewById(R.id.RegisterBookmarkCommentEditText);
-                BookmarkApiAccessor.requestAddBookmark(url, AccountDAO.get(), comment.getText().toString(), tags)
+                subscriptions.add(BookmarkApi
+                        .requestAddBookmark(url, AccountDAO.get(), commentTextView.getText().toString(), tags, privateCheckBox.isChecked())
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Action1<JSONObject>() {
                             @Override
                             public void call(JSONObject object) {
-                                if (isAlreadyBookmark) {
-                                    showToastIfExistsActivity(R.string.register_bookmark_edit_success);
-                                } else {
-                                    showToastIfExistsActivity(R.string.register_bookmark_register_success);
-                                }
+                                showToastIfExistsActivity(isAlreadyBookmarked ?
+                                        R.string.register_bookmark_edit_success :
+                                        R.string.register_bookmark_register_success);
                                 changeBookmarkStatus(true);
-                                v.setEnabled(true);
+                                registerButton.setEnabled(true);
                                 deleteButton.setEnabled(true);
                             }
                         }, new Action1<Throwable>() {
                             @Override
                             public void call(Throwable throwable) {
-                                v.setEnabled(true);
+                                registerButton.setEnabled(true);
                                 deleteButton.setEnabled(true);
                                 showToastIfExistsActivity(R.string.network_error);
                             }
-                        });
+                        }));
             }
         });
-        rootView.findViewById(R.id.RegisterBookmarkDeleteButton).setOnClickListener(new View.OnClickListener() {
+        deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                v.setEnabled(false);
-                BookmarkApiAccessor.requestDeleteBookmark(url, AccountDAO.get())
+                deleteButton.setEnabled(false);
+                subscriptions.add(BookmarkApi.requestDeleteBookmark(url, AccountDAO.get())
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Action1<Boolean>() {
@@ -135,10 +144,10 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
                                 v.setEnabled(true);
                                 showToastIfExistsActivity(R.string.network_error);
                             }
-                        });
+                        }));
             }
         });
-        ViewObservable.text((TextView) rootView.findViewById(R.id.RegisterBookmarkCommentEditText))
+        ViewObservable.text(commentTextView)
                 .map(new Func1<OnTextChangeEvent, Integer>() {
                     @Override
                     public Integer call(OnTextChangeEvent onTextChangeEvent) {
@@ -148,11 +157,10 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
                 .subscribe(new Action1<Integer>() {
                     @Override
                     public void call(Integer integer) {
-                        TextView commentCountText = (TextView) rootView.findViewById(R.id.RegisterBookmarkCommentCountTextView);
-                        commentCountText.setText(getActivity().getString(R.string.register_bookmark_limit, integer));
+                        commentCountTextView.setText(getActivity().getString(R.string.register_bookmark_limit, integer));
                     }
                 });
-        rootView.findViewById(R.id.RegisterBookmarkTagEditButton).setOnClickListener(new View.OnClickListener() {
+        tagEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TagEditDialogFragment.newInstance(tags, RegisterBookmarkFragment.this).show(getFragmentManager(), null);
@@ -162,30 +170,26 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
     }
 
     @Override
-    public void onOkClick(ArrayList<String> tags) {
-        this.tags = tags;
-        if (getView() != null) {
-            TextView tagListText = (TextView) getView().findViewById(R.id.RegisterBookmarkTagListText);
-            tagListText.setText(TextUtils.join(", ", tags));
-        }
+    public void onDestroy() {
+        subscriptions.unsubscribe();
+        super.onDestroy();
     }
 
-    private void changeBookmarkStatus(boolean isAlreadyBookmark) {
-        if (getView() == null || getActivity() == null) return;
+    @Override
+    public void onOkClick(ArrayList<String> tags) {
+        this.tags = tags;
+        tagListTextView.setText(TextUtils.join(", ", tags));
+    }
 
-        this.isAlreadyBookmark = isAlreadyBookmark;
-        getView().findViewById(R.id.RegisterBookmarkDeleteButton).setEnabled(isAlreadyBookmark);
-        Button registerButton = (Button) getView().findViewById(R.id.RegisterBookmarkRegisterButton);
-        if (isAlreadyBookmark) {
-            registerButton.setText(getActivity().getString(R.string.register_bookmark_edit));
-        } else {
-            registerButton.setText(getActivity().getString(R.string.register_bookmark_resister));
-        }
+    private void changeBookmarkStatus(boolean isAlreadyBookmarked) {
+        this.isAlreadyBookmarked = isAlreadyBookmarked;
+        deleteButton.setEnabled(isAlreadyBookmarked);
+        registerButton.setText(getActivity().getString(isAlreadyBookmarked ?
+                R.string.register_bookmark_edit :
+                R.string.register_bookmark_resister));
     }
 
     private void showToastIfExistsActivity(int messageResourceId) {
-        if (getActivity() != null) {
-            Toast.makeText(getActivity(), messageResourceId, Toast.LENGTH_SHORT).show();
-        }
+        Toast.makeText(getActivity(), messageResourceId, Toast.LENGTH_SHORT).show();
     }
 }

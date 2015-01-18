@@ -10,9 +10,9 @@ import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import me.kirimin.mitsumine.network.api.FeedApiAccessor;
-import me.kirimin.mitsumine.network.api.FeedApiAccessor.CATEGORY;
-import me.kirimin.mitsumine.network.api.FeedApiAccessor.TYPE;
+import me.kirimin.mitsumine.network.api.FeedApi;
+import me.kirimin.mitsumine.network.api.FeedApi.CATEGORY;
+import me.kirimin.mitsumine.network.api.FeedApi.TYPE;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
 import rx.functions.Action1;
 
@@ -20,14 +20,14 @@ import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
-public class FeedApiAccessorTest {
+public class FeedApiTest {
 
-    public FeedApiAccessorTest() {
+    public FeedApiTest() {
     }
 
     @Test
     public void requestCategoryはFeedを取得できる() throws InterruptedException {
-        FeedApiAccessor.requestCategory(RequestQueueSingleton.getRequestQueue(InstrumentationRegistry.getContext()), CATEGORY.MAIN, TYPE.HOT)
+        FeedApi.requestCategory(RequestQueueSingleton.getRequestQueue(InstrumentationRegistry.getContext()), CATEGORY.MAIN, TYPE.HOT)
                 .subscribe(new Action1<JSONObject>() {
                     @Override
                     public void call(JSONObject jsonObject) {
@@ -42,7 +42,7 @@ public class FeedApiAccessorTest {
 
     @Test
     public void requestKeywordはFeedを取得できる() throws InterruptedException {
-        FeedApiAccessor.requestKeyword(RequestQueueSingleton.getRequestQueue(InstrumentationRegistry.getContext()), "java")
+        FeedApi.requestKeyword(RequestQueueSingleton.getRequestQueue(InstrumentationRegistry.getContext()), "java")
                 .subscribe(new Action1<JSONObject>() {
                     @Override
                     public void call(JSONObject jsonObject) {
@@ -57,7 +57,7 @@ public class FeedApiAccessorTest {
 
     @Test
     public void requestUserBookmarkはFeedを取得できる() throws InterruptedException {
-        FeedApiAccessor.requestUserBookmark(RequestQueueSingleton.getRequestQueue(InstrumentationRegistry.getContext()), "hajimepg")
+        FeedApi.requestUserBookmark(RequestQueueSingleton.getRequestQueue(InstrumentationRegistry.getContext()), "hajimepg")
                 .subscribe(new Action1<JSONObject>() {
                     @Override
                     public void call(JSONObject jsonObject) {

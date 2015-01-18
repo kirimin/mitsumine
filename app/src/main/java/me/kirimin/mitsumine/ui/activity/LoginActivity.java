@@ -14,12 +14,15 @@ import android.widget.Toast;
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.db.AccountDAO;
 import me.kirimin.mitsumine.model.Account;
-import me.kirimin.mitsumine.network.api.oauth.OAuthApiManager;
+import me.kirimin.mitsumine.network.api.oauth.HatenaOAuth;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 public class LoginActivity extends ActionBarActivity {
+
+    CompositeSubscription subscriptions = new CompositeSubscription();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,12 +34,12 @@ public class LoginActivity extends ActionBarActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
-        final OAuthApiManager OAuthApiManager = new OAuthApiManager();
+        final HatenaOAuth OAuthApiManager = new HatenaOAuth();
         findViewById(R.id.LoginAuthButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 v.setEnabled(false);
-                OAuthApiManager.requestAuthUrl()
+                subscriptions.add(OAuthApiManager.requestAuthUrl()
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Action1<String>() {
@@ -50,14 +53,14 @@ public class LoginActivity extends ActionBarActivity {
                             public void call(Throwable throwable) {
                                 v.setEnabled(true);
                             }
-                        });
+                        }));
             }
         });
         findViewById(R.id.LoginLoginButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditText pinCodeEdit = (EditText) findViewById(R.id.LoginPinCodeEditText);
-                OAuthApiManager.requestUserInfo(pinCodeEdit.getText().toString())
+                subscriptions.add(OAuthApiManager.requestUserInfo(pinCodeEdit.getText().toString())
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Action1<Account>() {
@@ -72,9 +75,15 @@ public class LoginActivity extends ActionBarActivity {
                             public void call(Throwable throwable) {
                                 Toast.makeText(getApplicationContext(), getString(R.string.login_error), Toast.LENGTH_SHORT).show();
                             }
-                        });
+                        }));
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        subscriptions.unsubscribe();
+        super.onDestroy();
     }
 
     @Override

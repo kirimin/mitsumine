@@ -4,7 +4,7 @@ import org.scribe.builder.api.*;
 import org.scribe.model.*;
 import org.scribe.utils.OAuthEncoder;
 
-public class HatenaOAuthApi extends DefaultApi10a {
+public class HatenaOAuthProvider extends DefaultApi10a {
 
     @Override
     public String getAccessTokenEndpoint() {
@@ -13,7 +13,7 @@ public class HatenaOAuthApi extends DefaultApi10a {
 
     @Override
     public String getRequestTokenEndpoint() {
-        String scope = "?scope=read_public%2Cwrite_public";
+        String scope = "?scope=read_public%2Cwrite_public%2Cread_private%2Cwrite_private";
         return "https://www.hatena.com/oauth/initiate" + scope;
     }
 

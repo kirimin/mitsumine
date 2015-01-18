@@ -15,14 +15,14 @@ import me.kirimin.mitsumine.network.ApiRequestException;
 import rx.Observable;
 import rx.Subscriber;
 
-public class OAuthApiManager {
+public class HatenaOAuth {
 
     private final OAuthService oAuthService;
     private Token requestToken;
 
-    public OAuthApiManager() {
+    public HatenaOAuth() {
         oAuthService = new ServiceBuilder()
-                .provider(HatenaOAuthApi.class)
+                .provider(HatenaOAuthProvider.class)
                 .apiKey(Consumer.K)
                 .apiSecret(Consumer.S)
                 .build();

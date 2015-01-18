@@ -25,17 +25,14 @@ public class EntryInfoFragment extends Fragment implements EntryInfoAdapter.Entr
         return fragment;
     }
 
-    private ListView mListView;
-    private EntryInfoAdapter mAdapter;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bookmark[] bookmarks = (Bookmark[]) getArguments().getParcelableArray("bookmarkList");
         View rootView = inflater.inflate(R.layout.fragment_entry_info, container, false);
-        mAdapter = new EntryInfoAdapter(getActivity().getApplicationContext(), this);
-        mListView = (ListView) rootView.findViewById(R.id.EntryInfoListView);
-        mListView.setAdapter(mAdapter);
-        mAdapter.addAll(bookmarks);
+        EntryInfoAdapter adapter = new EntryInfoAdapter(getActivity().getApplicationContext(), this);
+        ListView listView = (ListView) rootView.findViewById(R.id.EntryInfoListView);
+        listView.setAdapter(adapter);
+        adapter.addAll(bookmarks);
         return rootView;
     }
 

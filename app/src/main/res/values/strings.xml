@@ -72,6 +72,8 @@
     <string name="register_bookmark_tag_edit">タグ編集</string>
     <string name="register_bookmark_tag_delete_icon">✖</string>
     <string name="register_bookmark_tag_add">タグを追加</string>
+    <string name="register_bookmark_private">private</string>
+    <string name="my_bookmarks_title">マイブックマーク全文検索</string>
     <string name="volley_license_title">■Volley</string>
     <string name="active_android_license_title">■ActiveAndroid</string>
     <string name="picasso_license_title">■Picasso</string>
@@ -79,6 +81,7 @@
     <string name="rounded_image_view_license_title">■RoundedImageView</string>
     <string name="rx_android_license_title">■RxAndroid</string>
     <string name="scribe_java_license_title">■Scribe-Java</string>
+    <string name="butter_knife_license_title">■ButterKnife</string>
     <string name="volley_license">Copyright © 2011 The Android Open Source Project\n
 \n
 Licensed under the Apache License, Version 2.0 (the "License");\n
@@ -174,4 +177,18 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\n
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\n
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\n
 THE SOFTWARE.</string>
+
+    <string name="butter_knife_license">Copyright 2013 Jake Wharton\n
+\n
+Licensed under the Apache License, Version 2.0 (the "License");\n
+you may not use this file except in compliance with the License.\n
+You may obtain a copy of the License at\n
+\n
+   http://www.apache.org/licenses/LICENSE-2.0\n
+\n
+Unless required by applicable law or agreed to in writing, software\n
+distributed under the License is distributed on an "AS IS" BASIS,\n
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n
+See the License for the specific language governing permissions and\n
+limitations under the License.</string>
 </resources>

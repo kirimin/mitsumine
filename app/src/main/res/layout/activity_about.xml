@@ -151,6 +151,19 @@
                 android:background="@color/gray_light"
                 android:padding="8dp"
                 android:text="@string/scribe_java_license" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/butter_knife_license_title"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray_light"
+                android:padding="8dp"
+                android:text="@string/butter_knife_license" />
         </LinearLayout>
     </ScrollView>
 

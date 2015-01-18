@@ -9,14 +9,17 @@ import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.db.FeedDAO;
 import me.kirimin.mitsumine.db.NGWordDAO;
 import me.kirimin.mitsumine.model.Feed;
-import me.kirimin.mitsumine.network.api.FeedApiAccessor;
+import me.kirimin.mitsumine.network.api.FeedApi;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
 import me.kirimin.mitsumine.util.FeedFunc;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 public class KeywordFeedFragment extends AbstractFeedFragment {
+
+    private CompositeSubscription subscriptions = new CompositeSubscription();
 
     public static KeywordFeedFragment newFragment(String keyword) {
         KeywordFeedFragment fragment = new KeywordFeedFragment();
@@ -27,10 +30,16 @@ public class KeywordFeedFragment extends AbstractFeedFragment {
     }
 
     @Override
+    public void onDestroyView() {
+        subscriptions.unsubscribe();
+        super.onDestroyView();
+    }
+
+    @Override
     void requestFeed() {
         final List<Feed> readFeedList = FeedDAO.findAll();
         final List<String> ngWordList = NGWordDAO.findAll();
-        FeedApiAccessor
+        subscriptions.add(FeedApi
                 .requestKeyword(RequestQueueSingleton.getRequestQueue(getActivity()), getArguments().getString("keyword"))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -55,7 +64,7 @@ public class KeywordFeedFragment extends AbstractFeedFragment {
                     public void call(Throwable throwable) {
                         dismissRefreshing();
                     }
-                });
+                }));
         showRefreshing();
     }
 
