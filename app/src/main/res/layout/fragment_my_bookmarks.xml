@@ -12,12 +12,4 @@
         android:background="@color/gray_light2"
         android:divider="@null" />
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/tool_bar"
-        style="@style/MyToolbarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize" />
-
 </LinearLayout>

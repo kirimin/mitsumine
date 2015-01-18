@@ -1,10 +1,9 @@
 package me.kirimin.mitsumine.ui.activity.search;
 
 import me.kirimin.mitsumine.R;
-import me.kirimin.mitsumine.network.RequestQueueSingleton;
-import me.kirimin.mitsumine.ui.fragment.AbstractFeedFragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -19,7 +18,7 @@ public abstract class SearchActivity extends ActionBarActivity implements Search
     private SearchView mSearchView;
     private String mQueryStr = "";
     
-    abstract AbstractFeedFragment newFragment(String keyword);
+    abstract Fragment newFragment(String keyword);
     abstract void doFavorite();
     abstract String getSearchTitle();
 

@@ -10,6 +10,7 @@ import me.kirimin.mitsumine.model.Account;
 import me.kirimin.mitsumine.network.api.FeedApi.CATEGORY;
 import me.kirimin.mitsumine.network.api.FeedApi.TYPE;
 import me.kirimin.mitsumine.ui.activity.search.KeywordSearchActivity;
+import me.kirimin.mitsumine.ui.activity.search.MyBookmarksActivity;
 import me.kirimin.mitsumine.ui.activity.search.UserSearchActivity;
 import me.kirimin.mitsumine.ui.fragment.FeedFragment;
 
@@ -141,7 +142,9 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
         navigationUserInfoLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TopActivity.this, MyBookmarksActivity.class));
+                Intent intent = new Intent(TopActivity.this, MyBookmarksActivity.class);
+                intent.putExtras(MyBookmarksActivity.buildBundle(""));
+                startActivity(intent);
             }
         });
         navigationLoginButton.setOnClickListener(new OnClickListener() {

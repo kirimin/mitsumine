@@ -1,12 +1,11 @@
-package me.kirimin.mitsumine.ui.activity;
+package me.kirimin.mitsumine.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -15,6 +14,7 @@ import me.kirimin.mitsumine.db.AccountDAO;
 import me.kirimin.mitsumine.model.Account;
 import me.kirimin.mitsumine.model.MyBookmark;
 import me.kirimin.mitsumine.network.api.MyBookmarksApi;
+import me.kirimin.mitsumine.ui.activity.EntryInfoActivity;
 import me.kirimin.mitsumine.ui.adapter.MyBookmarksAdapter;
 import me.kirimin.mitsumine.util.MyBookmarksFunc;
 import rx.Observer;
@@ -22,27 +22,24 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
-public class MyBookmarksActivity extends ActionBarActivity implements MyBookmarksAdapter.OnMyBookmarkClickListener {
+public class MyBookmarksFragment extends Fragment implements MyBookmarksAdapter.OnMyBookmarkClickListener {
+
+    public static MyBookmarksFragment newFragment(String keyword) {
+        MyBookmarksFragment fragment = new MyBookmarksFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("keyword", keyword);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     private CompositeSubscription subscriptions = new CompositeSubscription();
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_bookmarks);
-        setSupportActionBar((Toolbar) findViewById(R.id.tool_bar));
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_my_bookmarks, container, false);
         Account account = AccountDAO.get();
-        if (account == null) {
-            finish();
-            return;
-        }
-        actionBar.setTitle(getString(R.string.my_bookmarks_title));
-        final ListView listView = (ListView) findViewById(R.id.MyBookmarksListView);
-        final MyBookmarksAdapter adapter = new MyBookmarksAdapter(this, this);
+        final ListView listView = (ListView) rootView.findViewById(R.id.MyBookmarksListView);
+        final MyBookmarksAdapter adapter = new MyBookmarksAdapter(getActivity(), this);
         subscriptions.add(MyBookmarksApi.request(account)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -55,7 +52,7 @@ public class MyBookmarksActivity extends ActionBarActivity implements MyBookmark
 
                     @Override
                     public void onError(Throwable e) {
-                        Toast.makeText(getApplicationContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -63,25 +60,18 @@ public class MyBookmarksActivity extends ActionBarActivity implements MyBookmark
                         adapter.add(myBookmark);
                     }
                 }));
+        return rootView;
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroyView() {
         subscriptions.unsubscribe();
-        super.onDestroy();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (android.R.id.home == item.getItemId()) {
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
+        super.onDestroyView();
     }
 
     @Override
     public void onMyBookmarkClick(View v, MyBookmark myBookmark) {
-        Intent intent = new Intent(MyBookmarksActivity.this, EntryInfoActivity.class);
+        Intent intent = new Intent(getActivity(), EntryInfoActivity.class);
         intent.putExtras(EntryInfoActivity.buildBundle(myBookmark.getLinkUrl()));
         startActivity(intent);
     }
