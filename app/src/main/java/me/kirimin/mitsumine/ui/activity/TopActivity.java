@@ -10,6 +10,7 @@ import me.kirimin.mitsumine.model.Account;
 import me.kirimin.mitsumine.network.api.FeedApi.CATEGORY;
 import me.kirimin.mitsumine.network.api.FeedApi.TYPE;
 import me.kirimin.mitsumine.ui.activity.search.KeywordSearchActivity;
+import me.kirimin.mitsumine.ui.activity.search.MyBookmarksActivity;
 import me.kirimin.mitsumine.ui.activity.search.UserSearchActivity;
 import me.kirimin.mitsumine.ui.fragment.FeedFragment;
 
@@ -138,6 +139,20 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
                 mDrawerLayout.closeDrawers();
             }
         });
+        navigationUserInfoLayout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TopActivity.this, MyBookmarksActivity.class);
+                intent.putExtras(MyBookmarksActivity.buildBundle("", false));
+                startActivity(intent);
+            }
+        });
+        navigationLoginButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TopActivity.this, LoginActivity.class));
+            }
+        });
 
         navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_main), CATEGORY.MAIN));
         navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_social), CATEGORY.SOCIAL));
@@ -165,12 +180,6 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
         } else {
             navigationUserInfoLayout.setVisibility(View.GONE);
             navigationLoginButton.setVisibility(View.VISIBLE);
-            navigationLoginButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(TopActivity.this, LoginActivity.class));
-                }
-            });
         }
     }
 
