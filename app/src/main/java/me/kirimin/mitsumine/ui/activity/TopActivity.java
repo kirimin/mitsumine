@@ -21,7 +21,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -71,8 +70,8 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
     ImageView navigationUserIconImageView;
 
     private ActionBarDrawerToggle mDrawerToggle;
-    private CATEGORY mSelectedCategory;
-    private TYPE mSelectedType;
+    private CATEGORY mSelectedCategory = CATEGORY.MAIN;
+    private TYPE mSelectedType = TYPE.HOT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +107,6 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
             }
         });
         navigationReadTextView.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(TopActivity.this, ReadActivity.class));
@@ -116,7 +114,6 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
             }
         });
         navigationSettingTextView.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(TopActivity.this, SettingsActivity.class));
@@ -124,7 +121,6 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
             }
         });
         navigationKeywordSearchTextView.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(TopActivity.this, KeywordSearchActivity.class));
@@ -132,7 +128,6 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
             }
         });
         navigationUserSearchTextView.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(TopActivity.this, UserSearchActivity.class));
@@ -154,16 +149,20 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
             }
         });
 
-        navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_main), CATEGORY.MAIN));
-        navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_social), CATEGORY.SOCIAL));
-        navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_economics), CATEGORY.ECONOMICS));
-        navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_life), CATEGORY.LIFE));
-        navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_knowledge), CATEGORY.KNOWLEDGE));
-        navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_it), CATEGORY.IT));
-        navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_fun), CATEGORY.FUN));
-        navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_entertainment), CATEGORY.ENTERTAINMENT));
-        navigationCategoriesLayout.addView(makeNavigationCategoryButton(getString(R.string.feed_game), CATEGORY.GAME));
-        changeShowCategory(getString(R.string.feed_main), CATEGORY.MAIN);
+        navigationCategoriesLayout.addView(makeNavigationCategoryButton(CATEGORY.MAIN));
+        navigationCategoriesLayout.addView(makeNavigationCategoryButton(CATEGORY.SOCIAL));
+        navigationCategoriesLayout.addView(makeNavigationCategoryButton(CATEGORY.ECONOMICS));
+        navigationCategoriesLayout.addView(makeNavigationCategoryButton(CATEGORY.LIFE));
+        navigationCategoriesLayout.addView(makeNavigationCategoryButton(CATEGORY.KNOWLEDGE));
+        navigationCategoriesLayout.addView(makeNavigationCategoryButton(CATEGORY.IT));
+        navigationCategoriesLayout.addView(makeNavigationCategoryButton(CATEGORY.FUN));
+        navigationCategoriesLayout.addView(makeNavigationCategoryButton(CATEGORY.ENTERTAINMENT));
+        navigationCategoriesLayout.addView(makeNavigationCategoryButton(CATEGORY.GAME));
+        if (savedInstanceState != null) {
+            mSelectedCategory = (CATEGORY) savedInstanceState.getSerializable(CATEGORY.class.getCanonicalName());
+            mSelectedType = (TYPE) savedInstanceState.getSerializable(TYPE.class.getCanonicalName());
+        }
+        refreshShowCategoryAndType();
     }
 
     @Override
@@ -184,21 +183,17 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(CATEGORY.class.getCanonicalName(), mSelectedCategory);
+        outState.putSerializable(TYPE.class.getCanonicalName(), mSelectedType);
+    }
+
+    @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         mDrawerLayout.closeDrawers();
-        Fragment fragment;
-        if (itemPosition == 0) {
-            fragment = FeedFragment.newFragment(mSelectedCategory, TYPE.HOT);
-            mSelectedType = TYPE.HOT;
-        } else if (itemPosition == 1) {
-            fragment = FeedFragment.newFragment(mSelectedCategory, TYPE.NEW);
-            mSelectedType = TYPE.NEW;
-        } else {
-            return true;
-        }
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.containerFrameLayout, fragment)
-                .commit();
+        mSelectedType = itemPosition == 0 ? TYPE.HOT : TYPE.NEW;
+        refreshShowCategoryAndType();
         return true;
     }
 
@@ -283,13 +278,14 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
         }
     }
 
-    private View makeNavigationCategoryButton(final String label, final CATEGORY category) {
-        return makeNavigationButton(label, new OnClickListener() {
+    private View makeNavigationCategoryButton(final CATEGORY category) {
+        return makeNavigationButton(getString(category.getLabelResource()), new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 mDrawerLayout.closeDrawers();
-                changeShowCategory(label, category);
+                mSelectedCategory = category;
+                refreshShowCategoryAndType();
             }
         }, null);
     }
@@ -303,15 +299,16 @@ public class TopActivity extends ActionBarActivity implements ActionBar.OnNaviga
         return navigationView;
     }
 
-    private void changeShowCategory(final String label, final CATEGORY category) {
-        mSelectedCategory = category;
-        getSupportActionBar().setTitle(label);
+    private void refreshShowCategoryAndType() {
+        getSupportActionBar().setTitle(mSelectedCategory.getLabelResource());
+        getSupportActionBar().setSelectedNavigationItem(mSelectedType == TYPE.HOT ? 0 : 1);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.containerFrameLayout, FeedFragment.newFragment(category, mSelectedType))
+                .replace(R.id.containerFrameLayout, FeedFragment.newFragment(mSelectedCategory, mSelectedType))
                 .commit();
         for (int i = 0; i < navigationCategoriesLayout.getChildCount(); i++) {
             TextView categoryButton = (TextView) navigationCategoriesLayout.getChildAt(i).findViewById(R.id.MainNavigationTextView);
-            categoryButton.setTextColor(getResources().getColor(categoryButton.getText().equals(label) ? R.color.orange : R.color.text));
+            boolean isSelectedCategory = categoryButton.getText().equals(getString(mSelectedCategory.getLabelResource()));
+            categoryButton.setTextColor(getResources().getColor(isSelectedCategory ? R.color.orange : R.color.text));
         }
     }
 
