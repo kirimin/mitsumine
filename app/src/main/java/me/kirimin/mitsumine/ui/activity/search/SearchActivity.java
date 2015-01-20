@@ -40,7 +40,7 @@ public abstract class SearchActivity extends ActionBarActivity implements Search
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_top);
+        setContentView(R.layout.activity_common_container);
         setSupportActionBar((android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar));
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

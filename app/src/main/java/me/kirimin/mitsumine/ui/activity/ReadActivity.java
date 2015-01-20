@@ -13,7 +13,7 @@ public class ReadActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_top);
+        setContentView(R.layout.activity_common_container);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.blue));
