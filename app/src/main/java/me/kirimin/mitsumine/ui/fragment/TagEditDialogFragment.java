@@ -66,7 +66,7 @@ public class TagEditDialogFragment extends DialogFragment {
             }
         });
 
-        getDialog().setTitle("タグ編集");
+        getDialog().setTitle(R.string.register_bookmark_tag_edit);
         return rootView;
     }
 }
