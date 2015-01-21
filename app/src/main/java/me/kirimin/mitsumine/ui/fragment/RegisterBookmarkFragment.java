@@ -22,9 +22,9 @@ import me.kirimin.mitsumine.db.AccountDAO;
 import me.kirimin.mitsumine.model.Bookmark;
 import me.kirimin.mitsumine.network.api.BookmarkApi;
 import me.kirimin.mitsumine.util.EntryInfoFunc;
-import rx.android.events.OnTextChangeEvent;
-import rx.android.observables.ViewObservable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.android.widget.OnTextChangeEvent;
+import rx.android.widget.WidgetObservable;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -147,11 +147,11 @@ public class RegisterBookmarkFragment extends Fragment implements TagEditDialogF
                         }));
             }
         });
-        ViewObservable.text(commentTextView)
+        WidgetObservable.text(commentTextView)
                 .map(new Func1<OnTextChangeEvent, Integer>() {
                     @Override
                     public Integer call(OnTextChangeEvent onTextChangeEvent) {
-                        return onTextChangeEvent.text.length();
+                        return onTextChangeEvent.text().length();
                     }
                 })
                 .subscribe(new Action1<Integer>() {
