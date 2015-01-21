@@ -44,7 +44,7 @@ public class MyBookmarksAdapter extends ArrayAdapter<MyBookmark> implements View
         holder.cardView.setOnClickListener(this);
         holder.cardView.setOnLongClickListener(this);
         holder.title.setText(bookmark.getTitle());
-        holder.userCount.setText(bookmark.getBookmarkCount() + "users");
+        holder.userCount.setText(bookmark.getBookmarkCount() + getContext().getString(R.string.users_lower_case));
         holder.url.setText(bookmark.getLinkUrl());
         return convertView;
     }
