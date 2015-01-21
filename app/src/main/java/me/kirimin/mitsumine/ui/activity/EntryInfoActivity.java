@@ -74,7 +74,7 @@ public class EntryInfoActivity extends ActionBarActivity {
         if (url == null) {
             finish();
         }
-        subscriptions.add(EntryInfoApi.request(RequestQueueSingleton.getRequestQueue(getApplicationContext()), url)
+        subscriptions.add(EntryInfoApi.request(RequestQueueSingleton.get(getApplicationContext()), url)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(EntryInfoFunc.mapToEntryInfo())
