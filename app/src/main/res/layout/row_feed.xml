@@ -88,9 +88,9 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
                             android:layout_marginRight="8dp"
-                            android:text="@string/users"
+                            android:text="@string/users_lower_case"
                             android:textColor="@color/orange"
-                            android:textSize="@dimen/text_small"
+                            android:textSize="@dimen/text_medium"
                             android:textStyle="bold" />
 
                         <ImageView
