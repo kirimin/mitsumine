@@ -71,14 +71,27 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
-                        <ImageView
+
+                        <TextView
                             android:id="@+id/FeedFragmentImageViewBookmarkCount"
-                            android:layout_width="64dp"
-                            android:layout_height="16dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
                             android:layout_marginLeft="8dp"
+                            android:layout_marginRight="2dp"
+                            android:textColor="@color/orange"
+                            android:textSize="@dimen/text_large"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
                             android:layout_marginRight="8dp"
-                            android:scaleType="fitStart"
-                            android:src="@drawable/empty" />
+                            android:text="@string/users"
+                            android:textColor="@color/orange"
+                            android:textSize="@dimen/text_small"
+                            android:textStyle="bold" />
 
                         <ImageView
                             android:id="@+id/FeedFragmentImageViewFavicon"
