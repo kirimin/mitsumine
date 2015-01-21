@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.ui.adapter.TagEditDialogFragmentAdapter;
-import rx.android.events.OnClickEvent;
+import rx.android.view.OnClickEvent;
 import rx.functions.Action1;
 
 public class TagEditDialogFragment extends DialogFragment {
@@ -42,7 +42,7 @@ public class TagEditDialogFragment extends DialogFragment {
             @Override
             public void call(OnClickEvent onClickEvent) {
                 TagEditDialogFragmentAdapter adapter = (TagEditDialogFragmentAdapter) listView.getAdapter();
-                adapter.remove((String) onClickEvent.view.getTag());
+                adapter.remove((String) onClickEvent.view().getTag());
             }
         }));
         rootView.findViewById(R.id.RegisterBookmarkTagEditDialogOkButton).setOnClickListener(new View.OnClickListener() {
