@@ -11,6 +11,6 @@ public class EntryInfoApi {
     private static final String REQUEST_URL = "http://b.hatena.ne.jp/entry/jsonlite/?url=";
 
     public static Observable<JSONObject> request(final RequestQueue requestQueue, final String url) {
-        return ApiAccessor.apiRequest(requestQueue, REQUEST_URL + url);
+        return ApiAccessor.request(requestQueue, REQUEST_URL + url);
     }
 }

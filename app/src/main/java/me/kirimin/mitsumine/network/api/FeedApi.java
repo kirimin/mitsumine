@@ -59,11 +59,11 @@ public class FeedApi {
     private static final String FEED_URL_FOOTER = ".rss&num=-1";
 
     public static Observable<JSONObject> requestCategory(RequestQueue requestQueue, CATEGORY category, TYPE type) {
-        return ApiAccessor.apiRequest(requestQueue, FEED_URL_HEADER + type + category + FEED_URL_FOOTER);
+        return ApiAccessor.request(requestQueue, FEED_URL_HEADER + type + category + FEED_URL_FOOTER);
     }
 
     public static Observable<JSONObject> requestUserBookmark(RequestQueue requestQueue, String userName) {
-        return ApiAccessor.apiRequest(requestQueue, FEED_URL_HEADER + userName + "/bookmark" + FEED_URL_FOOTER);
+        return ApiAccessor.request(requestQueue, FEED_URL_HEADER + userName + "/bookmark" + FEED_URL_FOOTER);
     }
 
     public static Observable<JSONObject> requestKeyword(RequestQueue requestQueue, String keyword) {
@@ -71,6 +71,6 @@ public class FeedApi {
             keyword = URLEncoder.encode(keyword, "UTF-8");
         } catch (UnsupportedEncodingException e) {
         }
-        return ApiAccessor.apiRequest(requestQueue, FEED_URL_HEADER + "keyword/" + keyword + "?mode=rss&num=-1");
+        return ApiAccessor.request(requestQueue, FEED_URL_HEADER + "keyword/" + keyword + "?mode=rss&num=-1");
     }
 }
