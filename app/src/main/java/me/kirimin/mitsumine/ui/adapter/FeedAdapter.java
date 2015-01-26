@@ -108,7 +108,7 @@ public class FeedAdapter extends ArrayAdapter<Feed> implements OnClickListener, 
         Subscription oldSubscription = (Subscription) holder.mDomain.getTag();
         if (oldSubscription != null) {
             oldSubscription.unsubscribe();
-            holder.mBookmarkCount.setText("");
+            holder.mBookmarkCount.getEditableText().clear();
         }
         Subscription subscription = ViewObservable.bindView(holder.mBookmarkCount, BookmarkCountApi.request(RequestQueueSingleton.get(getContext()), feed.linkUrl))
                 .subscribeOn(Schedulers.newThread())
@@ -116,7 +116,8 @@ public class FeedAdapter extends ArrayAdapter<Feed> implements OnClickListener, 
                 .subscribe(new Action1<String>() {
                     @Override
                     public void call(String s) {
-                        holder.mBookmarkCount.setText(s);
+                        holder.mBookmarkCount.getEditableText().clear();
+                        holder.mBookmarkCount.getEditableText().append(s);
                     }
                 });
         holder.mBookmarkCount.setTag(subscription);

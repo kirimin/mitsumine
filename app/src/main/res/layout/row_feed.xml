@@ -79,6 +79,7 @@
                             android:layout_gravity="bottom"
                             android:layout_marginLeft="8dp"
                             android:layout_marginRight="2dp"
+                            android:editable="true"
                             android:textColor="@color/orange"
                             android:textSize="@dimen/text_large"
                             android:textStyle="bold" />
