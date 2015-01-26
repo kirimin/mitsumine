@@ -12,7 +12,7 @@ public class RequestQueueSingleton {
     private RequestQueueSingleton() {
     }
 
-    public static RequestQueue getRequestQueue(final Context context) {
+    public static RequestQueue get(final Context context) {
         if (queue == null) {
             queue = Volley.newRequestQueue(context);
         }

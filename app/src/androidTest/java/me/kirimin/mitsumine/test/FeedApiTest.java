@@ -27,7 +27,7 @@ public class FeedApiTest {
 
     @Test
     public void requestCategoryはFeedを取得できる() throws InterruptedException {
-        FeedApi.requestCategory(RequestQueueSingleton.getRequestQueue(InstrumentationRegistry.getContext()), CATEGORY.MAIN, TYPE.HOT)
+        FeedApi.requestCategory(RequestQueueSingleton.get(InstrumentationRegistry.getContext()), CATEGORY.MAIN, TYPE.HOT)
                 .subscribe(new Action1<JSONObject>() {
                     @Override
                     public void call(JSONObject jsonObject) {
@@ -42,7 +42,7 @@ public class FeedApiTest {
 
     @Test
     public void requestKeywordはFeedを取得できる() throws InterruptedException {
-        FeedApi.requestKeyword(RequestQueueSingleton.getRequestQueue(InstrumentationRegistry.getContext()), "java")
+        FeedApi.requestKeyword(RequestQueueSingleton.get(InstrumentationRegistry.getContext()), "java")
                 .subscribe(new Action1<JSONObject>() {
                     @Override
                     public void call(JSONObject jsonObject) {
@@ -57,7 +57,7 @@ public class FeedApiTest {
 
     @Test
     public void requestUserBookmarkはFeedを取得できる() throws InterruptedException {
-        FeedApi.requestUserBookmark(RequestQueueSingleton.getRequestQueue(InstrumentationRegistry.getContext()), "hajimepg")
+        FeedApi.requestUserBookmark(RequestQueueSingleton.get(InstrumentationRegistry.getContext()), "hajimepg")
                 .subscribe(new Action1<JSONObject>() {
                     @Override
                     public void call(JSONObject jsonObject) {

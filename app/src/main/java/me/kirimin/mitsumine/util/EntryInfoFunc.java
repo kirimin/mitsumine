@@ -1,17 +1,23 @@
 package me.kirimin.mitsumine.util;
 
+import android.text.Html;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import me.kirimin.mitsumine.model.Bookmark;
 import me.kirimin.mitsumine.model.EntryInfo;
 import rx.functions.Func1;
 
 public class EntryInfoFunc {
+
+    private static final Pattern urlLinkPattern = Pattern.compile("(http://|https://){1}[\\w\\.\\-/:\\#\\?\\=\\&\\;\\%\\~\\+]+", Pattern.CASE_INSENSITIVE);
 
     public static Func1<JSONObject, EntryInfo> mapToEntryInfo() {
         return new Func1<JSONObject, EntryInfo>() {
@@ -44,7 +50,7 @@ public class EntryInfoFunc {
         return new Func1<Bookmark, Boolean>() {
             @Override
             public Boolean call(Bookmark bookmark) {
-                return !bookmark.getComment().equals("");
+                return !bookmark.getComment().toString().isEmpty();
             }
         };
     }
@@ -77,7 +83,7 @@ public class EntryInfoFunc {
         for (int i = 0; i < bookmarks.length(); i++) {
             JSONObject bookmark = bookmarks.getJSONObject(i);
             String user = bookmark.getString("user");
-            String comment = bookmark.getString("comment");
+            CharSequence comment = parseCommentToHtmlTag(bookmark.getString("comment"));
             String timeStamp = bookmark.getString("timestamp");
             timeStamp = timeStamp.substring(0, timeStamp.indexOf(" "));
             String userIcon = "http://n.hatena.com/" + user + "/profile/image.gif?type=face&size=64";
@@ -93,5 +99,10 @@ public class EntryInfoFunc {
             results.add(tags.getString(i));
         }
         return results;
+    }
+
+    private static CharSequence parseCommentToHtmlTag(String comment) {
+        Matcher matcher = urlLinkPattern.matcher(comment);
+        return Html.fromHtml(matcher.replaceAll("<a href=\"$0\">$0</a>"));
     }
 }

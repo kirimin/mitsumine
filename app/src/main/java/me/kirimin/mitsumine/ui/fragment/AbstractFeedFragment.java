@@ -131,7 +131,7 @@ abstract public class AbstractFeedFragment extends Fragment implements FeedAdapt
 
     private void reloadFeed() {
         if (getActivity() != null) {
-            RequestQueueSingleton.getRequestQueue(getActivity()).getCache().clear();
+            RequestQueueSingleton.get(getActivity()).getCache().clear();
         }
         mAdapter.clear();
         requestFeed();

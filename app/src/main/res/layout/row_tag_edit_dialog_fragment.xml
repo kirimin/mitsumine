@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textColor="@color/text"
-        android:textSize="@dimen/text_medium" />
+        android:textSize="@dimen/text_large" />
 
     <Button
         android:id="@+id/RegisterBookmarkTagEditDialogDelete"

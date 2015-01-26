@@ -14,13 +14,17 @@
             android:id="@+id/RegisterBookmarkTagEditDialogAddEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textColor="@color/text"
+            android:textSize="@dimen/text_large" />
 
         <Button
             android:id="@+id/RegisterBookmarkTagEditDialogAddButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/register_bookmark_tag_add" />
+            android:text="@string/register_bookmark_tag_add"
+            android:textColor="@color/text"
+            android:textSize="@dimen/text_medium" />
     </LinearLayout>
 
     <ListView
@@ -34,6 +38,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="@android:string/ok" />
+        android:text="@android:string/ok"
+        android:textColor="@color/text"
+        android:textSize="@dimen/text_medium" />
 
 </LinearLayout>

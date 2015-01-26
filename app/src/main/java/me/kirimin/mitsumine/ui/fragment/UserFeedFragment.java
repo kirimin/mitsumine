@@ -40,7 +40,7 @@ public class UserFeedFragment extends AbstractFeedFragment {
         final List<Feed> readFeedList = FeedDAO.findAll();
         final List<String> ngWordList = NGWordDAO.findAll();
         subscriptions.add(FeedApi
-                .requestUserBookmark(RequestQueueSingleton.getRequestQueue(getActivity()), getArguments().getString("user"))
+                .requestUserBookmark(RequestQueueSingleton.get(getActivity()), getArguments().getString("user"))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(FeedFunc.mapToFeedList())

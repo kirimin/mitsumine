@@ -24,14 +24,6 @@ public class BookmarkApi {
         return Observable.create(new Observable.OnSubscribe<JSONObject>() {
             @Override
             public void call(Subscriber<? super JSONObject> subscriber) {
-                OAuthService oAuthService = new ServiceBuilder()
-                        .provider(HatenaOAuthProvider.class)
-                        .apiKey(Consumer.K)
-                        .apiSecret(Consumer.S)
-                        .build();
-
-                Token accessToken = new Token(account.token, account.tokenSecret);
-
                 OAuthRequest request = new OAuthRequest(Verb.POST, "http://api.b.hatena.ne.jp/1/my/bookmark");
                 request.addQuerystringParameter("url", url);
                 request.addQuerystringParameter("comment", comment);
@@ -41,8 +33,7 @@ public class BookmarkApi {
                 if (isPrivate) {
                     request.addQuerystringParameter("private", "true");
                 }
-                oAuthService.signRequest(accessToken, request);
-                Response response = request.send();
+                Response response = ApiAccessor.oAuthRequest(account, request);
                 if (response.getCode() != 200) {
                     subscriber.onError(new ApiRequestException("error code:" + response.getCode()));
                     return;
@@ -61,18 +52,9 @@ public class BookmarkApi {
         return Observable.create(new Observable.OnSubscribe<Boolean>() {
             @Override
             public void call(Subscriber<? super Boolean> subscriber) {
-                OAuthService oAuthService = new ServiceBuilder()
-                        .provider(HatenaOAuthProvider.class)
-                        .apiKey(Consumer.K)
-                        .apiSecret(Consumer.S)
-                        .build();
-
-                Token accessToken = new Token(account.token, account.tokenSecret);
-
                 OAuthRequest request = new OAuthRequest(Verb.DELETE, "http://api.b.hatena.ne.jp/1/my/bookmark");
                 request.addQuerystringParameter("url", url);
-                oAuthService.signRequest(accessToken, request);
-                Response response = request.send();
+                Response response = ApiAccessor.oAuthRequest(account, request);
                 if (response.getCode() != 204) {
                     subscriber.onError(new ApiRequestException("error code:" + response.getCode()));
                     return;
@@ -87,18 +69,9 @@ public class BookmarkApi {
         return Observable.create(new Observable.OnSubscribe<JSONObject>() {
             @Override
             public void call(Subscriber<? super JSONObject> subscriber) {
-                OAuthService oAuthService = new ServiceBuilder()
-                        .provider(HatenaOAuthProvider.class)
-                        .apiKey(Consumer.K)
-                        .apiSecret(Consumer.S)
-                        .build();
-
-                Token accessToken = new Token(account.token, account.tokenSecret);
-
                 OAuthRequest request = new OAuthRequest(Verb.GET, "http://api.b.hatena.ne.jp/1/my/bookmark");
                 request.addQuerystringParameter("url", url);
-                oAuthService.signRequest(accessToken, request);
-                Response response = request.send();
+                Response response = ApiAccessor.oAuthRequest(account, request);
                 if (response.getCode() == 200) {
                     try {
                         subscriber.onNext(new JSONObject(response.getBody()));

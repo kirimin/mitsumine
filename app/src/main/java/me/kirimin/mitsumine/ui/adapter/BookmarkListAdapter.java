@@ -1,8 +1,11 @@
 package me.kirimin.mitsumine.ui.adapter;
 
-import android.content.Context;
+import android.app.Activity;
+import android.text.Spannable;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -15,8 +18,9 @@ import com.squareup.picasso.Transformation;
 
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.model.Bookmark;
+import me.kirimin.mitsumine.ui.event.IfNeededLinkMovementMethod;
 
-public class EntryInfoAdapter extends ArrayAdapter<Bookmark> implements View.OnClickListener {
+public class BookmarkListAdapter extends ArrayAdapter<Bookmark> implements View.OnClickListener {
 
     public interface EntryInfoAdapterListener {
         void onCommentClick(View v, Bookmark bookmark);
@@ -24,23 +28,35 @@ public class EntryInfoAdapter extends ArrayAdapter<Bookmark> implements View.OnC
 
     private final EntryInfoAdapterListener listener;
 
-    public EntryInfoAdapter(Context context, EntryInfoAdapterListener listener) {
-        super(context, 0);
+    public BookmarkListAdapter(Activity activity, EntryInfoAdapterListener listener) {
+        // MovementMethod内でブラウザ遷移時にContextがactivityじゃないと例外が発生するためActivityを取得
+        super(activity, 0);
         this.listener = listener;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        final ViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_entry_info, null);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_bookmark_list, null);
             holder = new ViewHolder();
             holder.cardView = convertView.findViewById(R.id.card_view);
-            holder.userName = (TextView) convertView.findViewById(R.id.EntryInfoUserNameTextView);
-            holder.comment = (TextView) convertView.findViewById(R.id.EntryInfoCommentTextView);
-            holder.userIcon = (ImageView) convertView.findViewById(R.id.EntryInfoUserIconImageView);
-            holder.tag = (TextView) convertView.findViewById(R.id.EntryInfoUserTagTextView);
-            holder.timeStamp = (TextView) convertView.findViewById(R.id.EntryInfoTimeStampTextView);
+            holder.userName = (TextView) convertView.findViewById(R.id.BookmarkListUserNameTextView);
+            holder.comment = (TextView) convertView.findViewById(R.id.BookmarkListCommentTextView);
+            holder.comment.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    LinkMovementMethod linkMovementMethod = new IfNeededLinkMovementMethod();
+                    holder.comment.setMovementMethod(linkMovementMethod);
+                    boolean onTouchResult = linkMovementMethod.onTouchEvent(holder.comment, (Spannable) holder.comment.getText(), event);
+                    holder.comment.setMovementMethod(null);
+                    holder.comment.setFocusable(false);
+                    return onTouchResult;
+                }
+            });
+            holder.userIcon = (ImageView) convertView.findViewById(R.id.BookmarkListUserIconImageView);
+            holder.tag = (TextView) convertView.findViewById(R.id.BookmarkListUserTagTextView);
+            holder.timeStamp = (TextView) convertView.findViewById(R.id.BookmarkListTimeStampTextView);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();

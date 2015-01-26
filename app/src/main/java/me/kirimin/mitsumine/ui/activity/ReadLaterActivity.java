@@ -2,6 +2,7 @@ package me.kirimin.mitsumine.ui.activity;
 
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.ui.fragment.ReadLaterFeedFragment;
+
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -13,7 +14,7 @@ public class ReadLaterActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_top);
+        setContentView(R.layout.activity_common_container);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.orange));

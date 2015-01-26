@@ -40,7 +40,7 @@ public class KeywordFeedFragment extends AbstractFeedFragment {
         final List<Feed> readFeedList = FeedDAO.findAll();
         final List<String> ngWordList = NGWordDAO.findAll();
         subscriptions.add(FeedApi
-                .requestKeyword(RequestQueueSingleton.getRequestQueue(getActivity()), getArguments().getString("keyword"))
+                .requestKeyword(RequestQueueSingleton.get(getActivity()), getArguments().getString("keyword"))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(FeedFunc.mapToFeedList())

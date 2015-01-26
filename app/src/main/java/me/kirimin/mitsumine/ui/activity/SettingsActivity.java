@@ -105,6 +105,9 @@ public class SettingsActivity extends ActionBarActivity {
             final EditText editText = new EditText(getActivity());
             OnClickListener onPositiveListener = new OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
+                    if (editText.getText().length() == 0) {
+                        return;
+                    }
                     NGWordDAO.save(editText.getText().toString());
                 }
             };

@@ -11,8 +11,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import me.kirimin.mitsumine.R;
-import rx.android.events.OnClickEvent;
-import rx.android.observables.ViewObservable;
+import rx.android.view.OnClickEvent;
+import rx.android.view.ViewObservable;
 import rx.functions.Action1;
 
 public class TagEditDialogFragmentAdapter extends ArrayAdapter<String> {

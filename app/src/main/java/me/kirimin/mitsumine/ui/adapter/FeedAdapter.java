@@ -4,7 +4,15 @@ import com.squareup.picasso.Picasso;
 
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.model.Feed;
+import me.kirimin.mitsumine.network.RequestQueueSingleton;
+import me.kirimin.mitsumine.network.api.BookmarkCountApi;
 import me.kirimin.mitsumine.ui.adapter.FeedPagerAdapter.OnSlideListener;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.android.view.ViewObservable;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
+
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -77,17 +85,17 @@ public class FeedAdapter extends ArrayAdapter<Feed> implements OnClickListener, 
             ViewHolder holder = new ViewHolder();
             holder.mFeedView = feedView;
             holder.mThumbnail = (ImageView) feedView.findViewById(R.id.FeedFragmentImageViewThumbnail);
-            holder.mBookmarkCount = (ImageView) feedView.findViewById(R.id.FeedFragmentImageViewBookmarkCount);
             holder.mFavicon = (ImageView) feedView.findViewById(R.id.FeedFragmentImageViewFavicon);
             holder.mShare = (ImageView) feedView.findViewById(R.id.FeedFragmentImageViewShare);
             holder.mTitle = (TextView) feedView.findViewById(R.id.FeedFragmentTextViewTitle);
             holder.mContent = (TextView) feedView.findViewById(R.id.FeedFragmentTextViewContent);
             holder.mDomain = (TextView) feedView.findViewById(R.id.FeedFragmentTextViewDomain);
+            holder.mBookmarkCount = (TextView) feedView.findViewById(R.id.FeedFragmentImageViewBookmarkCount);
             convertView.setTag(holder);
         }
 
-        ViewHolder holder = (ViewHolder) convertView.getTag();
-        Feed feed = getItem(position);
+        final ViewHolder holder = (ViewHolder) convertView.getTag();
+        final Feed feed = getItem(position);
         holder.mFeedView.setTag(feed);
         holder.mFeedView.setOnClickListener(this);
         holder.mFeedView.setOnLongClickListener(this);
@@ -97,15 +105,28 @@ public class FeedAdapter extends ArrayAdapter<Feed> implements OnClickListener, 
         holder.mTitle.setText(feed.title);
         holder.mContent.setText(feed.content);
         holder.mDomain.setText(feed.linkUrl);
+        Subscription oldSubscription = (Subscription) holder.mDomain.getTag();
+        if (oldSubscription != null) {
+            oldSubscription.unsubscribe();
+            holder.mBookmarkCount.getEditableText().clear();
+        }
+        Subscription subscription = ViewObservable.bindView(holder.mBookmarkCount, BookmarkCountApi.request(RequestQueueSingleton.get(getContext()), feed.linkUrl))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        holder.mBookmarkCount.getEditableText().clear();
+                        holder.mBookmarkCount.getEditableText().append(s);
+                    }
+                });
+        holder.mBookmarkCount.setTag(subscription);
         holder.mThumbnail.setImageResource(R.drawable.no_image);
 
-        if(!feed.thumbnailUrl.isEmpty()) {
+        if (!feed.thumbnailUrl.isEmpty()) {
             Picasso.with(getContext()).load(feed.thumbnailUrl).into(holder.mThumbnail);
         }
-        if(!feed.bookmarkCountUrl.isEmpty()){
-            Picasso.with(getContext()).load(feed.bookmarkCountUrl).skipMemoryCache().into(holder.mBookmarkCount);
-        }
-        if(!feed.faviconUrl.isEmpty()){
+        if (!feed.faviconUrl.isEmpty()) {
             Picasso.with(getContext()).load(feed.faviconUrl).into(holder.mFavicon);
         }
         return convertView;
@@ -113,18 +134,18 @@ public class FeedAdapter extends ArrayAdapter<Feed> implements OnClickListener, 
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.FeedFragmentImageViewShare){
+        if (v.getId() == R.id.FeedFragmentImageViewShare) {
             mListener.onFeedShareClick(v);
-        }else {
+        } else {
             mListener.onFeedClick(v);
         }
     }
 
     @Override
     public boolean onLongClick(View v) {
-        if(v.getId() == R.id.FeedFragmentImageViewShare){
+        if (v.getId() == R.id.FeedFragmentImageViewShare) {
             mListener.onFeedShareLongClick(v);
-        }else {
+        } else {
             mListener.onFeedLongClick(v);
         }
         return false;
@@ -133,11 +154,11 @@ public class FeedAdapter extends ArrayAdapter<Feed> implements OnClickListener, 
     private static class ViewHolder {
         View mFeedView;
         ImageView mThumbnail;
-        ImageView mBookmarkCount;
         ImageView mFavicon;
         ImageView mShare;
         TextView mTitle;
         TextView mContent;
         TextView mDomain;
+        TextView mBookmarkCount;
     }
 }

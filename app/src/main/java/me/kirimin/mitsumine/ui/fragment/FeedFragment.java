@@ -43,7 +43,7 @@ public class FeedFragment extends AbstractFeedFragment {
         TYPE type = (TYPE) getArguments().getSerializable(TYPE.class.getCanonicalName());
         final List<Feed> readFeedList = FeedDAO.findAll();
         final List<String> ngWordList = NGWordDAO.findAll();
-        subscriptions.add(FeedApi.requestCategory(RequestQueueSingleton.getRequestQueue(getActivity()), category, type)
+        subscriptions.add(FeedApi.requestCategory(RequestQueueSingleton.get(getActivity()), category, type)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(FeedFunc.mapToFeedList())

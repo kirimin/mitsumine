@@ -74,7 +74,9 @@
                         android:id="@+id/RegisterBookmarkTagEditButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/register_bookmark_tag_edit" />
+                        android:text="@string/register_bookmark_tag_edit"
+                        android:textSize="@dimen/text_medium"
+                        android:textColor="@color/text"/>
                 </LinearLayout>
 
                 <LinearLayout
