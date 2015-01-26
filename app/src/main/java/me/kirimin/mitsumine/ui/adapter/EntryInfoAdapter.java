@@ -33,14 +33,14 @@ public class EntryInfoAdapter extends ArrayAdapter<Bookmark> implements View.OnC
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_entry_info, null);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_bookmark_list, null);
             holder = new ViewHolder();
             holder.cardView = convertView.findViewById(R.id.card_view);
-            holder.userName = (TextView) convertView.findViewById(R.id.EntryInfoUserNameTextView);
-            holder.comment = (TextView) convertView.findViewById(R.id.EntryInfoCommentTextView);
-            holder.userIcon = (ImageView) convertView.findViewById(R.id.EntryInfoUserIconImageView);
-            holder.tag = (TextView) convertView.findViewById(R.id.EntryInfoUserTagTextView);
-            holder.timeStamp = (TextView) convertView.findViewById(R.id.EntryInfoTimeStampTextView);
+            holder.userName = (TextView) convertView.findViewById(R.id.BookmarkListUserNameTextView);
+            holder.comment = (TextView) convertView.findViewById(R.id.BookmarkListCommentTextView);
+            holder.userIcon = (ImageView) convertView.findViewById(R.id.BookmarkListUserIconImageView);
+            holder.tag = (TextView) convertView.findViewById(R.id.BookmarkListUserTagTextView);
+            holder.timeStamp = (TextView) convertView.findViewById(R.id.BookmarkListTimeStampTextView);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();

@@ -23,7 +23,7 @@ import me.kirimin.mitsumine.db.AccountDAO;
 import me.kirimin.mitsumine.model.Bookmark;
 import me.kirimin.mitsumine.model.EntryInfo;
 import me.kirimin.mitsumine.network.api.EntryInfoApi;
-import me.kirimin.mitsumine.ui.fragment.EntryInfoFragment;
+import me.kirimin.mitsumine.ui.fragment.BookmarkListFragment;
 import me.kirimin.mitsumine.ui.fragment.RegisterBookmarkFragment;
 import me.kirimin.mitsumine.util.EntryInfoFunc;
 import me.kirimin.mitsumine.network.RequestQueueSingleton;
@@ -88,7 +88,7 @@ public class EntryInfoActivity extends ActionBarActivity {
                         Picasso.with(getApplicationContext()).load(entryInfo.getThumbnailUrl()).fit().into(thumbnailImageView);
 
                         final EntryInfoPagerAdapter adapter = new EntryInfoPagerAdapter(getSupportFragmentManager());
-                        adapter.addPage(EntryInfoFragment.newFragment(entryInfo.getBookmarkList()), getString(R.string.entry_info_all_bookmarks));
+                        adapter.addPage(BookmarkListFragment.newFragment(entryInfo.getBookmarkList()), getString(R.string.entry_info_all_bookmarks));
                         subscriptions.add(Observable.from(entryInfo.getBookmarkList())
                                 .filter(EntryInfoFunc.hasComment())
                                 .toList()
@@ -96,7 +96,7 @@ public class EntryInfoActivity extends ActionBarActivity {
                                     @Override
                                     public void call(List<Bookmark> commentList) {
                                         commentCountTextView.setText(String.valueOf(commentList.size()));
-                                        adapter.addPage(EntryInfoFragment.newFragment(commentList), getString(R.string.entry_info_comments));
+                                        adapter.addPage(BookmarkListFragment.newFragment(commentList), getString(R.string.entry_info_comments));
                                         if (AccountDAO.get() != null) {
                                             adapter.addPage(RegisterBookmarkFragment.newFragment(entryInfo.getUrl()), getString(R.string.entry_info_register_bookmark));
                                         }
