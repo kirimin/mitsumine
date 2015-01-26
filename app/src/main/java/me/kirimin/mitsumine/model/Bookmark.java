@@ -11,11 +11,11 @@ public class Bookmark implements Parcelable {
     private final String user;
     private final List<String> tags;
     private final String timeStamp;
-    private final String comment;
+    private final CharSequence comment;
     private final String userIcon;
     private boolean isPrivate;
 
-    public Bookmark(String user, List<String> tags, String timeStamp, String comment, String userIcon) {
+    public Bookmark(String user, List<String> tags, String timeStamp, CharSequence comment, String userIcon) {
         this.user = user;
         this.tags = tags;
         this.timeStamp = timeStamp;
@@ -35,7 +35,7 @@ public class Bookmark implements Parcelable {
         return timeStamp;
     }
 
-    public String getComment() {
+    public CharSequence getComment() {
         return comment;
     }
 
@@ -51,17 +51,16 @@ public class Bookmark implements Parcelable {
         this.isPrivate = isPrivate;
     }
 
-
     protected Bookmark(Parcel in) {
         user = in.readString();
         if (in.readByte() == 0x01) {
-            tags = new ArrayList<String>();
+            tags = new ArrayList<>();
             in.readList(tags, String.class.getClassLoader());
         } else {
             tags = null;
         }
         timeStamp = in.readString();
-        comment = in.readString();
+        comment = (CharSequence) in.readValue(CharSequence.class.getClassLoader());
         userIcon = in.readString();
         isPrivate = in.readByte() != 0x00;
     }
@@ -81,7 +80,7 @@ public class Bookmark implements Parcelable {
             dest.writeList(tags);
         }
         dest.writeString(timeStamp);
-        dest.writeString(comment);
+        dest.writeValue(comment);
         dest.writeString(userIcon);
         dest.writeByte((byte) (isPrivate ? 0x01 : 0x00));
     }

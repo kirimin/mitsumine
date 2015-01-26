@@ -29,7 +29,7 @@ public class BookmarkListFragment extends Fragment implements BookmarkListAdapte
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bookmark[] bookmarks = (Bookmark[]) getArguments().getParcelableArray("bookmarkList");
         View rootView = inflater.inflate(R.layout.fragment_bookmark_list, container, false);
-        BookmarkListAdapter adapter = new BookmarkListAdapter(getActivity().getApplicationContext(), this);
+        BookmarkListAdapter adapter = new BookmarkListAdapter(getActivity(), this);
         ListView listView = (ListView) rootView.findViewById(R.id.BookmarkListListView);
         listView.setAdapter(adapter);
         adapter.addAll(bookmarks);
