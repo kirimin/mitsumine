@@ -13,9 +13,9 @@ import java.util.List;
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.model.Bookmark;
 import me.kirimin.mitsumine.ui.activity.search.UserSearchActivity;
-import me.kirimin.mitsumine.ui.adapter.EntryInfoAdapter;
+import me.kirimin.mitsumine.ui.adapter.BookmarkListAdapter;
 
-public class BookmarkListFragment extends Fragment implements EntryInfoAdapter.EntryInfoAdapterListener {
+public class BookmarkListFragment extends Fragment implements BookmarkListAdapter.EntryInfoAdapterListener {
 
     public static BookmarkListFragment newFragment(List<Bookmark> bookmarkList) {
         BookmarkListFragment fragment = new BookmarkListFragment();
@@ -29,7 +29,7 @@ public class BookmarkListFragment extends Fragment implements EntryInfoAdapter.E
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bookmark[] bookmarks = (Bookmark[]) getArguments().getParcelableArray("bookmarkList");
         View rootView = inflater.inflate(R.layout.fragment_bookmark_list, container, false);
-        EntryInfoAdapter adapter = new EntryInfoAdapter(getActivity().getApplicationContext(), this);
+        BookmarkListAdapter adapter = new BookmarkListAdapter(getActivity().getApplicationContext(), this);
         ListView listView = (ListView) rootView.findViewById(R.id.BookmarkListListView);
         listView.setAdapter(adapter);
         adapter.addAll(bookmarks);

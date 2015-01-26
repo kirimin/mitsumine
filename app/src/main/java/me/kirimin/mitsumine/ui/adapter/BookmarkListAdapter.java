@@ -16,7 +16,7 @@ import com.squareup.picasso.Transformation;
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.model.Bookmark;
 
-public class EntryInfoAdapter extends ArrayAdapter<Bookmark> implements View.OnClickListener {
+public class BookmarkListAdapter extends ArrayAdapter<Bookmark> implements View.OnClickListener {
 
     public interface EntryInfoAdapterListener {
         void onCommentClick(View v, Bookmark bookmark);
@@ -24,7 +24,7 @@ public class EntryInfoAdapter extends ArrayAdapter<Bookmark> implements View.OnC
 
     private final EntryInfoAdapterListener listener;
 
-    public EntryInfoAdapter(Context context, EntryInfoAdapterListener listener) {
+    public BookmarkListAdapter(Context context, EntryInfoAdapterListener listener) {
         super(context, 0);
         this.listener = listener;
     }
