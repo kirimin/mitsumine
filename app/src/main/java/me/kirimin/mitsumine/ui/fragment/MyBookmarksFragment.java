@@ -79,7 +79,12 @@ public class MyBookmarksFragment extends Fragment implements MyBookmarksAdapter.
         requestApi();
     }
 
+
     private void requestApi() {
+        requestApi(0);
+    }
+
+    private void requestApi(int offset) {
         if (getView() == null) {
             swipeRefreshLayout.setRefreshing(false);
             return;
@@ -88,7 +93,7 @@ public class MyBookmarksFragment extends Fragment implements MyBookmarksAdapter.
         final ListView listView = (ListView) getView().findViewById(R.id.MyBookmarksListView);
         final MyBookmarksAdapter adapter = new MyBookmarksAdapter(getActivity(), this);
         swipeRefreshLayout.setRefreshing(true);
-        subscriptions.add(MyBookmarksApi.request(account, getArguments().getString("keyword"))
+        subscriptions.add(MyBookmarksApi.request(account, getArguments().getString("keyword"), offset)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(MyBookmarksFunc.mapToMyBookmarkList())
