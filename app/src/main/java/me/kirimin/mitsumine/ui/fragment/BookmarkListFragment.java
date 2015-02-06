@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import java.util.Arrays;
 import java.util.List;
 
 import me.kirimin.mitsumine.R;
@@ -27,7 +28,8 @@ public class BookmarkListFragment extends Fragment implements BookmarkListAdapte
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Bookmark[] bookmarks = (Bookmark[]) getArguments().getParcelableArray("bookmarkList");
+        Object[] objects = getArguments().getParcelableArray("bookmarkList");
+        Bookmark[] bookmarks = Arrays.asList(objects).toArray(new Bookmark[objects.length]);
         View rootView = inflater.inflate(R.layout.fragment_bookmark_list, container, false);
         BookmarkListAdapter adapter = new BookmarkListAdapter(getActivity(), this);
         ListView listView = (ListView) rootView.findViewById(R.id.BookmarkListListView);
