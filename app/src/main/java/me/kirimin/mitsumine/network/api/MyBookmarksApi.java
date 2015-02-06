@@ -36,7 +36,6 @@ public class MyBookmarksApi {
                 oAuthService.signRequest(accessToken, request);
                 Response response = request.send();
                 String body = response.getBody();
-                System.out.print(body);
                 try {
                     subscriber.onNext(new JSONObject(body));
                     subscriber.onCompleted();
