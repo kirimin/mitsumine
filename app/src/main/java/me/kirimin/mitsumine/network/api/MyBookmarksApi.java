@@ -17,7 +17,7 @@ import rx.Subscriber;
 
 public class MyBookmarksApi {
 
-    public static Observable<JSONObject> request(final Account account, final String keyword) {
+    public static Observable<JSONObject> request(final Account account, final String keyword, final int offset) {
         return Observable.create(new Observable.OnSubscribe<JSONObject>() {
             @Override
             public void call(Subscriber<? super JSONObject> subscriber) {
@@ -33,10 +33,11 @@ public class MyBookmarksApi {
                 if (!keyword.isEmpty()) {
                     request.addQuerystringParameter("q", keyword);
                 }
+                request.addQuerystringParameter("of", String.valueOf(offset));
+                request.addQuerystringParameter("limit", "50");
                 oAuthService.signRequest(accessToken, request);
                 Response response = request.send();
                 String body = response.getBody();
-                System.out.print(body);
                 try {
                     subscriber.onNext(new JSONObject(body));
                     subscriber.onCompleted();
