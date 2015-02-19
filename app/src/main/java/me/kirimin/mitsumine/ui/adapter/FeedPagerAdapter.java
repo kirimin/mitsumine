@@ -1,9 +1,11 @@
 package me.kirimin.mitsumine.ui.adapter;
 
 import me.kirimin.mitsumine.R;
+
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ public class FeedPagerAdapter extends PagerAdapter implements ViewPager.OnPageCh
 
     private LayoutInflater mInflater;
     private View mLayout;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private OnSlideListener mOnSlideListener;
     private boolean mUseLeft;
     private int mPageNum = 3;
@@ -74,10 +77,20 @@ public class FeedPagerAdapter extends PagerAdapter implements ViewPager.OnPageCh
 
     @Override
     public void onPageSelected(int position) {
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setEnabled(true);
+        }
     }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if (mSwipeRefreshLayout == null) {
+            mSwipeRefreshLayout = searchSwipeRefreshLayout(mLayout);
+        }
+        // スクロール干渉防止
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setEnabled(positionOffset == 0);
+        }
         if (positionOffset != 0) {
             return;
         }
@@ -91,5 +104,16 @@ public class FeedPagerAdapter extends PagerAdapter implements ViewPager.OnPageCh
 
     @Override
     public void onPageScrollStateChanged(int position) {
+    }
+
+    private SwipeRefreshLayout searchSwipeRefreshLayout(View view) {
+        if (view.getParent() == null) {
+            return null;
+        }
+        if (view.getParent() instanceof SwipeRefreshLayout) {
+            return (SwipeRefreshLayout) view.getParent();
+        } else {
+            return searchSwipeRefreshLayout((View) view.getParent());
+        }
     }
 }
