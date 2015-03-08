@@ -119,6 +119,11 @@ public class FeedAdapter extends ArrayAdapter<Feed> implements OnClickListener, 
                         holder.mBookmarkCount.getEditableText().clear();
                         holder.mBookmarkCount.getEditableText().append(s);
                     }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        holder.mBookmarkCount.getEditableText().clear();
+                    }
                 });
         holder.mBookmarkCount.setTag(subscription);
         holder.mThumbnail.setImageResource(R.drawable.no_image);
