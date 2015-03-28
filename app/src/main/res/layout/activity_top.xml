@@ -27,7 +27,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/MainNavigationUserInfoLayout"
+                    android:id="@+id/navigationUserInfoLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/orange"
@@ -35,12 +35,12 @@
                     android:padding="16dp">
 
                     <ImageView
-                        android:id="@+id/MainNavigationUserIconImageView"
+                        android:id="@+id/navigationUserIconImageView"
                         android:layout_width="48dp"
                         android:layout_height="48dp" />
 
                     <TextView
-                        android:id="@+id/MainNavigationUserName"
+                        android:id="@+id/navigationUserName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -51,44 +51,44 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/MainNavigationCategories"
+                    android:id="@+id/navigationCategories"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" />
 
                 <LinearLayout
-                    android:id="@+id/MainNavigationAdditions"
+                    android:id="@+id/navigationAdditions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="1dp"
                     android:orientation="vertical" />
 
                 <TextView
-                    android:id="@+id/MainNavigationKeywordSearchTextView"
+                    android:id="@+id/navigationKeywordSearchTextView"
                     style="@style/NavigationItemOptions"
                     android:drawableLeft="@drawable/ic_action_search"
                     android:text="@string/keyword_search_title" />
 
                 <TextView
-                    android:id="@+id/MainNavigationUserSearchTextView"
+                    android:id="@+id/navigationUserSearchTextView"
                     style="@style/NavigationItemOptions"
                     android:drawableLeft="@drawable/ic_action_search"
                     android:text="@string/user_search_title" />
 
                 <TextView
-                    android:id="@+id/MainNavigationReadTextView"
+                    android:id="@+id/navigationReadTextView"
                     style="@style/NavigationItemOptions"
                     android:drawableLeft="@drawable/ic_action_accept"
                     android:text="@string/read_title" />
 
                 <TextView
-                    android:id="@+id/MainNavigationSettingsTextView"
+                    android:id="@+id/navigationSettingsTextView"
                     style="@style/NavigationItemOptions"
                     android:drawableLeft="@drawable/ic_action_settings"
                     android:text="@string/settings_title" />
 
                 <Button
-                    android:id="@+id/MainNavigationLoginButton"
+                    android:id="@+id/navigationLoginButton"
                     style="@style/NavigationItemOptions"
                     android:drawableLeft="@drawable/ic_account"
                     android:text="@string/settings_login" />
@@ -98,7 +98,7 @@
     </android.support.v4.widget.DrawerLayout>
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/tool_bar"
+        android:id="@+id/toolBar"
         style="@style/MyToolbarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
