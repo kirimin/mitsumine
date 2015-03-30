@@ -2,6 +2,7 @@ package me.kirimin.mitsumine.ui.fragment;
 
 import java.util.List;
 
+import kotlin.jvm.internal.KotlinClass;
 import me.kirimin.mitsumine.R;
 import me.kirimin.mitsumine.db.FeedDAO;
 import me.kirimin.mitsumine.model.Feed;
@@ -68,7 +69,7 @@ abstract public class AbstractFeedFragment extends Fragment implements FeedAdapt
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(feed.entryLinkUrl)));
         } else {
             Intent intent = new Intent(getActivity(), EntryInfoActivity.class);
-            intent.putExtras(EntryInfoActivity.buildBundle(feed.linkUrl));
+            intent.putExtras(EntryInfoActivity.Companion.buildBundle(feed.linkUrl));
             startActivity(intent);
         }
     }

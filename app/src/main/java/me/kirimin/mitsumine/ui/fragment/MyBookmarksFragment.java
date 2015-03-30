@@ -84,7 +84,7 @@ public class MyBookmarksFragment extends Fragment implements MyBookmarksAdapter.
     @Override
     public void onMyBookmarkLongClick(View v, MyBookmark myBookmark) {
         Intent intent = new Intent(getActivity(), EntryInfoActivity.class);
-        intent.putExtras(EntryInfoActivity.buildBundle(myBookmark.getLinkUrl()));
+        intent.putExtras(EntryInfoActivity.Companion.buildBundle(myBookmark.getLinkUrl()));
         startActivity(intent);
     }
 

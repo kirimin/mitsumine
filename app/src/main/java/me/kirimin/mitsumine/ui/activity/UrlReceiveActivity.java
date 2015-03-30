@@ -21,7 +21,7 @@ public class UrlReceiveActivity extends ActionBarActivity {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://b.hatena.ne.jp/entry/" + url)));
             } else {
                 Intent intent = new Intent(getApplicationContext(), EntryInfoActivity.class);
-                intent.putExtras(EntryInfoActivity.buildBundle(url));
+                intent.putExtras(EntryInfoActivity.Companion.buildBundle(url));
                 startActivity(intent);
             }
         }
