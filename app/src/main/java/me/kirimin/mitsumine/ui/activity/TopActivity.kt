@@ -56,7 +56,7 @@ public class TopActivity : ActionBarActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_top)
 
-        // ŒÃ‚¢Šù“Ç‚ğíœ
+        // å¤ã„æ—¢èª­ã‚’å‰Šé™¤
         FeedDAO.deleteOldData()
 
         setSupportActionBar(toolBar)
