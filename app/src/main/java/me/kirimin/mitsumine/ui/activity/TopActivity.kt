@@ -90,7 +90,7 @@ public class TopActivity : ActionBarActivity() {
             drawerLayout.closeDrawers()
         }
         navigationSettingsTextView.setOnClickListener {
-            startActivity(Intent(this, javaClass<SettingsActivity>()))
+            startActivity(Intent(this, javaClass<SettingActivity>()))
             drawerLayout.closeDrawers()
         }
         navigationKeywordSearchTextView.setOnClickListener {
