@@ -8,12 +8,9 @@ import me.kirimin.mitsumine.model.Account
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.DialogInterface.OnClickListener
 import android.os.Bundle
 import android.preference.Preference
-import android.preference.Preference.OnPreferenceClickListener
 import android.preference.PreferenceFragment
-import android.support.v7.app.ActionBar
 import android.support.v7.app.ActionBarActivity
 import android.view.MenuItem
 import android.widget.EditText
