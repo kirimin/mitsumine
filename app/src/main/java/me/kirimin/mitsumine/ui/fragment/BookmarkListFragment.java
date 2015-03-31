@@ -41,7 +41,7 @@ public class BookmarkListFragment extends Fragment implements BookmarkListAdapte
     @Override
     public void onCommentClick(View v, Bookmark bookmark) {
         Intent intent = new Intent(getActivity(), UserSearchActivity.class);
-        intent.putExtras(UserSearchActivity.buildBundle(bookmark.getUser()));
+        intent.putExtras(UserSearchActivity.Companion.buildBundle(bookmark.getUser()));
         startActivity(intent);
     }
 }
