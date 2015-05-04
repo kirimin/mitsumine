@@ -39,10 +39,10 @@ public class TagEditDialogFragment : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val tags = getArguments().getStringArrayList("tags")
         val rootView = inflater.inflate(R.layout.dialog_fragment_tag_edit, container, false)
-        rootView.listView.setAdapter(TagEditDialogFragmentAdapter(getActivity(), tags, { onClickEvent ->
+        rootView.listView.setAdapter(TagEditDialogFragmentAdapter(getActivity(), tags, Action1 { onClickEvent ->
             val adapter = rootView.listView.getAdapter() as TagEditDialogFragmentAdapter
             adapter.remove(onClickEvent.view().getTag() as String)
-    }))
+        }))
         rootView.okButton.setOnClickListener {
             val adapter = rootView.listView.getAdapter() as TagEditDialogFragmentAdapter
             (getTargetFragment() as OnOkClickListener).onOkClick(adapter.getAllItem())

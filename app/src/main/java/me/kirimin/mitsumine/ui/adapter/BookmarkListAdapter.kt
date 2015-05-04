@@ -41,8 +41,8 @@ public class BookmarkListAdapter(activity: Activity, private val listener: Bookm
             view.setTag(holder)
             holder.comment.setOnTouchListener { v, event ->
                 val linkMovementMethod = IfNeededLinkMovementMethod()
-                val onTouchResult = linkMovementMethod.onTouchEvent(holder.comment, holder.comment.getText() as Spannable, event);
                 holder.comment.setMovementMethod(linkMovementMethod)
+                val onTouchResult = linkMovementMethod.onTouchEvent(holder.comment, holder.comment.getText() as Spannable, event);
                 holder.comment.setMovementMethod(null)
                 holder.comment.setFocusable(false)
                 onTouchResult
