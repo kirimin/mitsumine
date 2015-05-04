@@ -10,7 +10,7 @@ import android.widget.TextView
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.model.MyBookmark
 
-public class MyBookmarksAdapter(context: Context, private val listener: MyBookmarksAdapter.OnMyBookmarkClickListener) : ArrayAdapter<MyBookmark>(context, 0), View.OnClickListener, View.OnLongClickListener {
+public class MyBookmarksAdapter(context: Context, private val listener: MyBookmarksAdapter.OnMyBookmarkClickListener) : ArrayAdapter<MyBookmark>(context, 0) {
 
     public trait OnMyBookmarkClickListener {
         public fun onMyBookmarkClick(v: View, myBookmark: MyBookmark)
@@ -34,21 +34,15 @@ public class MyBookmarksAdapter(context: Context, private val listener: MyBookma
         }
         val bookmark = getItem(position)
         holder.cardView.setTag(bookmark)
-        holder.cardView.setOnClickListener(this)
-        holder.cardView.setOnLongClickListener(this)
+        holder.cardView.setOnClickListener { v -> listener.onMyBookmarkClick(v, v.getTag() as MyBookmark) }
+        holder.cardView.setOnLongClickListener { v ->
+            listener.onMyBookmarkLongClick(v, v.getTag() as MyBookmark)
+            false
+        }
         holder.title.setText(bookmark.getTitle())
         holder.userCount.setText(bookmark.getBookmarkCount().toString() + getContext().getString(R.string.users_lower_case))
         holder.url.setText(bookmark.getLinkUrl())
         return view
-    }
-
-    override fun onClick(v: View) {
-        listener.onMyBookmarkClick(v, v.getTag() as MyBookmark)
-    }
-
-    override fun onLongClick(v: View): Boolean {
-        listener.onMyBookmarkLongClick(v, v.getTag() as MyBookmark)
-        return false
     }
 
     class ViewHolder(
