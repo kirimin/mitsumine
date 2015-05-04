@@ -19,27 +19,27 @@ public class MyBookmarksAdapter(context: Context, private val listener: MyBookma
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
+        val view: View
         val holder: ViewHolder
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_my_bookmarks, null)
-            holder = ViewHolder()
-            holder.cardView = convertView!!.findViewById(R.id.card_view)
-            holder.title = convertView!!.findViewById(R.id.MyBookmarksTitleTextView) as TextView
-            holder.userCount = convertView!!.findViewById(R.id.MyBookmarksUsersTextView) as TextView
-            holder.url = convertView!!.findViewById(R.id.MyBookmarksUrlTextView) as TextView
-            convertView!!.setTag(holder)
+            view = LayoutInflater.from(getContext()).inflate(R.layout.row_my_bookmarks, null)
+            holder = ViewHolder(view.findViewById(R.id.card_view),
+                    view.findViewById(R.id.MyBookmarksTitleTextView) as TextView,
+                    view.findViewById(R.id.MyBookmarksUsersTextView) as TextView,
+                    view.findViewById(R.id.MyBookmarksUrlTextView) as TextView)
+            view.setTag(holder)
         } else {
-            holder = convertView!!.getTag() as ViewHolder
+            view = convertView
+            holder = view.getTag() as ViewHolder
         }
         val bookmark = getItem(position)
         holder.cardView.setTag(bookmark)
         holder.cardView.setOnClickListener(this)
         holder.cardView.setOnLongClickListener(this)
         holder.title.setText(bookmark.getTitle())
-        holder.userCount.setText(bookmark.getBookmarkCount() + getContext().getString(R.string.users_lower_case))
+        holder.userCount.setText(bookmark.getBookmarkCount().toString() + getContext().getString(R.string.users_lower_case))
         holder.url.setText(bookmark.getLinkUrl())
-        return convertView
+        return view
     }
 
     override fun onClick(v: View) {
@@ -51,10 +51,10 @@ public class MyBookmarksAdapter(context: Context, private val listener: MyBookma
         return false
     }
 
-    class ViewHolder {
-        var cardView: View
-        var title: TextView
-        var userCount: TextView
-        var url: TextView
+    class ViewHolder(
+            val cardView: View,
+            val title: TextView,
+            val userCount: TextView,
+            val url: TextView) {
     }
 }
