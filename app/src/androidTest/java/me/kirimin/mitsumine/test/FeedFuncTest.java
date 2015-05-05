@@ -35,10 +35,10 @@ public class FeedFuncTest {
         list.add(test1);
         list.add(test3);
 
-        assertThat(FeedFunc.notContains(list).call(test1), is(false));
-        assertThat(FeedFunc.notContains(list).call(test2), is(true));
-        assertThat(FeedFunc.notContains(list).call(test3), is(false));
-        assertThat(FeedFunc.notContains(list).call(test4), is(false));
+        assertThat(!FeedFunc.Companion.contains(test1, list), is(false));
+        assertThat(!FeedFunc.Companion.contains(test2, list), is(true));
+        assertThat(!FeedFunc.Companion.contains(test3, list), is(false));
+        assertThat(!FeedFunc.Companion.contains(test4, list), is(false));
     }
 
     @Test
@@ -63,8 +63,8 @@ public class FeedFuncTest {
         test3.linkUrl = "testA";
         test3.content = "testContent";
 
-        assertThat(FeedFunc.notContainsWord(list).call(test1), is(true));
-        assertThat(FeedFunc.notContainsWord(list).call(test2), is(false));
-        assertThat(FeedFunc.notContainsWord(list).call(test3), is(false));
+        assertThat(!FeedFunc.Companion.containsWord(test1, list), is(true));
+        assertThat(!FeedFunc.Companion.containsWord(test2, list), is(false));
+        assertThat(!FeedFunc.Companion.containsWord(test3, list), is(false));
     }
 }

@@ -8,7 +8,7 @@
     android:padding="8dp">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/card_view"
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
@@ -32,14 +32,14 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/RegisterBookmarkCommentEditText"
+                        android:id="@+id/commentEditText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="@string/register_bookmark_comment_hint" />
 
                     <TextView
-                        android:id="@+id/RegisterBookmarkCommentCountTextView"
+                        android:id="@+id/commentCountTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
@@ -62,7 +62,7 @@
                         android:textSize="@dimen/text_large" />
 
                     <TextView
-                        android:id="@+id/RegisterBookmarkTagListText"
+                        android:id="@+id/tagListText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -71,12 +71,12 @@
                         android:textSize="@dimen/text_large" />
 
                     <Button
-                        android:id="@+id/RegisterBookmarkTagEditButton"
+                        android:id="@+id/tagEditButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/register_bookmark_tag_edit"
                         android:textSize="@dimen/text_medium"
-                        android:textColor="@color/text"/>
+                        android:textColor="@color/text" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -86,7 +86,7 @@
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/RegisterBookmarkBookmarkPrivateCheckBox"
+                        android:id="@+id/privateCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/register_bookmark_private"
@@ -95,14 +95,14 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/RegisterBookmarkRegisterButton"
+                    android:id="@+id/registerButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:textSize="@dimen/text_medium" />
 
                 <Button
-                    android:id="@+id/RegisterBookmarkDeleteButton"
+                    android:id="@+id/deleteButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/register_bookmark_delete"

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 21
@@ -22,6 +23,9 @@ android {
     packagingOptions {
         exclude 'LICENSE.txt'
     }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
 }
 
 dependencies {
@@ -40,4 +44,18 @@ dependencies {
 
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
     androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
+buildscript {
+    ext.kotlin_version = '0.11.91.1'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
+    }
+}
+repositories {
+    mavenCentral()
 }

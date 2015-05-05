@@ -22,9 +22,9 @@ public class EntryInfoFuncTest {
         Bookmark bookmark2 = new Bookmark("user", new ArrayList<String>(), "timestamp", "コメント", "icon");
         Bookmark bookmark3 = new Bookmark("user", new ArrayList<String>(), "timestamp", " ", "icon");
         Bookmark bookmark4 = new Bookmark("user", new ArrayList<String>(), "timestamp", "", "icon");
-        assertThat(EntryInfoFunc.hasComment().call(bookmark1), is(true));
-        assertThat(EntryInfoFunc.hasComment().call(bookmark2), is(true));
-        assertThat(EntryInfoFunc.hasComment().call(bookmark3), is(true));
-        assertThat(EntryInfoFunc.hasComment().call(bookmark4), is(false));
+        assertThat(EntryInfoFunc.Companion.hasComment(bookmark1), is(true));
+        assertThat(EntryInfoFunc.Companion.hasComment(bookmark2), is(true));
+        assertThat(EntryInfoFunc.Companion.hasComment(bookmark3), is(true));
+        assertThat(EntryInfoFunc.Companion.hasComment(bookmark4), is(false));
     }
 }
