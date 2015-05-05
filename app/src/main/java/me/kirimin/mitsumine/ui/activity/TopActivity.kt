@@ -214,7 +214,7 @@ public class TopActivity : ActionBarActivity() {
     }
 
     private fun makeNavigationCategoryButton(category: CATEGORY): View {
-        return makeNavigationButton(getString(category.getLabelResource()), OnClickListener { v ->
+        return makeNavigationButton(getString(category.labelResource), OnClickListener { v ->
             drawerLayout.closeDrawers()
             mSelectedCategory = category
             refreshShowCategoryAndType()
@@ -231,12 +231,12 @@ public class TopActivity : ActionBarActivity() {
     }
 
     private fun refreshShowCategoryAndType() {
-        getSupportActionBar().setTitle(mSelectedCategory.getLabelResource())
+        getSupportActionBar().setTitle(mSelectedCategory.labelResource)
         getSupportActionBar().setSelectedNavigationItem(if (mSelectedType == TYPE.HOT) 0 else 1)
         getSupportFragmentManager().beginTransaction().replace(R.id.containerFrameLayout, FeedFragment.newFragment(mSelectedCategory, mSelectedType)).commit()
         for (i in 0..navigationCategories.getChildCount() - 1) {
             val categoryButton = navigationCategories.getChildAt(i).findViewById(R.id.MainNavigationTextView) as TextView
-            val isSelectedCategory = categoryButton.getText() == getString(mSelectedCategory.getLabelResource())
+            val isSelectedCategory = categoryButton.getText() == getString(mSelectedCategory.labelResource)
             categoryButton.setTextColor(getResources().getColor(if (isSelectedCategory) R.color.orange else R.color.text))
         }
     }

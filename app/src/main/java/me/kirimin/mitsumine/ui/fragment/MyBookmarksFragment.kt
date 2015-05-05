@@ -102,9 +102,8 @@ public class MyBookmarksFragment : Fragment(), MyBookmarksAdapter.OnMyBookmarkCl
         if (getView() == null) {
             return
         }
-        val account = AccountDAO.get()
         getView().swipeLayout.setRefreshing(true)
-        subscriptions.add(MyBookmarksApi.request(account, getArguments().getString("keyword"), offset)
+        subscriptions.add(MyBookmarksApi.request(AccountDAO.get()!!, getArguments().getString("keyword"), offset)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { jsonObject ->

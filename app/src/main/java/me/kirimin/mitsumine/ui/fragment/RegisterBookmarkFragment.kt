@@ -54,7 +54,7 @@ public class RegisterBookmarkFragment : Fragment(), TagEditDialogFragment.OnOkCl
         }
         val rootView = inflater.inflate(R.layout.fragment_register_bookmark, container, false)
         rootView.cardView.setVisibility(View.INVISIBLE)
-        subscriptions.add(BookmarkApi.requestBookmarkInfo(url, AccountDAO.get())
+        subscriptions.add(BookmarkApi.requestBookmarkInfo(url, AccountDAO.get()!!)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(EntryInfoFunc.mapToMyBookmarkInfo())
@@ -75,7 +75,7 @@ public class RegisterBookmarkFragment : Fragment(), TagEditDialogFragment.OnOkCl
         rootView.registerButton.setOnClickListener {
             rootView.registerButton.setEnabled(false)
             rootView.deleteButton.setEnabled(false)
-            subscriptions.add(BookmarkApi.requestAddBookmark(url, AccountDAO.get(), rootView.commentEditText.getText().toString(), tags, rootView.privateCheckBox.isChecked())
+            subscriptions.add(BookmarkApi.requestAddBookmark(url, AccountDAO.get()!!, rootView.commentEditText.getText().toString(), tags, rootView.privateCheckBox.isChecked())
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
@@ -91,7 +91,7 @@ public class RegisterBookmarkFragment : Fragment(), TagEditDialogFragment.OnOkCl
         }
         rootView.deleteButton.setOnClickListener {
             rootView.deleteButton.setEnabled(false)
-            subscriptions.add(BookmarkApi.requestDeleteBookmark(url, AccountDAO.get())
+            subscriptions.add(BookmarkApi.requestDeleteBookmark(url, AccountDAO.get()!!)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
