@@ -27,7 +27,7 @@ public class EntryInfoApiTest {
     @Test
     public void requestTest() throws InterruptedException, ApiRequestException {
         final String url = "http://kirimin.hatenablog.com/entry/20140629/1404039922";
-        EntryInfoApi.request(RequestQueueSingleton.Companion.get(InstrumentationRegistry.getContext()), url)
+        EntryInfoApi.Companion.request(RequestQueueSingleton.Companion.get(InstrumentationRegistry.getContext()), url)
                 .subscribe(new Action1<JSONObject>() {
                     @Override
                     public void call(JSONObject jsonObject) {
