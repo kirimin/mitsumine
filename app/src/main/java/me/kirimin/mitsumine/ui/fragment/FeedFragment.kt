@@ -35,9 +35,8 @@ public class FeedFragment : AbstractFeedFragment() {
         subscriptions.add(FeedApi.requestCategory(RequestQueueSingleton.get(getActivity()), category, type)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .flatMap<Feed>(FeedFunc.mapToFeedList())
-                .filter(FeedFunc.notContains(readFeedList))
-                .filter(FeedFunc.notContainsWord(ngWordList))
+                .flatMap { obj -> FeedFunc.jsonToObservable(obj) }
+                .filter { feed -> !FeedFunc.contains(feed, readFeedList) && !FeedFunc.containsWord(feed, ngWordList) }
                 .toList()
                 .subscribe ({ feedList ->
                     clearFeed()

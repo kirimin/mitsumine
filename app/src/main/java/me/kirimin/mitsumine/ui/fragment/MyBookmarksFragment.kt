@@ -111,7 +111,7 @@ public class MyBookmarksFragment : Fragment(), MyBookmarksAdapter.OnMyBookmarkCl
                     total = jsonObject.getJSONObject("meta").getInt("total")
                     jsonObject
                 }
-                .flatMap(MyBookmarksFunc.mapToMyBookmarkList())
+                .flatMap { jsonObject -> MyBookmarksFunc.toObservable(jsonObject) }
                 .subscribe({ myBookmark ->
                     adapter!!.add(myBookmark)
                 }, { e ->

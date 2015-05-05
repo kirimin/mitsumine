@@ -53,8 +53,8 @@ public class EntryInfoActivity : ActionBarActivity() {
         subscriptions.add(EntryInfoApi.request(RequestQueueSingleton.get(getApplicationContext()), url)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map<EntryInfo>(EntryInfoFunc.mapToEntryInfo())
-                .filter(EntryInfoFunc.isNotNullEntryInfo())
+                .map { response -> EntryInfoFunc.toEntryInfo(response) }
+                .filter { entryInfo -> !entryInfo.isNullObject() }
                 .subscribe ({ entryInfo ->
                     countLayout.setVisibility(View.VISIBLE)
                     titleTextView.setText(entryInfo.getTitle())
@@ -64,7 +64,7 @@ public class EntryInfoActivity : ActionBarActivity() {
                     val adapter = EntryInfoPagerAdapter(getSupportFragmentManager())
                     adapter.addPage(BookmarkListFragment.newFragment(entryInfo.getBookmarkList()), getString(R.string.entry_info_all_bookmarks))
                     subscriptions.add(Observable.from<Bookmark>(entryInfo.getBookmarkList())
-                            .filter(EntryInfoFunc.hasComment())
+                            .filter { bookmark -> EntryInfoFunc.hasComment(bookmark) }
                             .toList()
                             .subscribe { commentList ->
                                 commentCountTextView.setText(commentList.size().toString())

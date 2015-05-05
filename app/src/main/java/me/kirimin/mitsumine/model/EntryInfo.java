@@ -18,6 +18,18 @@ public class EntryInfo {
         this.bookmarkList = bookmarkList;
     }
 
+    public EntryInfo() {
+        this.title = "empty";
+        this.bookmarkCount = 0;
+        this.url = "";
+        this.thumbnailUrl = "";
+        this.bookmarkList = null;
+    }
+
+    public boolean isNullObject() {
+        return getTitle().equals("empty");
+    }
+
     public String getTitle() {
         return title;
     }
