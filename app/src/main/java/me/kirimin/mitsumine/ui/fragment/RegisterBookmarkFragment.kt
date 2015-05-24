@@ -60,8 +60,8 @@ public class RegisterBookmarkFragment : Fragment(), TagEditDialogFragment.OnOkCl
                 .map(EntryInfoFunc.mapToMyBookmarkInfo())
                 .subscribe({ bookmark ->
                     rootView.cardView.setVisibility(View.VISIBLE)
-                    changeBookmarkStatus(isAlreadyBookmarked)
-                    if (!isAlreadyBookmarked) {
+                    changeBookmarkStatus(bookmark != null)
+                    if (bookmark == null) {
                         rootView.commentEditText.setText("")
                     } else {
                         tags = ArrayList(bookmark.tags)
