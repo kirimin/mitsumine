@@ -36,7 +36,7 @@ public class SettingFragment : PreferenceFragment() {
     }
 
     private fun createEditNGWordDialog(): AlertDialog {
-        val ngWordList = NGWordDAO.findAll()
+        val ngWordList = NGWordDAO.findAll().plus(getString(R.string.settings_ngword_add))
         return AlertDialog.Builder(getActivity())
                 .setTitle(R.string.settings_ngword)
                 .setItems(ngWordList.copyToArray(), { dialog, which ->
