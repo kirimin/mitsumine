@@ -39,9 +39,9 @@ public class MyBookmarksAdapter(context: Context, private val listener: MyBookma
             listener.onMyBookmarkLongClick(v, v.getTag() as MyBookmark)
             false
         }
-        holder.title.setText(bookmark.getTitle())
-        holder.userCount.setText(bookmark.getBookmarkCount().toString() + getContext().getString(R.string.users_lower_case))
-        holder.url.setText(bookmark.getLinkUrl())
+        holder.title.setText(bookmark.title)
+        holder.userCount.setText(bookmark.bookmarkCount.toString() + getContext().getString(R.string.users_lower_case))
+        holder.url.setText(bookmark.linkUrl)
         return view
     }
 

@@ -71,12 +71,12 @@ public class MyBookmarksFragment : Fragment(), MyBookmarksAdapter.OnMyBookmarkCl
     }
 
     override fun onMyBookmarkClick(v: View, myBookmark: MyBookmark) {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(myBookmark.getLinkUrl())))
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(myBookmark.linkUrl)))
     }
 
     override fun onMyBookmarkLongClick(v: View, myBookmark: MyBookmark) {
         val intent = Intent(getActivity(), javaClass<EntryInfoActivity>())
-        intent.putExtras(EntryInfoActivity.buildBundle(myBookmark.getLinkUrl()))
+        intent.putExtras(EntryInfoActivity.buildBundle(myBookmark.linkUrl))
         startActivity(intent)
     }
 

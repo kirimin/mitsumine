@@ -60,13 +60,12 @@ public class RegisterBookmarkFragment : Fragment(), TagEditDialogFragment.OnOkCl
                 .map(EntryInfoFunc.mapToMyBookmarkInfo())
                 .subscribe({ bookmark ->
                     rootView.cardView.setVisibility(View.VISIBLE)
-                    val isAlreadyBookmarked = bookmark != null
                     changeBookmarkStatus(isAlreadyBookmarked)
                     if (!isAlreadyBookmarked) {
                         rootView.commentEditText.setText("")
                     } else {
-                        tags = ArrayList(bookmark.getTags())
-                        rootView.commentEditText.setText(bookmark.getComment())
+                        tags = ArrayList(bookmark.tags)
+                        rootView.commentEditText.setText(bookmark.comment)
                         rootView.tagListText.setText(TextUtils.join(", ", tags))
                         rootView.privateCheckBox.setChecked(bookmark.isPrivate())
                     }

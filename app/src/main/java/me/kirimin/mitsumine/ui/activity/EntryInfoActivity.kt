@@ -57,20 +57,20 @@ public class EntryInfoActivity : ActionBarActivity() {
                 .filter { entryInfo -> !entryInfo.isNullObject() }
                 .subscribe ({ entryInfo ->
                     countLayout.setVisibility(View.VISIBLE)
-                    titleTextView.setText(entryInfo.getTitle())
-                    bookmarkCountTextView.setText(entryInfo.getBookmarkCount().toString())
-                    Picasso.with(getApplicationContext()).load(entryInfo.getThumbnailUrl()).fit().into(thumbnailImageView)
+                    titleTextView.setText(entryInfo.title)
+                    bookmarkCountTextView.setText(entryInfo.bookmarkCount.toString())
+                    Picasso.with(getApplicationContext()).load(entryInfo.thumbnailUrl).fit().into(thumbnailImageView)
 
                     val adapter = EntryInfoPagerAdapter(getSupportFragmentManager())
-                    adapter.addPage(BookmarkListFragment.newFragment(entryInfo.getBookmarkList()), getString(R.string.entry_info_all_bookmarks))
-                    subscriptions.add(Observable.from<Bookmark>(entryInfo.getBookmarkList())
+                    adapter.addPage(BookmarkListFragment.newFragment(entryInfo.bookmarkList), getString(R.string.entry_info_all_bookmarks))
+                    subscriptions.add(Observable.from<Bookmark>(entryInfo.bookmarkList)
                             .filter { bookmark -> EntryInfoFunc.hasComment(bookmark) }
                             .toList()
                             .subscribe { commentList ->
                                 commentCountTextView.setText(commentList.size().toString())
                                 adapter.addPage(BookmarkListFragment.newFragment(commentList), getString(R.string.entry_info_comments))
                                 AccountDAO.get()?.let {
-                                    adapter.addPage(RegisterBookmarkFragment.newFragment(entryInfo.getUrl()), getString(R.string.entry_info_register_bookmark))
+                                    adapter.addPage(RegisterBookmarkFragment.newFragment(entryInfo.url), getString(R.string.entry_info_register_bookmark))
                                 }
                                 commentsViewPager.setAdapter(adapter)
                                 commentsViewPager.setCurrentItem(1)

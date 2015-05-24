@@ -3,10 +3,9 @@ package me.kirimin.mitsumine.db
 import com.activeandroid.Model
 import java.util.ArrayList
 
-import me.kirimin.mitsumine.model.NGWord
-
 import com.activeandroid.query.Delete
 import com.activeandroid.query.Select
+import me.kirimin.mitsumine.model.NGWord
 
 public class NGWordDAO private() {
     companion object {

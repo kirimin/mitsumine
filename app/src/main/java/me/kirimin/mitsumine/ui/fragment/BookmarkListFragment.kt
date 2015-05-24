@@ -42,7 +42,7 @@ public class BookmarkListFragment : Fragment(), BookmarkListAdapter.EntryInfoAda
 
     override fun onCommentClick(v: View, bookmark: Bookmark) {
         val intent = Intent(getActivity(), javaClass<UserSearchActivity>())
-        intent.putExtras(SearchActivity.buildBundle(bookmark.getUser()))
+        intent.putExtras(SearchActivity.buildBundle(bookmark.user))
         startActivity(intent)
     }
 }

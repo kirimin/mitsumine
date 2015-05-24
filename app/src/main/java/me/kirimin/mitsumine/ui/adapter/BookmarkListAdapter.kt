@@ -54,12 +54,12 @@ public class BookmarkListAdapter(activity: Activity, private val listener: Bookm
         val bookmark = getItem(position)
         holder.cardView.setOnClickListener(this)
         holder.cardView.setTag(bookmark)
-        holder.userName.setText(bookmark.getUser())
-        holder.comment.setText(bookmark.getComment())
-        holder.tag.setText(TextUtils.join(", ", bookmark.getTags()))
-        holder.timeStamp.setText(bookmark.getTimeStamp())
+        holder.userName.setText(bookmark.user)
+        holder.comment.setText(bookmark.comment)
+        holder.tag.setText(TextUtils.join(", ", bookmark.tags))
+        holder.timeStamp.setText(bookmark.timeStamp)
         val transformation = RoundedTransformationBuilder().borderWidthDp(0f).cornerRadiusDp(32f).oval(false).build()
-        Picasso.with(getContext()).load(bookmark.getUserIcon()).fit().transform(transformation).into(holder.userIcon)
+        Picasso.with(getContext()).load(bookmark.userIcon).fit().transform(transformation).into(holder.userIcon)
         return view
     }
 

@@ -33,7 +33,7 @@ public class EntryInfoFunc {
         }
 
         public fun hasComment(bookmark: Bookmark): Boolean {
-            return !bookmark.getComment().toString().isEmpty()
+            return !bookmark.comment.toString().isEmpty()
         }
 
         public fun mapToMyBookmarkInfo(): Func1<JSONObject, Bookmark> {
