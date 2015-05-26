@@ -137,7 +137,7 @@ public class FeedAdapter(context: Context, private val mListener: FeedAdapter.Fe
         } else {
             mListener.onFeedLongClick(v)
         }
-        return false
+        return true
     }
 
     private class ViewHolder(
