@@ -60,7 +60,7 @@ public class RegisterBookmarkFragment : Fragment(), TagEditDialogFragment.OnOkCl
                         rootView.tagListText.setText(TextUtils.join(", ", tags))
                         rootView.privateCheckBox.setChecked(bookmark.isPrivate())
                     }
-                }, { e -> showToastIfExistsActivity(R.string.network_error) }))
+                }, { e -> Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show() }))
 
         rootView.registerButton.setOnClickListener {
             rootView.registerButton.setEnabled(false)
@@ -69,14 +69,16 @@ public class RegisterBookmarkFragment : Fragment(), TagEditDialogFragment.OnOkCl
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        showToastIfExistsActivity(if (isAlreadyBookmarked) R.string.register_bookmark_edit_success else R.string.register_bookmark_register_success)
+                        Toast.makeText(getActivity(),
+                                if (isAlreadyBookmarked) R.string.register_bookmark_edit_success else R.string.register_bookmark_register_success,
+                                Toast.LENGTH_SHORT).show()
                         changeBookmarkStatus(true)
                         rootView.registerButton.setEnabled(true)
                         rootView.deleteButton.setEnabled(true)
                     }, {
                         rootView.registerButton.setEnabled(true)
                         rootView.deleteButton.setEnabled(true)
-                        showToastIfExistsActivity(R.string.network_error)
+                        Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show()
                     }))
         }
         rootView.deleteButton.setOnClickListener {
@@ -86,10 +88,10 @@ public class RegisterBookmarkFragment : Fragment(), TagEditDialogFragment.OnOkCl
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         changeBookmarkStatus(false)
-                        showToastIfExistsActivity(R.string.register_bookmark_delete_success)
+                        Toast.makeText(getActivity(), R.string.register_bookmark_delete_success, Toast.LENGTH_SHORT).show()
                     }, {
                         rootView.deleteButton.setEnabled(true)
-                        showToastIfExistsActivity(R.string.network_error)
+                        Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show()
                     }))
         }
         WidgetObservable.text(rootView.commentEditText)
@@ -117,11 +119,5 @@ public class RegisterBookmarkFragment : Fragment(), TagEditDialogFragment.OnOkCl
         this.isAlreadyBookmarked = isAlreadyBookmarked
         getView().deleteButton.setEnabled(isAlreadyBookmarked)
         getView().registerButton.setText(getString(if (isAlreadyBookmarked) R.string.register_bookmark_edit else R.string.register_bookmark_resister))
-    }
-
-    private fun showToastIfExistsActivity(messageResourceId: Int) {
-        getActivity().let {
-            Toast.makeText(getActivity(), messageResourceId, Toast.LENGTH_SHORT).show()
-        }
     }
 }
