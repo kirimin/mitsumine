@@ -19,7 +19,7 @@ import rx.Subscriber
 public class BookmarkApi {
     companion object {
 
-        public fun requestAddBookmark(url: String, account: Account, comment: String, tags: List<String>, isPrivate: Boolean): Observable<JSONObject> {
+        public fun requestAddBookmark(url: String, account: Account, comment: String, tags: List<String>, isPrivate: Boolean, isTwitter: Boolean): Observable<JSONObject> {
             return Observable.create<JSONObject>{ subscriber ->
                 val request = OAuthRequest(Verb.POST, "http://api.b.hatena.ne.jp/1/my/bookmark")
                 request.addQuerystringParameter("url", url)
@@ -29,6 +29,9 @@ public class BookmarkApi {
                 }
                 if (isPrivate) {
                     request.addQuerystringParameter("private", "true")
+                }
+                if (isTwitter){
+                    request.addQuerystringParameter("post_twitter", "true")
                 }
                 val response = ApiAccessor.oAuthRequest(account, request)
                 if (response.getCode() != 200) {

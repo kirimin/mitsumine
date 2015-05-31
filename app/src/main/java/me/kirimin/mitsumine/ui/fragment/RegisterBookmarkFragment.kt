@@ -74,7 +74,7 @@ public class RegisterBookmarkFragment : Fragment(), TagEditDialogFragment.OnOkCl
         rootView.registerButton.setOnClickListener {
             rootView.registerButton.setEnabled(false)
             rootView.deleteButton.setEnabled(false)
-            subscriptions.add(BookmarkApi.requestAddBookmark(url, AccountDAO.get()!!, rootView.commentEditText.getText().toString(), tags, rootView.privateCheckBox.isChecked())
+            subscriptions.add(BookmarkApi.requestAddBookmark(url, AccountDAO.get()!!, rootView.commentEditText.getText().toString(), tags, rootView.privateCheckBox.isChecked(), rootView.postTwitterCheckBox.isChecked())
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
