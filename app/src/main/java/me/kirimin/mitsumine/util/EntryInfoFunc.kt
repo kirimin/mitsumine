@@ -68,7 +68,7 @@ public class EntryInfoFunc {
                 val comment = parseCommentToHtmlTag(bookmark.getString("comment"))
                 val timeStampTmp = bookmark.getString("timestamp")
                 val timeStamp = timeStampTmp.substring(0, timeStampTmp.indexOf(" "))
-                val userIcon = "http://n.hatena.com/" + user + "/profile/image.gif?type=face&size=64"
+                val userIcon = "http://cdn1.www.st-hatena.com/users/" + user.subSequence(0, 2) + "/" + user + "/profile.gif"
                 val tags = parseTags(bookmark.getJSONArray("tags"))
                 bookmarkList.add(Bookmark(user, tags, timeStamp, comment, userIcon))
             }
