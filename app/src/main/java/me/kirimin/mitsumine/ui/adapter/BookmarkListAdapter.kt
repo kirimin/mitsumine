@@ -20,12 +20,8 @@ import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.model.Bookmark
 import me.kirimin.mitsumine.ui.event.IfNeededLinkMovementMethod
 
-public class BookmarkListAdapter(activity: Activity, private val listener: BookmarkListAdapter.EntryInfoAdapterListener?)// MovementMethod内でブラウザ遷移時にContextがactivityじゃないと例外が発生するためActivityを取得
-: ArrayAdapter<Bookmark>(activity, 0), View.OnClickListener {
-
-    public trait EntryInfoAdapterListener {
-        public fun onCommentClick(v: View, bookmark: Bookmark)
-    }
+public class BookmarkListAdapter(activity: Activity, private val onCommentClick: (v: View, bookmark: Bookmark) -> Unit) :
+        ArrayAdapter<Bookmark>(activity, 0), View.OnClickListener {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
@@ -64,10 +60,7 @@ public class BookmarkListAdapter(activity: Activity, private val listener: Bookm
     }
 
     override fun onClick(v: View) {
-        if (listener == null) {
-            return
-        }
-        listener.onCommentClick(v, v.getTag() as Bookmark)
+        onCommentClick(v, v.getTag() as Bookmark)
     }
 
 

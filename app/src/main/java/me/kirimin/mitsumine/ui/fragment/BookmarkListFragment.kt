@@ -18,7 +18,7 @@ import me.kirimin.mitsumine.ui.adapter.BookmarkListAdapter
 
 import kotlinx.android.synthetic.fragment_bookmark_list.view.*
 
-public class BookmarkListFragment : Fragment(), BookmarkListAdapter.EntryInfoAdapterListener {
+public class BookmarkListFragment : Fragment() {
 
     companion object {
 
@@ -34,15 +34,13 @@ public class BookmarkListFragment : Fragment(), BookmarkListAdapter.EntryInfoAda
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val bookmarks = getArguments().getParcelableArray("bookmarkList").map { o -> o as Bookmark }
         val rootView = inflater.inflate(R.layout.fragment_bookmark_list, container, false)
-        val adapter = BookmarkListAdapter(getActivity(), this)
+        val adapter = BookmarkListAdapter(getActivity(), { v, bookmark ->
+            val intent = Intent(getActivity(), javaClass<UserSearchActivity>())
+            intent.putExtras(SearchActivity.buildBundle(bookmark.user))
+            startActivity(intent)
+        })
         rootView.listView.setAdapter(adapter)
         adapter.addAll(bookmarks)
         return rootView
-    }
-
-    override fun onCommentClick(v: View, bookmark: Bookmark) {
-        val intent = Intent(getActivity(), javaClass<UserSearchActivity>())
-        intent.putExtras(SearchActivity.buildBundle(bookmark.user))
-        startActivity(intent)
     }
 }
