@@ -6,25 +6,16 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.TextView
 import android.widget.Toast
-
-import org.json.JSONObject
 
 import java.util.ArrayList
 
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.db.AccountDAO
-import me.kirimin.mitsumine.model.Bookmark
 import me.kirimin.mitsumine.network.api.BookmarkApi
 import me.kirimin.mitsumine.util.EntryInfoFunc
 import rx.android.schedulers.AndroidSchedulers
-import rx.android.widget.OnTextChangeEvent
 import rx.android.widget.WidgetObservable
-import rx.functions.Action1
-import rx.functions.Func1
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
 
@@ -129,6 +120,8 @@ public class RegisterBookmarkFragment : Fragment(), TagEditDialogFragment.OnOkCl
     }
 
     private fun showToastIfExistsActivity(messageResourceId: Int) {
-        Toast.makeText(getActivity(), messageResourceId, Toast.LENGTH_SHORT).show()
+        getActivity().let {
+            Toast.makeText(getActivity(), messageResourceId, Toast.LENGTH_SHORT).show()
+        }
     }
 }
