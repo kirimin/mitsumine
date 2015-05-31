@@ -75,8 +75,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/register_bookmark_tag_edit"
-                        android:textSize="@dimen/text_medium"
-                        android:textColor="@color/text" />
+                        android:textColor="@color/text"
+                        android:textSize="@dimen/text_medium" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -90,6 +90,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/register_bookmark_private"
+                        android:textColor="@color/text"
+                        android:textSize="@dimen/text_large" />
+
+                    <CheckBox
+                        android:id="@+id/postTwitterCheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/register_bookmark_twitter"
                         android:textColor="@color/text"
                         android:textSize="@dimen/text_large" />
                 </LinearLayout>
