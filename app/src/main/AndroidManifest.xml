@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.kirimin.mitsumine"
-    android:versionCode="20203"
-    android:versionName="2.2.3">
+    android:versionCode="20300"
+    android:versionName="2.3.0">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -26,7 +26,7 @@
         <activity android:name="me.kirimin.mitsumine.ui.activity.ReadLaterActivity" />
         <activity android:name="me.kirimin.mitsumine.ui.activity.search.KeywordSearchActivity" />
         <activity android:name="me.kirimin.mitsumine.ui.activity.search.UserSearchActivity" />
-        <activity android:name="me.kirimin.mitsumine.ui.activity.SettingsActivity" />
+        <activity android:name="me.kirimin.mitsumine.ui.activity.SettingActivity" />
         <activity android:name="me.kirimin.mitsumine.ui.activity.AboutActivity" />
         <activity android:name="me.kirimin.mitsumine.ui.activity.EntryInfoActivity" />
         <activity android:name=".ui.activity.LoginActivity" />

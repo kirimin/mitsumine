@@ -19,7 +19,7 @@
             android:textSize="@dimen/text_medium" />
 
         <Button
-            android:id="@+id/LoginAuthButton"
+            android:id="@+id/authButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
@@ -27,14 +27,14 @@
             android:textSize="@dimen/text_medium" />
 
         <EditText
-            android:id="@+id/LoginPinCodeEditText"
+            android:id="@+id/pinCodeEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/login_pin_code_hint"
             android:textSize="@dimen/text_medium" />
 
         <Button
-            android:id="@+id/LoginLoginButton"
+            android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/settings_login"
@@ -42,7 +42,7 @@
     </LinearLayout>
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/tool_bar"
+        android:id="@+id/toolBar"
         style="@style/MyToolbarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
