@@ -32,7 +32,7 @@ import rx.subscriptions.CompositeSubscription
 
 import kotlinx.android.synthetic.fragment_my_bookmarks.view.*
 
-public class MyBookmarksFragment : Fragment(), MyBookmarksAdapter.OnMyBookmarkClickListener, SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
+public class MyBookmarksFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
 
     companion object {
 
@@ -54,7 +54,15 @@ public class MyBookmarksFragment : Fragment(), MyBookmarksAdapter.OnMyBookmarkCl
         rootView.swipeLayout.setColorSchemeResources(R.color.blue, R.color.orange)
         rootView.swipeLayout.setOnRefreshListener(this)
         rootView.swipeLayout.setProgressViewOffset(false, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, getResources().getDisplayMetrics()).toInt())
-        adapter = MyBookmarksAdapter(getActivity(), this)
+        adapter = MyBookmarksAdapter(getActivity(), { v, myBookmark ->
+            // onClickLister
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(myBookmark.linkUrl)))
+        }, { v, myBookmark ->
+            // LongClickLister
+            val intent = Intent(getActivity(), javaClass<EntryInfoActivity>())
+            intent.putExtras(EntryInfoActivity.buildBundle(myBookmark.linkUrl))
+            startActivity(intent)
+        })
         rootView.listView.setAdapter(adapter!!)
         rootView.listView.setOnScrollListener(this)
         return rootView
@@ -68,16 +76,6 @@ public class MyBookmarksFragment : Fragment(), MyBookmarksAdapter.OnMyBookmarkCl
     override fun onDestroyView() {
         subscriptions.unsubscribe()
         super<Fragment>.onDestroyView()
-    }
-
-    override fun onMyBookmarkClick(v: View, myBookmark: MyBookmark) {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(myBookmark.linkUrl)))
-    }
-
-    override fun onMyBookmarkLongClick(v: View, myBookmark: MyBookmark) {
-        val intent = Intent(getActivity(), javaClass<EntryInfoActivity>())
-        intent.putExtras(EntryInfoActivity.buildBundle(myBookmark.linkUrl))
-        startActivity(intent)
     }
 
     override fun onRefresh() {

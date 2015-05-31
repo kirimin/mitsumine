@@ -10,13 +10,9 @@ import android.widget.TextView
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.model.MyBookmark
 
-public class MyBookmarksAdapter(context: Context, private val listener: MyBookmarksAdapter.OnMyBookmarkClickListener) : ArrayAdapter<MyBookmark>(context, 0) {
-
-    public trait OnMyBookmarkClickListener {
-        public fun onMyBookmarkClick(v: View, myBookmark: MyBookmark)
-
-        public fun onMyBookmarkLongClick(v: View, myBookmark: MyBookmark)
-    }
+public class MyBookmarksAdapter(context: Context,
+                                private val onMyBookmarkClick: (v: View, myBookmark: MyBookmark) -> Unit,
+                                private val onMyBookmarkLongClick: (v: View, myBookmark: MyBookmark) -> Unit) : ArrayAdapter<MyBookmark>(context, 0) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
@@ -34,9 +30,9 @@ public class MyBookmarksAdapter(context: Context, private val listener: MyBookma
         }
         val bookmark = getItem(position)
         holder.cardView.setTag(bookmark)
-        holder.cardView.setOnClickListener { v -> listener.onMyBookmarkClick(v, v.getTag() as MyBookmark) }
+        holder.cardView.setOnClickListener { v -> onMyBookmarkClick(v, v.getTag() as MyBookmark) }
         holder.cardView.setOnLongClickListener { v ->
-            listener.onMyBookmarkLongClick(v, v.getTag() as MyBookmark)
+            onMyBookmarkLongClick(v, v.getTag() as MyBookmark)
             false
         }
         holder.title.setText(bookmark.title)
