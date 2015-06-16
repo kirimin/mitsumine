@@ -58,15 +58,15 @@ public class Bookmark : Parcelable {
         dest.writeByte((if (isPrivate) 1 else 0).toByte())
     }
 
+    companion object {
+        public val CREATOR: Parcelable.Creator<Bookmark> = object : Parcelable.Creator<Bookmark> {
+            override fun createFromParcel(`in`: Parcel): Bookmark {
+                return Bookmark(`in`)
+            }
 
-    SuppressWarnings("unused")
-    public val CREATOR: Parcelable.Creator<Bookmark> = object : Parcelable.Creator<Bookmark> {
-        override fun createFromParcel(`in`: Parcel): Bookmark {
-            return Bookmark(`in`)
-        }
-
-        override fun newArray(size: Int): Array<Bookmark?> {
-            return arrayOfNulls(size)
+            override fun newArray(size: Int): Array<Bookmark?> {
+                return arrayOfNulls(size)
+            }
         }
     }
 }
