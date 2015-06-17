@@ -22,7 +22,7 @@ RunWith(AndroidJUnit4::class)
 public class EntryInfoApiTest {
 
     Test
-    throws(javaClass<InterruptedException>(), javaClass<ApiRequestException>())
+    throws(InterruptedException::class, ApiRequestException::class)
     public fun requestTest() {
         val url = "http://kirimin.hatenablog.com/entry/20140629/1404039922"
         EntryInfoApi.request(RequestQueueSingleton.get(InstrumentationRegistry.getContext()), url).subscribe(object : Action1<JSONObject> {

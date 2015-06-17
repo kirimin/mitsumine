@@ -23,7 +23,7 @@ RunWith(AndroidJUnit4::class)
 public class FeedApiTest {
 
     Test
-    throws(javaClass<InterruptedException>())
+    throws(InterruptedException::class)
     public fun requestCategoryはFeedを取得できる() {
         FeedApi.requestCategory(RequestQueueSingleton.get(InstrumentationRegistry.getContext()), CATEGORY.MAIN, TYPE.HOT).subscribe(object : Action1<JSONObject> {
             override fun call(jsonObject: JSONObject) {
@@ -38,7 +38,7 @@ public class FeedApiTest {
     }
 
     Test
-    throws(javaClass<InterruptedException>())
+    throws(InterruptedException::class)
     public fun requestKeywordはFeedを取得できる() {
         FeedApi.requestKeyword(RequestQueueSingleton.get(InstrumentationRegistry.getContext()), "java").subscribe(object : Action1<JSONObject> {
             override fun call(jsonObject: JSONObject) {
@@ -53,7 +53,7 @@ public class FeedApiTest {
     }
 
     Test
-    throws(javaClass<InterruptedException>())
+    throws(InterruptedException::class)
     public fun requestUserBookmarkはFeedを取得できる() {
         FeedApi.requestUserBookmark(RequestQueueSingleton.get(InstrumentationRegistry.getContext()), "hajimepg").subscribe(object : Action1<JSONObject> {
             override fun call(jsonObject: JSONObject) {
