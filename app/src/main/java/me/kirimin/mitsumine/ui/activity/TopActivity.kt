@@ -66,7 +66,7 @@ public class TopActivity : ActionBarActivity() {
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setHomeButtonEnabled(true)
 
-        val data = array(getString(R.string.feed_hot), getString(R.string.feed_new))
+        val data = arrayOf(getString(R.string.feed_hot), getString(R.string.feed_new))
         val adapter = ArrayAdapter(actionBar.getThemedContext(), android.R.layout.simple_list_item_1, data)
         actionBar.setListNavigationCallbacks(adapter, { position, id ->
             drawerLayout.closeDrawers()

@@ -19,7 +19,7 @@ import rx.functions.Action1
 import android.support.test.espresso.matcher.ViewMatchers.assertThat
 import org.hamcrest.Matchers.not
 
-RunWith(javaClass<AndroidJUnit4>())
+RunWith(AndroidJUnit4::class)
 public class FeedApiTest {
 
     Test

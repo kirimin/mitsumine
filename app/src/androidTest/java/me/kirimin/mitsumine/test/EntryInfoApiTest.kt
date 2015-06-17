@@ -18,7 +18,7 @@ import rx.functions.Action1
 import android.support.test.espresso.matcher.ViewMatchers.assertThat
 import org.hamcrest.Matchers.`is`
 
-RunWith(javaClass<AndroidJUnit4>())
+RunWith(AndroidJUnit4::class)
 public class EntryInfoApiTest {
 
     Test

@@ -32,7 +32,7 @@ public class TagEditDialogFragment : DialogFragment() {
         }
     }
 
-    public trait OnOkClickListener {
+    public interface OnOkClickListener {
         public fun onOkClick(tags: ArrayList<String>)
     }
 

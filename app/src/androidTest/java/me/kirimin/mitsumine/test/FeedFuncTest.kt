@@ -13,7 +13,7 @@ import me.kirimin.mitsumine.util.FeedFunc
 import org.hamcrest.Matchers.`is`
 import org.junit.Assert.assertThat
 
-RunWith(javaClass<AndroidJUnit4>())
+RunWith(AndroidJUnit4::class)
 public class FeedFuncTest {
 
     Test

@@ -7,7 +7,7 @@ import com.activeandroid.query.Delete
 import com.activeandroid.query.Select
 import me.kirimin.mitsumine.model.NGWord
 
-public class NGWordDAO private() {
+public class NGWordDAO private constructor() {
     companion object {
 
         public fun save(word: String) {

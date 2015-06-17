@@ -26,7 +26,7 @@ import android.widget.TextView
 
 public class FeedAdapter(context: Context, private val mListener: FeedAdapter.FeedAdapterListener, private val mUseReadLater: Boolean, private val mUseRead: Boolean) : ArrayAdapter<Feed>(context, 0), OnClickListener, OnLongClickListener {
 
-    public trait FeedAdapterListener {
+    public interface FeedAdapterListener {
         public fun onFeedLeftSlide(view: View)
 
         public fun onFeedRightSlide(view: View)

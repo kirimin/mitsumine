@@ -12,25 +12,25 @@ import com.android.volley.RequestQueue
 
 public class FeedApi {
 
-    public enum class TYPE private(private val TEXT: String) {
-        HOT : TYPE("hotentry")
-        NEW : TYPE("entrylist")
+    public enum class TYPE private constructor(private val TEXT: String) {
+        HOT("hotentry"),
+        NEW("entrylist");
 
         override fun toString(): String {
             return TEXT
         }
     }
 
-    public enum class CATEGORY private(private val url: String, public val labelResource: Int) {
-        MAIN : CATEGORY("", R.string.feed_main)
-        SOCIAL : CATEGORY("/social", R.string.feed_social)
-        ECONOMICS : CATEGORY("/economics", R.string.feed_economics)
-        LIFE : CATEGORY("/life", R.string.feed_life)
-        KNOWLEDGE : CATEGORY("/knowledge", R.string.feed_knowledge)
-        IT : CATEGORY("/it", R.string.feed_it)
-        FUN : CATEGORY("/fun", R.string.feed_fun)
-        ENTERTAINMENT : CATEGORY("/entertainment", R.string.feed_entertainment)
-        GAME : CATEGORY("/game", R.string.feed_game)
+    public enum class CATEGORY private constructor(private val url: String, public val labelResource: Int) {
+        MAIN("", R.string.feed_main),
+        SOCIAL("/social", R.string.feed_social),
+        ECONOMICS("/economics", R.string.feed_economics),
+        LIFE("/life", R.string.feed_life),
+        KNOWLEDGE("/knowledge", R.string.feed_knowledge),
+        IT("/it", R.string.feed_it),
+        FUN("/fun", R.string.feed_fun),
+        ENTERTAINMENT("/entertainment", R.string.feed_entertainment),
+        GAME("/game", R.string.feed_game);
 
         override fun toString(): String {
             return url

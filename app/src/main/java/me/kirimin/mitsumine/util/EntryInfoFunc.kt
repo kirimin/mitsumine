@@ -59,7 +59,7 @@ public class EntryInfoFunc {
             }
         }
 
-        throws(javaClass<JSONException>())
+        throws(JSONException::class)
         private fun parseBookmarkList(bookmarks: JSONArray): List<Bookmark> {
             val bookmarkList = ArrayList<Bookmark>()
             for (i in 0..bookmarks.length() - 1) {
@@ -75,7 +75,7 @@ public class EntryInfoFunc {
             return bookmarkList
         }
 
-        throws(javaClass<JSONException>())
+        throws(JSONException::class)
         private fun parseTags(tags: JSONArray): List<String> {
             val results = ArrayList<String>()
             for (i in 0..tags.length() - 1) {

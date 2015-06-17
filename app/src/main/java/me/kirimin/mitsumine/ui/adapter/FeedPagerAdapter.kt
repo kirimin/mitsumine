@@ -12,7 +12,7 @@ import android.view.ViewGroup
 
 public class FeedPagerAdapter(context: Context, private val mLayout: View, private val mOnSlideListener: FeedPagerAdapter.OnSlideListener, private val mUseLeft: Boolean, useRight: Boolean) : PagerAdapter(), ViewPager.OnPageChangeListener {
 
-    public trait OnSlideListener {
+    public interface OnSlideListener {
         public fun onLeftSlide(view: View)
 
         public fun onRightSlide(view: View)
@@ -22,7 +22,7 @@ public class FeedPagerAdapter(context: Context, private val mLayout: View, priva
     private var mSwipeRefreshLayout: SwipeRefreshLayout? = null
     private var mPageNum = 3
 
-    {
+    init {
         mInflater = LayoutInflater.from(context)
         if (!mUseLeft)
             mPageNum--

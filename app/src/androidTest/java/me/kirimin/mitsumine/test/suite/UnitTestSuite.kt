@@ -6,6 +6,6 @@ import org.junit.runners.Suite
 import me.kirimin.mitsumine.test.EntryInfoFuncTest
 import me.kirimin.mitsumine.test.FeedFuncTest
 
-RunWith(javaClass<Suite>())
-Suite.SuiteClasses(javaClass<FeedFuncTest>(), javaClass<EntryInfoFuncTest>())
+RunWith(Suite::class)
+Suite.SuiteClasses(FeedFuncTest::class, EntryInfoFuncTest::class)
 public class UnitTestSuite

@@ -34,7 +34,7 @@ public class FeedFunc {
             return list.filter { s -> target.title.contains(s) || target.linkUrl.contains(s) }.count() >= 1
         }
 
-        throws(javaClass<JSONException>())
+        throws(JSONException::class)
         private fun parseFeed(entriesObject: JSONObject): Feed {
             val feed = Feed()
             feed.title = entriesObject.getString("title")
