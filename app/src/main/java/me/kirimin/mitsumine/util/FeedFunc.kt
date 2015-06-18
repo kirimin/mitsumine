@@ -1,14 +1,11 @@
 package me.kirimin.mitsumine.util
 
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
-import java.util.ArrayList
-
 import me.kirimin.mitsumine.model.Feed
 import rx.Observable
-import rx.functions.Func1
+import toList
 
 public class FeedFunc {
     companion object {
@@ -16,10 +13,7 @@ public class FeedFunc {
         public fun jsonToObservable(response: JSONObject): Observable<Feed> {
             try {
                 val entries = response.getJSONObject("responseData").getJSONObject("feed").getJSONArray("entries")
-                val feedList = ArrayList<Feed>()
-                for (i in 0..entries.length() - 1) {
-                    feedList.add(parseFeed(entries.getJSONObject(i)))
-                }
+                val feedList = entries.toList<JSONObject>().map { obj -> parseFeed(obj) }
                 return Observable.from(feedList)
             } catch (e: JSONException) {
                 return Observable.empty()

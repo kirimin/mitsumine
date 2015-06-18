@@ -13,6 +13,7 @@ import java.util.regex.Pattern
 import me.kirimin.mitsumine.model.Bookmark
 import me.kirimin.mitsumine.model.EntryInfo
 import rx.functions.Func1
+import toList
 
 public class EntryInfoFunc {
     companion object {
@@ -43,11 +44,7 @@ public class EntryInfoFunc {
                         val user = jsonObject.getString("user")
                         val comment = jsonObject.getString("comment")
                         val timeStamp = jsonObject.getString("created_datetime")
-                        val tagJsonArray = jsonObject.getJSONArray("tags")
-                        val tags = ArrayList<String>()
-                        for (i in 0..tagJsonArray.length() - 1) {
-                            tags.add(tagJsonArray.getString(i))
-                        }
+                        val tags = jsonObject.getJSONArray("tags").toList<String>()
                         val bookmark = Bookmark(user, tags, timeStamp, comment, "")
                         bookmark.setPrivate(jsonObject.getBoolean("private"))
                         return bookmark
@@ -61,27 +58,15 @@ public class EntryInfoFunc {
 
         throws(JSONException::class)
         private fun parseBookmarkList(bookmarks: JSONArray): List<Bookmark> {
-            val bookmarkList = ArrayList<Bookmark>()
-            for (i in 0..bookmarks.length() - 1) {
-                val bookmark = bookmarks.getJSONObject(i)
+            return bookmarks.toList<JSONObject>().map { bookmark ->
                 val user = bookmark.getString("user")
                 val comment = parseCommentToHtmlTag(bookmark.getString("comment"))
                 val timeStampTmp = bookmark.getString("timestamp")
                 val timeStamp = timeStampTmp.substring(0, timeStampTmp.indexOf(" "))
                 val userIcon = "http://cdn1.www.st-hatena.com/users/" + user.subSequence(0, 2) + "/" + user + "/profile.gif"
-                val tags = parseTags(bookmark.getJSONArray("tags"))
-                bookmarkList.add(Bookmark(user, tags, timeStamp, comment, userIcon))
+                val tags = bookmark.getJSONArray("tags").toList<String>()
+                Bookmark(user, tags, timeStamp, comment, userIcon)
             }
-            return bookmarkList
-        }
-
-        throws(JSONException::class)
-        private fun parseTags(tags: JSONArray): List<String> {
-            val results = ArrayList<String>()
-            for (i in 0..tags.length() - 1) {
-                results.add(tags.getString(i))
-            }
-            return results
         }
 
         private fun parseCommentToHtmlTag(comment: String): CharSequence {
