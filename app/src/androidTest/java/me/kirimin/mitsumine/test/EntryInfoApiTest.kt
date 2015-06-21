@@ -25,16 +25,14 @@ public class EntryInfoApiTest {
     throws(InterruptedException::class, ApiRequestException::class)
     public fun requestTest() {
         val url = "http://kirimin.hatenablog.com/entry/20140629/1404039922"
-        EntryInfoApi.request(RequestQueueSingleton.get(InstrumentationRegistry.getContext()), url).subscribe(object : Action1<JSONObject> {
-            override fun call(jsonObject: JSONObject) {
-                try {
-                    assertThat(jsonObject.getString("url"), `is`(url))
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                    Assert.fail()
-                }
-
+        EntryInfoApi.request(RequestQueueSingleton.get(InstrumentationRegistry.getContext()), url).subscribe { bookmark ->
+            try {
+                assertThat(bookmark.url, `is`(url))
+            } catch (e: JSONException) {
+                e.printStackTrace()
+                Assert.fail()
             }
-        })
+
+        }
     }
 }
