@@ -155,7 +155,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/butter_knife_license_title"
+                android:text="@string/LeakCanary_license_title"
                 android:textStyle="bold" />
 
             <TextView
@@ -163,7 +163,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/gray_light"
                 android:padding="8dp"
-                android:text="@string/butter_knife_license" />
+                android:text="@string/LeakCanary_license" />
         </LinearLayout>
     </ScrollView>
 
