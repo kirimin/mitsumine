@@ -16,7 +16,7 @@ import me.kirimin.mitsumine.model.EntryInfo
 import me.kirimin.mitsumine.network.api.EntryInfoApi
 import me.kirimin.mitsumine.ui.fragment.BookmarkListFragment
 import me.kirimin.mitsumine.ui.fragment.RegisterBookmarkFragment
-import me.kirimin.mitsumine.util.EntryInfoFunc
+import me.kirimin.mitsumine.network.api.parser.EntryInfoApiParser
 import me.kirimin.mitsumine.network.RequestQueueSingleton
 import me.kirimin.mitsumine.ui.adapter.EntryInfoPagerAdapter
 import rx.Observable
@@ -24,6 +24,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
 import kotlinx.android.synthetic.activity_entry_info.*
+import me.kirimin.mitsumine.util.EntryInfoUtil
 
 public class EntryInfoActivity : ActionBarActivity() {
 
@@ -53,7 +54,6 @@ public class EntryInfoActivity : ActionBarActivity() {
         subscriptions.add(EntryInfoApi.request(RequestQueueSingleton.get(getApplicationContext()), url)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map { response -> EntryInfoFunc.toEntryInfo(response) }
                 .filter { entryInfo -> !entryInfo.isNullObject() }
                 .subscribe ({ entryInfo ->
                     countLayout.setVisibility(View.VISIBLE)
@@ -64,7 +64,7 @@ public class EntryInfoActivity : ActionBarActivity() {
                     val adapter = EntryInfoPagerAdapter(getSupportFragmentManager())
                     adapter.addPage(BookmarkListFragment.newFragment(entryInfo.bookmarkList), getString(R.string.entry_info_all_bookmarks))
                     subscriptions.add(Observable.from<Bookmark>(entryInfo.bookmarkList)
-                            .filter { bookmark -> EntryInfoFunc.hasComment(bookmark) }
+                            .filter { bookmark -> EntryInfoUtil.hasComment(bookmark) }
                             .toList()
                             .subscribe { commentList ->
                                 commentCountTextView.setText(commentList.size().toString())

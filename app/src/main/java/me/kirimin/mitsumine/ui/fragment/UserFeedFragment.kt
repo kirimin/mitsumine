@@ -10,7 +10,7 @@ import me.kirimin.mitsumine.db.NGWordDAO
 import me.kirimin.mitsumine.model.Feed
 import me.kirimin.mitsumine.network.api.FeedApi
 import me.kirimin.mitsumine.network.RequestQueueSingleton
-import me.kirimin.mitsumine.util.FeedFunc
+import me.kirimin.mitsumine.util.FeedUtil
 import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Action1
 import rx.schedulers.Schedulers
@@ -42,8 +42,7 @@ public class UserFeedFragment : AbstractFeedFragment() {
         subscriptions.add(FeedApi.requestUserBookmark(RequestQueueSingleton.get(getActivity()), getArguments().getString("user"))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .flatMap { obj -> FeedFunc.jsonToObservable(obj) }
-                .filter { feed -> !FeedFunc.contains(feed, readFeedList) && !FeedFunc.containsWord(feed, ngWordList) }
+                .filter { feed -> !FeedUtil.contains(feed, readFeedList) && !FeedUtil.containsWord(feed, ngWordList) }
                 .toList()
                 .subscribe({ feedList ->
                     clearFeed()

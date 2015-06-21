@@ -8,7 +8,7 @@ import org.junit.runner.RunWith
 import java.util.ArrayList
 
 import me.kirimin.mitsumine.model.Bookmark
-import me.kirimin.mitsumine.util.EntryInfoFunc
+import me.kirimin.mitsumine.network.api.parser.EntryInfoApiParser
 
 import org.hamcrest.Matchers.`is`
 import org.junit.Assert.assertThat
@@ -22,9 +22,9 @@ public class EntryInfoFuncTest {
         val bookmark2 = Bookmark("user", ArrayList<String>(), "timestamp", "コメント", "icon")
         val bookmark3 = Bookmark("user", ArrayList<String>(), "timestamp", " ", "icon")
         val bookmark4 = Bookmark("user", ArrayList<String>(), "timestamp", "", "icon")
-        assertThat(EntryInfoFunc.hasComment(bookmark1), `is`(true))
-        assertThat(EntryInfoFunc.hasComment(bookmark2), `is`(true))
-        assertThat(EntryInfoFunc.hasComment(bookmark3), `is`(true))
-        assertThat(EntryInfoFunc.hasComment(bookmark4), `is`(false))
+        assertThat(EntryInfoApiParser.hasComment(bookmark1), `is`(true))
+        assertThat(EntryInfoApiParser.hasComment(bookmark2), `is`(true))
+        assertThat(EntryInfoApiParser.hasComment(bookmark3), `is`(true))
+        assertThat(EntryInfoApiParser.hasComment(bookmark4), `is`(false))
     }
 }
