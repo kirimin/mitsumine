@@ -4,8 +4,8 @@ import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
 import me.kirimin.mitsumine.test.EntryInfoFuncTest
-import me.kirimin.mitsumine.test.FeedFuncTest
+import me.kirimin.mitsumine.test.FeedUtilTest
 
 RunWith(Suite::class)
-Suite.SuiteClasses(FeedFuncTest::class, EntryInfoFuncTest::class)
+Suite.SuiteClasses(FeedUtilTest::class, EntryInfoFuncTest::class)
 public class UnitTestSuite

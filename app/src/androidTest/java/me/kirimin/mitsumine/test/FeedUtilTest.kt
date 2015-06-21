@@ -8,13 +8,13 @@ import org.junit.runner.RunWith
 import java.util.ArrayList
 
 import me.kirimin.mitsumine.model.Feed
-import me.kirimin.mitsumine.util.FeedFunc
+import me.kirimin.mitsumine.util.FeedUtil
 
 import org.hamcrest.Matchers.`is`
 import org.junit.Assert.assertThat
 
 RunWith(AndroidJUnit4::class)
-public class FeedFuncTest {
+public class FeedUtilTest {
 
     Test
     public fun containsはリスト内に同じタイトルのFeedが無いかを判定する() {
@@ -34,10 +34,10 @@ public class FeedFuncTest {
         list.add(test1)
         list.add(test3)
 
-        assertThat(!FeedFunc.contains(test1, list), `is`(false))
-        assertThat(!FeedFunc.contains(test2, list), `is`(true))
-        assertThat(!FeedFunc.contains(test3, list), `is`(false))
-        assertThat(!FeedFunc.contains(test4, list), `is`(false))
+        assertThat(!FeedUtil.contains(test1, list), `is`(false))
+        assertThat(!FeedUtil.contains(test2, list), `is`(true))
+        assertThat(!FeedUtil.contains(test3, list), `is`(false))
+        assertThat(!FeedUtil.contains(test4, list), `is`(false))
     }
 
     Test
@@ -62,8 +62,8 @@ public class FeedFuncTest {
         test3.linkUrl = "testA"
         test3.content = "testContent"
 
-        assertThat(!FeedFunc.containsWord(test1, list), `is`(true))
-        assertThat(!FeedFunc.containsWord(test2, list), `is`(false))
-        assertThat(!FeedFunc.containsWord(test3, list), `is`(false))
+        assertThat(!FeedUtil.containsWord(test1, list), `is`(true))
+        assertThat(!FeedUtil.containsWord(test2, list), `is`(false))
+        assertThat(!FeedUtil.containsWord(test3, list), `is`(false))
     }
 }
