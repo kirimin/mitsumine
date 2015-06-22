@@ -8,7 +8,7 @@ import toList
 public class BookmarkApiParser {
     companion object {
 
-        public fun mapToMyBookmarkInfo(response: JSONObject): Bookmark? {
+        public fun parseResponse(response: JSONObject): Bookmark? {
             return try {
                 val user = response.getString("user")
                 val comment = response.getString("comment")

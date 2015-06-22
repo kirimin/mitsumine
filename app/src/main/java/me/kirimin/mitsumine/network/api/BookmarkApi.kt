@@ -22,7 +22,7 @@ public class BookmarkApi {
     companion object {
 
         public fun requestAddBookmark(url: String, account: Account, comment: String, tags: List<String>, isPrivate: Boolean, isTwitter: Boolean): Observable<Bookmark?> {
-            return Observable.create<Bookmark?>{ subscriber ->
+            return Observable.create<JSONObject>{ subscriber ->
                 val request = OAuthRequest(Verb.POST, "http://api.b.hatena.ne.jp/1/my/bookmark")
                 request.addQuerystringParameter("url", url)
                 request.addQuerystringParameter("comment", comment)
@@ -38,8 +38,7 @@ public class BookmarkApi {
                 val response = ApiAccessor.oAuthRequest(account, request)
                 if (response.getCode() == 200) {
                     try {
-                        val json = JSONObject(response.getBody())
-                        subscriber.onNext(BookmarkApiParser.mapToMyBookmarkInfo(json))
+                        subscriber.onNext(JSONObject(response.getBody()))
                         subscriber.onCompleted()
                     } catch (e: JSONException) {
                         subscriber.onError(ApiRequestException("Json exception."))
@@ -47,7 +46,7 @@ public class BookmarkApi {
                 } else {
                     subscriber.onError(ApiRequestException("error code:" + response.getCode()))
                 }
-            }
+            }.map { response -> BookmarkApiParser.parseResponse(response) }
         }
 
         public fun requestDeleteBookmark(url: String, account: Account): Observable<Boolean> {
@@ -65,14 +64,13 @@ public class BookmarkApi {
         }
 
         public fun requestBookmarkInfo(url: String, account: Account): Observable<Bookmark?> {
-            return Observable.create<Bookmark?>{ subscriber ->
+            return Observable.create<JSONObject>{ subscriber ->
                 val request = OAuthRequest(Verb.GET, "http://api.b.hatena.ne.jp/1/my/bookmark")
                 request.addQuerystringParameter("url", url)
                 val response = ApiAccessor.oAuthRequest(account, request)
                 if (response.getCode() == 200) {
                     try {
-                        val json = JSONObject(response.getBody())
-                        subscriber.onNext(BookmarkApiParser.mapToMyBookmarkInfo(json))
+                        subscriber.onNext(JSONObject(response.getBody()))
                         subscriber.onCompleted()
                     } catch (e: JSONException) {
                         subscriber.onError(ApiRequestException(""))
@@ -83,7 +81,7 @@ public class BookmarkApi {
                 } else {
                     subscriber.onError(ApiRequestException(""))
                 }
-            }
+            }.map { response -> if (response != null) BookmarkApiParser.parseResponse(response) else null }
         }
     }
 }

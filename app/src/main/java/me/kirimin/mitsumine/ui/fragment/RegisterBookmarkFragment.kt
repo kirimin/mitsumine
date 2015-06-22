@@ -88,7 +88,7 @@ public class RegisterBookmarkFragment : Fragment(), TagEditDialogFragment.OnOkCl
                     .subscribe({
                         changeBookmarkStatus(false)
                         Toast.makeText(getActivity(), R.string.register_bookmark_delete_success, Toast.LENGTH_SHORT).show()
-                    }, {
+                    }, { e ->
                         rootView.deleteButton.setEnabled(true)
                         Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show()
                     }))
