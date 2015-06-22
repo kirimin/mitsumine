@@ -23,7 +23,7 @@ import me.kirimin.mitsumine.model.MyBookmark
 import me.kirimin.mitsumine.network.api.MyBookmarksApi
 import me.kirimin.mitsumine.ui.activity.EntryInfoActivity
 import me.kirimin.mitsumine.ui.adapter.MyBookmarksAdapter
-import me.kirimin.mitsumine.util.MyBookmarksFunc
+import me.kirimin.mitsumine.network.api.parser.MyBookmarksApiParser
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Func1
@@ -46,7 +46,6 @@ public class MyBookmarksFragment : Fragment(), SwipeRefreshLayout.OnRefreshListe
     }
 
     private val subscriptions = CompositeSubscription()
-    private var total = 0
     private var adapter: MyBookmarksAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -87,6 +86,8 @@ public class MyBookmarksFragment : Fragment(), SwipeRefreshLayout.OnRefreshListe
     }
 
     override fun onScroll(view: AbsListView, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
+        if (adapter!!.getCount() == 0) return;
+        val total = adapter!!.getItem(0).totalCount
         if (firstVisibleItem + visibleItemCount == totalItemCount && adapter!!.getCount() < total && !getView().swipeLayout.isRefreshing()) {
             requestApi(adapter!!.getCount())
         }
@@ -104,11 +105,6 @@ public class MyBookmarksFragment : Fragment(), SwipeRefreshLayout.OnRefreshListe
         subscriptions.add(MyBookmarksApi.request(AccountDAO.get()!!, getArguments().getString("keyword"), offset)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map { jsonObject ->
-                    total = jsonObject.getJSONObject("meta").getInt("total")
-                    jsonObject
-                }
-                .flatMap { jsonObject -> MyBookmarksFunc.toObservable(jsonObject) }
                 .subscribe({ myBookmark ->
                     adapter!!.add(myBookmark)
                 }, { e ->
