@@ -15,7 +15,7 @@ import org.hamcrest.Matchers.`is`
 import org.junit.Assert.assertThat
 
 RunWith(AndroidJUnit4::class)
-public class EntryInfoUtilTest {
+public class BookmarkTest {
 
     Test
     public fun hasCommentはコメントが空文字じゃないかを判定() {
@@ -23,9 +23,9 @@ public class EntryInfoUtilTest {
         val bookmark2 = Bookmark("user", ArrayList<String>(), "timestamp", "コメント", "icon")
         val bookmark3 = Bookmark("user", ArrayList<String>(), "timestamp", " ", "icon")
         val bookmark4 = Bookmark("user", ArrayList<String>(), "timestamp", "", "icon")
-        assertThat(EntryInfoUtil.hasComment(bookmark1), `is`(true))
-        assertThat(EntryInfoUtil.hasComment(bookmark2), `is`(true))
-        assertThat(EntryInfoUtil.hasComment(bookmark3), `is`(true))
-        assertThat(EntryInfoUtil.hasComment(bookmark4), `is`(false))
+        assertThat(bookmark1.hasComment(), `is`(true))
+        assertThat(bookmark2.hasComment(), `is`(true))
+        assertThat(bookmark3.hasComment(), `is`(true))
+        assertThat(bookmark4.hasComment(), `is`(false))
     }
 }

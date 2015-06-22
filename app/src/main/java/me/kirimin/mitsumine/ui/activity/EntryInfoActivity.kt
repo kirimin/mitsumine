@@ -24,7 +24,6 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
 import kotlinx.android.synthetic.activity_entry_info.*
-import me.kirimin.mitsumine.util.EntryInfoUtil
 
 public class EntryInfoActivity : ActionBarActivity() {
 
@@ -64,7 +63,7 @@ public class EntryInfoActivity : ActionBarActivity() {
                     val adapter = EntryInfoPagerAdapter(getSupportFragmentManager())
                     adapter.addPage(BookmarkListFragment.newFragment(entryInfo.bookmarkList), getString(R.string.entry_info_all_bookmarks))
                     subscriptions.add(Observable.from<Bookmark>(entryInfo.bookmarkList)
-                            .filter { bookmark -> EntryInfoUtil.hasComment(bookmark) }
+                            .filter { bookmark -> bookmark.hasComment() }
                             .toList()
                             .subscribe { commentList ->
                                 commentCountTextView.setText(commentList.size().toString())
