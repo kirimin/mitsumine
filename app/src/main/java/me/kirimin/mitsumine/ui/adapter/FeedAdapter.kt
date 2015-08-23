@@ -23,8 +23,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import me.kirimin.mitsumine.model.EntryInfo
-import me.kirimin.mitsumine.network.api.EntryInfoApi
+import me.kirimin.mitsumine.network.api.TagListApi
 
 public class FeedAdapter(context: Context, private val mListener: FeedAdapter.FeedAdapterListener, private val mUseReadLater: Boolean, private val mUseRead: Boolean) : ArrayAdapter<Feed>(context, 0), OnClickListener, OnLongClickListener {
 
@@ -118,13 +117,13 @@ public class FeedAdapter(context: Context, private val mListener: FeedAdapter.Fe
         holder.mBookmarkCount.setTag(subscription)
         holder.mThumbnail.setImageResource(R.drawable.no_image)
 
-        val subscription2 = ViewObservable.bindView<EntryInfo>(holder.mTags,
-                EntryInfoApi.request(RequestQueueSingleton.get(getContext()), feed.linkUrl))
+        val subscription2 = ViewObservable.bindView<List<String>>(holder.mTags,
+                TagListApi.request(RequestQueueSingleton.get(getContext()), feed.linkUrl))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ entryInfo ->
+                .subscribe({ tags ->
                     holder.mTags.getEditableText().clear()
-                    holder.mTags.getEditableText().append(entryInfo.tagList.joinToString(", "))
+                    holder.mTags.getEditableText().append(tags.joinToString(", "))
                 }, { e ->
                     holder.mTags.getEditableText().clear()
                 })
