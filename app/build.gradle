@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "me.kirimin.mitsumine"
         minSdkVersion 15
-        targetSdkVersion 21
+        targetSdkVersion 22
 
         testApplicationId "me.kirimin.mitsumine.test"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -30,10 +30,10 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-annotations:21.0.3'
-    compile 'com.android.support:support-v4:21.+'
-    compile 'com.android.support:appcompat-v7:21.+'
-    compile 'com.android.support:cardview-v7:21.+'
+    compile 'com.android.support:support-annotations:22.+'
+    compile 'com.android.support:support-v4:22.+'
+    compile 'com.android.support:appcompat-v7:22.+'
+    compile 'com.android.support:cardview-v7:22.+'
     compile 'com.mcxiaoke.volley:library:1.0.+'
     compile 'com.squareup.picasso:picasso:2.5.+'
     compile 'com.jpardogo.materialtabstrip:library:1.0.6'
