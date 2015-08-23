@@ -24,7 +24,14 @@ public class EntryInfoApiParser {
                 val url = response.getString("url")
                 val thumbnail = response.getString("screenshot")
                 val bookmarkList = parseBookmarksObject(response.getJSONArray("bookmarks"))
-                return EntryInfo(title, count, url, thumbnail, bookmarkList)
+                val tags = bookmarkList
+                        .flatMap { bookmark -> bookmark.tags }
+                        .groupBy { tags -> tags }
+                        .map { tagMap -> tagMap.getValue() }
+                        .sortDescendingBy { tags -> tags.size() }
+                        .take(4)
+                        .map { tags -> tags.get(0) }
+                return EntryInfo(title, count, url, thumbnail, bookmarkList, tags)
             } catch (e: JSONException) {
                 return EntryInfo()
             }

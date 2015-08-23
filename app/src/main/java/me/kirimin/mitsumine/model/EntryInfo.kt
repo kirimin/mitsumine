@@ -9,13 +9,15 @@ public class EntryInfo {
     public val url: String
     public val thumbnailUrl: String
     public val bookmarkList: List<Bookmark>
+    public val tagList: List<String>
 
-    public constructor(title: String, bookmarkCount: Int, url: String, thumbnailUrl: String, bookmarkList: List<Bookmark>) {
+    public constructor(title: String, bookmarkCount: Int, url: String, thumbnailUrl: String, bookmarkList: List<Bookmark>, tagList: List<String>) {
         this.title = title
         this.bookmarkCount = bookmarkCount
         this.url = url
         this.thumbnailUrl = thumbnailUrl
         this.bookmarkList = bookmarkList
+        this.tagList = tagList
     }
 
     public constructor() {
@@ -24,6 +26,7 @@ public class EntryInfo {
         this.url = ""
         this.thumbnailUrl = ""
         this.bookmarkList = ArrayList()
+        this.tagList = ArrayList()
     }
 
     public fun isNullObject(): Boolean {

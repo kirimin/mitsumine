@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -24,7 +25,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="4dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="8dp"
@@ -41,7 +42,8 @@
                     android:scrollHorizontally="true"
                     android:textColor="@color/text"
                     android:textSize="@dimen/text_medium"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:text="エントリータイトル" />
 
                 <ImageView
                     android:id="@+id/FeedFragmentImageViewShare"
@@ -67,7 +69,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="2dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -82,7 +84,8 @@
                             android:editable="true"
                             android:textColor="@color/orange"
                             android:textSize="@dimen/text_large"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:text="9999" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -98,7 +101,8 @@
                             android:id="@+id/FeedFragmentImageViewFavicon"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:paddingRight="4dp" />
+                            android:paddingRight="4dp"
+                            tools:src="@drawable/ic_launcher" />
 
                         <TextView
                             android:id="@+id/FeedFragmentTextViewDomain"
@@ -110,8 +114,20 @@
                             android:singleLine="true"
                             android:textColor="@color/text"
                             android:textSize="@dimen/text_medium"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:text="google.com" />
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/FeedFragmentTextViewTags"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:editable="true"
+                        android:textColor="@color/gray_light3"
+                        android:textSize="@dimen/text_small2"
+                        tools:text="android, Scala" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -132,7 +148,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/text_secondary"
-                            android:textSize="@dimen/text_small" />
+                            android:textSize="@dimen/text_small"
+                            tools:text="コンテンツコンテンツコンテンツコンテンツコンテンツコンテンツコンテンツコンテンツコンテンツ" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

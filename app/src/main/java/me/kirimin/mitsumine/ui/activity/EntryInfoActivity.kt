@@ -59,6 +59,7 @@ public class EntryInfoActivity : AppCompatActivity() {
                     titleTextView.setText(entryInfo.title)
                     bookmarkCountTextView.setText(entryInfo.bookmarkCount.toString())
                     Picasso.with(getApplicationContext()).load(entryInfo.thumbnailUrl).fit().into(thumbnailImageView)
+                    tagsText.setText(entryInfo.tagList.joinToString(", "))
 
                     val adapter = EntryInfoPagerAdapter(getSupportFragmentManager())
                     adapter.addPage(BookmarkListFragment.newFragment(entryInfo.bookmarkList), getString(R.string.entry_info_all_bookmarks))
