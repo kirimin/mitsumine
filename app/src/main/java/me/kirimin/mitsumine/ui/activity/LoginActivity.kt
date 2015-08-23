@@ -4,7 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.ActionBar
-import android.support.v7.app.ActionBarActivity
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.Toast
@@ -19,7 +19,7 @@ import rx.subscriptions.CompositeSubscription
 
 import kotlinx.android.synthetic.activity_login.*
 
-public class LoginActivity : ActionBarActivity() {
+public class LoginActivity : AppCompatActivity() {
 
     private val subscriptions = CompositeSubscription()
 

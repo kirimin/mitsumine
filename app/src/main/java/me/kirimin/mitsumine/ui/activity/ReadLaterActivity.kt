@@ -5,13 +5,13 @@ import me.kirimin.mitsumine.ui.fragment.ReadLaterFeedFragment
 
 import android.os.Bundle
 import android.support.v7.app.ActionBar
-import android.support.v7.app.ActionBarActivity
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 
 import kotlinx.android.synthetic.activity_common_container.*
 
-public class ReadLaterActivity : ActionBarActivity() {
+public class ReadLaterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -23,7 +23,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v4.view.MenuItemCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBar
-import android.support.v7.app.ActionBarActivity
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -46,7 +46,7 @@ import kotlinx.android.synthetic.activity_top.*
 import me.kirimin.mitsumine.ui.activity.search.SearchActivity
 import java.io.Serializable
 
-public class TopActivity : ActionBarActivity() {
+public class TopActivity : AppCompatActivity() {
 
     private var mDrawerToggle: ActionBarDrawerToggle? = null
     private var mSelectedCategory = CATEGORY.MAIN

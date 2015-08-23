@@ -1,7 +1,7 @@
 package me.kirimin.mitsumine.ui.activity
 
 import android.os.Bundle
-import android.support.v7.app.ActionBarActivity
+import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -25,7 +25,7 @@ import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
 import kotlinx.android.synthetic.activity_entry_info.*
 
-public class EntryInfoActivity : ActionBarActivity() {
+public class EntryInfoActivity : AppCompatActivity() {
 
     companion object {
         public fun buildBundle(url: String): Bundle {
