@@ -125,7 +125,7 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginLeft="8dp"
                         android:editable="true"
-                        android:textColor="@color/gray_light3"
+                        android:textColor="@color/gray_light4"
                         android:textSize="@dimen/text_small2"
                         tools:text="android, Scala" />
 
