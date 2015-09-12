@@ -99,9 +99,9 @@ public class FeedAdapter(context: Context, private val mListener: FeedAdapter.Fe
 
         try {
             (holder.mBookmarkCount.getTag() as Subscription).unsubscribe()
-            holder.mBookmarkCount.getEditableText().clear()
+            holder.mBookmarkCount.setVisibility(View.GONE)
             (holder.mTags.getTag() as Subscription).unsubscribe()
-            holder.mTags.getEditableText().clear()
+            holder.mTags.setVisibility(View.INVISIBLE);
         } catch (e: TypeCastException) {
         }
         val subscription = ViewObservable.bindView<String>(holder.mBookmarkCount,
@@ -109,10 +109,10 @@ public class FeedAdapter(context: Context, private val mListener: FeedAdapter.Fe
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ s ->
-                    holder.mBookmarkCount.getEditableText().clear()
-                    holder.mBookmarkCount.getEditableText().append(s)
+                    holder.mBookmarkCount.setText(s)
+                    holder.mBookmarkCount.setVisibility(View.VISIBLE)
                 }, { e ->
-                    holder.mBookmarkCount.getEditableText().clear()
+                    holder.mBookmarkCount.setVisibility(View.GONE)
                 })
         holder.mBookmarkCount.setTag(subscription)
         holder.mThumbnail.setImageResource(R.drawable.no_image)
@@ -122,10 +122,10 @@ public class FeedAdapter(context: Context, private val mListener: FeedAdapter.Fe
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ tags ->
-                    holder.mTags.getEditableText().clear()
-                    holder.mTags.getEditableText().append(tags.joinToString(", "))
+                    holder.mTags.setText(tags.joinToString(", "))
+                    holder.mTags.setVisibility(View.VISIBLE)
                 }, { e ->
-                    holder.mTags.getEditableText().clear()
+                    holder.mTags.setVisibility(View.INVISIBLE)
                 })
         holder.mTags.setTag(subscription2)
 

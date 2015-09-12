@@ -81,7 +81,6 @@
                             android:layout_gravity="bottom"
                             android:layout_marginLeft="8dp"
                             android:layout_marginRight="2dp"
-                            android:editable="true"
                             android:textColor="@color/orange"
                             android:textSize="@dimen/text_large"
                             android:textStyle="bold"
@@ -124,7 +123,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
                         android:layout_marginLeft="8dp"
-                        android:editable="true"
                         android:textColor="@color/gray_light4"
                         android:textSize="@dimen/text_small2"
                         tools:text="android, Scala" />
