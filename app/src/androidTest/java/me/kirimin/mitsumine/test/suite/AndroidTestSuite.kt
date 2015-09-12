@@ -6,6 +6,6 @@ import org.junit.runners.Suite
 import me.kirimin.mitsumine.test.EntryInfoApiTest
 import me.kirimin.mitsumine.test.FeedApiTest
 
-RunWith(javaClass<Suite>())
-Suite.SuiteClasses(javaClass<FeedApiTest>(), javaClass<EntryInfoApiTest>())
+RunWith(Suite::class)
+Suite.SuiteClasses(FeedApiTest::class, EntryInfoApiTest::class)
 public class AndroidTestSuite

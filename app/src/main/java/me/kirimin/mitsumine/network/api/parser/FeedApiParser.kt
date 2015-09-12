@@ -1,41 +1,26 @@
-package me.kirimin.mitsumine.util
-
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
-
-import java.util.ArrayList
+package me.kirimin.mitsumine.network.api.parser
 
 import me.kirimin.mitsumine.model.Feed
+import org.json.JSONException
+import org.json.JSONObject
 import rx.Observable
-import rx.functions.Func1
+import toList
 
-public class FeedFunc {
+class FeedApiParser {
     companion object {
 
-        public fun jsonToObservable(response: JSONObject): Observable<Feed> {
-            try {
+        public fun parseResponse(response: JSONObject): Observable<Feed> {
+            return try {
                 val entries = response.getJSONObject("responseData").getJSONObject("feed").getJSONArray("entries")
-                val feedList = ArrayList<Feed>()
-                for (i in 0..entries.length() - 1) {
-                    feedList.add(parseFeed(entries.getJSONObject(i)))
-                }
-                return Observable.from(feedList)
+                val feedList = entries.toList<JSONObject>().map { json -> parseEntryObject(json) }
+                Observable.from(feedList)
             } catch (e: JSONException) {
-                return Observable.empty()
+                Observable.empty()
             }
         }
 
-        public fun contains(target: Feed, list: List<Feed>): Boolean {
-            return list.filter { f -> f.title == target.title }.count() >= 1
-        }
-
-        public fun containsWord(target: Feed, list: List<String>): Boolean {
-            return list.filter { s -> target.title.contains(s) || target.linkUrl.contains(s) }.count() >= 1
-        }
-
-        throws(javaClass<JSONException>())
-        private fun parseFeed(entriesObject: JSONObject): Feed {
+        throws(JSONException::class)
+        private fun parseEntryObject(entriesObject: JSONObject): Feed {
             val feed = Feed()
             feed.title = entriesObject.getString("title")
             feed.linkUrl = entriesObject.getString("link").replace("#", "%23")
@@ -57,5 +42,4 @@ public class FeedFunc {
             }
         }
     }
-
 }

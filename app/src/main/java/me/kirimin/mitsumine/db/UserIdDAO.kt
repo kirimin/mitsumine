@@ -8,7 +8,7 @@ import me.kirimin.mitsumine.model.UserId
 import com.activeandroid.query.Delete
 import com.activeandroid.query.Select
 
-public class UserIdDAO private() {
+public class UserIdDAO private constructor() {
     companion object {
 
         public fun save(word: String) {

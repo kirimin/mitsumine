@@ -5,11 +5,11 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v7.app.ActionBarActivity
+import android.support.v7.app.AppCompatActivity
 
 import me.kirimin.mitsumine.R
 
-public class UrlReceiveActivity : ActionBarActivity() {
+public class UrlReceiveActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

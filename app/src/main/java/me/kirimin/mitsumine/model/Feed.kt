@@ -34,6 +34,8 @@ public class Feed : Model() {
     Column(name = "saveTime")
     public var saveTime: Long = 0
 
+    public var tagList: List<String> = emptyList()
+
     override fun toString(): String {
         return StringBuilder().append("title:").append(title).append(" type:").append(type).toString()
     }

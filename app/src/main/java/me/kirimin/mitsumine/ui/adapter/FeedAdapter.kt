@@ -23,10 +23,11 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import me.kirimin.mitsumine.network.api.TagListApi
 
 public class FeedAdapter(context: Context, private val mListener: FeedAdapter.FeedAdapterListener, private val mUseReadLater: Boolean, private val mUseRead: Boolean) : ArrayAdapter<Feed>(context, 0), OnClickListener, OnLongClickListener {
 
-    public trait FeedAdapterListener {
+    public interface FeedAdapterListener {
         public fun onFeedLeftSlide(view: View)
 
         public fun onFeedRightSlide(view: View)
@@ -77,7 +78,8 @@ public class FeedAdapter(context: Context, private val mListener: FeedAdapter.Fe
                     feedView.findViewById(R.id.FeedFragmentTextViewTitle) as TextView,
                     feedView.findViewById(R.id.FeedFragmentTextViewContent) as TextView,
                     feedView.findViewById(R.id.FeedFragmentTextViewDomain) as TextView,
-                    feedView.findViewById(R.id.FeedFragmentImageViewBookmarkCount) as TextView)
+                    feedView.findViewById(R.id.FeedFragmentImageViewBookmarkCount) as TextView,
+                    feedView.findViewById(R.id.FeedFragmentTextViewTags) as TextView)
             view.setTag(holder)
         } else {
             view = convertView
@@ -96,9 +98,10 @@ public class FeedAdapter(context: Context, private val mListener: FeedAdapter.Fe
         holder.mDomain.setText(feed.linkUrl)
 
         try {
-            val oldSubscription = holder.mDomain.getTag() as Subscription
-            oldSubscription.unsubscribe()
-            holder.mBookmarkCount.getEditableText().clear()
+            (holder.mBookmarkCount.getTag() as Subscription).unsubscribe()
+            holder.mBookmarkCount.setVisibility(View.GONE)
+            (holder.mTags.getTag() as Subscription).unsubscribe()
+            holder.mTags.setVisibility(View.INVISIBLE);
         } catch (e: TypeCastException) {
         }
         val subscription = ViewObservable.bindView<String>(holder.mBookmarkCount,
@@ -106,13 +109,25 @@ public class FeedAdapter(context: Context, private val mListener: FeedAdapter.Fe
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ s ->
-                    holder.mBookmarkCount.getEditableText().clear()
-                    holder.mBookmarkCount.getEditableText().append(s)
+                    holder.mBookmarkCount.setText(s)
+                    holder.mBookmarkCount.setVisibility(View.VISIBLE)
                 }, { e ->
-                    holder.mBookmarkCount.getEditableText().clear()
+                    holder.mBookmarkCount.setVisibility(View.GONE)
                 })
         holder.mBookmarkCount.setTag(subscription)
         holder.mThumbnail.setImageResource(R.drawable.no_image)
+
+        val subscription2 = ViewObservable.bindView<List<String>>(holder.mTags,
+                TagListApi.request(RequestQueueSingleton.get(getContext()), feed.linkUrl))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ tags ->
+                    holder.mTags.setText(tags.joinToString(", "))
+                    holder.mTags.setVisibility(View.VISIBLE)
+                }, { e ->
+                    holder.mTags.setVisibility(View.INVISIBLE)
+                })
+        holder.mTags.setTag(subscription2)
 
         if (!feed.thumbnailUrl.isEmpty()) {
             Picasso.with(getContext()).load(feed.thumbnailUrl).into(holder.mThumbnail)
@@ -148,5 +163,6 @@ public class FeedAdapter(context: Context, private val mListener: FeedAdapter.Fe
             val mTitle: TextView,
             val mContent: TextView,
             val mDomain: TextView,
-            val mBookmarkCount: TextView) {}
+            val mBookmarkCount: TextView,
+            val mTags: TextView) {}
 }

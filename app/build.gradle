@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "me.kirimin.mitsumine"
         minSdkVersion 15
-        targetSdkVersion 21
+        targetSdkVersion 22
 
         testApplicationId "me.kirimin.mitsumine.test"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -23,31 +23,34 @@ android {
     packagingOptions {
         exclude 'LICENSE.txt'
     }
+
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
 }
 
 dependencies {
-    compile 'com.android.support:support-annotations:21.0.3'
+    compile 'com.android.support:support-annotations:22.+'
+    compile 'com.android.support:support-v4:22.+'
+    compile 'com.android.support:appcompat-v7:22.+'
+    compile 'com.android.support:cardview-v7:22.+'
     compile 'com.mcxiaoke.volley:library:1.0.+'
-    compile 'com.android.support:support-v4:21.+'
-    compile 'com.android.support:appcompat-v7:21.+'
-    compile 'com.android.support:cardview-v7:21.+'
-    compile 'com.squareup.picasso:picasso:2.3.3'
+    compile 'com.squareup.picasso:picasso:2.5.+'
     compile 'com.jpardogo.materialtabstrip:library:1.0.6'
     compile 'com.makeramen:roundedimageview:1.5.0'
-    compile 'com.jakewharton:butterknife:6.0.0'
     compile 'io.reactivex:rxandroid:0.24.0'
     compile 'org.scribe:scribe:1.3.6'
+    compile 'com.github.kirimin:JsonArralin:0.1.2'
     compile files('libs/activeandroid.jar')
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
 
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
     androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 buildscript {
-    ext.kotlin_version = '0.11.91.1'
+    ext.kotlin_version = '0.12.200'
     repositories {
         mavenCentral()
     }
@@ -58,4 +61,7 @@ buildscript {
 }
 repositories {
     mavenCentral()
+    maven {
+        url "https://jitpack.io"
+    }
 }

@@ -10,15 +10,17 @@ import org.scribe.model.Verb
 import org.scribe.oauth.OAuthService
 
 import me.kirimin.mitsumine.model.Account
+import me.kirimin.mitsumine.model.MyBookmark
 import me.kirimin.mitsumine.network.api.oauth.Consumer
 import me.kirimin.mitsumine.network.api.oauth.HatenaOAuthProvider
+import me.kirimin.mitsumine.network.api.parser.MyBookmarksApiParser
 import rx.Observable
 import rx.Subscriber
 
 public class MyBookmarksApi {
     companion object {
 
-        public fun request(account: Account, keyword: String, offset: Int): Observable<JSONObject> {
+        public fun request(account: Account, keyword: String, offset: Int): Observable<MyBookmark> {
             return Observable.create<JSONObject>{ subscriber ->
                 val oAuthService = ServiceBuilder().provider(javaClass<HatenaOAuthProvider>()).apiKey(Consumer.K).apiSecret(Consumer.S).build()
                 val accessToken = Token(account.token, account.tokenSecret)
@@ -37,8 +39,7 @@ public class MyBookmarksApi {
                 } catch (e: JSONException) {
                     subscriber.onError(e)
                 }
-
-            }
+            }.flatMap { response -> MyBookmarksApiParser.parseResponse(response) }
         }
     }
 }

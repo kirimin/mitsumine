@@ -39,7 +39,7 @@ public class SettingFragment : PreferenceFragment() {
         val ngWordList = NGWordDAO.findAll().plus(getString(R.string.settings_ngword_add))
         return AlertDialog.Builder(getActivity())
                 .setTitle(R.string.settings_ngword)
-                .setItems(ngWordList.copyToArray(), { dialog, which ->
+                .setItems(ngWordList.toTypedArray(), { dialog, which ->
                     if (which == ngWordList.size() - 1) {
                         createAddDialog().show()
                     } else {

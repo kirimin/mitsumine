@@ -30,6 +30,10 @@ public class Bookmark : Parcelable {
         this.isPrivate = isPrivate
     }
 
+    public fun hasComment(): Boolean {
+        return !comment.toString().isEmpty()
+    }
+
     protected constructor(`in`: Parcel) {
         user = `in`.readString()
         if (`in`.readByte() == 1.toByte()) {

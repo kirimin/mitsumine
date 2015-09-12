@@ -8,7 +8,7 @@ import com.activeandroid.query.Delete
 import com.activeandroid.query.Select
 import me.kirimin.mitsumine.model.Feed
 
-public class FeedDAO private() {
+public class FeedDAO private constructor() {
     companion object {
 
         public fun save(feed: Feed) {

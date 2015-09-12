@@ -25,7 +25,7 @@ public class BookmarkListFragment : Fragment() {
         public fun newFragment(bookmarkList: List<Bookmark>): BookmarkListFragment {
             val fragment = BookmarkListFragment()
             val bundle = Bundle()
-            bundle.putParcelableArray("bookmarkList", bookmarkList.copyToArray())
+            bundle.putParcelableArray("bookmarkList", bookmarkList.toTypedArray())
             fragment.setArguments(bundle)
             return fragment
         }

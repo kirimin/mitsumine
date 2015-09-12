@@ -23,7 +23,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v4.view.MenuItemCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBar
-import android.support.v7.app.ActionBarActivity
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -46,7 +46,7 @@ import kotlinx.android.synthetic.activity_top.*
 import me.kirimin.mitsumine.ui.activity.search.SearchActivity
 import java.io.Serializable
 
-public class TopActivity : ActionBarActivity() {
+public class TopActivity : AppCompatActivity() {
 
     private var mDrawerToggle: ActionBarDrawerToggle? = null
     private var mSelectedCategory = CATEGORY.MAIN
@@ -66,7 +66,7 @@ public class TopActivity : ActionBarActivity() {
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setHomeButtonEnabled(true)
 
-        val data = array(getString(R.string.feed_hot), getString(R.string.feed_new))
+        val data = arrayOf(getString(R.string.feed_hot), getString(R.string.feed_new))
         val adapter = ArrayAdapter(actionBar.getThemedContext(), android.R.layout.simple_list_item_1, data)
         actionBar.setListNavigationCallbacks(adapter, { position, id ->
             drawerLayout.closeDrawers()

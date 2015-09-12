@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.ActionBar
-import android.support.v7.app.ActionBarActivity
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
@@ -15,7 +15,7 @@ import android.view.inputmethod.InputMethodManager
 
 import kotlinx.android.synthetic.activity_common_container.*
 
-public abstract class SearchActivity : ActionBarActivity(), SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
+public abstract class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
 
     private var mSearchItem: MenuItem? = null
     private var mSearchView: SearchView? = null
@@ -29,7 +29,7 @@ public abstract class SearchActivity : ActionBarActivity(), SearchView.OnQueryTe
     abstract fun getSearchTitle(): String
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super<ActionBarActivity>.onCreate(savedInstanceState)
+        super<AppCompatActivity>.onCreate(savedInstanceState)
         setContentView(R.layout.activity_common_container)
         setSupportActionBar(toolBar)
         val actionBar = getSupportActionBar()
@@ -63,7 +63,7 @@ public abstract class SearchActivity : ActionBarActivity(), SearchView.OnQueryTe
         if (!mIsShowFavorite) {
             menu.findItem(R.id.SearchMenuItemFavorite).setVisible(false)
         }
-        return super<ActionBarActivity>.onCreateOptionsMenu(menu)
+        return super<AppCompatActivity>.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -74,7 +74,7 @@ public abstract class SearchActivity : ActionBarActivity(), SearchView.OnQueryTe
         } else if (R.id.SearchMenuItemSearchView == item.getItemId()) {
             mSearchItem!!.expandActionView()
         }
-        return super<ActionBarActivity>.onOptionsItemSelected(item)
+        return super<AppCompatActivity>.onOptionsItemSelected(item)
     }
 
     override fun onQueryTextSubmit(query: String): Boolean {

@@ -1,7 +1,7 @@
 package me.kirimin.mitsumine.ui.activity
 
 import android.os.Bundle
-import android.support.v7.app.ActionBarActivity
+import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -16,7 +16,7 @@ import me.kirimin.mitsumine.model.EntryInfo
 import me.kirimin.mitsumine.network.api.EntryInfoApi
 import me.kirimin.mitsumine.ui.fragment.BookmarkListFragment
 import me.kirimin.mitsumine.ui.fragment.RegisterBookmarkFragment
-import me.kirimin.mitsumine.util.EntryInfoFunc
+import me.kirimin.mitsumine.network.api.parser.EntryInfoApiParser
 import me.kirimin.mitsumine.network.RequestQueueSingleton
 import me.kirimin.mitsumine.ui.adapter.EntryInfoPagerAdapter
 import rx.Observable
@@ -25,7 +25,7 @@ import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
 import kotlinx.android.synthetic.activity_entry_info.*
 
-public class EntryInfoActivity : ActionBarActivity() {
+public class EntryInfoActivity : AppCompatActivity() {
 
     companion object {
         public fun buildBundle(url: String): Bundle {
@@ -53,18 +53,18 @@ public class EntryInfoActivity : ActionBarActivity() {
         subscriptions.add(EntryInfoApi.request(RequestQueueSingleton.get(getApplicationContext()), url)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map { response -> EntryInfoFunc.toEntryInfo(response) }
                 .filter { entryInfo -> !entryInfo.isNullObject() }
                 .subscribe ({ entryInfo ->
                     countLayout.setVisibility(View.VISIBLE)
                     titleTextView.setText(entryInfo.title)
                     bookmarkCountTextView.setText(entryInfo.bookmarkCount.toString())
                     Picasso.with(getApplicationContext()).load(entryInfo.thumbnailUrl).fit().into(thumbnailImageView)
+                    tagsText.setText(entryInfo.tagList.joinToString(", "))
 
                     val adapter = EntryInfoPagerAdapter(getSupportFragmentManager())
                     adapter.addPage(BookmarkListFragment.newFragment(entryInfo.bookmarkList), getString(R.string.entry_info_all_bookmarks))
                     subscriptions.add(Observable.from<Bookmark>(entryInfo.bookmarkList)
-                            .filter { bookmark -> EntryInfoFunc.hasComment(bookmark) }
+                            .filter { bookmark -> bookmark.hasComment() }
                             .toList()
                             .subscribe { commentList ->
                                 commentCountTextView.setText(commentList.size().toString())

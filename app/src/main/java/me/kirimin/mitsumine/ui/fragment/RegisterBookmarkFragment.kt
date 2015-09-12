@@ -13,7 +13,7 @@ import java.util.ArrayList
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.db.AccountDAO
 import me.kirimin.mitsumine.network.api.BookmarkApi
-import me.kirimin.mitsumine.util.EntryInfoFunc
+import me.kirimin.mitsumine.network.api.parser.EntryInfoApiParser
 import rx.android.schedulers.AndroidSchedulers
 import rx.android.widget.WidgetObservable
 import rx.schedulers.Schedulers
@@ -39,16 +39,12 @@ public class RegisterBookmarkFragment : Fragment(), TagEditDialogFragment.OnOkCl
     private val subscriptions = CompositeSubscription()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val url = getArguments().getString("url")
-        if (url == null) {
-            throw IllegalStateException("url is null")
-        }
+        val url = getArguments().getString("url") ?: throw IllegalStateException("url is null")
         val rootView = inflater.inflate(R.layout.fragment_register_bookmark, container, false)
         rootView.cardView.setVisibility(View.INVISIBLE)
         subscriptions.add(BookmarkApi.requestBookmarkInfo(url, AccountDAO.get()!!)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(EntryInfoFunc.mapToMyBookmarkInfo())
                 .subscribe({ bookmark ->
                     rootView.cardView.setVisibility(View.VISIBLE)
                     changeBookmarkStatus(bookmark != null)
@@ -71,14 +67,14 @@ public class RegisterBookmarkFragment : Fragment(), TagEditDialogFragment.OnOkCl
             subscriptions.add(BookmarkApi.requestAddBookmark(url, AccountDAO.get()!!, comment, tags, isPrivate, isTwitter)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
+                    .subscribe({ bookmark ->
                         Toast.makeText(getActivity(),
                                 if (isAlreadyBookmarked) R.string.register_bookmark_edit_success else R.string.register_bookmark_register_success,
                                 Toast.LENGTH_SHORT).show()
                         changeBookmarkStatus(true)
                         rootView.registerButton.setEnabled(true)
                         rootView.deleteButton.setEnabled(true)
-                    }, {
+                    }, { e ->
                         rootView.registerButton.setEnabled(true)
                         rootView.deleteButton.setEnabled(true)
                         Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show()
@@ -92,7 +88,7 @@ public class RegisterBookmarkFragment : Fragment(), TagEditDialogFragment.OnOkCl
                     .subscribe({
                         changeBookmarkStatus(false)
                         Toast.makeText(getActivity(), R.string.register_bookmark_delete_success, Toast.LENGTH_SHORT).show()
-                    }, {
+                    }, { e ->
                         rootView.deleteButton.setEnabled(true)
                         Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show()
                     }))

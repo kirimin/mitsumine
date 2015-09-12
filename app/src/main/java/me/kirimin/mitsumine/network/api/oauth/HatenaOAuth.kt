@@ -20,7 +20,7 @@ public class HatenaOAuth {
     private val oAuthService: OAuthService
     private var requestToken: Token? = null
 
-    {
+    init {
         oAuthService = ServiceBuilder().provider(javaClass<HatenaOAuthProvider>()).apiKey(Consumer.K).apiSecret(Consumer.S).build()
     }
 

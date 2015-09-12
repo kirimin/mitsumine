@@ -4,11 +4,11 @@ import me.kirimin.mitsumine.R
 
 import android.os.Bundle
 import android.support.v7.app.ActionBar
-import android.support.v7.app.ActionBarActivity
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 
-public class AboutActivity : ActionBarActivity() {
+public class AboutActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

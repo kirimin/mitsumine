@@ -11,7 +11,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.preference.Preference
 import android.preference.PreferenceFragment
-import android.support.v7.app.ActionBarActivity
+import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.EditText
 import android.widget.Toast
@@ -19,7 +19,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.activity_settings.*
 import me.kirimin.mitsumine.ui.fragment.SettingFragment
 
-public class SettingActivity : ActionBarActivity() {
+public class SettingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

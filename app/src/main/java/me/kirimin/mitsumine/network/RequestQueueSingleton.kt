@@ -5,7 +5,7 @@ import android.content.Context
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 
-public class RequestQueueSingleton private() {
+public class RequestQueueSingleton private constructor() {
     companion object {
 
         private var queue: RequestQueue? = null

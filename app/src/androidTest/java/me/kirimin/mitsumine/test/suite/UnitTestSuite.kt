@@ -3,9 +3,9 @@ package me.kirimin.mitsumine.test.suite
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
-import me.kirimin.mitsumine.test.EntryInfoFuncTest
-import me.kirimin.mitsumine.test.FeedFuncTest
+import me.kirimin.mitsumine.test.BookmarkTest
+import me.kirimin.mitsumine.test.FeedUtilTest
 
-RunWith(javaClass<Suite>())
-Suite.SuiteClasses(javaClass<FeedFuncTest>(), javaClass<EntryInfoFuncTest>())
+RunWith(Suite::class)
+Suite.SuiteClasses(FeedUtilTest::class, BookmarkTest::class)
 public class UnitTestSuite

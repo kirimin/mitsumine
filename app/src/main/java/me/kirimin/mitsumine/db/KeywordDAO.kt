@@ -8,7 +8,7 @@ import me.kirimin.mitsumine.model.Keyword
 import com.activeandroid.query.Delete
 import com.activeandroid.query.Select
 
-public class KeywordDAO private() {
+public class KeywordDAO private constructor() {
     companion object {
 
         public fun save(word: String) {
