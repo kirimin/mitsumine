@@ -6,9 +6,6 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
-
-import java.util.Arrays
 
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.model.Bookmark
@@ -26,20 +23,20 @@ public class BookmarkListFragment : Fragment() {
             val fragment = BookmarkListFragment()
             val bundle = Bundle()
             bundle.putParcelableArray("bookmarkList", bookmarkList.toTypedArray())
-            fragment.setArguments(bundle)
+            fragment.arguments = bundle
             return fragment
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val bookmarks = getArguments().getParcelableArray("bookmarkList").map { o -> o as Bookmark }
+        val bookmarks = arguments.getParcelableArray("bookmarkList").map { o -> o as Bookmark }
         val rootView = inflater.inflate(R.layout.fragment_bookmark_list, container, false)
-        val adapter = BookmarkListAdapter(getActivity(), { v, bookmark ->
-            val intent = Intent(getActivity(), javaClass<UserSearchActivity>())
+        val adapter = BookmarkListAdapter(activity, { v, bookmark ->
+            val intent = Intent(activity, UserSearchActivity::class.java)
             intent.putExtras(SearchActivity.buildBundle(bookmark.user))
             startActivity(intent)
         })
-        rootView.listView.setAdapter(adapter)
+        rootView.listView.adapter = adapter
         adapter.addAll(bookmarks)
         return rootView
     }

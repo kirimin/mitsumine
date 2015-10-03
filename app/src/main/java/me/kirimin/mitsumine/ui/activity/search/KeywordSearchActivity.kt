@@ -13,7 +13,7 @@ public class KeywordSearchActivity : SearchActivity() {
     }
 
     override fun doFavorite() {
-        KeywordDAO.save(getTitle().toString())
+        KeywordDAO.save(title.toString())
         Toast.makeText(this, R.string.keyword_search_toast_favorite, Toast.LENGTH_SHORT).show()
     }
 

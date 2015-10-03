@@ -4,7 +4,6 @@ import me.kirimin.mitsumine.db.AccountDAO
 import me.kirimin.mitsumine.db.FeedDAO
 import me.kirimin.mitsumine.db.KeywordDAO
 import me.kirimin.mitsumine.db.UserIdDAO
-import me.kirimin.mitsumine.model.Account
 import me.kirimin.mitsumine.network.api.FeedApi.CATEGORY
 import me.kirimin.mitsumine.network.api.FeedApi.TYPE
 import me.kirimin.mitsumine.ui.activity.search.KeywordSearchActivity
@@ -15,16 +14,14 @@ import me.kirimin.mitsumine.ui.fragment.FeedFragment
 import me.kirimin.mitsumine.R
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v4.view.MenuItemCompat
-import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Menu
@@ -33,14 +30,10 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.View.OnLongClickListener
 import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 
 import com.makeramen.RoundedTransformationBuilder
 import com.squareup.picasso.Picasso
-import com.squareup.picasso.Transformation
 
 import kotlinx.android.synthetic.activity_top.*
 import me.kirimin.mitsumine.ui.activity.search.SearchActivity
@@ -60,14 +53,14 @@ public class TopActivity : AppCompatActivity() {
         FeedDAO.deleteOldData()
 
         setSupportActionBar(toolBar)
-        val actionBar = getSupportActionBar()
+        val actionBar = supportActionBar
 
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST)
+        actionBar.navigationMode = ActionBar.NAVIGATION_MODE_LIST
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setHomeButtonEnabled(true)
 
         val data = arrayOf(getString(R.string.feed_hot), getString(R.string.feed_new))
-        val adapter = ArrayAdapter(actionBar.getThemedContext(), android.R.layout.simple_list_item_1, data)
+        val adapter = ArrayAdapter(actionBar.themedContext, android.R.layout.simple_list_item_1, data)
         actionBar.setListNavigationCallbacks(adapter, { position, id ->
             drawerLayout.closeDrawers()
             mSelectedType = if (position == 0) TYPE.HOT else TYPE.NEW
@@ -86,28 +79,28 @@ public class TopActivity : AppCompatActivity() {
         }
 
         navigationReadTextView.setOnClickListener {
-            startActivity(Intent(this, javaClass<ReadActivity>()))
+            startActivity(Intent(this, ReadActivity::class.java))
             drawerLayout.closeDrawers()
         }
         navigationSettingsTextView.setOnClickListener {
-            startActivity(Intent(this, javaClass<SettingActivity>()))
+            startActivity(Intent(this, SettingActivity::class.java))
             drawerLayout.closeDrawers()
         }
         navigationKeywordSearchTextView.setOnClickListener {
-            startActivity(Intent(this, javaClass<KeywordSearchActivity>()))
+            startActivity(Intent(this, KeywordSearchActivity::class.java))
             drawerLayout.closeDrawers()
         }
         navigationUserSearchTextView.setOnClickListener {
-            startActivity(Intent(this, javaClass<UserSearchActivity>()))
+            startActivity(Intent(this, UserSearchActivity::class.java))
             drawerLayout.closeDrawers()
         }
         navigationUserInfoLayout.setOnClickListener {
-            val intent = Intent(this, javaClass<MyBookmarksActivity>())
+            val intent = Intent(this, MyBookmarksActivity::class.java)
             intent.putExtras(SearchActivity.buildBundle("", false))
             startActivity(intent)
         }
         navigationLoginButton.setOnClickListener {
-            startActivity(Intent(this, javaClass<LoginActivity>()))
+            startActivity(Intent(this, LoginActivity::class.java))
         }
 
         navigationCategories.addView(makeNavigationCategoryButton(CATEGORY.MAIN))
@@ -121,8 +114,8 @@ public class TopActivity : AppCompatActivity() {
         navigationCategories.addView(makeNavigationCategoryButton(CATEGORY.GAME))
 
         savedInstanceState?.let {
-            mSelectedCategory = savedInstanceState?.getSerializable(javaClass<CATEGORY>().getCanonicalName()) as CATEGORY
-            mSelectedType = savedInstanceState?.getSerializable(javaClass<TYPE>().getCanonicalName()) as TYPE
+            mSelectedCategory = savedInstanceState.getSerializable(CATEGORY::class.java.canonicalName) as CATEGORY
+            mSelectedType = savedInstanceState.getSerializable(TYPE::class.java.canonicalName) as TYPE
         }
         refreshShowCategoryAndType()
     }
@@ -132,21 +125,21 @@ public class TopActivity : AppCompatActivity() {
         loadNavigationButtons()
         val account = AccountDAO.get()
         if (account != null) {
-            navigationUserInfoLayout.setVisibility(View.VISIBLE)
-            navigationLoginButton.setVisibility(View.GONE)
-            navigationUserName.setText(account.urlName)
+            navigationUserInfoLayout.visibility = View.VISIBLE
+            navigationLoginButton.visibility = View.GONE
+            navigationUserName.text = account.urlName
             val transformation = RoundedTransformationBuilder().borderWidthDp(0f).cornerRadiusDp(48f).oval(false).build()
             Picasso.with(this).load(account.imageUrl).transform(transformation).fit().into(navigationUserIconImageView)
         } else {
-            navigationUserInfoLayout.setVisibility(View.GONE)
-            navigationLoginButton.setVisibility(View.VISIBLE)
+            navigationUserInfoLayout.visibility = View.GONE
+            navigationLoginButton.visibility = View.VISIBLE
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putSerializable(javaClass<CATEGORY>().getCanonicalName(), mSelectedCategory as Serializable)
-        outState.putSerializable(javaClass<TYPE>().getCanonicalName(), mSelectedType as Serializable)
+        outState.putSerializable(CATEGORY::class.java.canonicalName, mSelectedCategory as Serializable)
+        outState.putSerializable(TYPE::class.java.canonicalName, mSelectedType as Serializable)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -161,8 +154,8 @@ public class TopActivity : AppCompatActivity() {
             return true
         }
 
-        if (item!!.getTitle() == getString(R.string.type_read_later)) {
-            startActivity(Intent(this, javaClass<ReadLaterActivity>()))
+        if (item!!.title == getString(R.string.type_read_later)) {
+            startActivity(Intent(this, ReadLaterActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
     }
@@ -190,7 +183,7 @@ public class TopActivity : AppCompatActivity() {
         KeywordDAO.findAll().forEach { keyword ->
             navigationAdditions.addView(makeNavigationButton(keyword,
                     OnClickListener {
-                        val intent = Intent(this@TopActivity, javaClass<KeywordSearchActivity>())
+                        val intent = Intent(this@TopActivity, KeywordSearchActivity::class.java)
                         startActivity(intent.putExtras(SearchActivity.buildBundle(keyword)))
                         drawerLayout.closeDrawers()
                     },
@@ -202,7 +195,7 @@ public class TopActivity : AppCompatActivity() {
         UserIdDAO.findAll().forEach { userId ->
             navigationAdditions.addView(makeNavigationButton(userId,
                     OnClickListener {
-                        val intent = Intent(this@TopActivity, javaClass<UserSearchActivity>())
+                        val intent = Intent(this@TopActivity, UserSearchActivity::class.java)
                         startActivity(intent.putExtras(SearchActivity.buildBundle(userId)))
                         drawerLayout.closeDrawers()
                     },
@@ -222,7 +215,7 @@ public class TopActivity : AppCompatActivity() {
     }
 
     private fun makeNavigationButton(label: String, onClick: OnClickListener, onLongClick: OnLongClickListener?): View {
-        val navigationView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_top_navigation, null)
+        val navigationView = LayoutInflater.from(applicationContext).inflate(R.layout.activity_top_navigation, null)
         val textView = navigationView.findViewById(R.id.MainNavigationTextView) as TextView
         textView.setText(label)
         textView.setOnClickListener(onClick)
@@ -231,13 +224,13 @@ public class TopActivity : AppCompatActivity() {
     }
 
     private fun refreshShowCategoryAndType() {
-        getSupportActionBar().setTitle(mSelectedCategory.labelResource)
-        getSupportActionBar().setSelectedNavigationItem(if (mSelectedType == TYPE.HOT) 0 else 1)
-        getSupportFragmentManager().beginTransaction().replace(R.id.containerFrameLayout, FeedFragment.newFragment(mSelectedCategory, mSelectedType)).commit()
-        for (i in 0..navigationCategories.getChildCount() - 1) {
+        supportActionBar.setTitle(mSelectedCategory.labelResource)
+        supportActionBar.setSelectedNavigationItem(if (mSelectedType == TYPE.HOT) 0 else 1)
+        supportFragmentManager.beginTransaction().replace(R.id.containerFrameLayout, FeedFragment.newFragment(mSelectedCategory, mSelectedType)).commit()
+        for (i in 0..navigationCategories.childCount - 1) {
             val categoryButton = navigationCategories.getChildAt(i).findViewById(R.id.MainNavigationTextView) as TextView
-            val isSelectedCategory = categoryButton.getText() == getString(mSelectedCategory.labelResource)
-            categoryButton.setTextColor(getResources().getColor(if (isSelectedCategory) R.color.orange else R.color.text))
+            val isSelectedCategory = categoryButton.text == getString(mSelectedCategory.labelResource)
+            categoryButton.setTextColor(ContextCompat.getColor(this, if (isSelectedCategory) R.color.orange else R.color.text))
         }
     }
 
@@ -246,7 +239,7 @@ public class TopActivity : AppCompatActivity() {
                 .setTitle(R.string.settings_ngword_delete)
                 .setPositiveButton(android.R.string.ok, { dialog, id ->
                     KeywordDAO.delete(word)
-                    view.setVisibility(View.GONE)
+                    view.visibility = View.GONE
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .create()
@@ -257,7 +250,7 @@ public class TopActivity : AppCompatActivity() {
                 .setTitle(R.string.settings_ngword_delete)
                 .setPositiveButton(android.R.string.ok, { dialog, id ->
                     UserIdDAO.delete(word)
-                    view.setVisibility(View.GONE)
+                    view.visibility = View.GONE
                 })
                 .setNegativeButton(android.R.string.cancel, null).create()
     }

@@ -13,10 +13,10 @@ import me.kirimin.mitsumine.util.FeedUtil
 import org.hamcrest.Matchers.`is`
 import org.junit.Assert.assertThat
 
-RunWith(AndroidJUnit4::class)
+@RunWith(AndroidJUnit4::class)
 public class FeedUtilTest {
 
-    Test
+    @Test
     public fun containsはリスト内に同じタイトルのFeedが無いかを判定する() {
         val test1 = Feed()
         test1.title = "test1"
@@ -40,7 +40,7 @@ public class FeedUtilTest {
         assertThat(!FeedUtil.contains(test4, list), `is`(false))
     }
 
-    Test
+    @Test
     public fun containsWordはリスト内の文字列とタイトルが一致しないかを判定する() {
         val list = ArrayList<String>()
         list.add("tes1")

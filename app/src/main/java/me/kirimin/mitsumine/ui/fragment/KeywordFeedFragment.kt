@@ -22,7 +22,7 @@ public class KeywordFeedFragment : AbstractFeedFragment() {
             val fragment = KeywordFeedFragment()
             val bundle = Bundle()
             bundle.putString("keyword", keyword)
-            fragment.setArguments(bundle)
+            fragment.arguments = bundle
             return fragment
         }
     }
@@ -37,15 +37,15 @@ public class KeywordFeedFragment : AbstractFeedFragment() {
     override fun requestFeed() {
         val readFeedList = FeedDAO.findAll()
         val ngWordList = NGWordDAO.findAll()
-        subscriptions.add(FeedApi.requestKeyword(RequestQueueSingleton.get(getActivity()), getArguments().getString("keyword"))
+        subscriptions.add(FeedApi.requestKeyword(RequestQueueSingleton.get(activity), arguments.getString("keyword"))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter { feed -> !FeedUtil.contains(feed, readFeedList) && !FeedUtil.containsWord(feed, ngWordList) }
                 .toList()
                 .subscribe ({ feedList ->
                     clearFeed()
-                    if (feedList.isEmpty() && getActivity() != null) {
-                        Toast.makeText(getActivity(), R.string.keyword_search_toast_notfound, Toast.LENGTH_SHORT).show()
+                    if (feedList.isEmpty() && activity != null) {
+                        Toast.makeText(activity, R.string.keyword_search_toast_notfound, Toast.LENGTH_SHORT).show()
                         dismissRefreshing()
                     } else {
                         setFeed(feedList)

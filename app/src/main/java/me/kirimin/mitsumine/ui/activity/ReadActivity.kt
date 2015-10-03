@@ -3,6 +3,7 @@ package me.kirimin.mitsumine.ui.activity
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.ui.fragment.ReadFeedFragment
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
@@ -15,14 +16,14 @@ public class ReadActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_common_container)
 
-        toolBar.setBackgroundColor(getResources().getColor(R.color.blue))
+        toolBar.setBackgroundColor(ContextCompat.getColor(this, R.color.blue))
         setSupportActionBar(toolBar)
-        val actionBar = getSupportActionBar()
+        val actionBar = supportActionBar
         actionBar.setTitle(R.string.read_title)
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setHomeButtonEnabled(true)
 
-        getSupportFragmentManager()
+        supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.containerFrameLayout, ReadFeedFragment())
                 .commit()

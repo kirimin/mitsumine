@@ -44,26 +44,26 @@ public class FeedAdapter(context: Context, private val mListener: FeedAdapter.Fe
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
         if (convertView == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.row_pager, null)
+            view = LayoutInflater.from(context).inflate(R.layout.row_pager, null)
             val viewPager = view.findViewById(R.id.FeedFragmentViewPager) as ViewPager
-            val feedView = LayoutInflater.from(getContext()).inflate(R.layout.row_feed, null)
-            val adapter = FeedPagerAdapter(getContext(), feedView, object : OnSlideListener {
+            val feedView = LayoutInflater.from(context).inflate(R.layout.row_feed, null)
+            val adapter = FeedPagerAdapter(context, feedView, object : OnSlideListener {
 
                 override fun onLeftSlide(view: View) {
                     if (mUseReadLater) {
-                        viewPager.setCurrentItem(1)
+                        viewPager.currentItem = 1
                     } else {
-                        viewPager.setCurrentItem(0)
+                        viewPager.currentItem = 0
                     }
                     mListener.onFeedLeftSlide(view)
                 }
 
                 override fun onRightSlide(view: View) {
-                    viewPager.setCurrentItem(1)
+                    viewPager.currentItem = 1
                     mListener.onFeedRightSlide(view)
                 }
             }, mUseReadLater, mUseRead)
-            viewPager.setAdapter(adapter)
+            viewPager.adapter = adapter
             viewPager.setOnPageChangeListener(adapter)
             if (mUseReadLater) {
                 viewPager.setCurrentItem(1, false)
@@ -80,66 +80,66 @@ public class FeedAdapter(context: Context, private val mListener: FeedAdapter.Fe
                     feedView.findViewById(R.id.FeedFragmentTextViewDomain) as TextView,
                     feedView.findViewById(R.id.FeedFragmentImageViewBookmarkCount) as TextView,
                     feedView.findViewById(R.id.FeedFragmentTextViewTags) as TextView)
-            view.setTag(holder)
+            view.tag = holder
         } else {
             view = convertView
         }
 
-        val holder = view.getTag() as ViewHolder
+        val holder = view.tag as ViewHolder
         val feed = getItem(position)
-        holder.mFeedView.setTag(feed)
+        holder.mFeedView.tag = feed
         holder.mFeedView.setOnClickListener(this)
         holder.mFeedView.setOnLongClickListener(this)
-        holder.mShare.setTag(feed)
+        holder.mShare.tag = feed
         holder.mShare.setOnClickListener(this)
         holder.mShare.setOnLongClickListener(this)
-        holder.mTitle.setText(feed.title)
-        holder.mContent.setText(feed.content)
-        holder.mDomain.setText(feed.linkUrl)
+        holder.mTitle.text = feed.title
+        holder.mContent.text = feed.content
+        holder.mDomain.text = feed.linkUrl
 
         try {
-            (holder.mBookmarkCount.getTag() as Subscription).unsubscribe()
-            holder.mBookmarkCount.setVisibility(View.GONE)
-            (holder.mTags.getTag() as Subscription).unsubscribe()
-            holder.mTags.setVisibility(View.INVISIBLE);
+            (holder.mBookmarkCount.tag as Subscription).unsubscribe()
+            holder.mBookmarkCount.visibility = View.GONE
+            (holder.mTags.tag as Subscription).unsubscribe()
+            holder.mTags.visibility = View.INVISIBLE;
         } catch (e: TypeCastException) {
         }
         val subscription = ViewObservable.bindView<String>(holder.mBookmarkCount,
-                BookmarkCountApi.request(RequestQueueSingleton.get(getContext()), feed.linkUrl))
+                BookmarkCountApi.request(RequestQueueSingleton.get(context), feed.linkUrl))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ s ->
-                    holder.mBookmarkCount.setText(s)
-                    holder.mBookmarkCount.setVisibility(View.VISIBLE)
+                    holder.mBookmarkCount.text = s
+                    holder.mBookmarkCount.visibility = View.VISIBLE
                 }, { e ->
-                    holder.mBookmarkCount.setVisibility(View.GONE)
+                    holder.mBookmarkCount.visibility = View.GONE
                 })
-        holder.mBookmarkCount.setTag(subscription)
+        holder.mBookmarkCount.tag = subscription
         holder.mThumbnail.setImageResource(R.drawable.no_image)
 
         val subscription2 = ViewObservable.bindView<List<String>>(holder.mTags,
-                TagListApi.request(RequestQueueSingleton.get(getContext()), feed.linkUrl))
+                TagListApi.request(RequestQueueSingleton.get(context), feed.linkUrl))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ tags ->
-                    holder.mTags.setText(tags.joinToString(", "))
-                    holder.mTags.setVisibility(View.VISIBLE)
+                    holder.mTags.text = tags.joinToString(", ")
+                    holder.mTags.visibility = View.VISIBLE
                 }, { e ->
-                    holder.mTags.setVisibility(View.INVISIBLE)
+                    holder.mTags.visibility = View.INVISIBLE
                 })
-        holder.mTags.setTag(subscription2)
+        holder.mTags.tag = subscription2
 
         if (!feed.thumbnailUrl.isEmpty()) {
-            Picasso.with(getContext()).load(feed.thumbnailUrl).into(holder.mThumbnail)
+            Picasso.with(context).load(feed.thumbnailUrl).into(holder.mThumbnail)
         }
         if (!feed.faviconUrl.isEmpty()) {
-            Picasso.with(getContext()).load(feed.faviconUrl).into(holder.mFavicon)
+            Picasso.with(context).load(feed.faviconUrl).into(holder.mFavicon)
         }
         return view
     }
 
     override fun onClick(v: View) {
-        if (v.getId() == R.id.FeedFragmentImageViewShare) {
+        if (v.id == R.id.FeedFragmentImageViewShare) {
             mListener.onFeedShareClick(v)
         } else {
             mListener.onFeedClick(v)
@@ -147,7 +147,7 @@ public class FeedAdapter(context: Context, private val mListener: FeedAdapter.Fe
     }
 
     override fun onLongClick(v: View): Boolean {
-        if (v.getId() == R.id.FeedFragmentImageViewShare) {
+        if (v.id == R.id.FeedFragmentImageViewShare) {
             mListener.onFeedShareLongClick(v)
         } else {
             mListener.onFeedLongClick(v)

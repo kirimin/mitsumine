@@ -17,16 +17,16 @@ public class NGWordDAO private constructor() {
         }
 
         public fun findAll(): List<String> {
-            val list = Select().from(javaClass<NGWord>()).execute<NGWord>()
+            val list = Select().from(NGWord::class.java).execute<NGWord>()
             val stringList = ArrayList<String>()
             for (w in list) {
-                stringList.add(w.word)
+                stringList.add(w.word!!)
             }
             return stringList
         }
 
         public fun delete(word: String) {
-            Delete().from(javaClass<NGWord>()).where("word = ?", word).execute<Model>()
+            Delete().from(NGWord::class.java).where("word = ?", word).execute<Model>()
         }
     }
 }

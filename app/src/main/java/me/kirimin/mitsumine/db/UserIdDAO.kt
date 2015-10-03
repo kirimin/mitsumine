@@ -18,7 +18,7 @@ public class UserIdDAO private constructor() {
         }
 
         public fun findAll(): List<String> {
-            val list = Select().from(javaClass<UserId>()).execute<UserId>()
+            val list = Select().from(UserId::class.java).execute<UserId>()
             val stringList = ArrayList<String>()
             for (w in list) {
                 stringList.add(w.word)
@@ -27,7 +27,7 @@ public class UserIdDAO private constructor() {
         }
 
         public fun delete(word: String) {
-            Delete().from(javaClass<UserId>()).where("word = ?", word).execute<Model>()
+            Delete().from(UserId::class.java).where("word = ?", word).execute<Model>()
         }
     }
 }

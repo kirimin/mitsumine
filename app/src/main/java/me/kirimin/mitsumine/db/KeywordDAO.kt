@@ -18,7 +18,7 @@ public class KeywordDAO private constructor() {
         }
 
         public fun findAll(): List<String> {
-            val list = Select().from(javaClass<Keyword>()).execute<Keyword>()
+            val list = Select().from(Keyword::class.java).execute<Keyword>()
             val stringList = ArrayList<String>()
             for (w in list) {
                 stringList.add(w.word)
@@ -27,7 +27,7 @@ public class KeywordDAO private constructor() {
         }
 
         public fun delete(word: String) {
-            Delete().from(javaClass<Keyword>()).where("word = ?", word).execute<Model>()
+            Delete().from(Keyword::class.java).where("word = ?", word).execute<Model>()
         }
     }
 }

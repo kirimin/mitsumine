@@ -10,23 +10,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
-import android.widget.ListView
 import android.widget.Toast
-
-import org.json.JSONException
-import org.json.JSONObject
 
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.db.AccountDAO
-import me.kirimin.mitsumine.model.Account
-import me.kirimin.mitsumine.model.MyBookmark
 import me.kirimin.mitsumine.network.api.MyBookmarksApi
 import me.kirimin.mitsumine.ui.activity.EntryInfoActivity
 import me.kirimin.mitsumine.ui.adapter.MyBookmarksAdapter
-import me.kirimin.mitsumine.network.api.parser.MyBookmarksApiParser
-import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
-import rx.functions.Func1
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
 
@@ -40,7 +31,7 @@ public class MyBookmarksFragment : Fragment(), SwipeRefreshLayout.OnRefreshListe
             val fragment = MyBookmarksFragment()
             val bundle = Bundle()
             bundle.putString("keyword", keyword)
-            fragment.setArguments(bundle)
+            fragment.arguments = bundle
             return fragment
         }
     }
@@ -52,29 +43,29 @@ public class MyBookmarksFragment : Fragment(), SwipeRefreshLayout.OnRefreshListe
         val rootView = inflater.inflate(R.layout.fragment_my_bookmarks, container, false)
         rootView.swipeLayout.setColorSchemeResources(R.color.blue, R.color.orange)
         rootView.swipeLayout.setOnRefreshListener(this)
-        rootView.swipeLayout.setProgressViewOffset(false, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, getResources().getDisplayMetrics()).toInt())
-        adapter = MyBookmarksAdapter(getActivity(), { v, myBookmark ->
+        rootView.swipeLayout.setProgressViewOffset(false, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, resources.displayMetrics).toInt())
+        adapter = MyBookmarksAdapter(activity, { v, myBookmark ->
             // onClickLister
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(myBookmark.linkUrl)))
         }, { v, myBookmark ->
             // LongClickLister
-            val intent = Intent(getActivity(), javaClass<EntryInfoActivity>())
+            val intent = Intent(activity, EntryInfoActivity::class.java)
             intent.putExtras(EntryInfoActivity.buildBundle(myBookmark.linkUrl))
             startActivity(intent)
         })
-        rootView.listView.setAdapter(adapter!!)
+        rootView.listView.adapter = adapter!!
         rootView.listView.setOnScrollListener(this)
         return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super<Fragment>.onViewCreated(view, savedInstanceState)
+        super.onViewCreated(view, savedInstanceState)
         requestApi()
     }
 
     override fun onDestroyView() {
         subscriptions.unsubscribe()
-        super<Fragment>.onDestroyView()
+        super.onDestroyView()
     }
 
     override fun onRefresh() {
@@ -86,10 +77,10 @@ public class MyBookmarksFragment : Fragment(), SwipeRefreshLayout.OnRefreshListe
     }
 
     override fun onScroll(view: AbsListView, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
-        if (adapter!!.getCount() == 0) return;
+        if (adapter!!.count == 0) return;
         val total = adapter!!.getItem(0).totalCount
-        if (firstVisibleItem + visibleItemCount == totalItemCount && adapter!!.getCount() < total && !getView().swipeLayout.isRefreshing()) {
-            requestApi(adapter!!.getCount())
+        if (firstVisibleItem + visibleItemCount == totalItemCount && adapter!!.count < total && !getView().swipeLayout.isRefreshing) {
+            requestApi(adapter!!.count)
         }
     }
 
@@ -98,20 +89,20 @@ public class MyBookmarksFragment : Fragment(), SwipeRefreshLayout.OnRefreshListe
     }
 
     private fun requestApi(offset: Int) {
-        if (getView() == null) {
+        if (view == null) {
             return
         }
-        getView().swipeLayout.setRefreshing(true)
-        subscriptions.add(MyBookmarksApi.request(AccountDAO.get()!!, getArguments().getString("keyword"), offset)
+        view.swipeLayout.isRefreshing = true
+        subscriptions.add(MyBookmarksApi.request(AccountDAO.get()!!, arguments.getString("keyword"), offset)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ myBookmark ->
                     adapter!!.add(myBookmark)
                 }, { e ->
-                    Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show()
-                    if (getView() != null) getView().swipeLayout.setRefreshing(false)
+                    Toast.makeText(activity, R.string.network_error, Toast.LENGTH_SHORT).show()
+                    if (view != null) view.swipeLayout.isRefreshing = false
                 }, {
-                    if (getView() != null) getView().swipeLayout.setRefreshing(false)
+                    if (view != null) view.swipeLayout.isRefreshing = false
                 }))
     }
 }

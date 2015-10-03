@@ -36,15 +36,15 @@ public class BookmarkApi {
                     request.addQuerystringParameter("post_twitter", "true")
                 }
                 val response = ApiAccessor.oAuthRequest(account, request)
-                if (response.getCode() == 200) {
+                if (response.code == 200) {
                     try {
-                        subscriber.onNext(JSONObject(response.getBody()))
+                        subscriber.onNext(JSONObject(response.body))
                         subscriber.onCompleted()
                     } catch (e: JSONException) {
                         subscriber.onError(ApiRequestException("Json exception."))
                     }
                 } else {
-                    subscriber.onError(ApiRequestException("error code:" + response.getCode()))
+                    subscriber.onError(ApiRequestException("error code:" + response.code))
                 }
             }.map { response -> BookmarkApiParser.parseResponse(response) }
         }
@@ -54,11 +54,11 @@ public class BookmarkApi {
                 val request = OAuthRequest(Verb.DELETE, "http://api.b.hatena.ne.jp/1/my/bookmark")
                 request.addQuerystringParameter("url", url)
                 val response = ApiAccessor.oAuthRequest(account, request)
-                if (response.getCode() == 204) {
+                if (response.code == 204) {
                     subscriber.onNext(true)
                     subscriber.onCompleted()
                 } else {
-                    subscriber.onError(ApiRequestException("error code:" + response.getCode()))
+                    subscriber.onError(ApiRequestException("error code:" + response.code))
                 }
             }
         }
@@ -68,14 +68,14 @@ public class BookmarkApi {
                 val request = OAuthRequest(Verb.GET, "http://api.b.hatena.ne.jp/1/my/bookmark")
                 request.addQuerystringParameter("url", url)
                 val response = ApiAccessor.oAuthRequest(account, request)
-                if (response.getCode() == 200) {
+                if (response.code == 200) {
                     try {
                         subscriber.onNext(JSONObject(response.getBody()))
                         subscriber.onCompleted()
                     } catch (e: JSONException) {
                         subscriber.onError(ApiRequestException(""))
                     }
-                } else if (response.getCode() == 404) {
+                } else if (response.code == 404) {
                     subscriber.onNext(null)
                     subscriber.onCompleted()
                 } else {

@@ -8,16 +8,14 @@ import org.junit.runner.RunWith
 import java.util.ArrayList
 
 import me.kirimin.mitsumine.model.Bookmark
-import me.kirimin.mitsumine.network.api.parser.EntryInfoApiParser
-import me.kirimin.mitsumine.util.EntryInfoUtil
 
 import org.hamcrest.Matchers.`is`
 import org.junit.Assert.assertThat
 
-RunWith(AndroidJUnit4::class)
+@RunWith(AndroidJUnit4::class)
 public class BookmarkTest {
 
-    Test
+    @Test
     public fun hasCommentはコメントが空文字じゃないかを判定() {
         val bookmark1 = Bookmark("user", ArrayList<String>(), "timestamp", "comment", "icon")
         val bookmark2 = Bookmark("user", ArrayList<String>(), "timestamp", "コメント", "icon")

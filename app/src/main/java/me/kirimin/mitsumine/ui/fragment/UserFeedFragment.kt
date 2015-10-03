@@ -7,12 +7,10 @@ import android.widget.Toast
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.db.FeedDAO
 import me.kirimin.mitsumine.db.NGWordDAO
-import me.kirimin.mitsumine.model.Feed
 import me.kirimin.mitsumine.network.api.FeedApi
 import me.kirimin.mitsumine.network.RequestQueueSingleton
 import me.kirimin.mitsumine.util.FeedUtil
 import rx.android.schedulers.AndroidSchedulers
-import rx.functions.Action1
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
 
@@ -24,7 +22,7 @@ public class UserFeedFragment : AbstractFeedFragment() {
             val fragment = UserFeedFragment()
             val bundle = Bundle()
             bundle.putString("user", user)
-            fragment.setArguments(bundle)
+            fragment.arguments = bundle
             return fragment
         }
     }
@@ -39,15 +37,15 @@ public class UserFeedFragment : AbstractFeedFragment() {
     override fun requestFeed() {
         val readFeedList = FeedDAO.findAll()
         val ngWordList = NGWordDAO.findAll()
-        subscriptions.add(FeedApi.requestUserBookmark(RequestQueueSingleton.get(getActivity()), getArguments().getString("user"))
+        subscriptions.add(FeedApi.requestUserBookmark(RequestQueueSingleton.get(activity), arguments.getString("user"))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter { feed -> !FeedUtil.contains(feed, readFeedList) && !FeedUtil.containsWord(feed, ngWordList) }
                 .toList()
                 .subscribe({ feedList ->
                     clearFeed()
-                    if (feedList.isEmpty() && getActivity() != null) {
-                        Toast.makeText(getActivity(), R.string.user_search_toast_notfound, Toast.LENGTH_SHORT).show()
+                    if (feedList.isEmpty() && activity != null) {
+                        Toast.makeText(activity, R.string.user_search_toast_notfound, Toast.LENGTH_SHORT).show()
                         dismissRefreshing()
                     } else {
                         setFeed(feedList)

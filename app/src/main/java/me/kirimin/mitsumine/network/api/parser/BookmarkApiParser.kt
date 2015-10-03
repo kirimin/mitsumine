@@ -1,9 +1,9 @@
 package me.kirimin.mitsumine.network.api.parser
 
 import me.kirimin.mitsumine.model.Bookmark
+import me.kirimin.mitsumine.util.toList
 import org.json.JSONException
 import org.json.JSONObject
-import toList
 
 public class BookmarkApiParser {
     companion object {

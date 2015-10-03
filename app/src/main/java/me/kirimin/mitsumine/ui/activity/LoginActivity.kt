@@ -27,22 +27,22 @@ public class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         setSupportActionBar(toolBar)
-        val actionBar = getSupportActionBar()
+        val actionBar = supportActionBar
         actionBar.setTitle(R.string.settings_login)
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setHomeButtonEnabled(true)
 
         val OAuthApiManager = HatenaOAuth()
         authButton.setOnClickListener { v ->
-            v.setEnabled(false)
+            v.isEnabled = false
             subscriptions.add(OAuthApiManager.requestAuthUrl()
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ authUrl ->
                         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(authUrl)))
-                        v.setEnabled(true)
+                        v.isEnabled = true
                     }, { e ->
-                        v.setEnabled(true)
+                        v.isEnabled = true
                     })
             )
         }
@@ -52,10 +52,10 @@ public class LoginActivity : AppCompatActivity() {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ account ->
                         AccountDAO.save(account)
-                        Toast.makeText(getApplicationContext(), getString(R.string.login_success), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext, getString(R.string.login_success), Toast.LENGTH_SHORT).show()
                         finish()
                     }, { e ->
-                        Toast.makeText(getApplicationContext(), getString(R.string.login_error), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext, getString(R.string.login_error), Toast.LENGTH_SHORT).show()
                     })
             )
         }
@@ -67,7 +67,7 @@ public class LoginActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (android.R.id.home == item.getItemId()) {
+        if (android.R.id.home == item.itemId) {
             finish()
         }
         return super.onOptionsItemSelected(item)

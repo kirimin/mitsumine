@@ -10,7 +10,7 @@ import java.util.regex.Pattern
 
 import me.kirimin.mitsumine.model.Bookmark
 import me.kirimin.mitsumine.model.EntryInfo
-import toList
+import me.kirimin.mitsumine.util.toList
 
 public class EntryInfoApiParser {
     companion object {
@@ -28,7 +28,7 @@ public class EntryInfoApiParser {
                         .flatMap { bookmark -> bookmark.tags }
                         .groupBy { tags -> tags }
                         .map { tagMap -> tagMap.getValue() }
-                        .sortDescendingBy { tags -> tags.size() }
+                        .sortedByDescending { tags -> tags.size() }
                         .take(4)
                         .map { tags -> tags.get(0) }
                 return EntryInfo(title, count, url, thumbnail, bookmarkList, tags)
@@ -37,7 +37,6 @@ public class EntryInfoApiParser {
             }
         }
 
-        throws(JSONException::class)
         private fun parseBookmarksObject(bookmarks: JSONArray): List<Bookmark> {
             return bookmarks.toList<JSONObject>().map { bookmark ->
                 val user = bookmark.getString("user")

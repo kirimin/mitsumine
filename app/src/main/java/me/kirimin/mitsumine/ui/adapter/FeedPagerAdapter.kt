@@ -66,7 +66,7 @@ public class FeedPagerAdapter(context: Context, private val mLayout: View, priva
 
     override fun onPageSelected(position: Int) {
         if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout!!.setEnabled(true)
+            mSwipeRefreshLayout!!.isEnabled = true
         }
     }
 
@@ -76,7 +76,7 @@ public class FeedPagerAdapter(context: Context, private val mLayout: View, priva
         }
         // スクロール干渉防止
         if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout!!.setEnabled(positionOffset == 0f)
+            mSwipeRefreshLayout!!.isEnabled = positionOffset == 0f
         }
         if (positionOffset != 0f) {
             return
@@ -93,13 +93,13 @@ public class FeedPagerAdapter(context: Context, private val mLayout: View, priva
     }
 
     private fun searchSwipeRefreshLayout(view: View): SwipeRefreshLayout? {
-        if (view.getParent() == null) {
+        if (view.parent == null) {
             return null
         }
-        if (view.getParent() is SwipeRefreshLayout) {
-            return view.getParent() as SwipeRefreshLayout
+        if (view.parent is SwipeRefreshLayout) {
+            return view.parent as SwipeRefreshLayout
         } else {
-            return searchSwipeRefreshLayout(view.getParent() as View)
+            return searchSwipeRefreshLayout(view.parent as View)
         }
     }
 }
