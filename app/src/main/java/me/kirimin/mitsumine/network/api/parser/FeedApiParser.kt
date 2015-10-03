@@ -1,10 +1,10 @@
 package me.kirimin.mitsumine.network.api.parser
 
 import me.kirimin.mitsumine.model.Feed
+import me.kirimin.mitsumine.util.toList
 import org.json.JSONException
 import org.json.JSONObject
 import rx.Observable
-import toList
 
 class FeedApiParser {
     companion object {
@@ -19,7 +19,6 @@ class FeedApiParser {
             }
         }
 
-        throws(JSONException::class)
         private fun parseEntryObject(entriesObject: JSONObject): Feed {
             val feed = Feed()
             feed.title = entriesObject.getString("title")

@@ -29,33 +29,33 @@ public abstract class SearchActivity : AppCompatActivity(), SearchView.OnQueryTe
     abstract fun getSearchTitle(): String
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super<AppCompatActivity>.onCreate(savedInstanceState)
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_common_container)
         setSupportActionBar(toolBar)
-        val actionBar = getSupportActionBar()
+        val actionBar = supportActionBar
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setHomeButtonEnabled(true)
 
-        val keyword = getIntent().getStringExtra("keyword")
+        val keyword = intent.getStringExtra("keyword")
         if (keyword == null) {
-            setTitle(getSearchTitle())
+            title = getSearchTitle()
             return
         }
         mQueryStr = keyword
         mIsShowFavorite = getIntent().getBooleanExtra("isShowFavorite", true)
-        setTitle(keyword)
-        getSupportFragmentManager()
+        title = keyword
+        supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.containerFrameLayout, newFragment(keyword))
                 .commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        getMenuInflater().inflate(R.menu.search, menu)
+        menuInflater.inflate(R.menu.search, menu)
 
         mSearchItem = menu.findItem(R.id.SearchMenuItemSearchView)
         mSearchView = MenuItemCompat.getActionView(mSearchItem) as SearchView
-        mSearchView!!.setQueryHint(getSearchTitle())
+        mSearchView!!.queryHint = getSearchTitle()
         mSearchView!!.setOnQueryTextListener(this)
         if (mQueryStr.isEmpty()) {
             mSearchItem!!.expandActionView()
@@ -63,27 +63,27 @@ public abstract class SearchActivity : AppCompatActivity(), SearchView.OnQueryTe
         if (!mIsShowFavorite) {
             menu.findItem(R.id.SearchMenuItemFavorite).setVisible(false)
         }
-        return super<AppCompatActivity>.onCreateOptionsMenu(menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (android.R.id.home == item.getItemId()) {
+        if (android.R.id.home == item.itemId) {
             finish()
-        } else if (R.id.SearchMenuItemFavorite == item.getItemId() && !mQueryStr.isEmpty()) {
+        } else if (R.id.SearchMenuItemFavorite == item.itemId && !mQueryStr.isEmpty()) {
             doFavorite()
-        } else if (R.id.SearchMenuItemSearchView == item.getItemId()) {
+        } else if (R.id.SearchMenuItemSearchView == item.itemId) {
             mSearchItem!!.expandActionView()
         }
-        return super<AppCompatActivity>.onOptionsItemSelected(item)
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onQueryTextSubmit(query: String): Boolean {
-        setTitle(query)
+        title = query
         mQueryStr = query
         mSearchItem!!.collapseActionView()
         MenuItemCompat.setOnActionExpandListener(mSearchItem, this)
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.containerFrameLayout, newFragment(query)).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.containerFrameLayout, newFragment(query)).commit()
         return false
     }
 

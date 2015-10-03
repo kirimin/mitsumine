@@ -21,12 +21,12 @@ public class HatenaOAuth {
     private var requestToken: Token? = null
 
     init {
-        oAuthService = ServiceBuilder().provider(javaClass<HatenaOAuthProvider>()).apiKey(Consumer.K).apiSecret(Consumer.S).build()
+        oAuthService = ServiceBuilder().provider(HatenaOAuthProvider::class.java).apiKey(Consumer.K).apiSecret(Consumer.S).build()
     }
 
     public fun requestAuthUrl(): Observable<String> {
         return Observable.create<String>{ subscriber ->
-            requestToken = oAuthService.getRequestToken()
+            requestToken = oAuthService.requestToken
             subscriber.onNext(oAuthService.getAuthorizationUrl(requestToken))
             subscriber.onCompleted()
         }
@@ -44,9 +44,9 @@ public class HatenaOAuth {
             val response = request.send()
             try {
                 val user = Account()
-                user.token = accessToken.getToken()
-                user.tokenSecret = accessToken.getSecret()
-                val json = JSONObject(response.getBody())
+                user.token = accessToken.token
+                user.tokenSecret = accessToken.secret
+                val json = JSONObject(response.body)
                 user.urlName = json.getString("url_name")
                 user.displayName = json.getString("display_name")
                 user.imageUrl = json.getString("profile_image_url")

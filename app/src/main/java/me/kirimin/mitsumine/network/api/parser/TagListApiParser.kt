@@ -1,8 +1,8 @@
 package me.kirimin.mitsumine.network.api.parser
 
+import me.kirimin.mitsumine.util.toList
 import org.json.JSONException
 import org.json.JSONObject
-import toList
 
 public class TagListApiParser {
     companion object {
@@ -14,7 +14,7 @@ public class TagListApiParser {
                         .flatMap { tags -> tags }
                         .groupBy { tags -> tags }
                         .map { tagMap -> tagMap.getValue() }
-                        .sortDescendingBy { tags -> tags.size() }
+                        .sortedByDescending { tags -> tags.size() }
                         .take(4)
                         .map { tags -> tags.get(0) }
                 return tags

@@ -4,6 +4,7 @@ import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.ui.fragment.ReadLaterFeedFragment
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -17,18 +18,18 @@ public class ReadLaterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_common_container)
 
-        toolBar.setBackgroundColor(getResources().getColor(R.color.orange))
+        toolBar.setBackgroundColor(ContextCompat.getColor(this, R.color.orange))
         setSupportActionBar(toolBar)
-        val actionBar = getSupportActionBar()
+        val actionBar = supportActionBar
         actionBar.setTitle(R.string.type_read_later)
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setHomeButtonEnabled(true)
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.containerFrameLayout, ReadLaterFeedFragment()).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.containerFrameLayout, ReadLaterFeedFragment()).commit()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (android.R.id.home == item.getItemId()) {
+        if (android.R.id.home == item.itemId) {
             finish()
         }
         return super.onOptionsItemSelected(item)

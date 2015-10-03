@@ -5,7 +5,6 @@ import android.os.Bundle
 
 import me.kirimin.mitsumine.db.FeedDAO
 import me.kirimin.mitsumine.db.NGWordDAO
-import me.kirimin.mitsumine.model.Feed
 import me.kirimin.mitsumine.network.api.FeedApi
 import me.kirimin.mitsumine.network.api.FeedApi.CATEGORY
 import me.kirimin.mitsumine.network.api.FeedApi.TYPE
@@ -27,11 +26,11 @@ public class FeedFragment : AbstractFeedFragment() {
 
     override fun requestFeed() {
         showRefreshing()
-        val category = getArguments().getSerializable(javaClass<CATEGORY>().getCanonicalName()) as CATEGORY
-        val type = getArguments().getSerializable(javaClass<TYPE>().getCanonicalName()) as TYPE
+        val category = arguments.getSerializable(CATEGORY::class.java.canonicalName) as CATEGORY
+        val type = arguments.getSerializable(TYPE::class.java.canonicalName) as TYPE
         val readFeedList = FeedDAO.findAll()
         val ngWordList = NGWordDAO.findAll()
-        subscriptions.add(FeedApi.requestCategory(RequestQueueSingleton.get(getActivity()), category, type)
+        subscriptions.add(FeedApi.requestCategory(RequestQueueSingleton.get(activity), category, type)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter { feed -> !FeedUtil.contains(feed, readFeedList) && !FeedUtil.containsWord(feed, ngWordList) }
@@ -57,9 +56,9 @@ public class FeedFragment : AbstractFeedFragment() {
         public fun newFragment(category: CATEGORY, type: TYPE): FeedFragment {
             val fragment = FeedFragment()
             val bundle = Bundle()
-            bundle.putSerializable(javaClass<CATEGORY>().getCanonicalName(), category as Serializable)
-            bundle.putSerializable(javaClass<TYPE>().getCanonicalName(), type as Serializable)
-            fragment.setArguments(bundle)
+            bundle.putSerializable(CATEGORY::class.java.canonicalName, category as Serializable)
+            bundle.putSerializable(TYPE::class.java.canonicalName, type as Serializable)
+            fragment.arguments = bundle
             return fragment
         }
     }

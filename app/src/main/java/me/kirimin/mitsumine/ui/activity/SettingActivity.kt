@@ -25,16 +25,16 @@ public class SettingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         setSupportActionBar(toolBar)
-        val actionBar = getSupportActionBar()
+        val actionBar = supportActionBar
         actionBar.setTitle(R.string.settings_title)
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setHomeButtonEnabled(true)
 
-        getFragmentManager().beginTransaction().replace(R.id.content, SettingFragment()).commit()
+        fragmentManager.beginTransaction().replace(R.id.content, SettingFragment()).commit()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (android.R.id.home == item.getItemId()) {
+        if (android.R.id.home == item.itemId) {
             finish()
         }
         return super.onOptionsItemSelected(item)

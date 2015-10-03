@@ -31,19 +31,19 @@ public class TagEditDialogFragmentAdapter(context: Context, tags: ArrayList<Stri
                     view.findViewById(R.id.RegisterBookmarkTagEditDialogTagName) as TextView,
                     view.findViewById(R.id.RegisterBookmarkTagEditDialogDelete) as Button)
             ViewObservable.clicks(holder.deleteButton).subscribe(onDeleteButtonClick)
-            view.setTag(holder)
+            view.tag = holder
         } else {
             view = convertView
         }
-        val holder = view.getTag() as ViewHolder
-        holder.tagName.setText(getItem(position))
-        holder.deleteButton.setTag(holder.tagName.getText().toString())
+        val holder = view.tag as ViewHolder
+        holder.tagName.text = getItem(position)
+        holder.deleteButton.tag = holder.tagName.text.toString()
         return view
     }
 
     public fun getAllItem(): ArrayList<String> {
         val tags = ArrayList<String>()
-        for (i in 0..getCount() - 1) {
+        for (i in 0..count - 1) {
             tags.add(getItem(i))
         }
         return tags

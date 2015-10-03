@@ -1,6 +1,5 @@
 package me.kirimin.mitsumine.ui.event
 
-import android.text.Layout
 import android.text.Selection
 import android.text.Spannable
 import android.text.method.LinkMovementMethod
@@ -10,23 +9,23 @@ import android.widget.TextView
 
 public class IfNeededLinkMovementMethod : LinkMovementMethod() {
     override fun onTouchEvent(widget: TextView, buffer: Spannable, event: MotionEvent): Boolean {
-        val action = event.getAction()
+        val action = event.action
 
         if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_DOWN) {
-            var x = event.getX().toInt()
-            var y = event.getY().toInt()
+            var x = event.x.toInt()
+            var y = event.y.toInt()
 
-            x -= widget.getTotalPaddingLeft()
-            y -= widget.getTotalPaddingTop()
+            x -= widget.totalPaddingLeft
+            y -= widget.totalPaddingTop
 
-            x += widget.getScrollX()
-            y += widget.getScrollY()
+            x += widget.scrollX
+            y += widget.scrollY
 
-            val layout = widget.getLayout()
+            val layout = widget.layout
             val line = layout.getLineForVertical(y)
             val off = layout.getOffsetForHorizontal(line, x.toFloat())
 
-            val link = buffer.getSpans<ClickableSpan>(off, off, javaClass<ClickableSpan>())
+            val link = buffer.getSpans<ClickableSpan>(off, off, ClickableSpan::class.java)
 
             if (link.size() != 0) {
                 if (action == MotionEvent.ACTION_UP) {

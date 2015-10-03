@@ -1,14 +1,11 @@
 package me.kirimin.mitsumine.network.api.parser
 
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
-import java.util.ArrayList
-
 import me.kirimin.mitsumine.model.MyBookmark
+import me.kirimin.mitsumine.util.toList
 import rx.Observable
-import toList
 
 public class MyBookmarksApiParser {
     companion object {

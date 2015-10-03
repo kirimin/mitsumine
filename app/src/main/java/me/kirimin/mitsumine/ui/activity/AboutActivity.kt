@@ -14,7 +14,7 @@ public class AboutActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
         setSupportActionBar(findViewById(R.id.tool_bar) as Toolbar)
-        val actionBar = getSupportActionBar()
+        val actionBar = supportActionBar
         actionBar.setTitle(R.string.about_title)
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setHomeButtonEnabled(true)

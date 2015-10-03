@@ -16,7 +16,7 @@ public class SettingFragment : PreferenceFragment() {
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.app_preferences)
         findPreference("about").setOnPreferenceClickListener {
-            startActivity(Intent(getActivity(), javaClass<AboutActivity>()))
+            startActivity(Intent(activity, AboutActivity::class.java))
             false
         }
 
@@ -26,18 +26,18 @@ public class SettingFragment : PreferenceFragment() {
         }
 
         val preference = findPreference("logout")
-        preference.setEnabled(AccountDAO.get() != null)
+        preference.isEnabled = AccountDAO.get() != null
         preference.setOnPreferenceClickListener { preference ->
             AccountDAO.delete()
-            Toast.makeText(getActivity(), getString(R.string.settings_logout_toast), Toast.LENGTH_SHORT).show()
-            preference.setEnabled(false)
+            Toast.makeText(activity, getString(R.string.settings_logout_toast), Toast.LENGTH_SHORT).show()
+            preference.isEnabled = false
             false
         }
     }
 
     private fun createEditNGWordDialog(): AlertDialog {
         val ngWordList = NGWordDAO.findAll().plus(getString(R.string.settings_ngword_add))
-        return AlertDialog.Builder(getActivity())
+        return AlertDialog.Builder(activity)
                 .setTitle(R.string.settings_ngword)
                 .setItems(ngWordList.toTypedArray(), { dialog, which ->
                     if (which == ngWordList.size() - 1) {
@@ -50,18 +50,18 @@ public class SettingFragment : PreferenceFragment() {
     }
 
     private fun createAddDialog(): AlertDialog {
-        val editText = EditText(getActivity())
-        return AlertDialog.Builder(getActivity())
+        val editText = EditText(activity)
+        return AlertDialog.Builder(activity)
                 .setTitle(R.string.settings_ngword_add)
                 .setPositiveButton(android.R.string.ok, { dialog, which ->
-                    if (editText.getText().length() != 0) NGWordDAO.save(editText.getText().toString())
+                    if (editText.text.length() != 0) NGWordDAO.save(editText.text.toString())
                 })
                 .setView(editText)
                 .create()
     }
 
     private fun createDeleteDialog(index: Int): AlertDialog {
-        return AlertDialog.Builder(getActivity())
+        return AlertDialog.Builder(activity)
                 .setTitle(R.string.settings_ngword_delete)
                 .setPositiveButton(android.R.string.ok, { dialog, which ->
                     NGWordDAO.delete(NGWordDAO.findAll().get(index))

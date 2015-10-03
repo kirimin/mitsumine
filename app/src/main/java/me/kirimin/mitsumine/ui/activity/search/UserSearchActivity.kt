@@ -13,7 +13,7 @@ public class UserSearchActivity : SearchActivity() {
     }
 
     override fun doFavorite() {
-        UserIdDAO.save(getTitle().toString())
+        UserIdDAO.save(title.toString())
         Toast.makeText(this, R.string.user_search_toast_favorite, Toast.LENGTH_SHORT).show()
     }
 

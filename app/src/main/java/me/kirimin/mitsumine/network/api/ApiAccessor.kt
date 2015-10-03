@@ -57,7 +57,7 @@ class ApiAccessor {
         }
 
         fun oAuthRequest(account: Account, request: OAuthRequest): Response {
-            val oAuthService = ServiceBuilder().provider(javaClass<HatenaOAuthProvider>()).apiKey(Consumer.K).apiSecret(Consumer.S).build()
+            val oAuthService = ServiceBuilder().provider(HatenaOAuthProvider::class.java).apiKey(Consumer.K).apiSecret(Consumer.S).build()
             val accessToken = Token(account.token, account.tokenSecret)
             oAuthService.signRequest(accessToken, request)
             return request.send()

@@ -18,26 +18,26 @@ public class MyBookmarksAdapter(context: Context,
         val view: View
         val holder: ViewHolder
         if (convertView == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.row_my_bookmarks, null)
+            view = LayoutInflater.from(context).inflate(R.layout.row_my_bookmarks, null)
             holder = ViewHolder(view.findViewById(R.id.card_view),
                     view.findViewById(R.id.MyBookmarksTitleTextView) as TextView,
                     view.findViewById(R.id.MyBookmarksUsersTextView) as TextView,
                     view.findViewById(R.id.MyBookmarksUrlTextView) as TextView)
-            view.setTag(holder)
+            view.tag = holder
         } else {
             view = convertView
-            holder = view.getTag() as ViewHolder
+            holder = view.tag as ViewHolder
         }
         val bookmark = getItem(position)
-        holder.cardView.setTag(bookmark)
-        holder.cardView.setOnClickListener { v -> onMyBookmarkClick(v, v.getTag() as MyBookmark) }
+        holder.cardView.tag = bookmark
+        holder.cardView.setOnClickListener { v -> onMyBookmarkClick(v, v.tag as MyBookmark) }
         holder.cardView.setOnLongClickListener { v ->
-            onMyBookmarkLongClick(v, v.getTag() as MyBookmark)
+            onMyBookmarkLongClick(v, v.tag as MyBookmark)
             false
         }
-        holder.title.setText(bookmark.title)
-        holder.userCount.setText(bookmark.bookmarkCount.toString() + getContext().getString(R.string.users_lower_case))
-        holder.url.setText(bookmark.linkUrl)
+        holder.title.text = bookmark.title
+        holder.userCount.text = bookmark.bookmarkCount.toString() + getContext().getString(R.string.users_lower_case)
+        holder.url.text = bookmark.linkUrl
         return view
     }
 

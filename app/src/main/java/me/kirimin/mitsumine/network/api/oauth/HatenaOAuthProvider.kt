@@ -3,7 +3,6 @@ package me.kirimin.mitsumine.network.api.oauth
 import org.scribe.builder.api.*
 import org.scribe.model.*
 import org.scribe.utils.OAuthEncoder
-import java.lang
 
 public class HatenaOAuthProvider : DefaultApi10a() {
 
@@ -17,6 +16,6 @@ public class HatenaOAuthProvider : DefaultApi10a() {
     }
 
     override fun getAuthorizationUrl(requestToken: Token): String {
-        return lang.String.format("https://www.hatena.ne.jp/oauth/authorize?oauth_token=%s", OAuthEncoder.encode(requestToken.getToken()))
+        return java.lang.String.format("https://www.hatena.ne.jp/oauth/authorize?oauth_token=%s", OAuthEncoder.encode(requestToken.getToken()))
     }
 }

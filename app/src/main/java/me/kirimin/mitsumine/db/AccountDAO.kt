@@ -12,15 +12,12 @@ public class AccountDAO {
         }
 
         public fun delete() {
-            val account = Select().from(javaClass<Account>()).executeSingle<Account>()
-            if (account != null) {
-                account.delete()
-            }
+            Select().from(Account::class.java).executeSingle<Account>()?.delete()
         }
 
 
         public fun get(): Account? {
-            return Select().from(javaClass<Account>()).executeSingle<Account>()
+            return Select().from(Account::class.java).executeSingle<Account>()
         }
     }
 }
