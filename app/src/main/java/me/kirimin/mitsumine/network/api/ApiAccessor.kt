@@ -1,57 +1,46 @@
 package me.kirimin.mitsumine.network.api
 
-import com.android.volley.RequestQueue
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.RequestFuture
-import com.android.volley.toolbox.StringRequest
+import com.squareup.okhttp.CacheControl
+import com.squareup.okhttp.OkHttpClient
+import com.squareup.okhttp.Request
 
 import org.json.JSONObject
 import org.scribe.builder.ServiceBuilder
 import org.scribe.model.OAuthRequest
 import org.scribe.model.Response
 import org.scribe.model.Token
-import org.scribe.oauth.OAuthService
-
-import java.util.concurrent.ExecutionException
 
 import me.kirimin.mitsumine.model.Account
 import me.kirimin.mitsumine.network.ApiRequestException
 import me.kirimin.mitsumine.network.api.oauth.Consumer
 import me.kirimin.mitsumine.network.api.oauth.HatenaOAuthProvider
 import rx.Observable
-import rx.Subscriber
+import java.util.concurrent.TimeUnit
 
 class ApiAccessor {
     companion object {
 
-        fun request(requestQueue: RequestQueue, url: String): Observable<JSONObject> {
-            return Observable.create<JSONObject>{ subscriber ->
-                val future = RequestFuture.newFuture<JSONObject>()
-                requestQueue.add<JSONObject>(JsonObjectRequest(url, null, future, future))
-                try {
-                    val response = future.get()
-                    subscriber.onNext(response)
-                    subscriber.onCompleted()
-                } catch (e: InterruptedException) {
-                    subscriber.onError(ApiRequestException("InterruptedException"))
-                } catch (e: ExecutionException) {
-                    subscriber.onError(ApiRequestException("ExecutionException"))
-                }
+        fun request(url: String): Observable<JSONObject> {
+            return stringRequest(url).map { response ->
+                JSONObject(response)
             }
         }
 
-        fun stringRequest(requestQueue: RequestQueue, url: String): Observable<String> {
-            return Observable.create<String>{ subscriber ->
-                val future = RequestFuture.newFuture<String>()
-                requestQueue.add<String>(StringRequest(url, future, future))
-                try {
-                    val response = future.get()
-                    subscriber.onNext(response)
+        fun stringRequest(url: String): Observable<String> {
+            return Observable.create<String> { subscriber ->
+                val client = OkHttpClient()
+                val request = Request.Builder()
+                        .url(url)
+                        .cacheControl(CacheControl.Builder().maxAge(5, TimeUnit.MINUTES).build())
+                        .get()
+                        .build();
+                val response = client.newCall(request).execute()
+                if (response.isSuccessful) {
+                    val json = response.body().string()
+                    subscriber.onNext(json)
                     subscriber.onCompleted()
-                } catch (e: InterruptedException) {
-                    subscriber.onError(ApiRequestException("InterruptedException"))
-                } catch (e: ExecutionException) {
-                    subscriber.onError(ApiRequestException("ExecutionException"))
+                } else {
+                    subscriber.onError(ApiRequestException("error:" + response.code()));
                 }
             }
         }

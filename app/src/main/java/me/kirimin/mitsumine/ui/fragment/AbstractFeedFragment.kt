@@ -4,7 +4,6 @@ package me.kirimin.mitsumine.ui.fragment
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.db.FeedDAO
 import me.kirimin.mitsumine.model.Feed
-import me.kirimin.mitsumine.network.RequestQueueSingleton
 import me.kirimin.mitsumine.ui.activity.EntryInfoActivity
 import me.kirimin.mitsumine.ui.adapter.FeedAdapter
 import me.kirimin.mitsumine.ui.adapter.FeedAdapter.FeedAdapterListener
@@ -121,9 +120,6 @@ public abstract class AbstractFeedFragment : Fragment(), FeedAdapterListener, Sw
     }
 
     private fun reloadFeed() {
-        if (activity != null) {
-            RequestQueueSingleton.get(activity).cache.clear()
-        }
         mAdapter!!.clear()
         requestFeed()
     }

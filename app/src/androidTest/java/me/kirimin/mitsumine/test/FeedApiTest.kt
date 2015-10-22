@@ -9,7 +9,6 @@ import org.junit.runner.RunWith
 import me.kirimin.mitsumine.network.api.FeedApi
 import me.kirimin.mitsumine.network.api.FeedApi.CATEGORY
 import me.kirimin.mitsumine.network.api.FeedApi.TYPE
-import me.kirimin.mitsumine.network.RequestQueueSingleton
 
 import android.support.test.espresso.matcher.ViewMatchers.assertThat
 import org.hamcrest.Matchers.not
@@ -19,7 +18,7 @@ public class FeedApiTest {
 
     @Test
     public fun requestCategoryはFeedを取得できる() {
-        FeedApi.requestCategory(RequestQueueSingleton.get(InstrumentationRegistry.getContext()), CATEGORY.MAIN, TYPE.HOT)
+        FeedApi.requestCategory(CATEGORY.MAIN, TYPE.HOT)
                 .count()
                 .subscribe() { count ->
                     assertThat(count, not(0))
@@ -28,7 +27,7 @@ public class FeedApiTest {
 
     @Test
     public fun requestKeywordはFeedを取得できる() {
-        FeedApi.requestKeyword(RequestQueueSingleton.get(InstrumentationRegistry.getContext()), "java")
+        FeedApi.requestKeyword("java")
                 .count()
                 .subscribe() { count ->
                     assertThat(count, not(0))
@@ -37,7 +36,7 @@ public class FeedApiTest {
 
     @Test
     public fun requestUserBookmarkはFeedを取得できる() {
-        FeedApi.requestUserBookmark(RequestQueueSingleton.get(InstrumentationRegistry.getContext()), "kirimin")
+        FeedApi.requestUserBookmark("kirimin")
                 .count()
                 .subscribe() { count ->
                     assertThat(count, not(0))

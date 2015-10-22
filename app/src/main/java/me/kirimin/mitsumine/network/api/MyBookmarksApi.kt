@@ -4,10 +4,8 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.scribe.builder.ServiceBuilder
 import org.scribe.model.OAuthRequest
-import org.scribe.model.Response
 import org.scribe.model.Token
 import org.scribe.model.Verb
-import org.scribe.oauth.OAuthService
 
 import me.kirimin.mitsumine.model.Account
 import me.kirimin.mitsumine.model.MyBookmark
@@ -15,7 +13,6 @@ import me.kirimin.mitsumine.network.api.oauth.Consumer
 import me.kirimin.mitsumine.network.api.oauth.HatenaOAuthProvider
 import me.kirimin.mitsumine.network.api.parser.MyBookmarksApiParser
 import rx.Observable
-import rx.Subscriber
 
 public class MyBookmarksApi {
     companion object {
