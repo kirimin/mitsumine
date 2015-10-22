@@ -1,13 +1,11 @@
 package me.kirimin.mitsumine.ui.activity
 
 import android.os.Bundle
-import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import com.astuetz.PagerSlidingTabStrip
 
 import com.squareup.picasso.Picasso
 
@@ -17,7 +15,6 @@ import me.kirimin.mitsumine.model.Bookmark
 import me.kirimin.mitsumine.network.api.EntryInfoApi
 import me.kirimin.mitsumine.ui.fragment.BookmarkListFragment
 import me.kirimin.mitsumine.ui.fragment.RegisterBookmarkFragment
-import me.kirimin.mitsumine.network.RequestQueueSingleton
 import me.kirimin.mitsumine.ui.adapter.EntryInfoPagerAdapter
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
@@ -50,7 +47,7 @@ public class EntryInfoActivity : AppCompatActivity() {
         if (url == null) {
             finish()
         }
-        subscriptions.add(EntryInfoApi.request(RequestQueueSingleton.get(getApplicationContext()), url)
+        subscriptions.add(EntryInfoApi.request(url)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter { entryInfo -> !entryInfo.isNullObject() }

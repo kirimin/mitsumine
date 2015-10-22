@@ -8,7 +8,6 @@ import me.kirimin.mitsumine.db.NGWordDAO
 import me.kirimin.mitsumine.network.api.FeedApi
 import me.kirimin.mitsumine.network.api.FeedApi.CATEGORY
 import me.kirimin.mitsumine.network.api.FeedApi.TYPE
-import me.kirimin.mitsumine.network.RequestQueueSingleton
 import me.kirimin.mitsumine.util.FeedUtil
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -30,7 +29,7 @@ public class FeedFragment : AbstractFeedFragment() {
         val type = arguments.getSerializable(TYPE::class.java.canonicalName) as TYPE
         val readFeedList = FeedDAO.findAll()
         val ngWordList = NGWordDAO.findAll()
-        subscriptions.add(FeedApi.requestCategory(RequestQueueSingleton.get(activity), category, type)
+        subscriptions.add(FeedApi.requestCategory(category, type)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter { feed -> !FeedUtil.contains(feed, readFeedList) && !FeedUtil.containsWord(feed, ngWordList) }

@@ -8,7 +8,6 @@ import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.db.FeedDAO
 import me.kirimin.mitsumine.db.NGWordDAO
 import me.kirimin.mitsumine.network.api.FeedApi
-import me.kirimin.mitsumine.network.RequestQueueSingleton
 import me.kirimin.mitsumine.util.FeedUtil
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -37,7 +36,7 @@ public class UserFeedFragment : AbstractFeedFragment() {
     override fun requestFeed() {
         val readFeedList = FeedDAO.findAll()
         val ngWordList = NGWordDAO.findAll()
-        subscriptions.add(FeedApi.requestUserBookmark(RequestQueueSingleton.get(activity), arguments.getString("user"))
+        subscriptions.add(FeedApi.requestUserBookmark(arguments.getString("user"))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter { feed -> !FeedUtil.contains(feed, readFeedList) && !FeedUtil.containsWord(feed, ngWordList) }

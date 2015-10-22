@@ -1,5 +1,6 @@
 package me.kirimin.mitsumine.network.api.parser
 
+import android.util.Log
 import me.kirimin.mitsumine.model.Feed
 import me.kirimin.mitsumine.util.toList
 import org.json.JSONException

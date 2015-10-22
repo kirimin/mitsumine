@@ -4,13 +4,11 @@ import com.squareup.picasso.Picasso
 
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.model.Feed
-import me.kirimin.mitsumine.network.RequestQueueSingleton
 import me.kirimin.mitsumine.network.api.BookmarkCountApi
 import me.kirimin.mitsumine.ui.adapter.FeedPagerAdapter.OnSlideListener
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.android.view.ViewObservable
-import rx.functions.Action1
 import rx.schedulers.Schedulers
 
 import android.content.Context
@@ -105,7 +103,7 @@ public class FeedAdapter(context: Context, private val mListener: FeedAdapter.Fe
         } catch (e: TypeCastException) {
         }
         val subscription = ViewObservable.bindView<String>(holder.mBookmarkCount,
-                BookmarkCountApi.request(RequestQueueSingleton.get(context), feed.linkUrl))
+                BookmarkCountApi.request(feed.linkUrl))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ s ->
@@ -118,7 +116,7 @@ public class FeedAdapter(context: Context, private val mListener: FeedAdapter.Fe
         holder.mThumbnail.setImageResource(R.drawable.no_image)
 
         val subscription2 = ViewObservable.bindView<List<String>>(holder.mTags,
-                TagListApi.request(RequestQueueSingleton.get(context), feed.linkUrl))
+                TagListApi.request(feed.linkUrl))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ tags ->
