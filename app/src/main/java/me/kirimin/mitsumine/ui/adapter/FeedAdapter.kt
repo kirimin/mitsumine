@@ -103,7 +103,7 @@ public class FeedAdapter(context: Context, private val mListener: FeedAdapter.Fe
         } catch (e: TypeCastException) {
         }
         val subscription = ViewObservable.bindView<String>(holder.mBookmarkCount,
-                BookmarkCountApi.request(feed.linkUrl))
+                BookmarkCountApi.request(context.applicationContext, feed.linkUrl))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ s ->
@@ -116,7 +116,7 @@ public class FeedAdapter(context: Context, private val mListener: FeedAdapter.Fe
         holder.mThumbnail.setImageResource(R.drawable.no_image)
 
         val subscription2 = ViewObservable.bindView<List<String>>(holder.mTags,
-                TagListApi.request(feed.linkUrl))
+                TagListApi.request(context.applicationContext, feed.linkUrl))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ tags ->

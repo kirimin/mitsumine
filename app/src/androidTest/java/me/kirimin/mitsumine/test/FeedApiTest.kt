@@ -10,36 +10,42 @@ import me.kirimin.mitsumine.network.api.FeedApi
 import me.kirimin.mitsumine.network.api.FeedApi.CATEGORY
 import me.kirimin.mitsumine.network.api.FeedApi.TYPE
 
-import android.support.test.espresso.matcher.ViewMatchers.assertThat
 import org.hamcrest.Matchers.not
+import org.junit.Assert.*;
+import rx.observers.TestSubscriber
 
 @RunWith(AndroidJUnit4::class)
 public class FeedApiTest {
 
     @Test
     public fun requestCategoryはFeedを取得できる() {
-        FeedApi.requestCategory(CATEGORY.MAIN, TYPE.HOT)
+        val testSubscriber = TestSubscriber<Int>()
+        FeedApi.requestCategory(InstrumentationRegistry.getContext(), CATEGORY.MAIN, TYPE.HOT)
                 .count()
-                .subscribe() { count ->
-                    assertThat(count, not(0))
-                }
+                .subscribe(testSubscriber)
+        testSubscriber.assertNoErrors()
+        assertThat(testSubscriber.onNextEvents.get(0), not(0))
     }
 
     @Test
     public fun requestKeywordはFeedを取得できる() {
-        FeedApi.requestKeyword("java")
+        val testSubscriber = TestSubscriber<Int>()
+        FeedApi.requestKeyword(InstrumentationRegistry.getContext(), "java")
                 .count()
-                .subscribe() { count ->
-                    assertThat(count, not(0))
-                }
+                .subscribe(testSubscriber)
+        testSubscriber.assertNoErrors()
+        assertThat(testSubscriber.onNextEvents.get(0), not(0))
+
     }
 
     @Test
     public fun requestUserBookmarkはFeedを取得できる() {
-        FeedApi.requestUserBookmark("kirimin")
+        val testSubscriber = TestSubscriber<Int>()
+        FeedApi.requestUserBookmark(InstrumentationRegistry.getContext(), "kirimin")
                 .count()
-                .subscribe() { count ->
-                    assertThat(count, not(0))
-                }
+                .subscribe(testSubscriber)
+        testSubscriber.assertNoErrors()
+        assertThat(testSubscriber.onNextEvents.get(0), not(0))
+
     }
 }

@@ -1,8 +1,7 @@
 package me.kirimin.mitsumine.network.api
 
-import com.squareup.okhttp.CacheControl
-import com.squareup.okhttp.OkHttpClient
-import com.squareup.okhttp.Request
+import android.content.Context
+import com.squareup.okhttp.*
 
 import org.json.JSONObject
 import org.scribe.builder.ServiceBuilder
@@ -15,23 +14,30 @@ import me.kirimin.mitsumine.network.ApiRequestException
 import me.kirimin.mitsumine.network.api.oauth.Consumer
 import me.kirimin.mitsumine.network.api.oauth.HatenaOAuthProvider
 import rx.Observable
+import java.io.File
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 class ApiAccessor {
     companion object {
 
-        fun request(url: String): Observable<JSONObject> {
-            return stringRequest(url).map { response ->
+        private val MAX_AGE_SECOND = 60 * 5;
+        private val MAX_CACHE_SIZE = 1024 * 1024 * 8.toLong()
+
+        private var defaultClient: OkHttpClient? = null
+
+        fun request(context: Context, url: String): Observable<JSONObject> {
+            return stringRequest(context, url).map { response ->
                 JSONObject(response)
             }
         }
 
-        fun stringRequest(url: String): Observable<String> {
+        fun stringRequest(context: Context, url: String): Observable<String> {
             return Observable.create<String> { subscriber ->
-                val client = OkHttpClient()
+                val client = getDefaultClient(context)
                 val request = Request.Builder()
                         .url(url)
-                        .cacheControl(CacheControl.Builder().maxAge(5, TimeUnit.MINUTES).build())
+                        .cacheControl(CacheControl.Builder().maxAge(MAX_AGE_SECOND, TimeUnit.SECONDS).build())
                         .get()
                         .build();
                 val response = client.newCall(request).execute()
@@ -50,6 +56,26 @@ class ApiAccessor {
             val accessToken = Token(account.token, account.tokenSecret)
             oAuthService.signRequest(accessToken, request)
             return request.send()
+        }
+
+        @Synchronized fun getDefaultClient(context: Context): OkHttpClient {
+            if (defaultClient != null) {
+                return defaultClient!!
+            }
+
+            defaultClient = OkHttpClient()
+            val cache = Cache(File(context.cacheDir, "mitsumine_cache"), MAX_CACHE_SIZE)
+            defaultClient!!.setCache(cache)
+            defaultClient!!.networkInterceptors().add(object : Interceptor {
+                @Throws(IOException::class)
+                override fun intercept(chain: Interceptor.Chain): com.squareup.okhttp.Response {
+                    return chain.proceed(chain.request()).newBuilder()
+                            .header("cache-control", "max-age=" + MAX_AGE_SECOND)
+                            .removeHeader("Pragma")
+                            .build()
+                }
+            })
+            return defaultClient!!
         }
     }
 }

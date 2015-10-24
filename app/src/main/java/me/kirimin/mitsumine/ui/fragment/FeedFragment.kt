@@ -29,7 +29,7 @@ public class FeedFragment : AbstractFeedFragment() {
         val type = arguments.getSerializable(TYPE::class.java.canonicalName) as TYPE
         val readFeedList = FeedDAO.findAll()
         val ngWordList = NGWordDAO.findAll()
-        subscriptions.add(FeedApi.requestCategory(category, type)
+        subscriptions.add(FeedApi.requestCategory(context.applicationContext, category, type)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter { feed -> !FeedUtil.contains(feed, readFeedList) && !FeedUtil.containsWord(feed, ngWordList) }

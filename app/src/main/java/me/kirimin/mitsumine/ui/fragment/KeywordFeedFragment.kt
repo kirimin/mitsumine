@@ -36,7 +36,7 @@ public class KeywordFeedFragment : AbstractFeedFragment() {
     override fun requestFeed() {
         val readFeedList = FeedDAO.findAll()
         val ngWordList = NGWordDAO.findAll()
-        subscriptions.add(FeedApi.requestKeyword(arguments.getString("keyword"))
+        subscriptions.add(FeedApi.requestKeyword(context.applicationContext, arguments.getString("keyword"))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter { feed -> !FeedUtil.contains(feed, readFeedList) && !FeedUtil.containsWord(feed, ngWordList) }
