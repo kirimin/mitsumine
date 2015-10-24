@@ -10,7 +10,6 @@ import me.kirimin.mitsumine.model.Bookmark
 import me.kirimin.mitsumine.network.ApiRequestException
 import me.kirimin.mitsumine.network.api.parser.BookmarkApiParser
 import rx.Observable
-import rx.Subscriber
 
 public class BookmarkApi {
     companion object {

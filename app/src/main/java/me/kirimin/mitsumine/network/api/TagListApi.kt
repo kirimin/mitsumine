@@ -1,5 +1,6 @@
 package me.kirimin.mitsumine.network.api
 
+import android.content.Context
 import me.kirimin.mitsumine.network.api.parser.TagListApiParser
 import rx.Observable
 
@@ -8,8 +9,8 @@ public class TagListApi {
 
         private val REQUEST_URL = "http://b.hatena.ne.jp/entry/jsonlite/?url="
 
-        public fun request(url: String): Observable<List<String>> {
-            return ApiAccessor.request(REQUEST_URL + url)
+        public fun request(context: Context, url: String): Observable<List<String>> {
+            return ApiAccessor.request(context, REQUEST_URL + url)
                     .map { response -> TagListApiParser.parseResponse(response) }
         }
     }

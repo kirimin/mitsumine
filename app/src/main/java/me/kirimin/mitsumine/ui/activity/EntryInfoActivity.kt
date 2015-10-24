@@ -47,7 +47,7 @@ public class EntryInfoActivity : AppCompatActivity() {
         if (url == null) {
             finish()
         }
-        subscriptions.add(EntryInfoApi.request(url)
+        subscriptions.add(EntryInfoApi.request(applicationContext, url)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter { entryInfo -> !entryInfo.isNullObject() }
