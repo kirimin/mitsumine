@@ -6,9 +6,9 @@ import android.support.test.runner.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import me.kirimin.mitsumine.network.api.FeedApi
-import me.kirimin.mitsumine.network.api.FeedApi.CATEGORY
-import me.kirimin.mitsumine.network.api.FeedApi.TYPE
+import me.kirimin.mitsumine.data.network.api.FeedApi
+import me.kirimin.mitsumine.data.network.api.FeedApi.CATEGORY
+import me.kirimin.mitsumine.data.network.api.FeedApi.TYPE
 
 import org.hamcrest.Matchers.not
 import org.junit.Assert.*;
