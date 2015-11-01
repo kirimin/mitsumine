@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine.model
+package me.kirimin.mitsumine.model.enums
 
 public enum class Type private constructor(private val TEXT: String) {
     HOT("hotentry"),

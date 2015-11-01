@@ -7,8 +7,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import me.kirimin.mitsumine.data.network.api.FeedApi
-import me.kirimin.mitsumine.model.Category
-import me.kirimin.mitsumine.model.Type
+import me.kirimin.mitsumine.model.enums.Category
+import me.kirimin.mitsumine.model.enums.Type
 
 import org.hamcrest.Matchers.not
 import org.junit.Assert.*;

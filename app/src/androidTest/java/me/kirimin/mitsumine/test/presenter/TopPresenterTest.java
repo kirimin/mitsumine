@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.kirimin.mitsumine.domain.usecase.TopUseCase;
-import me.kirimin.mitsumine.model.Category;
+import me.kirimin.mitsumine.model.enums.Category;
 import me.kirimin.mitsumine.model.Type;
 import me.kirimin.mitsumine.presenter.TopPresenter;
 import me.kirimin.mitsumine.view.TopView;

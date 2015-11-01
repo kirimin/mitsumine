@@ -1,8 +1,8 @@
 package me.kirimin.mitsumine.view
 
 import android.view.View
-import me.kirimin.mitsumine.model.Category
-import me.kirimin.mitsumine.model.Type
+import me.kirimin.mitsumine.model.enums.Category
+import me.kirimin.mitsumine.model.enums.Type
 
 interface TopView {
 

@@ -7,7 +7,7 @@ import org.scribe.model.Verb
 
 import me.kirimin.mitsumine.model.Account
 import me.kirimin.mitsumine.model.Bookmark
-import me.kirimin.mitsumine.data.network.ApiRequestException
+import me.kirimin.mitsumine.model.exceptions.ApiRequestException
 import me.kirimin.mitsumine.data.network.api.parser.BookmarkApiParser
 import rx.Observable
 

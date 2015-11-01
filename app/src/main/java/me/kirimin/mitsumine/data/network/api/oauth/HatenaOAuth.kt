@@ -11,7 +11,7 @@ import org.scribe.model.Verifier
 import org.scribe.oauth.OAuthService
 
 import me.kirimin.mitsumine.model.Account
-import me.kirimin.mitsumine.data.network.ApiRequestException
+import me.kirimin.mitsumine.model.exceptions.ApiRequestException
 import rx.Observable
 import rx.Subscriber
 
