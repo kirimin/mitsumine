@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine.test
+package me.kirimin.mitsumine.test.domain
 
 import android.support.test.runner.AndroidJUnit4
 
