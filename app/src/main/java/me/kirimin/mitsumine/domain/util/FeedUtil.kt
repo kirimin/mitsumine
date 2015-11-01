@@ -1,6 +1,6 @@
 package me.kirimin.mitsumine.domain.util
 
-import me.kirimin.mitsumine.domain.model.Feed
+import me.kirimin.mitsumine.model.Feed
 
 public class FeedUtil {
     companion object {

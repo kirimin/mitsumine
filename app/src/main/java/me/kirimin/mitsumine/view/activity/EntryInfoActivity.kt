@@ -11,7 +11,7 @@ import com.squareup.picasso.Picasso
 
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.data.database.AccountDAO
-import me.kirimin.mitsumine.domain.model.Bookmark
+import me.kirimin.mitsumine.model.Bookmark
 import me.kirimin.mitsumine.data.network.api.EntryInfoApi
 import me.kirimin.mitsumine.view.fragment.BookmarkListFragment
 import me.kirimin.mitsumine.view.fragment.RegisterBookmarkFragment

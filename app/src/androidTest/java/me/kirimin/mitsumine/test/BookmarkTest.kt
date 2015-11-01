@@ -7,7 +7,7 @@ import org.junit.runner.RunWith
 
 import java.util.ArrayList
 
-import me.kirimin.mitsumine.domain.model.Bookmark
+import me.kirimin.mitsumine.model.Bookmark
 
 import org.hamcrest.Matchers.`is`
 import org.junit.Assert.assertThat

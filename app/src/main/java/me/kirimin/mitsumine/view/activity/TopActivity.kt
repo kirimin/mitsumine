@@ -1,14 +1,5 @@
 package me.kirimin.mitsumine.view.activity
 
-import me.kirimin.mitsumine.data.database.AccountDAO
-import me.kirimin.mitsumine.data.database.KeywordDAO
-import me.kirimin.mitsumine.data.database.UserIdDAO
-import me.kirimin.mitsumine.data.network.api.FeedApi.CATEGORY
-import me.kirimin.mitsumine.data.network.api.FeedApi.TYPE
-import me.kirimin.mitsumine.view.activity.search.KeywordSearchActivity
-import me.kirimin.mitsumine.view.activity.search.UserSearchActivity
-import me.kirimin.mitsumine.view.fragment.FeedFragment
-
 import me.kirimin.mitsumine.R
 
 import android.app.AlertDialog
@@ -34,88 +25,45 @@ import com.makeramen.RoundedTransformationBuilder
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.activity_top.*
+import me.kirimin.mitsumine.domain.usecase.TopUseCase
+import me.kirimin.mitsumine.model.Category
+import me.kirimin.mitsumine.model.Type
 import me.kirimin.mitsumine.presenter.TopPresenter
 import me.kirimin.mitsumine.view.TopView
 import me.kirimin.mitsumine.view.activity.search.SearchActivity
+import me.kirimin.mitsumine.view.activity.search.KeywordSearchActivity
+import me.kirimin.mitsumine.view.activity.search.UserSearchActivity
+import me.kirimin.mitsumine.view.fragment.FeedFragment
 import java.io.Serializable
 
 public class TopActivity : AppCompatActivity(), TopView {
 
     private var mDrawerToggle: ActionBarDrawerToggle? = null
-    private var mSelectedCategory = CATEGORY.MAIN
-
     private var presenter: TopPresenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_top)
 
-        presenter = TopPresenter()
-
-        setSupportActionBar(toolBar)
-        val actionBar = supportActionBar
-        actionBar.navigationMode = ActionBar.NAVIGATION_MODE_LIST
-        actionBar.setDisplayHomeAsUpEnabled(true)
-        actionBar.setHomeButtonEnabled(true)
-
-        val data = arrayOf(getString(R.string.feed_hot), getString(R.string.feed_new))
-        val adapter = ArrayAdapter(actionBar.themedContext, android.R.layout.simple_list_item_1, data)
-        actionBar.setListNavigationCallbacks(adapter, { position, id ->
-            presenter!!.onNavigationClick(position, id)
-            true
-        })
-
-        mDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.app_name, R.string.app_name)
-        drawerLayout.setDrawerListener(mDrawerToggle)
-        toolBar.setOnClickListener {
-            presenter!!.onToolbarClick()
+        if (savedInstanceState != null) {
+            val selectedCategory = savedInstanceState.getSerializable(Category::class.java.canonicalName) as Category
+            val selectedType = savedInstanceState.getSerializable(Type::class.java.canonicalName) as Type
+            presenter = TopPresenter(this, TopUseCase(), selectedCategory, selectedType)
+        } else {
+            presenter = TopPresenter(this, TopUseCase())
         }
-
-        val onclickListener = OnClickListener { v -> presenter!!.onViewClick(v.id) }
-        navigationReadTextView.setOnClickListener(onclickListener)
-        navigationSettingsTextView.setOnClickListener(onclickListener)
-        navigationKeywordSearchTextView.setOnClickListener(onclickListener)
-        navigationUserSearchTextView.setOnClickListener(onclickListener)
-        navigationUserInfoLayout.setOnClickListener(onclickListener)
-        navigationLoginButton.setOnClickListener(onclickListener)
-
-        navigationCategories.addView(makeNavigationCategoryButton(CATEGORY.MAIN))
-        navigationCategories.addView(makeNavigationCategoryButton(CATEGORY.SOCIAL))
-        navigationCategories.addView(makeNavigationCategoryButton(CATEGORY.ECONOMICS))
-        navigationCategories.addView(makeNavigationCategoryButton(CATEGORY.LIFE))
-        navigationCategories.addView(makeNavigationCategoryButton(CATEGORY.KNOWLEDGE))
-        navigationCategories.addView(makeNavigationCategoryButton(CATEGORY.IT))
-        navigationCategories.addView(makeNavigationCategoryButton(CATEGORY.FUN))
-        navigationCategories.addView(makeNavigationCategoryButton(CATEGORY.ENTERTAINMENT))
-        navigationCategories.addView(makeNavigationCategoryButton(CATEGORY.GAME))
-
-        savedInstanceState?.let {
-            mSelectedCategory = savedInstanceState.getSerializable(CATEGORY::class.java.canonicalName) as CATEGORY
-//            mSelectedType = savedInstanceState.getSerializable(TYPE::class.java.canonicalName) as TYPE
-        }
-        presenter!!.takeView(this)
+        presenter!!.onCreate()
     }
 
     override fun onStart() {
         super.onStart()
-        loadNavigationButtons()
-        val account = AccountDAO.get()
-        if (account != null) {
-            navigationUserInfoLayout.visibility = View.VISIBLE
-            navigationLoginButton.visibility = View.GONE
-            navigationUserName.text = account.urlName
-            val transformation = RoundedTransformationBuilder().borderWidthDp(0f).cornerRadiusDp(48f).oval(false).build()
-            Picasso.with(this).load(account.imageUrl).transform(transformation).fit().into(navigationUserIconImageView)
-        } else {
-            navigationUserInfoLayout.visibility = View.GONE
-            navigationLoginButton.visibility = View.VISIBLE
-        }
+        presenter!!.onStart()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putSerializable(CATEGORY::class.java.canonicalName, mSelectedCategory as Serializable)
-        //outState.putSerializable(TYPE::class.java.canonicalName, mSelectedType as Serializable)
+        outState.putSerializable(Category::class.java.canonicalName, presenter!!.getCurrentCategory() as Serializable)
+        outState.putSerializable(Type::class.java.canonicalName, presenter!!.getCurrentType() as Serializable)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -147,88 +95,65 @@ public class TopActivity : AppCompatActivity(), TopView {
     }
 
     override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
-            drawerLayout.closeDrawer(Gravity.LEFT)
-        } else {
-            super.onBackPressed()
-        }
+        presenter!!.onBackKeyClick()
     }
 
-    private fun loadNavigationButtons() {
-        navigationAdditions.removeAllViews()
-        KeywordDAO.findAll().forEach { keyword ->
-            navigationAdditions.addView(makeNavigationButton(keyword,
-                    OnClickListener {
-                        val intent = Intent(this@TopActivity, KeywordSearchActivity::class.java)
-                        startActivity(intent.putExtras(SearchActivity.buildBundle(keyword)))
-                        drawerLayout.closeDrawers()
-                    },
-                    OnLongClickListener { v ->
-                        buildDeleteDialog(keyword, v).show()
-                        false
-                    }))
-        }
-        UserIdDAO.findAll().forEach { userId ->
-            navigationAdditions.addView(makeNavigationButton(userId,
-                    OnClickListener {
-                        val intent = Intent(this@TopActivity, UserSearchActivity::class.java)
-                        startActivity(intent.putExtras(SearchActivity.buildBundle(userId)))
-                        drawerLayout.closeDrawers()
-                    },
-                    OnLongClickListener { v ->
-                        buildDeleteUserIdDialog(userId, v).show()
-                        false
-                    }))
-        }
+    override fun backPress() {
+        super.onBackPressed()
     }
 
-    private fun makeNavigationCategoryButton(category: CATEGORY): View {
-        return makeNavigationButton(getString(category.labelResource), OnClickListener { v ->
-            drawerLayout.closeDrawers()
-            mSelectedCategory = category
-            //refreshShowCategoryAndType()
-        }, null)
+    override fun initViews() {
+        setSupportActionBar(toolBar)
+        val actionBar = supportActionBar
+        actionBar.navigationMode = ActionBar.NAVIGATION_MODE_LIST
+        actionBar.setDisplayHomeAsUpEnabled(true)
+        actionBar.setHomeButtonEnabled(true)
+
+        val data = arrayOf(getString(R.string.feed_hot), getString(R.string.feed_new))
+        val adapter = ArrayAdapter(actionBar.themedContext, android.R.layout.simple_list_item_1, data)
+        actionBar.setListNavigationCallbacks(adapter, { position, id ->
+            presenter!!.onNavigationClick(position)
+            true
+        })
+
+        mDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.app_name, R.string.app_name)
+        drawerLayout.setDrawerListener(mDrawerToggle)
+        toolBar.setOnClickListener { presenter!!.onToolbarClick() }
+
+        val onclickListener = OnClickListener { v -> presenter!!.onViewClick(v.id) }
+        navigationReadTextView.setOnClickListener(onclickListener)
+        navigationSettingsTextView.setOnClickListener(onclickListener)
+        navigationKeywordSearchTextView.setOnClickListener(onclickListener)
+        navigationUserSearchTextView.setOnClickListener(onclickListener)
+        navigationUserInfoLayout.setOnClickListener(onclickListener)
+        navigationLoginButton.setOnClickListener(onclickListener)
+    }
+
+    override fun addNavigationCategoryButton(category: Category) {
+        val button = makeNavigationButton(getString(category.labelResource), OnClickListener { v -> presenter!!.onCategoryClick(category) }, null)
+        navigationCategories.addView(button)
     }
 
     private fun makeNavigationButton(label: String, onClick: OnClickListener, onLongClick: OnLongClickListener?): View {
         val navigationView = LayoutInflater.from(applicationContext).inflate(R.layout.activity_top_navigation, null)
         val textView = navigationView.findViewById(R.id.MainNavigationTextView) as TextView
-        textView.setText(label)
+        textView.text = label
         textView.setOnClickListener(onClick)
         textView.setOnLongClickListener(onLongClick)
         return navigationView
     }
 
-    override fun refreshShowCategoryAndType(type: TYPE) {
-        supportActionBar.setTitle(mSelectedCategory.labelResource)
-        supportActionBar.setSelectedNavigationItem(if (type == TYPE.HOT) 0 else 1)
-        supportFragmentManager.beginTransaction().replace(R.id.containerFrameLayout, FeedFragment.newFragment(mSelectedCategory, type)).commit()
+    override fun refreshShowCategoryAndType(category: Category, type: Type, typeInt: Int) {
+        supportActionBar.setTitle(category.labelResource)
+        supportActionBar.setSelectedNavigationItem(typeInt)
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.containerFrameLayout, FeedFragment.newFragment(category, type))
+                .commit()
         for (i in 0..navigationCategories.childCount - 1) {
             val categoryButton = navigationCategories.getChildAt(i).findViewById(R.id.MainNavigationTextView) as TextView
-            val isSelectedCategory = categoryButton.text == getString(mSelectedCategory.labelResource)
+            val isSelectedCategory = categoryButton.text == getString(category.labelResource)
             categoryButton.setTextColor(ContextCompat.getColor(this, if (isSelectedCategory) R.color.orange else R.color.text))
         }
-    }
-
-    private fun buildDeleteDialog(word: String, view: View): AlertDialog {
-        return AlertDialog.Builder(this)
-                .setTitle(R.string.settings_ngword_delete)
-                .setPositiveButton(android.R.string.ok, { dialog, id ->
-                    KeywordDAO.delete(word)
-                    view.visibility = View.GONE
-                })
-                .setNegativeButton(android.R.string.cancel, null)
-                .create()
-    }
-
-    private fun buildDeleteUserIdDialog(word: String, view: View): AlertDialog {
-        return AlertDialog.Builder(this)
-                .setTitle(R.string.settings_ngword_delete)
-                .setPositiveButton(android.R.string.ok, { dialog, id ->
-                    UserIdDAO.delete(word)
-                    view.visibility = View.GONE
-                })
-                .setNegativeButton(android.R.string.cancel, null).create()
     }
 
     override fun closeNavigation() {
@@ -243,7 +168,60 @@ public class TopActivity : AppCompatActivity(), TopView {
         return drawerLayout.isDrawerOpen(Gravity.LEFT)
     }
 
-    override fun startActivity(activityClass: Class<*>?) {
+    override fun startActivity(activityClass: Class<*>) {
         startActivity(Intent(this, activityClass));
+    }
+
+    override fun enableUserInfo(userName: String, iconUrl: String) {
+        navigationUserInfoLayout.visibility = View.VISIBLE
+        navigationLoginButton.visibility = View.GONE
+        navigationUserName.text = userName
+        val transformation = RoundedTransformationBuilder().borderWidthDp(0f).cornerRadiusDp(48f).oval(false).build()
+        Picasso.with(this).load(iconUrl).transform(transformation).fit().into(navigationUserIconImageView)
+    }
+
+    override fun disableUserInfo() {
+        navigationUserInfoLayout.visibility = View.GONE
+        navigationLoginButton.visibility = View.VISIBLE
+    }
+
+    override fun removeNavigationAdditions() {
+        navigationAdditions.removeAllViews()
+
+    }
+
+    override fun addAdditionKeyword(keyword: String) {
+        navigationAdditions.addView(makeNavigationButton(keyword,
+                View.OnClickListener {
+                    val intent = Intent(this@TopActivity, KeywordSearchActivity::class.java)
+                    startActivity(intent.putExtras(SearchActivity.buildBundle(keyword)))
+                    drawerLayout.closeDrawers()
+                },
+                View.OnLongClickListener { v -> presenter!!.onAdditionKeywordLongClick(keyword, v) }))
+    }
+
+    override fun addAdditionUser(userId: String) {
+        navigationAdditions.addView(makeNavigationButton(userId,
+                View.OnClickListener {
+                    val intent = Intent(this@TopActivity, UserSearchActivity::class.java)
+                    startActivity(intent.putExtras(SearchActivity.buildBundle(userId)))
+                    drawerLayout.closeDrawers()
+                },
+                View.OnLongClickListener { v -> presenter!!.onAdditionUserLongClick(userId, v) }))
+    }
+
+    override fun showDeleteUserDialog(userId: String, view: View) {
+        AlertDialog.Builder(this)
+                .setTitle(R.string.settings_ngword_delete)
+                .setPositiveButton(android.R.string.ok, { dialog, id -> presenter!!.onDeleteUserIdDialogClick(userId, view) })
+                .setNegativeButton(android.R.string.cancel, null).create().show()
+    }
+
+    override fun showDeleteKeywordDialog(keyword: String, view: View) {
+        AlertDialog.Builder(this)
+                .setTitle(R.string.settings_ngword_delete)
+                .setPositiveButton(android.R.string.ok, { dialog, id -> presenter!!.onDeleteKeywordDialogClick(keyword, view) })
+                .setNegativeButton(android.R.string.cancel, null)
+                .create().show()
     }
 }

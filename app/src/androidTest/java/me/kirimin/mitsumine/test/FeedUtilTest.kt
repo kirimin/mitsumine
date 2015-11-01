@@ -7,7 +7,7 @@ import org.junit.runner.RunWith
 
 import java.util.ArrayList
 
-import me.kirimin.mitsumine.domain.model.Feed
+import me.kirimin.mitsumine.model.Feed
 import me.kirimin.mitsumine.domain.util.FeedUtil
 
 import org.hamcrest.Matchers.`is`

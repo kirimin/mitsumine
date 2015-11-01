@@ -3,7 +3,7 @@ package me.kirimin.mitsumine.view.adapter
 import com.squareup.picasso.Picasso
 
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.domain.model.Feed
+import me.kirimin.mitsumine.model.Feed
 import me.kirimin.mitsumine.data.network.api.BookmarkCountApi
 import me.kirimin.mitsumine.view.adapter.FeedPagerAdapter.OnSlideListener
 import rx.Subscription

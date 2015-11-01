@@ -3,7 +3,7 @@ package me.kirimin.mitsumine.data.network.api.parser
 import org.json.JSONException
 import org.json.JSONObject
 
-import me.kirimin.mitsumine.domain.model.MyBookmark
+import me.kirimin.mitsumine.model.MyBookmark
 import me.kirimin.mitsumine.domain.util.toList
 import rx.Observable
 

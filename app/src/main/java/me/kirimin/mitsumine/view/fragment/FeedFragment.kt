@@ -6,9 +6,9 @@ import android.os.Bundle
 import me.kirimin.mitsumine.data.database.FeedDAO
 import me.kirimin.mitsumine.data.database.NGWordDAO
 import me.kirimin.mitsumine.data.network.api.FeedApi
-import me.kirimin.mitsumine.data.network.api.FeedApi.CATEGORY
-import me.kirimin.mitsumine.data.network.api.FeedApi.TYPE
 import me.kirimin.mitsumine.domain.util.FeedUtil
+import me.kirimin.mitsumine.model.Category
+import me.kirimin.mitsumine.model.Type
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
@@ -25,8 +25,8 @@ public class FeedFragment : AbstractFeedFragment() {
 
     override fun requestFeed() {
         showRefreshing()
-        val category = arguments.getSerializable(CATEGORY::class.java.canonicalName) as CATEGORY
-        val type = arguments.getSerializable(TYPE::class.java.canonicalName) as TYPE
+        val category = arguments.getSerializable(Category::class.java.canonicalName) as Category
+        val type = arguments.getSerializable(Type::class.java.canonicalName) as Type
         val readFeedList = FeedDAO.findAll()
         val ngWordList = NGWordDAO.findAll()
         subscriptions.add(FeedApi.requestCategory(context.applicationContext, category, type)
@@ -52,11 +52,11 @@ public class FeedFragment : AbstractFeedFragment() {
 
     companion object {
 
-        public fun newFragment(category: CATEGORY, type: TYPE): FeedFragment {
+        public fun newFragment(category: Category, type: Type): FeedFragment {
             val fragment = FeedFragment()
             val bundle = Bundle()
-            bundle.putSerializable(CATEGORY::class.java.canonicalName, category as Serializable)
-            bundle.putSerializable(TYPE::class.java.canonicalName, type as Serializable)
+            bundle.putSerializable(Category::class.java.canonicalName, category as Serializable)
+            bundle.putSerializable(Type::class.java.canonicalName, type as Serializable)
             fragment.arguments = bundle
             return fragment
         }

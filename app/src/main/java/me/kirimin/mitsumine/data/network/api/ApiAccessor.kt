@@ -9,7 +9,7 @@ import org.scribe.model.OAuthRequest
 import org.scribe.model.Response
 import org.scribe.model.Token
 
-import me.kirimin.mitsumine.domain.model.Account
+import me.kirimin.mitsumine.model.Account
 import me.kirimin.mitsumine.data.network.ApiRequestException
 import me.kirimin.mitsumine.data.network.api.oauth.Consumer
 import me.kirimin.mitsumine.data.network.api.oauth.HatenaOAuthProvider

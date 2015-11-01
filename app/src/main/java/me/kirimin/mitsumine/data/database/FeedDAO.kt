@@ -6,7 +6,7 @@ import java.util.Locale
 
 import com.activeandroid.query.Delete
 import com.activeandroid.query.Select
-import me.kirimin.mitsumine.domain.model.Feed
+import me.kirimin.mitsumine.model.Feed
 
 public class FeedDAO private constructor() {
     companion object {
@@ -25,10 +25,9 @@ public class FeedDAO private constructor() {
             return Select().from(Feed::class.java).where("type = ?", type).execute<Feed>()
         }
 
-        public fun deleteOldData() {
+        public fun deleteOldData(millisecond: Long) {
             val cal = Calendar.getInstance(Locale.JAPAN)
-            val fiveDays = 1000 * 60 * 60 * 24 * 3.toLong()
-            Delete().from(Feed::class.java).where("saveTime < ? AND type = ?", cal.time.time - fiveDays, Feed.TYPE_READ).execute<Model>()
+            Delete().from(Feed::class.java).where("saveTime < ? AND type = ?", cal.time.time - millisecond, Feed.TYPE_READ).execute<Model>()
         }
     }
 }

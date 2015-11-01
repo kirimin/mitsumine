@@ -1,7 +1,7 @@
 package me.kirimin.mitsumine.data.network.api.parser
 
 import android.util.Log
-import me.kirimin.mitsumine.domain.model.Feed
+import me.kirimin.mitsumine.model.Feed
 import me.kirimin.mitsumine.domain.util.toList
 import org.json.JSONException
 import org.json.JSONObject

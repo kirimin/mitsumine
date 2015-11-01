@@ -14,7 +14,7 @@ import com.makeramen.RoundedTransformationBuilder
 import com.squareup.picasso.Picasso
 
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.domain.model.Bookmark
+import me.kirimin.mitsumine.model.Bookmark
 import me.kirimin.mitsumine.view.event.IfNeededLinkMovementMethod
 
 public class BookmarkListAdapter(activity: Activity, private val onCommentClick: (v: View, bookmark: Bookmark) -> Unit) :

@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine.domain.model
+package me.kirimin.mitsumine.model
 
 import com.activeandroid.Model
 import com.activeandroid.annotation.Column
