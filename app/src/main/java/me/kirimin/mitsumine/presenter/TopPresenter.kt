@@ -1,5 +1,6 @@
 package me.kirimin.mitsumine.presenter
 
+import android.content.Intent
 import android.view.View
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.domain.usecase.TopUseCase
@@ -11,6 +12,7 @@ import me.kirimin.mitsumine.view.activity.ReadActivity
 import me.kirimin.mitsumine.view.activity.SettingActivity
 import me.kirimin.mitsumine.view.activity.search.KeywordSearchActivity
 import me.kirimin.mitsumine.view.activity.search.MyBookmarksActivity
+import me.kirimin.mitsumine.view.activity.search.SearchActivity
 import me.kirimin.mitsumine.view.activity.search.UserSearchActivity
 
 class TopPresenter {
@@ -119,9 +121,19 @@ class TopPresenter {
         mSelectedCategory = category
     }
 
+    fun onAdditionUserClick(userId: String){
+        view.closeNavigation()
+        view.startActivity(UserSearchActivity::class.java, SearchActivity.buildBundle(userId))
+    }
+
     fun onAdditionUserLongClick(userId: String, target: View): Boolean {
         view.showDeleteUserDialog(userId, target)
         return false
+    }
+
+    fun onAdditionKeywordClick(keyword: String) {
+        view.closeNavigation()
+        view.startActivity(KeywordSearchActivity::class.java, SearchActivity.buildBundle(keyword))
     }
 
     fun onAdditionKeywordLongClick(keyword: String, target: View): Boolean {

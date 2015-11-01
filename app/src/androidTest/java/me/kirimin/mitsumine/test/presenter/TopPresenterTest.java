@@ -1,5 +1,6 @@
 package me.kirimin.mitsumine.test.presenter;
 
+import android.os.Bundle;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
@@ -16,6 +17,9 @@ import me.kirimin.mitsumine.model.enums.Category;
 import me.kirimin.mitsumine.model.enums.Type;
 import me.kirimin.mitsumine.presenter.TopPresenter;
 import me.kirimin.mitsumine.view.TopView;
+import me.kirimin.mitsumine.view.activity.search.KeywordSearchActivity;
+import me.kirimin.mitsumine.view.activity.search.SearchActivity;
+import me.kirimin.mitsumine.view.activity.search.UserSearchActivity;
 
 import static org.mockito.Mockito.*;
 
@@ -134,6 +138,10 @@ public class TopPresenterTest {
         verify(viewMock, times(1)).addAdditionUser(users.get(2));
 
         View testBView = mock(View.class);
+        presenter.onAdditionUserClick(users.get(1));
+        verify(viewMock, times(1)).startActivity(eq(UserSearchActivity.class), any(Bundle.class));
+        verify(viewMock, times(1)).closeNavigation();
+
         presenter.onAdditionUserLongClick(users.get(1), testBView);
         verify(viewMock, times(1)).showDeleteUserDialog(users.get(1), testBView);
         verify(viewMock, never()).showDeleteUserDialog(eq(users.get(0)), any(View.class));
@@ -164,6 +172,10 @@ public class TopPresenterTest {
         verify(viewMock, times(1)).addAdditionKeyword(keywords.get(2));
 
         View testBView = mock(View.class);
+        presenter.onAdditionKeywordClick(keywords.get(1));
+        verify(viewMock, times(1)).startActivity(eq(KeywordSearchActivity.class), any(Bundle.class));
+        verify(viewMock, times(1)).closeNavigation();
+
         presenter.onAdditionKeywordLongClick(keywords.get(1), testBView);
         verify(viewMock, times(1)).showDeleteKeywordDialog(keywords.get(1), testBView);
         verify(viewMock, never()).showDeleteKeywordDialog(eq(keywords.get(0)), any(View.class));

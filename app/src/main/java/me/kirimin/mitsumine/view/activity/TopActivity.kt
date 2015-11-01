@@ -177,6 +177,11 @@ public class TopActivity : AppCompatActivity(), TopView {
         startActivity(Intent(this, activityClass));
     }
 
+    override fun startActivity(activityClass: Class<*>, bundle: Bundle) {
+        val intent = Intent(this, activityClass)
+        startActivity(intent.putExtras(bundle))
+    }
+
     override fun enableUserInfo(userName: String, iconUrl: String) {
         navigationUserInfoLayout.visibility = View.VISIBLE
         navigationLoginButton.visibility = View.GONE
@@ -197,21 +202,13 @@ public class TopActivity : AppCompatActivity(), TopView {
 
     override fun addAdditionKeyword(keyword: String) {
         navigationAdditions.addView(makeNavigationButton(keyword,
-                View.OnClickListener {
-                    val intent = Intent(this@TopActivity, KeywordSearchActivity::class.java)
-                    startActivity(intent.putExtras(SearchActivity.buildBundle(keyword)))
-                    drawerLayout.closeDrawers()
-                },
+                View.OnClickListener { presenter!!.onAdditionKeywordClick(keyword) },
                 View.OnLongClickListener { v -> presenter!!.onAdditionKeywordLongClick(keyword, v) }))
     }
 
     override fun addAdditionUser(userId: String) {
         navigationAdditions.addView(makeNavigationButton(userId,
-                View.OnClickListener {
-                    val intent = Intent(this@TopActivity, UserSearchActivity::class.java)
-                    startActivity(intent.putExtras(SearchActivity.buildBundle(userId)))
-                    drawerLayout.closeDrawers()
-                },
+                View.OnClickListener { presenter!!.onAdditionUserClick(userId) },
                 View.OnLongClickListener { v -> presenter!!.onAdditionUserLongClick(userId, v) }))
     }
 

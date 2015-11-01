@@ -1,5 +1,6 @@
 package me.kirimin.mitsumine.view
 
+import android.os.Bundle
 import android.view.View
 import me.kirimin.mitsumine.model.enums.Category
 import me.kirimin.mitsumine.model.enums.Type
@@ -15,6 +16,8 @@ interface TopView {
     fun refreshShowCategoryAndType(category: Category, type: Type, typeInt: Int)
 
     fun startActivity(activityClass: Class<*>)
+
+    fun startActivity(activityClass: Class<*>, bundle: Bundle)
 
     fun backPress()
 
