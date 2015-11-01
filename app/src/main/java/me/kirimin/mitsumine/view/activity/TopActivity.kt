@@ -60,6 +60,11 @@ public class TopActivity : AppCompatActivity(), TopView {
         presenter!!.onStart()
     }
 
+    override fun onDestroy() {
+        presenter!!.onDestroy()
+        super.onDestroy()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putSerializable(Category::class.java.canonicalName, presenter!!.getCurrentCategory() as Serializable)

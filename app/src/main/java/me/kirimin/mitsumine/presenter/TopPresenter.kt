@@ -59,6 +59,10 @@ class TopPresenter {
         }
     }
 
+    fun onDestroy() {
+
+    }
+
     fun onNavigationClick(position: Int) {
         view.closeNavigation()
         mSelectedType = if (position == 0) Type.HOT else Type.NEW
