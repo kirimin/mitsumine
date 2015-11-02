@@ -53,7 +53,7 @@ class TopPresenter {
         useCase.additionKeywords.forEach { keyword -> view.addAdditionKeyword(keyword) }
         useCase.additionUsers.forEach { userId -> view.addAdditionUser(userId) }
 
-        val account = useCase.account
+        val account = useCase.getAccount()
         if (account != null) {
             view.enableUserInfo(account.displayName, account.imageUrl)
         } else {
