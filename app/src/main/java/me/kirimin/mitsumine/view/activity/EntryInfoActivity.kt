@@ -1,6 +1,7 @@
 package me.kirimin.mitsumine.view.activity
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
@@ -10,83 +11,84 @@ import android.widget.Toast
 import com.squareup.picasso.Picasso
 
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.data.database.AccountDAO
-import me.kirimin.mitsumine.model.Bookmark
-import me.kirimin.mitsumine.data.network.api.EntryInfoApi
-import me.kirimin.mitsumine.view.fragment.BookmarkListFragment
-import me.kirimin.mitsumine.view.fragment.RegisterBookmarkFragment
 import me.kirimin.mitsumine.view.adapter.EntryInfoPagerAdapter
-import rx.Observable
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
-import rx.subscriptions.CompositeSubscription
+import me.kirimin.mitsumine.model.EntryInfo
+import me.kirimin.mitsumine.presenter.EntryInfoPresenter
+import me.kirimin.mitsumine.view.EntryInfoView
+
 import kotlinx.android.synthetic.activity_entry_info.*
 
-public class EntryInfoActivity : AppCompatActivity() {
+public class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
 
     companion object {
+
+        val KEY_URL = "url"
+
         public fun buildBundle(url: String): Bundle {
             val bundle = Bundle()
-            bundle.putString("url", url)
+            bundle.putString(KEY_URL, url)
             return bundle
         }
     }
 
-    private val subscriptions = CompositeSubscription()
+    private val presenter = EntryInfoPresenter()
+    private val adapter = EntryInfoPagerAdapter(supportFragmentManager)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entry_info)
+
+        val url = intent.getStringExtra(KEY_URL)
+        if (url == null) {
+            finish()
+        }
+        presenter.onCreate(this, url, applicationContext)
+    }
+
+    override fun onDestroy() {
+        presenter.onDestroy()
+        super.onDestroy()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (android.R.id.home == item.itemId) {
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun initActionBar() {
         setSupportActionBar(toolBar as Toolbar)
         val actionBar = supportActionBar
         actionBar.setTitle(R.string.entry_info_title)
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setHomeButtonEnabled(true)
-
-        val url = getIntent().getStringExtra("url")
-        if (url == null) {
-            finish()
-        }
-        subscriptions.add(EntryInfoApi.request(applicationContext, url)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .filter { entryInfo -> !entryInfo.isNullObject() }
-                .subscribe ({ entryInfo ->
-                    countLayout.visibility = View.VISIBLE
-                    titleTextView.text = entryInfo.title
-                    bookmarkCountTextView.text = entryInfo.bookmarkCount.toString()
-                    Picasso.with(applicationContext).load(entryInfo.thumbnailUrl).fit().into(thumbnailImageView)
-                    tagsText.text = entryInfo.tagList.joinToString(", ")
-
-                    val adapter = EntryInfoPagerAdapter(supportFragmentManager)
-                    adapter.addPage(BookmarkListFragment.newFragment(entryInfo.bookmarkList), getString(R.string.entry_info_all_bookmarks))
-                    subscriptions.add(Observable.from<Bookmark>(entryInfo.bookmarkList)
-                            .filter { bookmark -> bookmark.hasComment() }
-                            .toList()
-                            .subscribe { commentList ->
-                                commentCountTextView.text = commentList.size().toString()
-                                adapter.addPage(BookmarkListFragment.newFragment(commentList), getString(R.string.entry_info_comments))
-                                AccountDAO.get()?.let {
-                                    adapter.addPage(RegisterBookmarkFragment.newFragment(entryInfo.url), getString(R.string.entry_info_register_bookmark))
-                                }
-                                commentsViewPager.adapter = adapter
-                                commentsViewPager.currentItem = 1
-                                commentsViewPager.offscreenPageLimit = 2
-                                tabs.setViewPager(commentsViewPager)
-                            })
-                }, { Toast.makeText(applicationContext, R.string.network_error, Toast.LENGTH_SHORT).show() })
-        )
     }
 
-    override fun onDestroy() {
-        subscriptions.unsubscribe()
-        super.onDestroy()
+    override fun addPage(fragment: Fragment, title: Int) {
+        adapter.addPage(fragment, getString(title))
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (android.R.id.home == item.getItemId()) {
-            finish()
-        }
-        return super.onOptionsItemSelected(item)
+    override fun setEntryInfo(entryInfo: EntryInfo) {
+        countLayout.visibility = View.VISIBLE
+        titleTextView.text = entryInfo.title
+        bookmarkCountTextView.text = entryInfo.bookmarkCount.toString()
+        Picasso.with(applicationContext).load(entryInfo.thumbnailUrl).fit().into(thumbnailImageView)
+        tagsText.text = entryInfo.tagList.joinToString(", ")
+    }
+
+    override fun setViewPagerSettings(currentItem: Int, offscreenPageLimit: Int) {
+        commentsViewPager.adapter = adapter
+        commentsViewPager.currentItem = currentItem
+        commentsViewPager.offscreenPageLimit = offscreenPageLimit
+        tabs.setViewPager(commentsViewPager)
+    }
+
+    override fun setCommentCount(commentCount: String) {
+        commentCountTextView.text = commentCount
+    }
+
+    override fun showNetworkErrorToast() {
+        Toast.makeText(applicationContext, R.string.network_error, Toast.LENGTH_SHORT).show()
     }
 }
