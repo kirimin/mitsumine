@@ -1,6 +1,5 @@
 package me.kirimin.mitsumine.presenter
 
-import android.content.Intent
 import android.view.View
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.domain.usecase.TopUseCase
@@ -45,7 +44,7 @@ class TopPresenter {
 
         // 古い既読を削除
         useCase.deleteOldFeedData()
-        view.refreshShowCategoryAndType(mSelectedCategory, mSelectedType, getTypeInt(mSelectedType))
+        view.refreshShowCategoryAndType(mSelectedCategory, mSelectedType, useCase.getTypeInt(mSelectedType))
     }
 
     fun onStart() {
@@ -68,7 +67,7 @@ class TopPresenter {
     fun onNavigationClick(position: Int) {
         view.closeNavigation()
         mSelectedType = if (position == 0) Type.HOT else Type.NEW
-        view.refreshShowCategoryAndType(mSelectedCategory, mSelectedType, getTypeInt(mSelectedType))
+        view.refreshShowCategoryAndType(mSelectedCategory, mSelectedType, useCase.getTypeInt(mSelectedType))
     }
 
     fun onToolbarClick() {
@@ -117,7 +116,7 @@ class TopPresenter {
 
     fun onCategoryClick(category: Category) {
         view.closeNavigation()
-        view.refreshShowCategoryAndType(category, mSelectedType, getTypeInt(mSelectedType))
+        view.refreshShowCategoryAndType(category, mSelectedType, useCase.getTypeInt(mSelectedType))
         mSelectedCategory = category
     }
 
@@ -157,9 +156,5 @@ class TopPresenter {
 
     fun getCurrentCategory(): Category {
         return mSelectedCategory
-    }
-
-    private fun getTypeInt(type: Type): Int {
-        return if (type == Type.HOT) 0 else 1
     }
 }

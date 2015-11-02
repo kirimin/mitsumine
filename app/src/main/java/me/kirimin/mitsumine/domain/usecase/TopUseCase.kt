@@ -5,6 +5,7 @@ import me.kirimin.mitsumine.data.database.FeedDAO
 import me.kirimin.mitsumine.data.database.KeywordDAO
 import me.kirimin.mitsumine.data.database.UserIdDAO
 import me.kirimin.mitsumine.model.Account
+import me.kirimin.mitsumine.model.enums.Type
 
 open class TopUseCase {
 
@@ -29,5 +30,9 @@ open class TopUseCase {
     open fun deleteOldFeedData() {
         val threeDays = 1000 * 60 * 60 * 24 * 3.toLong()
         FeedDAO.deleteOldData(threeDays)
+    }
+
+    open fun getTypeInt(type: Type): Int {
+        return if (type == Type.HOT) 0 else 1
     }
 }
