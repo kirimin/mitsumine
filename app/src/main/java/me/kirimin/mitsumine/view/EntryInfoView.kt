@@ -1,6 +1,6 @@
 package me.kirimin.mitsumine.view
 
-import android.support.v4.app.Fragment
+import me.kirimin.mitsumine.model.Bookmark
 import me.kirimin.mitsumine.model.EntryInfo
 
 interface EntryInfoView {
@@ -9,7 +9,9 @@ interface EntryInfoView {
 
     fun setEntryInfo(entryInfo: EntryInfo)
 
-    fun addPage(fragment: Fragment, title: Int)
+    fun setBookmarkFragments(allList: List<Bookmark>, hasCommentList: List<Bookmark>)
+
+    fun setRegisterBookmarkFragment(url: String)
 
     fun setViewPagerSettings(currentItem: Int, offscreenPageLimit: Int)
 

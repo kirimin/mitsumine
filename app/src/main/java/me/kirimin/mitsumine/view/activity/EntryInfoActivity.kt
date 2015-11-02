@@ -1,7 +1,6 @@
 package me.kirimin.mitsumine.view.activity
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
@@ -17,6 +16,10 @@ import me.kirimin.mitsumine.presenter.EntryInfoPresenter
 import me.kirimin.mitsumine.view.EntryInfoView
 
 import kotlinx.android.synthetic.activity_entry_info.*
+import me.kirimin.mitsumine.domain.usecase.EntryInfoUseCase
+import me.kirimin.mitsumine.model.Bookmark
+import me.kirimin.mitsumine.view.fragment.BookmarkListFragment
+import me.kirimin.mitsumine.view.fragment.RegisterBookmarkFragment
 
 public class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
 
@@ -42,7 +45,7 @@ public class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
         if (url == null) {
             finish()
         }
-        presenter.onCreate(this, url, applicationContext)
+        presenter.onCreate(this, EntryInfoUseCase(), url, applicationContext)
     }
 
     override fun onDestroy() {
@@ -65,8 +68,13 @@ public class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
         actionBar.setHomeButtonEnabled(true)
     }
 
-    override fun addPage(fragment: Fragment, title: Int) {
-        adapter.addPage(fragment, getString(title))
+    override fun setBookmarkFragments(allList: List<Bookmark>, hasCommentList: List<Bookmark>) {
+        adapter.addPage(BookmarkListFragment.newFragment(allList), getString(R.string.entry_info_all_bookmarks))
+        adapter.addPage(BookmarkListFragment.newFragment(hasCommentList), getString(R.string.entry_info_comments))
+    }
+
+    override fun setRegisterBookmarkFragment(url: String) {
+        adapter.addPage(RegisterBookmarkFragment.newFragment(url), getString(R.string.entry_info_register_bookmark))
     }
 
     override fun setEntryInfo(entryInfo: EntryInfo) {
