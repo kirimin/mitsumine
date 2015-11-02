@@ -16,29 +16,27 @@ class EntryInfoPresenter {
     private val subscriptions = CompositeSubscription()
     private var view: EntryInfoView? = null
 
-    fun onCreate(view: EntryInfoView, url: String, context: Context) {
-        this.view = view
-        view.initActionBar()
+    fun onCreate(entryInfoView: EntryInfoView, url: String, context: Context) {
+        this.view = entryInfoView
+        view!!.initActionBar()
 
         subscriptions.add(EntryInfoApi.request(context, url)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter { entryInfo -> !entryInfo.isNullObject() }
                 .subscribe ({ entryInfo ->
-                    // nullはありえる
-                    if (view != null) {
-                        view.setEntryInfo(entryInfo)
-                        view.addPage(BookmarkListFragment.newFragment(entryInfo.bookmarkList), R.string.entry_info_all_bookmarks)
+                    view?.setEntryInfo(entryInfo)
+                    view?.addPage(BookmarkListFragment.newFragment(entryInfo.bookmarkList), R.string.entry_info_all_bookmarks)
 
-                        val commentList = entryInfo.bookmarkList.filter { bookmark -> bookmark.hasComment() }
-                        view.addPage(BookmarkListFragment.newFragment(commentList), R.string.entry_info_comments)
-                        view.setCommentCount(commentList.count().toString())
+                    val commentList = entryInfo.bookmarkList.filter { bookmark -> bookmark.hasComment() }
+                    view?.addPage(BookmarkListFragment.newFragment(commentList), R.string.entry_info_comments)
+                    view?.setCommentCount(commentList.count().toString())
 
-                        AccountDAO.get()?.let {
-                            view.addPage(RegisterBookmarkFragment.newFragment(entryInfo.url), R.string.entry_info_register_bookmark)
-                        }
-                        view.setViewPagerSettings(1, 2)
+                    AccountDAO.get()?.let {
+                        view?.addPage(RegisterBookmarkFragment.newFragment(entryInfo.url), R.string.entry_info_register_bookmark)
                     }
+                    view?.setViewPagerSettings(1, 2)
+
                 }, { view?.showNetworkErrorToast() }))
     }
 
