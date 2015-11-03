@@ -15,10 +15,10 @@ import com.squareup.picasso.Picasso
 
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.model.Bookmark
+import me.kirimin.mitsumine.presenter.BookmarkListPresenter
 import me.kirimin.mitsumine.view.event.IfNeededLinkMovementMethod
 
-public class BookmarkListAdapter(activity: Activity, private val onCommentClick: (v: View, bookmark: Bookmark) -> Unit) :
-        ArrayAdapter<Bookmark>(activity, 0), View.OnClickListener {
+public class BookmarkListAdapter(activity: Activity, val presenter: BookmarkListPresenter) : ArrayAdapter<Bookmark>(activity, 0) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
@@ -45,7 +45,7 @@ public class BookmarkListAdapter(activity: Activity, private val onCommentClick:
             holder = view.tag as ViewHolder
         }
         val bookmark = getItem(position)
-        holder.cardView.setOnClickListener(this)
+        holder.cardView.setOnClickListener { v -> presenter.onItemClick(v.tag as Bookmark) }
         holder.cardView.tag = bookmark
         holder.userName.text = bookmark.user
         holder.comment.text = bookmark.comment
@@ -55,11 +55,6 @@ public class BookmarkListAdapter(activity: Activity, private val onCommentClick:
         Picasso.with(context).load(bookmark.userIcon).fit().transform(transformation).into(holder.userIcon)
         return view
     }
-
-    override fun onClick(v: View) {
-        onCommentClick(v, v.tag as Bookmark)
-    }
-
 
     class ViewHolder(
             val cardView: View,
