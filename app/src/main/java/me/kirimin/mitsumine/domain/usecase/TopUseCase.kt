@@ -32,7 +32,7 @@ open class TopUseCase {
         FeedDAO.deleteOldData(threeDays)
     }
 
-    open fun getTypeInt(type: Type): Int {
+    fun getTypeInt(type: Type): Int {
         return if (type == Type.HOT) 0 else 1
     }
 }
