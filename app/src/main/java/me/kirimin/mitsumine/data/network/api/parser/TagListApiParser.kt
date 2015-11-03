@@ -1,6 +1,6 @@
 package me.kirimin.mitsumine.data.network.api.parser
 
-import me.kirimin.mitsumine.domain.util.toList
+import me.kirimin.mitsumine.domain.common.util.toList
 import org.json.JSONException
 import org.json.JSONObject
 

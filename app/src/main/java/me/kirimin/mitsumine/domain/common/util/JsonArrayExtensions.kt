@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine.domain.util
+package me.kirimin.mitsumine.domain.common.util
 import org.json.JSONArray
 import org.json.JSONException
 import java.util.ArrayList

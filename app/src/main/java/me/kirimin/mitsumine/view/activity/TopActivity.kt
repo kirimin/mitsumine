@@ -25,50 +25,46 @@ import com.makeramen.RoundedTransformationBuilder
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.activity_top.*
+import me.kirimin.mitsumine.data.TopData
 import me.kirimin.mitsumine.domain.usecase.TopUseCase
 import me.kirimin.mitsumine.model.enums.Category
 import me.kirimin.mitsumine.model.enums.Type
 import me.kirimin.mitsumine.presenter.TopPresenter
 import me.kirimin.mitsumine.view.TopView
-import me.kirimin.mitsumine.view.activity.search.SearchActivity
-import me.kirimin.mitsumine.view.activity.search.KeywordSearchActivity
-import me.kirimin.mitsumine.view.activity.search.UserSearchActivity
 import me.kirimin.mitsumine.view.fragment.FeedFragment
 import java.io.Serializable
 
 public class TopActivity : AppCompatActivity(), TopView {
 
     private var mDrawerToggle: ActionBarDrawerToggle? = null
-    private var presenter: TopPresenter? = null
+    private var presenter: TopPresenter = TopPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_top)
-
         if (savedInstanceState != null) {
             val selectedCategory = savedInstanceState.getSerializable(Category::class.java.canonicalName) as Category
             val selectedType = savedInstanceState.getSerializable(Type::class.java.canonicalName) as Type
-            presenter = TopPresenter(this, TopUseCase(), selectedCategory, selectedType)
+            presenter.onCreate(this, TopUseCase(TopData()), selectedCategory, selectedType)
         } else {
-            presenter = TopPresenter(this, TopUseCase())
+            presenter.onCreate(this, TopUseCase(TopData()))
         }
-        presenter!!.onCreate()
     }
 
     override fun onStart() {
         super.onStart()
-        presenter!!.onStart()
+        presenter.onStart()
     }
 
     override fun onDestroy() {
-        presenter!!.onDestroy()
+        presenter.onDestroy()
         super.onDestroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putSerializable(Category::class.java.canonicalName, presenter!!.getCurrentCategory() as Serializable)
-        outState.putSerializable(Type::class.java.canonicalName, presenter!!.getCurrentType() as Serializable)
+        outState.putSerializable(Category::class.java.canonicalName, presenter.getCurrentCategory() as Serializable)
+        outState.putSerializable(Type::class.java.canonicalName, presenter.getCurrentType() as Serializable)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -100,7 +96,7 @@ public class TopActivity : AppCompatActivity(), TopView {
     }
 
     override fun onBackPressed() {
-        presenter!!.onBackKeyClick()
+        presenter.onBackKeyClick()
     }
 
     override fun backPress() {
@@ -116,16 +112,13 @@ public class TopActivity : AppCompatActivity(), TopView {
 
         val data = arrayOf(getString(R.string.feed_hot), getString(R.string.feed_new))
         val adapter = ArrayAdapter(actionBar.themedContext, android.R.layout.simple_list_item_1, data)
-        actionBar.setListNavigationCallbacks(adapter, { position, id ->
-            presenter!!.onNavigationClick(position)
-            true
-        })
+        actionBar.setListNavigationCallbacks(adapter, { position, id -> presenter.onNavigationClick(position) })
 
         mDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.app_name, R.string.app_name)
         drawerLayout.setDrawerListener(mDrawerToggle)
-        toolBar.setOnClickListener { presenter!!.onToolbarClick() }
+        toolBar.setOnClickListener { presenter.onToolbarClick() }
 
-        val onclickListener = OnClickListener { v -> presenter!!.onViewClick(v.id) }
+        val onclickListener = OnClickListener { v -> presenter.onViewClick(v.id) }
         navigationReadTextView.setOnClickListener(onclickListener)
         navigationSettingsTextView.setOnClickListener(onclickListener)
         navigationKeywordSearchTextView.setOnClickListener(onclickListener)
@@ -135,7 +128,7 @@ public class TopActivity : AppCompatActivity(), TopView {
     }
 
     override fun addNavigationCategoryButton(category: Category) {
-        val button = makeNavigationButton(getString(category.labelResource), OnClickListener { v -> presenter!!.onCategoryClick(category) }, null)
+        val button = makeNavigationButton(getString(category.labelResource), OnClickListener { v -> presenter.onCategoryClick(category) }, null)
         navigationCategories.addView(button)
     }
 
@@ -202,27 +195,27 @@ public class TopActivity : AppCompatActivity(), TopView {
 
     override fun addAdditionKeyword(keyword: String) {
         navigationAdditions.addView(makeNavigationButton(keyword,
-                View.OnClickListener { presenter!!.onAdditionKeywordClick(keyword) },
-                View.OnLongClickListener { v -> presenter!!.onAdditionKeywordLongClick(keyword, v) }))
+                View.OnClickListener { presenter.onAdditionKeywordClick(keyword) },
+                View.OnLongClickListener { v -> presenter.onAdditionKeywordLongClick(keyword, v) }))
     }
 
     override fun addAdditionUser(userId: String) {
         navigationAdditions.addView(makeNavigationButton(userId,
-                View.OnClickListener { presenter!!.onAdditionUserClick(userId) },
-                View.OnLongClickListener { v -> presenter!!.onAdditionUserLongClick(userId, v) }))
+                View.OnClickListener { presenter.onAdditionUserClick(userId) },
+                View.OnLongClickListener { v -> presenter.onAdditionUserLongClick(userId, v) }))
     }
 
     override fun showDeleteUserDialog(userId: String, view: View) {
         AlertDialog.Builder(this)
                 .setTitle(R.string.settings_ngword_delete)
-                .setPositiveButton(android.R.string.ok, { dialog, id -> presenter!!.onDeleteUserIdDialogClick(userId, view) })
+                .setPositiveButton(android.R.string.ok, { dialog, id -> presenter.onDeleteUserIdDialogClick(userId, view) })
                 .setNegativeButton(android.R.string.cancel, null).create().show()
     }
 
     override fun showDeleteKeywordDialog(keyword: String, view: View) {
         AlertDialog.Builder(this)
                 .setTitle(R.string.settings_ngword_delete)
-                .setPositiveButton(android.R.string.ok, { dialog, id -> presenter!!.onDeleteKeywordDialogClick(keyword, view) })
+                .setPositiveButton(android.R.string.ok, { dialog, id -> presenter.onDeleteKeywordDialogClick(keyword, view) })
                 .setNegativeButton(android.R.string.cancel, null)
                 .create().show()
     }

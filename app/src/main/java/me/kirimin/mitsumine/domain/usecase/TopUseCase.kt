@@ -1,35 +1,37 @@
 package me.kirimin.mitsumine.domain.usecase
 
-import me.kirimin.mitsumine.data.database.AccountDAO
-import me.kirimin.mitsumine.data.database.FeedDAO
-import me.kirimin.mitsumine.data.database.KeywordDAO
-import me.kirimin.mitsumine.data.database.UserIdDAO
+import me.kirimin.mitsumine.data.TopData
 import me.kirimin.mitsumine.model.Account
 import me.kirimin.mitsumine.model.enums.Type
 
 open class TopUseCase {
 
+    val data: TopData
+
+    constructor(topData: TopData) {
+        this.data = topData
+    }
+
     open val additionUsers: List<String>
-        get() = UserIdDAO.findAll()
+        get() = data.additionUsers
 
     open fun deleteAdditionUser(userId: String) {
-        UserIdDAO.delete(userId)
+        data.deleteAdditionUser(userId)
     }
 
     open val additionKeywords: List<String>
-        get() = KeywordDAO.findAll()
+        get() = data.additionKeywords
 
     open fun deleteAdditionKeyword(keyword: String) {
-        KeywordDAO.delete(keyword)
+        data.deleteAdditionKeyword(keyword)
     }
 
-    open fun getAccount(): Account? {
-        return AccountDAO.get()
-    }
+    open val account: Account?
+        get() = data.account
 
     open fun deleteOldFeedData() {
         val threeDays = 1000 * 60 * 60 * 24 * 3.toLong()
-        FeedDAO.deleteOldData(threeDays)
+        data.deleteOldFeedData(threeDays)
     }
 
     fun getTypeInt(type: Type): Int {

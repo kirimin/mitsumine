@@ -10,7 +10,7 @@ import java.util.regex.Pattern
 
 import me.kirimin.mitsumine.model.Bookmark
 import me.kirimin.mitsumine.model.EntryInfo
-import me.kirimin.mitsumine.domain.util.toList
+import me.kirimin.mitsumine.domain.common.util.toList
 
 public class EntryInfoApiParser {
     companion object {

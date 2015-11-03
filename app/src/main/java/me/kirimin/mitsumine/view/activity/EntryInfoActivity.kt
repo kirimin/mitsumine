@@ -44,6 +44,7 @@ public class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
         val url = intent.getStringExtra(KEY_URL)
         if (url == null) {
             finish()
+            return
         }
         presenter.onCreate(this, EntryInfoUseCase(), url, applicationContext)
     }

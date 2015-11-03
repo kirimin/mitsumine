@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine.domain.util
+package me.kirimin.mitsumine.domain.common.util
 
 import me.kirimin.mitsumine.model.Feed
 

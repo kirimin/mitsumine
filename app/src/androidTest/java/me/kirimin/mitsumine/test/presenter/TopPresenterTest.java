@@ -18,7 +18,6 @@ import me.kirimin.mitsumine.model.enums.Type;
 import me.kirimin.mitsumine.presenter.TopPresenter;
 import me.kirimin.mitsumine.view.TopView;
 import me.kirimin.mitsumine.view.activity.search.KeywordSearchActivity;
-import me.kirimin.mitsumine.view.activity.search.SearchActivity;
 import me.kirimin.mitsumine.view.activity.search.UserSearchActivity;
 
 import static org.mockito.Mockito.*;
@@ -37,8 +36,8 @@ public class TopPresenterTest {
 
     @Test
     public void onCreateTest() {
-        TopPresenter presenter = new TopPresenter(viewMock, useCaseMock, Category.MAIN, Type.HOT);
-        presenter.onCreate();
+        TopPresenter presenter = new TopPresenter();
+        presenter.onCreate(viewMock, useCaseMock, Category.MAIN, Type.HOT);
         verify(viewMock, times(1)).initViews();
         verify(viewMock, times(1)).addNavigationCategoryButton(Category.MAIN);
         verify(viewMock, times(1)).addNavigationCategoryButton(Category.SOCIAL);
@@ -54,8 +53,8 @@ public class TopPresenterTest {
 
     @Test
     public void onStartTest() {
-        TopPresenter presenter = new TopPresenter(viewMock, useCaseMock, Category.MAIN, Type.HOT);
-        presenter.onCreate();
+        TopPresenter presenter = new TopPresenter();
+        presenter.onCreate(viewMock, useCaseMock, Category.MAIN, Type.HOT);
         presenter.onStart();
         verify(viewMock, times(1)).removeNavigationAdditions();
         verify(viewMock, never()).addAdditionKeyword(anyString());
@@ -68,8 +67,8 @@ public class TopPresenterTest {
     public void toolbarClickTest() {
         when(viewMock.isOpenNavigation()).thenReturn(false);
 
-        TopPresenter presenter = new TopPresenter(viewMock, useCaseMock, Category.MAIN, Type.HOT);
-        presenter.onCreate();
+        TopPresenter presenter = new TopPresenter();
+        presenter.onCreate(viewMock, useCaseMock, Category.MAIN, Type.HOT);
         presenter.onStart();
         verify(viewMock, never()).openNavigation();
         verify(viewMock, never()).closeNavigation();
@@ -86,8 +85,8 @@ public class TopPresenterTest {
 
     @Test
     public void typeSelectTest() {
-        TopPresenter presenter = new TopPresenter(viewMock, useCaseMock, Category.MAIN, Type.HOT);
-        presenter.onCreate();
+        TopPresenter presenter = new TopPresenter();
+        presenter.onCreate(viewMock, useCaseMock, Category.MAIN, Type.HOT);
         presenter.onStart();
         Assert.assertEquals(presenter.getCurrentType(), Type.HOT);
         verify(viewMock, times(1)).refreshShowCategoryAndType(any(Category.class), eq(Type.HOT), eq(0));
@@ -108,8 +107,8 @@ public class TopPresenterTest {
     public void backKeyPressTest() {
         when(viewMock.isOpenNavigation()).thenReturn(false);
 
-        TopPresenter presenter = new TopPresenter(viewMock, useCaseMock, Category.MAIN, Type.HOT);
-        presenter.onCreate();
+        TopPresenter presenter = new TopPresenter();
+        presenter.onCreate(viewMock, useCaseMock, Category.MAIN, Type.HOT);
         presenter.onStart();
         presenter.onBackKeyClick();
         verify(viewMock, times(1)).backPress();
@@ -129,8 +128,8 @@ public class TopPresenterTest {
         users.add("testC");
         when(useCaseMock.getAdditionUsers()).thenReturn(users);
 
-        TopPresenter presenter = new TopPresenter(viewMock, useCaseMock, Category.MAIN, Type.HOT);
-        presenter.onCreate();
+        TopPresenter presenter = new TopPresenter();
+        presenter.onCreate(viewMock, useCaseMock, Category.MAIN, Type.HOT);
         presenter.onStart();
         verify(useCaseMock, times(1)).getAdditionUsers();
         verify(viewMock, times(1)).addAdditionUser(users.get(0));
@@ -163,8 +162,8 @@ public class TopPresenterTest {
         keywords.add("testC");
         when(useCaseMock.getAdditionKeywords()).thenReturn(keywords);
 
-        TopPresenter presenter = new TopPresenter(viewMock, useCaseMock, Category.MAIN, Type.HOT);
-        presenter.onCreate();
+        TopPresenter presenter = new TopPresenter();
+        presenter.onCreate(viewMock, useCaseMock, Category.MAIN, Type.HOT);
         presenter.onStart();
         verify(useCaseMock, times(1)).getAdditionKeywords();
         verify(viewMock, times(1)).addAdditionKeyword(keywords.get(0));

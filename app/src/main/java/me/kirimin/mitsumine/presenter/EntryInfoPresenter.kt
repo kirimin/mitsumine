@@ -6,7 +6,7 @@ import me.kirimin.mitsumine.model.EntryInfo
 import me.kirimin.mitsumine.view.EntryInfoView
 import rx.Subscriber
 
-class EntryInfoPresenter : Subscriber<EntryInfo>() {
+class EntryInfoPresenter :  Subscriber<EntryInfo>() {
 
     private var view: EntryInfoView? = null
     private var useCase: EntryInfoUseCase? = null

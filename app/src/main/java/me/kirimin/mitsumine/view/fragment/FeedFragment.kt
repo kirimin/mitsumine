@@ -6,7 +6,7 @@ import android.os.Bundle
 import me.kirimin.mitsumine.data.database.FeedDAO
 import me.kirimin.mitsumine.data.database.NGWordDAO
 import me.kirimin.mitsumine.data.network.api.FeedApi
-import me.kirimin.mitsumine.domain.util.FeedUtil
+import me.kirimin.mitsumine.domain.common.util.FeedUtil
 import me.kirimin.mitsumine.model.enums.Category
 import me.kirimin.mitsumine.model.enums.Type
 import rx.android.schedulers.AndroidSchedulers

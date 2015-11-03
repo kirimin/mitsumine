@@ -8,7 +8,7 @@ import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.data.database.FeedDAO
 import me.kirimin.mitsumine.data.database.NGWordDAO
 import me.kirimin.mitsumine.data.network.api.FeedApi
-import me.kirimin.mitsumine.domain.util.FeedUtil
+import me.kirimin.mitsumine.domain.common.util.FeedUtil
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription

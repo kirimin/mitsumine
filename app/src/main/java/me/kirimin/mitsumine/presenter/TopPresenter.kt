@@ -16,47 +16,45 @@ import me.kirimin.mitsumine.view.activity.search.UserSearchActivity
 
 class TopPresenter {
 
-    private val view: TopView
-    private val useCase: TopUseCase
+    private var view: TopView? = null
+    private var useCase: TopUseCase? = null
 
     private var mSelectedType = Type.HOT
     private var mSelectedCategory = Category.MAIN
 
-    constructor(topView: TopView, topUseCase: TopUseCase, category: Category = Category.MAIN, type: Type = Type.HOT) {
+    fun onCreate(topView: TopView, topUseCase: TopUseCase, category: Category = Category.MAIN, type: Type = Type.HOT) {
         view = topView
         useCase = topUseCase
         mSelectedCategory = category
         mSelectedType = type
-    }
+        
+        view?.initViews()
 
-    fun onCreate() {
-        view.initViews()
-
-        view.addNavigationCategoryButton(Category.MAIN)
-        view.addNavigationCategoryButton(Category.SOCIAL)
-        view.addNavigationCategoryButton(Category.ECONOMICS)
-        view.addNavigationCategoryButton(Category.LIFE)
-        view.addNavigationCategoryButton(Category.KNOWLEDGE)
-        view.addNavigationCategoryButton(Category.IT)
-        view.addNavigationCategoryButton(Category.FUN)
-        view.addNavigationCategoryButton(Category.ENTERTAINMENT)
-        view.addNavigationCategoryButton(Category.GAME)
+        view?.addNavigationCategoryButton(Category.MAIN)
+        view?.addNavigationCategoryButton(Category.SOCIAL)
+        view?.addNavigationCategoryButton(Category.ECONOMICS)
+        view?.addNavigationCategoryButton(Category.LIFE)
+        view?.addNavigationCategoryButton(Category.KNOWLEDGE)
+        view?.addNavigationCategoryButton(Category.IT)
+        view?.addNavigationCategoryButton(Category.FUN)
+        view?.addNavigationCategoryButton(Category.ENTERTAINMENT)
+        view?.addNavigationCategoryButton(Category.GAME)
 
         // 古い既読を削除
-        useCase.deleteOldFeedData()
-        view.refreshShowCategoryAndType(mSelectedCategory, mSelectedType, useCase.getTypeInt(mSelectedType))
+        useCase!!.deleteOldFeedData()
+        view?.refreshShowCategoryAndType(mSelectedCategory, mSelectedType, useCase!!.getTypeInt(mSelectedType))
     }
 
     fun onStart() {
-        view.removeNavigationAdditions()
-        useCase.additionKeywords.forEach { keyword -> view.addAdditionKeyword(keyword) }
-        useCase.additionUsers.forEach { userId -> view.addAdditionUser(userId) }
+        view?.removeNavigationAdditions()
+        useCase!!.additionKeywords.forEach { keyword -> view?.addAdditionKeyword(keyword) }
+        useCase!!.additionUsers.forEach { userId -> view?.addAdditionUser(userId) }
 
-        val account = useCase.getAccount()
+        val account = useCase!!.account
         if (account != null) {
-            view.enableUserInfo(account.displayName, account.imageUrl)
+            view?.enableUserInfo(account.displayName, account.imageUrl)
         } else {
-            view.disableUserInfo()
+            view?.disableUserInfo()
         }
     }
 
@@ -64,89 +62,90 @@ class TopPresenter {
 
     }
 
-    fun onNavigationClick(position: Int) {
-        view.closeNavigation()
+    fun onNavigationClick(position: Int): Boolean {
+        view?.closeNavigation()
         mSelectedType = if (position == 0) Type.HOT else Type.NEW
-        view.refreshShowCategoryAndType(mSelectedCategory, mSelectedType, useCase.getTypeInt(mSelectedType))
+        view?.refreshShowCategoryAndType(mSelectedCategory, mSelectedType, useCase!!.getTypeInt(mSelectedType))
+        return true
     }
 
     fun onToolbarClick() {
-        if (view.isOpenNavigation()) {
-            view.closeNavigation()
+        if (view!!.isOpenNavigation()) {
+            view?.closeNavigation()
         } else {
-            view.openNavigation()
+            view?.openNavigation()
         }
     }
 
     fun onBackKeyClick() {
-        if (view.isOpenNavigation()) {
-            view.closeNavigation()
+        if (view!!.isOpenNavigation()) {
+            view?.closeNavigation()
         } else {
-            view.backPress()
+            view?.backPress()
         }
     }
 
     fun onViewClick(id: Int) {
         when (id) {
             R.id.navigationReadTextView -> {
-                view.startActivity(ReadActivity::class.java)
-                view.closeNavigation()
+                view?.startActivity(ReadActivity::class.java)
+                view?.closeNavigation()
             }
             R.id.navigationSettingsTextView -> {
-                view.startActivity(SettingActivity::class.java)
-                view.closeNavigation()
+                view?.startActivity(SettingActivity::class.java)
+                view?.closeNavigation()
             }
             R.id.navigationKeywordSearchTextView -> {
-                view.startActivity(KeywordSearchActivity::class.java)
-                view.closeNavigation()
+                view?.startActivity(KeywordSearchActivity::class.java)
+                view?.closeNavigation()
             }
             R.id.navigationUserSearchTextView -> {
-                view.startActivity(UserSearchActivity::class.java)
-                view.closeNavigation()
+                view?.startActivity(UserSearchActivity::class.java)
+                view?.closeNavigation()
             }
             R.id.navigationUserInfoLayout -> {
-                view.startActivity(MyBookmarksActivity::class.java)
-                view.closeNavigation()
+                view?.startActivity(MyBookmarksActivity::class.java)
+                view?.closeNavigation()
             }
             R.id.navigationLoginButton -> {
-                view.startActivity(LoginActivity::class.java)
+                view?.startActivity(LoginActivity::class.java)
             }
         }
     }
 
     fun onCategoryClick(category: Category) {
-        view.closeNavigation()
-        view.refreshShowCategoryAndType(category, mSelectedType, useCase.getTypeInt(mSelectedType))
+        view?.closeNavigation()
+        view?.refreshShowCategoryAndType(category, mSelectedType, useCase!!.getTypeInt(mSelectedType))
         mSelectedCategory = category
     }
 
     fun onAdditionUserClick(userId: String){
-        view.closeNavigation()
-        view.startActivity(UserSearchActivity::class.java, SearchActivity.buildBundle(userId))
+        view?.closeNavigation()
+        view?.startActivity(UserSearchActivity::class.java, SearchActivity.buildBundle(userId))
     }
 
     fun onAdditionUserLongClick(userId: String, target: View): Boolean {
-        view.showDeleteUserDialog(userId, target)
+        view?.showDeleteUserDialog(userId, target)
         return false
     }
 
     fun onAdditionKeywordClick(keyword: String) {
-        view.closeNavigation()
-        view.startActivity(KeywordSearchActivity::class.java, SearchActivity.buildBundle(keyword))
+        view?.closeNavigation()
+        view?.startActivity(KeywordSearchActivity::class.java, SearchActivity.buildBundle(keyword))
     }
 
     fun onAdditionKeywordLongClick(keyword: String, target: View): Boolean {
-        view.showDeleteKeywordDialog(keyword, target)
+        view?.showDeleteKeywordDialog(keyword, target)
         return false
     }
 
     fun onDeleteUserIdDialogClick(word: String, target: View) {
-        useCase.deleteAdditionUser(word)
+        useCase!!.deleteAdditionUser(word)
         target.visibility = View.GONE
     }
 
     fun onDeleteKeywordDialogClick(word: String, target: View) {
-        useCase.deleteAdditionKeyword(word)
+        useCase!!.deleteAdditionKeyword(word)
         target.visibility = View.GONE
     }
 
