@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine.test.presenter;
+package me.kirimin.mitsumine.test.top;
 
 import android.os.Bundle;
 import android.support.test.runner.AndroidJUnit4;

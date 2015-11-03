@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine.test.domain;
+package me.kirimin.mitsumine.test.entryinfo;
 
 import android.content.Context;
 import android.support.test.runner.AndroidJUnit4;
