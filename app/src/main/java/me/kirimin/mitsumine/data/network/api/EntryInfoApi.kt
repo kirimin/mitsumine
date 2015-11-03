@@ -3,6 +3,7 @@ package me.kirimin.mitsumine.data.network.api
 import android.content.Context
 import me.kirimin.mitsumine.model.EntryInfo
 import me.kirimin.mitsumine.data.network.api.parser.EntryInfoApiParser
+import org.json.JSONObject
 
 import rx.Observable
 

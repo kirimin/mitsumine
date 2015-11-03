@@ -1,8 +1,8 @@
 package me.kirimin.mitsumine.domain.usecase
 
 import android.content.Context
+import me.kirimin.mitsumine.data.EntryInfoData
 import me.kirimin.mitsumine.data.database.AccountDAO
-import me.kirimin.mitsumine.data.network.api.EntryInfoApi
 import me.kirimin.mitsumine.model.Bookmark
 import me.kirimin.mitsumine.model.EntryInfo
 import rx.Subscriber
@@ -13,9 +13,14 @@ import rx.subscriptions.CompositeSubscription
 open class EntryInfoUseCase {
 
     private val subscriptions = CompositeSubscription()
+    private val data: EntryInfoData
+
+    constructor(entryInfoData: EntryInfoData) {
+        this.data = entryInfoData
+    }
 
     open fun requestEntryInfo(url: String, context: Context, subscriber: Subscriber<EntryInfo>) {
-        subscriptions.add(EntryInfoApi.request(context, url)
+        subscriptions.add(data.requestEntryInfoApi(context, url)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter { entryInfo -> !entryInfo.isNullObject() }
