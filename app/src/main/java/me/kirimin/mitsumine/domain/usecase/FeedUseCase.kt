@@ -1,8 +1,6 @@
 package me.kirimin.mitsumine.domain.usecase
 
 import me.kirimin.mitsumine.data.FeedData
-import me.kirimin.mitsumine.data.database.FeedDAO
-import me.kirimin.mitsumine.data.database.NGWordDAO
 import me.kirimin.mitsumine.domain.common.util.FeedUtil
 import me.kirimin.mitsumine.model.Feed
 import me.kirimin.mitsumine.model.enums.Category
@@ -17,12 +15,10 @@ class FeedUseCase(val data: FeedData) {
     private var subscriptions = CompositeSubscription()
 
     fun requestFeed(category: Category, type: Type, subscriber: Subscriber<List<Feed>>) {
-        val readFeedList = FeedDAO.findAll()
-        val ngWordList = NGWordDAO.findAll()
         subscriptions.add(data.requestFeed(category, type)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .filter { feed -> !FeedUtil.contains(feed, readFeedList) && !FeedUtil.containsWord(feed, ngWordList) }
+                .filter { feed -> !FeedUtil.contains(feed, data.readFeedList) && !FeedUtil.containsWord(feed, data.ngWordList) }
                 .toList()
                 .subscribe(subscriber))
     }
