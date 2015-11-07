@@ -2,7 +2,6 @@ package me.kirimin.mitsumine.view.fragment
 
 
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.data.database.FeedDAO
 import me.kirimin.mitsumine.model.Feed
 import me.kirimin.mitsumine.view.activity.EntryInfoActivity
 import me.kirimin.mitsumine.view.adapter.FeedAdapter
@@ -11,7 +10,6 @@ import me.kirimin.mitsumine.view.adapter.FeedAdapter.FeedAdapterListener
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.util.TypedValue
@@ -20,126 +18,119 @@ import android.view.View
 import android.view.ViewGroup
 
 import kotlinx.android.synthetic.fragment_feed.view.*
+import me.kirimin.mitsumine.data.AbstractFeedData
+import me.kirimin.mitsumine.data.FeedData
+import me.kirimin.mitsumine.domain.usecase.FeedUseCase
+import me.kirimin.mitsumine.model.enums.Category
+import me.kirimin.mitsumine.model.enums.Type
+import me.kirimin.mitsumine.presenter.FeedPresenter
+import me.kirimin.mitsumine.view.FeedView
 
-public abstract class AbstractFeedFragment : Fragment(), FeedAdapterListener, SwipeRefreshLayout.OnRefreshListener {
-
-    private var mAdapter: FeedAdapter? = null
-
-    abstract fun requestFeed()
+public abstract class AbstractFeedFragment : Fragment(), FeedView, FeedAdapterListener, SwipeRefreshLayout.OnRefreshListener {
 
     abstract fun isUseReadLater(): Boolean
-
     abstract fun isUseRead(): Boolean
+    abstract fun getDataInstance(): AbstractFeedData
+
+    private var mAdapter: FeedAdapter? = null
+    private val presenter: FeedPresenter = FeedPresenter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val rootView = inflater.inflate(R.layout.fragment_feed, container, false)
-        rootView.swipeLayout.setColorSchemeResources(R.color.blue, R.color.orange)
-        rootView.swipeLayout.setOnRefreshListener(this)
-        rootView.swipeLayout.setProgressViewOffset(false, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, resources.displayMetrics).toInt())
-        mAdapter = FeedAdapter(activity.applicationContext, this, isUseReadLater(), isUseRead())
-        rootView.feedListView.adapter = mAdapter
         return rootView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        requestFeed()
+
+        presenter.onCreate(this, FeedUseCase(getDataInstance()));
+    }
+
+    override fun onDestroyView() {
+        presenter.onDestroy()
+        super.onDestroyView()
     }
 
     override fun onRefresh() {
-        reloadFeed()
+        presenter.onRefresh()
     }
 
     override fun onFeedClick(view: View) {
-        val feed = view.tag as Feed
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(feed.linkUrl)))
+        presenter.onItemClick(view.tag as Feed)
     }
 
     override fun onFeedLongClick(view: View) {
-        val feed = view.tag as Feed
-        val pref = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext())
-        if (pref.getBoolean(getString(R.string.key_use_browser_to_comment_list), false)) {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(feed.entryLinkUrl)))
-        } else {
-            val intent = Intent(activity, EntryInfoActivity::class.java)
-            intent.putExtras(EntryInfoActivity.buildBundle(feed.linkUrl))
-            startActivity(intent)
-        }
+        presenter.onItemLongClick(view.tag as Feed)
     }
 
     override fun onFeedLeftSlide(view: View) {
-        val feed = view.tag as Feed
-        feed.type = Feed.TYPE_READ
-        FeedDAO.save(feed)
-        mAdapter!!.remove(feed)
+        presenter.onFeedLeftSlide(view.tag as Feed)
     }
 
     override fun onFeedRightSlide(view: View) {
-        val feed = view.tag as Feed
-        feed.type = Feed.TYPE_READ_LATER
-        FeedDAO.save(feed)
-        mAdapter!!.remove(feed)
+        presenter.onFeedRightSlide(view.tag as Feed)
     }
 
     override fun onFeedShareClick(view: View) {
-        val pref = PreferenceManager.getDefaultSharedPreferences(activity.applicationContext)
-        if (pref.getBoolean(getString(R.string.key_is_share_with_title), false)) {
-            val intent = buildShareUrlWithTitleIntent(view.tag as Feed)
-            startActivity(Intent.createChooser(intent, getString(R.string.feed_share_url_with_title)))
-        } else {
-            val intent = buildShareUrlIntent(view.tag as Feed)
-            startActivity(Intent.createChooser(intent, getString(R.string.feed_share_url)))
-        }
+        presenter.onFeedShareClick(view.tag as Feed)
     }
 
     override fun onFeedShareLongClick(view: View) {
-        val pref = PreferenceManager.getDefaultSharedPreferences(activity.applicationContext)
-        if (!pref.getBoolean(getString(R.string.key_is_share_with_title), false)) {
-            val intent = buildShareUrlWithTitleIntent(view.tag as Feed)
-            startActivity(Intent.createChooser(intent, getString(R.string.feed_share_url_with_title)))
-        } else {
-            val intent = buildShareUrlIntent(view.tag as Feed)
-            startActivity(Intent.createChooser(intent, getString(R.string.feed_share_url)))
-        }
+        presenter.onFeedShareLongClick(view.tag as Feed)
     }
 
-    protected fun clearFeed() {
-        mAdapter!!.clear()
+    override fun initViews() {
+        view.swipeLayout.setColorSchemeResources(R.color.blue, R.color.orange)
+        view.swipeLayout.setOnRefreshListener(this)
+        view.swipeLayout.setProgressViewOffset(false, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, resources.displayMetrics).toInt())
+        mAdapter = FeedAdapter(activity.applicationContext, this, isUseReadLater(), isUseRead())
+        view.feedListView.adapter = mAdapter
     }
 
-    protected fun setFeed(feedList: List<Feed>) {
+    override fun setFeed(feedList: List<Feed>) {
         mAdapter!!.addAll(feedList)
     }
 
-    protected fun showRefreshing() {
+    override fun showRefreshing() {
         view.swipeLayout.isRefreshing = true
     }
 
-    protected fun dismissRefreshing() {
+    override fun dismissRefreshing() {
         view.swipeLayout.isRefreshing = false
     }
 
-    private fun reloadFeed() {
+    override fun clearAllItem() {
         mAdapter!!.clear()
-        requestFeed()
     }
 
-    private fun buildShareUrlIntent(feed: Feed): Intent {
-        val share = Intent(android.content.Intent.ACTION_SEND)
-        share.setType("text/plain")
-        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
-        share.putExtra(Intent.EXTRA_SUBJECT, feed.title)
-        share.putExtra(Intent.EXTRA_TEXT, feed.linkUrl)
-
-        return share
+    override fun removeItem(feed: Feed) {
+        mAdapter!!.remove(feed)
     }
 
-    private fun buildShareUrlWithTitleIntent(feed: Feed): Intent {
-        val share = Intent(android.content.Intent.ACTION_SEND)
+    override fun sendUrlIntent(url: String) {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+    }
+
+    override fun startEntryInfoView(url: String) {
+        val intent = Intent(activity, EntryInfoActivity::class.java)
+        intent.putExtras(EntryInfoActivity.buildBundle(url))
+        startActivity(intent)
+    }
+
+    override fun sendShareUrlIntent(title: String, url: String) {
+        val share = Intent(Intent.ACTION_SEND)
         share.setType("text/plain")
         share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
-        share.putExtra(Intent.EXTRA_TEXT, feed.title + " " + feed.linkUrl)
+        share.putExtra(Intent.EXTRA_SUBJECT, title)
+        share.putExtra(Intent.EXTRA_TEXT, url)
+        startActivity(share)
+    }
 
-        return share
+    override fun sendShareUrlWithTitleIntent(title: String, url: String) {
+        val share = Intent(Intent.ACTION_SEND)
+        share.setType("text/plain")
+        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
+        share.putExtra(Intent.EXTRA_TEXT, title + " " + url)
+        startActivity(share)
     }
 }

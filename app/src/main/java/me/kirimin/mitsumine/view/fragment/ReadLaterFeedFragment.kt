@@ -1,20 +1,12 @@
 package me.kirimin.mitsumine.view.fragment
 
-import me.kirimin.mitsumine.data.database.FeedDAO
+import me.kirimin.mitsumine.data.AbstractFeedData
+import me.kirimin.mitsumine.data.ReadFeedData
 import me.kirimin.mitsumine.model.Feed
 
 public class ReadLaterFeedFragment : AbstractFeedFragment() {
 
-    override fun requestFeed() {
-        setFeed(FeedDAO.findByType(Feed.TYPE_READ_LATER))
-        dismissRefreshing()
-    }
-
-    override fun isUseReadLater(): Boolean {
-        return false
-    }
-
-    override fun isUseRead(): Boolean {
-        return true
-    }
+    override fun getDataInstance(): AbstractFeedData = ReadFeedData(context, Feed.TYPE_READ_LATER)
+    override fun isUseReadLater(): Boolean = false
+    override fun isUseRead(): Boolean = true
 }
