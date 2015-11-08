@@ -6,7 +6,7 @@ import java.util.Locale
 
 import com.activeandroid.query.Delete
 import com.activeandroid.query.Select
-import me.kirimin.mitsumine.model.Feed
+import me.kirimin.mitsumine.domain.model.Feed
 
 public class FeedDAO private constructor() {
     companion object {

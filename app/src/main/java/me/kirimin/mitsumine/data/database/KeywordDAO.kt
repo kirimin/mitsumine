@@ -3,7 +3,7 @@ package me.kirimin.mitsumine.data.database
 import com.activeandroid.Model
 import java.util.ArrayList
 
-import me.kirimin.mitsumine.model.Keyword
+import me.kirimin.mitsumine.domain.model.Keyword
 
 import com.activeandroid.query.Delete
 import com.activeandroid.query.Select

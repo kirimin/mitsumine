@@ -7,8 +7,8 @@ import org.scribe.model.OAuthRequest
 import org.scribe.model.Token
 import org.scribe.model.Verb
 
-import me.kirimin.mitsumine.model.Account
-import me.kirimin.mitsumine.model.MyBookmark
+import me.kirimin.mitsumine.domain.model.Account
+import me.kirimin.mitsumine.domain.model.MyBookmark
 import me.kirimin.mitsumine.data.network.api.oauth.Consumer
 import me.kirimin.mitsumine.data.network.api.oauth.HatenaOAuthProvider
 import me.kirimin.mitsumine.data.network.api.parser.MyBookmarksApiParser

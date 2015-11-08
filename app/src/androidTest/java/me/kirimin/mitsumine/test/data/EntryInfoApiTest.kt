@@ -12,7 +12,7 @@ import org.junit.runner.RunWith
 import me.kirimin.mitsumine.data.network.api.EntryInfoApi
 
 import android.support.test.espresso.matcher.ViewMatchers.assertThat
-import me.kirimin.mitsumine.model.EntryInfo
+import me.kirimin.mitsumine.domain.model.EntryInfo
 import org.hamcrest.Matchers.`is`
 import rx.observers.TestSubscriber
 

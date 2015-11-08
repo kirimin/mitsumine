@@ -3,9 +3,9 @@ package me.kirimin.mitsumine.domain
 import me.kirimin.mitsumine.data.AbstractFeedData
 import me.kirimin.mitsumine.data.FeedData
 import me.kirimin.mitsumine.domain.common.util.FeedUtil
-import me.kirimin.mitsumine.model.Feed
-import me.kirimin.mitsumine.model.enums.Category
-import me.kirimin.mitsumine.model.enums.Type
+import me.kirimin.mitsumine.domain.model.Feed
+import me.kirimin.mitsumine.domain.enums.Category
+import me.kirimin.mitsumine.domain.enums.Type
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers

@@ -3,7 +3,7 @@ package me.kirimin.mitsumine.view.activity
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.data.database.AccountDAO
 import me.kirimin.mitsumine.data.database.NGWordDAO
-import me.kirimin.mitsumine.model.Account
+import me.kirimin.mitsumine.domain.model.Account
 
 import android.app.AlertDialog
 import android.content.DialogInterface

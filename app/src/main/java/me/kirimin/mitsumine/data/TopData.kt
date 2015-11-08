@@ -4,7 +4,7 @@ import me.kirimin.mitsumine.data.database.AccountDAO
 import me.kirimin.mitsumine.data.database.FeedDAO
 import me.kirimin.mitsumine.data.database.KeywordDAO
 import me.kirimin.mitsumine.data.database.UserIdDAO
-import me.kirimin.mitsumine.model.Account
+import me.kirimin.mitsumine.domain.model.Account
 
 class TopData {
 

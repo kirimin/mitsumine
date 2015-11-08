@@ -1,7 +1,7 @@
 package me.kirimin.mitsumine.view
 
-import me.kirimin.mitsumine.model.Bookmark
-import me.kirimin.mitsumine.model.EntryInfo
+import me.kirimin.mitsumine.domain.model.Bookmark
+import me.kirimin.mitsumine.domain.model.EntryInfo
 
 interface EntryInfoView {
 

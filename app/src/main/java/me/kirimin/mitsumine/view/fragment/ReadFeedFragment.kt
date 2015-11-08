@@ -2,7 +2,7 @@ package me.kirimin.mitsumine.view.fragment
 
 import me.kirimin.mitsumine.data.AbstractFeedData
 import me.kirimin.mitsumine.data.ReadFeedData
-import me.kirimin.mitsumine.model.Feed
+import me.kirimin.mitsumine.domain.model.Feed
 
 public class ReadFeedFragment : AbstractFeedFragment() {
 

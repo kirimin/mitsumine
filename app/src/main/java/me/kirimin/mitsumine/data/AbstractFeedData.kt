@@ -5,7 +5,7 @@ import android.preference.PreferenceManager
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.data.database.FeedDAO
 import me.kirimin.mitsumine.data.database.NGWordDAO
-import me.kirimin.mitsumine.model.Feed
+import me.kirimin.mitsumine.domain.model.Feed
 import rx.Observable
 
 abstract class AbstractFeedData(val context: Context) {

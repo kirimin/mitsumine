@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.model.Bookmark
+import me.kirimin.mitsumine.domain.model.Bookmark
 import me.kirimin.mitsumine.view.activity.search.SearchActivity
 import me.kirimin.mitsumine.view.activity.search.UserSearchActivity
 import me.kirimin.mitsumine.view.adapter.BookmarkListAdapter

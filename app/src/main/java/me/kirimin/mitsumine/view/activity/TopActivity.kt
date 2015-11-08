@@ -27,8 +27,8 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.activity_top.*
 import me.kirimin.mitsumine.data.TopData
 import me.kirimin.mitsumine.domain.TopUseCase
-import me.kirimin.mitsumine.model.enums.Category
-import me.kirimin.mitsumine.model.enums.Type
+import me.kirimin.mitsumine.domain.enums.Category
+import me.kirimin.mitsumine.domain.enums.Type
 import me.kirimin.mitsumine.presenter.TopPresenter
 import me.kirimin.mitsumine.view.TopView
 import me.kirimin.mitsumine.view.fragment.FeedFragment

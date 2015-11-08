@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.model.MyBookmark
+import me.kirimin.mitsumine.domain.model.MyBookmark
 
 public class MyBookmarksAdapter(context: Context,
                                 private val onMyBookmarkClick: (v: View, myBookmark: MyBookmark) -> Unit,

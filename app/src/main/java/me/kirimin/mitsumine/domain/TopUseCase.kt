@@ -1,8 +1,8 @@
 package me.kirimin.mitsumine.domain
 
 import me.kirimin.mitsumine.data.TopData
-import me.kirimin.mitsumine.model.Account
-import me.kirimin.mitsumine.model.enums.Type
+import me.kirimin.mitsumine.domain.model.Account
+import me.kirimin.mitsumine.domain.enums.Type
 
 open class TopUseCase {
 

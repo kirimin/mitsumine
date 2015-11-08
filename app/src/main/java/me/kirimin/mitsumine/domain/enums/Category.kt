@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine.model.enums
+package me.kirimin.mitsumine.domain.enums
 
 import me.kirimin.mitsumine.R
 

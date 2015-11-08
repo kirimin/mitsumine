@@ -2,7 +2,7 @@ package me.kirimin.mitsumine.data.database
 
 import com.activeandroid.query.Select
 
-import me.kirimin.mitsumine.model.Account
+import me.kirimin.mitsumine.domain.model.Account
 
 public class AccountDAO {
     companion object {

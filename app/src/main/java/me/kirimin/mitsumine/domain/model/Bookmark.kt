@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine.model
+package me.kirimin.mitsumine.domain.model
 
 import android.os.Parcel
 import android.os.Parcelable

@@ -10,8 +10,8 @@ import org.scribe.model.Verb
 import org.scribe.model.Verifier
 import org.scribe.oauth.OAuthService
 
-import me.kirimin.mitsumine.model.Account
-import me.kirimin.mitsumine.model.exceptions.ApiRequestException
+import me.kirimin.mitsumine.domain.model.Account
+import me.kirimin.mitsumine.domain.exceptions.ApiRequestException
 import rx.Observable
 import rx.Subscriber
 

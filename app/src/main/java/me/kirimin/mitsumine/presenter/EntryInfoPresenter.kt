@@ -2,7 +2,7 @@ package me.kirimin.mitsumine.presenter
 
 import android.content.Context
 import me.kirimin.mitsumine.domain.EntryInfoUseCase
-import me.kirimin.mitsumine.model.EntryInfo
+import me.kirimin.mitsumine.domain.model.EntryInfo
 import me.kirimin.mitsumine.view.EntryInfoView
 import rx.Subscriber
 

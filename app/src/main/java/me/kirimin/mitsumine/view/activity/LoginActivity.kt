@@ -11,7 +11,7 @@ import android.widget.Toast
 
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.data.database.AccountDAO
-import me.kirimin.mitsumine.model.Account
+import me.kirimin.mitsumine.domain.model.Account
 import me.kirimin.mitsumine.data.network.api.oauth.HatenaOAuth
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers

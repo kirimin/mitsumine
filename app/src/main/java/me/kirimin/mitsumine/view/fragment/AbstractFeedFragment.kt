@@ -2,7 +2,7 @@ package me.kirimin.mitsumine.view.fragment
 
 
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.model.Feed
+import me.kirimin.mitsumine.domain.model.Feed
 import me.kirimin.mitsumine.view.activity.EntryInfoActivity
 import me.kirimin.mitsumine.view.adapter.FeedAdapter
 import me.kirimin.mitsumine.view.adapter.FeedAdapter.FeedAdapterListener
@@ -21,8 +21,8 @@ import kotlinx.android.synthetic.fragment_feed.view.*
 import me.kirimin.mitsumine.data.AbstractFeedData
 import me.kirimin.mitsumine.data.FeedData
 import me.kirimin.mitsumine.domain.FeedUseCase
-import me.kirimin.mitsumine.model.enums.Category
-import me.kirimin.mitsumine.model.enums.Type
+import me.kirimin.mitsumine.domain.enums.Category
+import me.kirimin.mitsumine.domain.enums.Type
 import me.kirimin.mitsumine.presenter.FeedPresenter
 import me.kirimin.mitsumine.view.FeedView
 

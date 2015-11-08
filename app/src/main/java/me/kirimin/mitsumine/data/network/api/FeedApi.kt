@@ -6,10 +6,10 @@ import java.net.URLEncoder
 
 import rx.Observable
 
-import me.kirimin.mitsumine.model.Feed
+import me.kirimin.mitsumine.domain.model.Feed
 import me.kirimin.mitsumine.data.network.api.parser.FeedApiParser
-import me.kirimin.mitsumine.model.enums.Category
-import me.kirimin.mitsumine.model.enums.Type
+import me.kirimin.mitsumine.domain.enums.Category
+import me.kirimin.mitsumine.domain.enums.Type
 
 public class FeedApi {
 

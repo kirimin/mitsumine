@@ -1,6 +1,6 @@
 package me.kirimin.mitsumine.presenter
 
-import me.kirimin.mitsumine.model.Bookmark
+import me.kirimin.mitsumine.domain.model.Bookmark
 import me.kirimin.mitsumine.view.BookmarkListView
 
 class BookmarkListPresenter {

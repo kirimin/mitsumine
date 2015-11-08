@@ -3,8 +3,8 @@ package me.kirimin.mitsumine.view.fragment
 import android.os.Bundle
 
 import me.kirimin.mitsumine.data.FeedData
-import me.kirimin.mitsumine.model.enums.Category
-import me.kirimin.mitsumine.model.enums.Type
+import me.kirimin.mitsumine.domain.enums.Category
+import me.kirimin.mitsumine.domain.enums.Type
 import java.io.Serializable
 
 public class FeedFragment : AbstractFeedFragment() {

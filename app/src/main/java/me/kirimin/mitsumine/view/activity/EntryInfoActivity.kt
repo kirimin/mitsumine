@@ -11,14 +11,14 @@ import com.squareup.picasso.Picasso
 
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.view.adapter.EntryInfoPagerAdapter
-import me.kirimin.mitsumine.model.EntryInfo
+import me.kirimin.mitsumine.domain.model.EntryInfo
 import me.kirimin.mitsumine.presenter.EntryInfoPresenter
 import me.kirimin.mitsumine.view.EntryInfoView
 
 import kotlinx.android.synthetic.activity_entry_info.*
 import me.kirimin.mitsumine.data.EntryInfoData
 import me.kirimin.mitsumine.domain.EntryInfoUseCase
-import me.kirimin.mitsumine.model.Bookmark
+import me.kirimin.mitsumine.domain.model.Bookmark
 import me.kirimin.mitsumine.view.fragment.BookmarkListFragment
 import me.kirimin.mitsumine.view.fragment.RegisterBookmarkFragment
 

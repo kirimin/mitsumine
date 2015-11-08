@@ -5,7 +5,7 @@ import java.util.ArrayList
 
 import com.activeandroid.query.Delete
 import com.activeandroid.query.Select
-import me.kirimin.mitsumine.model.NGWord
+import me.kirimin.mitsumine.domain.model.NGWord
 
 public class NGWordDAO private constructor() {
     companion object {

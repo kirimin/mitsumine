@@ -1,6 +1,6 @@
 package me.kirimin.mitsumine.view
 
-import me.kirimin.mitsumine.model.Feed
+import me.kirimin.mitsumine.domain.model.Feed
 
 interface FeedView {
     fun initViews()

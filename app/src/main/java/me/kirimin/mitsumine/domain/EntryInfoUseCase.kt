@@ -3,9 +3,8 @@ package me.kirimin.mitsumine.domain
 import android.content.Context
 import me.kirimin.mitsumine.data.EntryInfoData
 import me.kirimin.mitsumine.data.database.AccountDAO
-import me.kirimin.mitsumine.model.Bookmark
-import me.kirimin.mitsumine.model.EntryInfo
-import rx.Observable
+import me.kirimin.mitsumine.domain.model.Bookmark
+import me.kirimin.mitsumine.domain.model.EntryInfo
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
