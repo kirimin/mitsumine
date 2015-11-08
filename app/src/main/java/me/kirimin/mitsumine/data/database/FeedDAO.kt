@@ -25,9 +25,10 @@ public class FeedDAO private constructor() {
             return Select().from(Feed::class.java).where("type = ?", type).execute<Feed>()
         }
 
-        public fun deleteOldData(millisecond: Long) {
+        public fun deleteOldData(days: Int) {
             val cal = Calendar.getInstance(Locale.JAPAN)
-            Delete().from(Feed::class.java).where("saveTime < ? AND type = ?", cal.time.time - millisecond, Feed.TYPE_READ).execute<Model>()
+            val milliseconds = 1000 * 60 * 60 * 24 * days
+            Delete().from(Feed::class.java).where("saveTime < ? AND type = ?", cal.time.time - milliseconds, Feed.TYPE_READ).execute<Model>()
         }
     }
 }

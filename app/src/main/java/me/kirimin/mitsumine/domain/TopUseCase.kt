@@ -30,8 +30,7 @@ open class TopUseCase {
         get() = data.account
 
     open fun deleteOldFeedData() {
-        val threeDays = 1000 * 60 * 60 * 24 * 3.toLong()
-        data.deleteOldFeedData(threeDays)
+        data.deleteOldFeedData(3)
     }
 
     fun getTypeInt(type: Type): Int {

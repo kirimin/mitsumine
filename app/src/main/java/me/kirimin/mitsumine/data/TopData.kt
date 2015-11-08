@@ -25,7 +25,7 @@ class TopData {
         KeywordDAO.delete(keyword)
     }
 
-    fun deleteOldFeedData(days: Long) {
+    fun deleteOldFeedData(days: Int) {
         FeedDAO.deleteOldData(days)
     }
 }

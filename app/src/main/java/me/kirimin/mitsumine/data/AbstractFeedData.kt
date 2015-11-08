@@ -19,6 +19,6 @@ abstract class AbstractFeedData(val context: Context) {
     abstract fun requestFeed(): Observable<Feed>
 
     fun saveFeed(feed: Feed) {
-        feed.save()
+        FeedDAO.save(feed)
     }
 }
