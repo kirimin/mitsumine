@@ -17,7 +17,7 @@ import me.kirimin.mitsumine.view.EntryInfoView
 
 import kotlinx.android.synthetic.activity_entry_info.*
 import me.kirimin.mitsumine.data.EntryInfoData
-import me.kirimin.mitsumine.domain.usecase.EntryInfoUseCase
+import me.kirimin.mitsumine.domain.EntryInfoUseCase
 import me.kirimin.mitsumine.model.Bookmark
 import me.kirimin.mitsumine.view.fragment.BookmarkListFragment
 import me.kirimin.mitsumine.view.fragment.RegisterBookmarkFragment

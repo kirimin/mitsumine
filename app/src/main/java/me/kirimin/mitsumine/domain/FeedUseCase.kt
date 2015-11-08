@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine.domain.usecase
+package me.kirimin.mitsumine.domain
 
 import me.kirimin.mitsumine.data.AbstractFeedData
 import me.kirimin.mitsumine.data.FeedData

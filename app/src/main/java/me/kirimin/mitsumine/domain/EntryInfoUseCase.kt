@@ -1,10 +1,11 @@
-package me.kirimin.mitsumine.domain.usecase
+package me.kirimin.mitsumine.domain
 
 import android.content.Context
 import me.kirimin.mitsumine.data.EntryInfoData
 import me.kirimin.mitsumine.data.database.AccountDAO
 import me.kirimin.mitsumine.model.Bookmark
 import me.kirimin.mitsumine.model.EntryInfo
+import rx.Observable
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers

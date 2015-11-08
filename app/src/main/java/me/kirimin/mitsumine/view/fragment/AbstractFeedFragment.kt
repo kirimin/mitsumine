@@ -20,7 +20,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.fragment_feed.view.*
 import me.kirimin.mitsumine.data.AbstractFeedData
 import me.kirimin.mitsumine.data.FeedData
-import me.kirimin.mitsumine.domain.usecase.FeedUseCase
+import me.kirimin.mitsumine.domain.FeedUseCase
 import me.kirimin.mitsumine.model.enums.Category
 import me.kirimin.mitsumine.model.enums.Type
 import me.kirimin.mitsumine.presenter.FeedPresenter

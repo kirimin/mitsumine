@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine.domain.usecase
+package me.kirimin.mitsumine.domain
 
 import me.kirimin.mitsumine.data.TopData
 import me.kirimin.mitsumine.model.Account

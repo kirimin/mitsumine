@@ -1,6 +1,6 @@
 package me.kirimin.mitsumine.presenter
 
-import me.kirimin.mitsumine.domain.usecase.FeedUseCase
+import me.kirimin.mitsumine.domain.FeedUseCase
 import me.kirimin.mitsumine.model.Feed
 import me.kirimin.mitsumine.view.FeedView
 import rx.Subscriber

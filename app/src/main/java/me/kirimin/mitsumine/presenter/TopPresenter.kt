@@ -2,7 +2,7 @@ package me.kirimin.mitsumine.presenter
 
 import android.view.View
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.domain.usecase.TopUseCase
+import me.kirimin.mitsumine.domain.TopUseCase
 import me.kirimin.mitsumine.model.enums.Category
 import me.kirimin.mitsumine.model.enums.Type
 import me.kirimin.mitsumine.view.TopView

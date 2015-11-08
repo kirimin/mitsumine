@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.kirimin.mitsumine.data.EntryInfoData;
-import me.kirimin.mitsumine.domain.usecase.EntryInfoUseCase;
+import me.kirimin.mitsumine.domain.EntryInfoUseCase;
 import me.kirimin.mitsumine.model.Bookmark;
 import me.kirimin.mitsumine.model.EntryInfo;
 import rx.Observable;
