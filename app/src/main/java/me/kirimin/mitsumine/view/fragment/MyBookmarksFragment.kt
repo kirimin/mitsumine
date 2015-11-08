@@ -13,20 +13,19 @@ import android.widget.AbsListView
 import android.widget.Toast
 
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.data.database.AccountDAO
-import me.kirimin.mitsumine.data.network.api.MyBookmarksApi
 import me.kirimin.mitsumine.view.activity.EntryInfoActivity
 import me.kirimin.mitsumine.view.adapter.MyBookmarksAdapter
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
-import rx.subscriptions.CompositeSubscription
 
 import kotlinx.android.synthetic.fragment_my_bookmarks.view.*
+import me.kirimin.mitsumine.data.MyBookmarksData
+import me.kirimin.mitsumine.domain.MyBookmarksUseCase
+import me.kirimin.mitsumine.domain.model.MyBookmark
+import me.kirimin.mitsumine.presenter.MyBookmarksPresenter
+import me.kirimin.mitsumine.view.MyBookmarksView
 
-public class MyBookmarksFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
+public class MyBookmarksFragment : Fragment(), MyBookmarksView, SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
 
     companion object {
-
         public fun newFragment(keyword: String): MyBookmarksFragment {
             val fragment = MyBookmarksFragment()
             val bundle = Bundle()
@@ -36,73 +35,75 @@ public class MyBookmarksFragment : Fragment(), SwipeRefreshLayout.OnRefreshListe
         }
     }
 
-    private val subscriptions = CompositeSubscription()
+    private val presenter = MyBookmarksPresenter()
+
     private var adapter: MyBookmarksAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val rootView = inflater.inflate(R.layout.fragment_my_bookmarks, container, false)
-        rootView.swipeLayout.setColorSchemeResources(R.color.blue, R.color.orange)
-        rootView.swipeLayout.setOnRefreshListener(this)
-        rootView.swipeLayout.setProgressViewOffset(false, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, resources.displayMetrics).toInt())
-        adapter = MyBookmarksAdapter(activity, { v, myBookmark ->
-            // onClickLister
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(myBookmark.linkUrl)))
-        }, { v, myBookmark ->
-            // LongClickLister
-            val intent = Intent(activity, EntryInfoActivity::class.java)
-            intent.putExtras(EntryInfoActivity.buildBundle(myBookmark.linkUrl))
-            startActivity(intent)
-        })
-        rootView.listView.adapter = adapter!!
-        rootView.listView.setOnScrollListener(this)
-        return rootView
+        return inflater.inflate(R.layout.fragment_my_bookmarks, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requestApi()
+        presenter.onCreate(this, MyBookmarksUseCase(MyBookmarksData()), arguments.getString("keyword"))
     }
 
     override fun onDestroyView() {
-        subscriptions.unsubscribe()
+        presenter.onDestroy()
         super.onDestroyView()
     }
 
     override fun onRefresh() {
-        adapter!!.clear()
-        requestApi()
+        presenter.onRefresh()
     }
 
     override fun onScrollStateChanged(view: AbsListView, scrollState: Int) {
     }
 
-    override fun onScroll(view: AbsListView, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
-        if (adapter!!.count == 0) return;
-        val total = adapter!!.getItem(0).totalCount
-        if (firstVisibleItem + visibleItemCount == totalItemCount && adapter!!.count < total && !getView().swipeLayout.isRefreshing) {
-            requestApi(adapter!!.count)
-        }
+    override fun onScroll(absListView: AbsListView, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
+        presenter.onScroll(firstVisibleItem, visibleItemCount, totalItemCount, view.swipeLayout.isRefreshing)
     }
 
-    private fun requestApi() {
-        requestApi(0)
+    override fun initViews() {
+        view.swipeLayout.setColorSchemeResources(R.color.blue, R.color.orange)
+        view.swipeLayout.setOnRefreshListener(this)
+        view.swipeLayout.setProgressViewOffset(false, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, resources.displayMetrics).toInt())
+        adapter = MyBookmarksAdapter(activity, { v, myBookmark ->
+            presenter.onListItemClick(myBookmark)
+        }, { v, myBookmark ->
+            presenter.onListItemLongClick(myBookmark)
+        })
+        view.listView.adapter = adapter!!
+        view.listView.setOnScrollListener(this)
     }
 
-    private fun requestApi(offset: Int) {
-        if (view == null) {
-            return
-        }
+    override fun showRefreshing() {
         view.swipeLayout.isRefreshing = true
-        subscriptions.add(MyBookmarksApi.request(AccountDAO.get()!!, arguments.getString("keyword"), offset)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ myBookmark ->
-                    adapter!!.add(myBookmark)
-                }, { e ->
-                    Toast.makeText(activity, R.string.network_error, Toast.LENGTH_SHORT).show()
-                    if (view != null) view.swipeLayout.isRefreshing = false
-                }, {
-                    if (view != null) view.swipeLayout.isRefreshing = false
-                }))
+    }
+
+    override fun dismissRefreshing() {
+        view.swipeLayout.isRefreshing = false
+    }
+
+    override fun addListViewItem(myBookmarks: List<MyBookmark>) {
+        adapter!!.addAll(myBookmarks)
+    }
+
+    override fun clearListViewItem() {
+        adapter!!.clear()
+    }
+
+    override fun showErrorToast() {
+        Toast.makeText(activity, R.string.network_error, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun sendBrowserIntent(linkUrl: String) {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(linkUrl)))
+    }
+
+    override fun startEntryInfo(linkUrl: String) {
+        val intent = Intent(activity, EntryInfoActivity::class.java)
+        intent.putExtras(EntryInfoActivity.buildBundle(linkUrl))
+        startActivity(intent)
     }
 }

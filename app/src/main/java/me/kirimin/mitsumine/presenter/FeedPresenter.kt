@@ -33,7 +33,6 @@ class FeedPresenter : Subscriber<List<Feed>>() {
 
     override fun onNext(feedList: List<Feed>) {
         view?.setFeed(feedList)
-        view?.dismissRefreshing()
     }
 
     override fun onError(e: Throwable?) {
@@ -41,6 +40,7 @@ class FeedPresenter : Subscriber<List<Feed>>() {
     }
 
     override fun onCompleted() {
+        view?.dismissRefreshing()
     }
 
     fun onItemClick(feed: Feed) {

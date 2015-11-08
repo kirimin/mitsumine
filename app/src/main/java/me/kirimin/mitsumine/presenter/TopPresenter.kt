@@ -104,7 +104,7 @@ class TopPresenter {
                 view?.closeNavigation()
             }
             R.id.navigationUserInfoLayout -> {
-                view?.startActivity(MyBookmarksActivity::class.java)
+                view?.startActivity(MyBookmarksActivity::class.java, SearchActivity.buildBundle("", false))
                 view?.closeNavigation()
             }
             R.id.navigationLoginButton -> {
