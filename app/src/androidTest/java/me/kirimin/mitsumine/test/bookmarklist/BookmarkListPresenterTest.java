@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.kirimin.mitsumine.model.Bookmark;
+import me.kirimin.mitsumine.domain.model.Bookmark;
 import me.kirimin.mitsumine.presenter.BookmarkListPresenter;
 import me.kirimin.mitsumine.view.BookmarkListView;
 

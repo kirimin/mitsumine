@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.kirimin.mitsumine.domain.usecase.TopUseCase;
+import me.kirimin.mitsumine.domain.TopUseCase;
 import me.kirimin.mitsumine.domain.enums.Category;
 import me.kirimin.mitsumine.domain.enums.Type;
 import me.kirimin.mitsumine.presenter.TopPresenter;
