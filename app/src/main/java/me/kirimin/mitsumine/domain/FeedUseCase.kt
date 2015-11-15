@@ -11,15 +11,15 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
 
-class FeedUseCase(val data: AbstractFeedData) {
+open class FeedUseCase(val data: AbstractFeedData) {
 
     val subscriptions = CompositeSubscription()
 
-    fun isUseBrowserSettingEnable() = data.isUseBrowserSettingEnable
+    open fun isUseBrowserSettingEnable() = data.isUseBrowserSettingEnable
 
-    fun isShareWithTitleSettingEnable() = data.isShareWithTitleSettingEnable
+    open fun isShareWithTitleSettingEnable() = data.isShareWithTitleSettingEnable
 
-    fun requestFeed(subscriber: Observer<List<Feed>>) {
+    open fun requestFeed(subscriber: Observer<List<Feed>>) {
         subscriptions.add(data.requestFeed()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -31,7 +31,7 @@ class FeedUseCase(val data: AbstractFeedData) {
         subscriptions.unsubscribe()
     }
 
-    fun saveFeed(feed: Feed, type: String) {
+    open fun saveFeed(feed: Feed, type: String) {
         feed.type = type
         data.saveFeed(feed)
     }

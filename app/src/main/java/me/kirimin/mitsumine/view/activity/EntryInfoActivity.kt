@@ -25,7 +25,6 @@ import me.kirimin.mitsumine.view.fragment.RegisterBookmarkFragment
 public class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
 
     companion object {
-
         val KEY_URL = "url"
 
         public fun buildBundle(url: String): Bundle {

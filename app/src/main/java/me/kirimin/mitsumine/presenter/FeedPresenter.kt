@@ -14,7 +14,6 @@ class FeedPresenter : Subscriber<List<Feed>>() {
         this.view = feedView
         this.useCase = feedUseCase
 
-
         view?.initViews()
         view?.showRefreshing()
         useCase?.requestFeed(this)
