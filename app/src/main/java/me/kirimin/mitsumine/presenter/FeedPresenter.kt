@@ -72,13 +72,19 @@ class FeedPresenter : Subscriber<List<Feed>>() {
         }
     }
 
-    fun onFeedLeftSlide(feed: Feed) {
+    fun onFeedLeftSlide(holder: FeedAdapter.ViewHolder, feed: Feed, useReadLater: Boolean) {
         useCase!!.saveFeed(feed, Feed.TYPE_READ)
+        if (useReadLater) {
+            view?.setListViewCellPagerPosition(holder, 1)
+        } else {
+            view?.setListViewCellPagerPosition(holder, 0)
+        }
         view?.removeItem(feed)
     }
 
-    fun onFeedRightSlide(feed: Feed) {
+    fun onFeedRightSlide(holder: FeedAdapter.ViewHolder, feed: Feed) {
         useCase!!.saveFeed(feed, Feed.TYPE_READ_LATER)
+        view?.setListViewCellPagerPosition(holder, 1)
         view?.removeItem(feed)
     }
 
