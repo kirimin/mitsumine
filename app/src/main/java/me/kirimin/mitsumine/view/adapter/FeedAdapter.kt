@@ -14,7 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import me.kirimin.mitsumine.presenter.FeedPresenter
 
-public class FeedAdapter(context: Context, private val presenter: FeedPresenter, val mUseReadLater: Boolean, val mUseRead: Boolean) : ArrayAdapter<Feed>(context, 0) {
+public class FeedAdapter(context: Context, private val presenter: FeedPresenter, val useReadLater: Boolean, val useRead: Boolean) : ArrayAdapter<Feed>(context, 0) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
@@ -22,30 +22,19 @@ public class FeedAdapter(context: Context, private val presenter: FeedPresenter,
             view = LayoutInflater.from(context).inflate(R.layout.row_pager, null)
             val viewPager = view.findViewById(R.id.FeedFragmentViewPager) as ViewPager
             val feedView = LayoutInflater.from(context).inflate(R.layout.row_feed, null)
+            val holder = ViewHolder(feedView, viewPager)
             val adapter = FeedPagerAdapter(context, feedView, object : OnSlideListener {
-
                 override fun onLeftSlide(view: View) {
-                    if (mUseReadLater) {
-                        viewPager.currentItem = 1
-                    } else {
-                        viewPager.currentItem = 0
-                    }
-                    //mListener.onFeedLeftSlide(view)
+                    presenter.onFeedLeftSlide(holder, view.tag as Feed, useReadLater);
                 }
 
                 override fun onRightSlide(view: View) {
-                    viewPager.currentItem = 1
-                    //mListener.onFeedRightSlide(view)
+                    presenter.onFeedRightSlide(holder, view.tag as Feed)
                 }
-            }, mUseReadLater, mUseRead)
+            }, useReadLater, useRead)
             viewPager.adapter = adapter
-            viewPager.setOnPageChangeListener(adapter)
-            if (mUseReadLater) {
-                viewPager.setCurrentItem(1, false)
-            } else {
-                viewPager.setCurrentItem(0, false)
-            }
-            val holder = ViewHolder(feedView)
+            viewPager.addOnPageChangeListener(adapter)
+            viewPager.currentItem = if (useReadLater) 1 else 0
             view.tag = holder
         } else {
             view = convertView
@@ -54,7 +43,7 @@ public class FeedAdapter(context: Context, private val presenter: FeedPresenter,
         return view
     }
 
-    class ViewHolder(view: View){
+    class ViewHolder(view: View, val viewPager: ViewPager) {
         val cassette: View = view.findViewById(R.id.card_view)
         val thumbnail: ImageView = view.findViewById(R.id.FeedFragmentImageViewThumbnail) as ImageView
         val favicon: ImageView = view.findViewById(R.id.FeedFragmentImageViewFavicon) as ImageView
