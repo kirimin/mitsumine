@@ -180,4 +180,8 @@ public abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickL
             Picasso.with(context).load(feed.faviconUrl).into(holder.favicon)
         }
     }
+
+    override fun setListViewCellPagerPosition(holder: FeedAdapter.ViewHolder, position: Int){
+        holder.viewPager.currentItem = position
+    }
 }
