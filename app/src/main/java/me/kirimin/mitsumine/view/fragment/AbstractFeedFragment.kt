@@ -65,16 +65,7 @@ public abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickL
     override fun onLongClick(v: View): Boolean {
         return presenter.onLongClick(v.id, v.tag as Feed)
     }
-
-    //
-    //    override fun onFeedLeftSlide(view: View) {
-    //        presenter.onFeedLeftSlide(view.tag as Feed)
-    //    }
-    //
-    //    override fun onFeedRightSlide(view: View) {
-    //        presenter.onFeedRightSlide(view.tag as Feed)
-    //    }
-
+    
     override fun initViews() {
         view.swipeLayout.setColorSchemeResources(R.color.blue, R.color.orange)
         view.swipeLayout.setOnRefreshListener(this)
