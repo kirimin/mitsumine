@@ -1,11 +1,17 @@
 package me.kirimin.mitsumine.presenter
 
+import android.view.View
 import me.kirimin.mitsumine.R
+import me.kirimin.mitsumine.data.network.api.BookmarkCountApi
+import me.kirimin.mitsumine.data.network.api.TagListApi
 import me.kirimin.mitsumine.domain.FeedUseCase
 import me.kirimin.mitsumine.domain.model.Feed
 import me.kirimin.mitsumine.view.FeedView
 import me.kirimin.mitsumine.view.adapter.FeedAdapter
 import rx.Subscriber
+import rx.android.schedulers.AndroidSchedulers
+import rx.android.view.ViewObservable
+import rx.schedulers.Schedulers
 
 class FeedPresenter : Subscriber<List<Feed>>() {
 
@@ -42,6 +48,43 @@ class FeedPresenter : Subscriber<List<Feed>>() {
 
     override fun onCompleted() {
         view?.dismissRefreshing()
+    }
+
+    fun onClick(viewId: Int, feed: Feed) {
+        when (viewId) {
+            R.id.card_view -> {
+                view?.sendUrlIntent(feed.linkUrl)
+            }
+            R.id.FeedFragmentImageViewShare -> {
+                if (useCase!!.isShareWithTitleSettingEnable()) {
+                    view?.sendShareUrlWithTitleIntent(feed.title, feed.linkUrl)
+                } else {
+                    view?.sendShareUrlIntent(feed.title, feed.linkUrl)
+                }
+            }
+        }
+    }
+
+    fun onLongClick(viewId: Int, feed: Feed): Boolean {
+        when (viewId) {
+            R.id.card_view -> {
+                if (useCase!!.isUseBrowserSettingEnable()) {
+                    view?.sendUrlIntent(feed.entryLinkUrl)
+                } else {
+                    view?.startEntryInfoView(feed.linkUrl)
+                }
+                return true
+            }
+            R.id.FeedFragmentImageViewShare -> {
+                if (useCase!!.isShareWithTitleSettingEnable()) {
+                    view?.sendShareUrlIntent(feed.title, feed.linkUrl)
+                } else {
+                    view?.sendShareUrlWithTitleIntent(feed.title, feed.linkUrl)
+                }
+                return true
+            }
+        }
+        return false
     }
 
     fun onItemClick(feed: Feed) {
@@ -88,44 +131,36 @@ class FeedPresenter : Subscriber<List<Feed>>() {
         view?.removeItem(feed)
     }
 
-    fun onGetView(viewHolder: FeedAdapter.ViewHolder, item: Feed) {
-        view?.initListViewCell(viewHolder, item)
-    }
-
-    fun onClick(viewId: Int, feed: Feed) {
-        when (viewId) {
-            R.id.card_view -> {
-                view?.sendUrlIntent(feed.linkUrl)
-            }
-            R.id.FeedFragmentImageViewShare -> {
-                if (useCase!!.isShareWithTitleSettingEnable()) {
-                    view?.sendShareUrlWithTitleIntent(feed.title, feed.linkUrl)
-                } else {
-                    view?.sendShareUrlIntent(feed.title, feed.linkUrl)
-                }
-            }
+    fun onGetView(holder: FeedAdapter.ViewHolder, item: Feed) {
+        view?.initListViewCell(holder, item)
+        if (!item.thumbnailUrl.isEmpty()) {
+            view?.loadThumbnailImage(holder, item.thumbnailUrl)
         }
-    }
-
-    fun onLongClick(viewId: Int, feed: Feed): Boolean {
-        when (viewId) {
-            R.id.card_view -> {
-                if (useCase!!.isUseBrowserSettingEnable()) {
-                    view?.sendUrlIntent(feed.entryLinkUrl)
-                } else {
-                    view?.startEntryInfoView(feed.linkUrl)
-                }
-                return true
-            }
-            R.id.FeedFragmentImageViewShare -> {
-                if (useCase!!.isShareWithTitleSettingEnable()) {
-                    view?.sendShareUrlIntent(feed.title, feed.linkUrl)
-                } else {
-                    view?.sendShareUrlWithTitleIntent(feed.title, feed.linkUrl)
-                }
-                return true
-            }
+        if (!item.faviconUrl.isEmpty()) {
+            view?.loadFaviconImage(holder, item.faviconUrl)
         }
-        return false
+
+        holder.tags.tag = useCase!!.requestTagList(object : Subscriber<String>() {
+            override fun onNext(tags: String) {
+                view?.setTagList(holder, tags)
+            }
+
+            override fun onError(e: Throwable) {
+            }
+
+            override fun onCompleted() {
+            }
+        }, item.linkUrl)
+        holder.tags.tag = useCase!!.requestBookmarkCount(object : Subscriber<String>() {
+            override fun onNext(count: String) {
+                view?.setBookmarkCount(holder, count)
+            }
+
+            override fun onError(e: Throwable) {
+            }
+
+            override fun onCompleted() {
+            }
+        }, item.linkUrl)
     }
 }

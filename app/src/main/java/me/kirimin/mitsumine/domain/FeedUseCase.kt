@@ -1,12 +1,9 @@
 package me.kirimin.mitsumine.domain
 
 import me.kirimin.mitsumine.data.AbstractFeedData
-import me.kirimin.mitsumine.data.FeedData
-import me.kirimin.mitsumine.domain.common.util.FeedUtil
 import me.kirimin.mitsumine.domain.model.Feed
-import me.kirimin.mitsumine.domain.enums.Category
-import me.kirimin.mitsumine.domain.enums.Type
 import rx.Observer
+import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
@@ -26,6 +23,19 @@ open class FeedUseCase(val data: AbstractFeedData) {
                 .toList()
                 .subscribe(subscriber))
     }
+
+    open fun requestTagList(subscriber: Observer<String>, url: String): Subscription =
+            data.requestTagList(url)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .map { it.joinToString(", ") }
+                    .subscribe(subscriber)
+
+    open fun requestBookmarkCount(subscriber: Observer<String>, url: String): Subscription =
+            data.requestBookmarkCount(url)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(subscriber)
 
     fun unSubscribe() {
         subscriptions.unsubscribe()

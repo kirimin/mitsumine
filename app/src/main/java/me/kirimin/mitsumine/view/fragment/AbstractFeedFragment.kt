@@ -140,48 +140,36 @@ public abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickL
         holder.title.text = feed.title
         holder.content.text = feed.content
         holder.domain.text = feed.linkUrl
-
-        try {
-            (holder.bookmarkCount.tag as Subscription).unsubscribe()
-            holder.bookmarkCount.visibility = View.GONE
-            (holder.tags.tag as Subscription).unsubscribe()
-            holder.tags.visibility = View.INVISIBLE;
-        } catch (e: TypeCastException) {
-        }
-        val subscription = ViewObservable.bindView<String>(holder.bookmarkCount,
-                BookmarkCountApi.request(context.applicationContext, feed.linkUrl))
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ s ->
-                    holder.bookmarkCount.text = s
-                    holder.bookmarkCount.visibility = View.VISIBLE
-                }, { e ->
-                    holder.bookmarkCount.visibility = View.GONE
-                })
-        holder.bookmarkCount.tag = subscription
         holder.thumbnail.setImageResource(R.drawable.no_image)
-
-        val subscription2 = ViewObservable.bindView<List<String>>(holder.tags,
-                TagListApi.request(context.applicationContext, feed.linkUrl))
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ tags ->
-                    holder.tags.text = tags.joinToString(", ")
-                    holder.tags.visibility = View.VISIBLE
-                }, { e ->
-                    holder.tags.visibility = View.INVISIBLE
-                })
-        holder.tags.tag = subscription2
-
-        if (!feed.thumbnailUrl.isEmpty()) {
-            Picasso.with(context).load(feed.thumbnailUrl).into(holder.thumbnail)
+        holder.tags.visibility = View.INVISIBLE;
+        holder.bookmarkCount.visibility = View.GONE
+        if (holder.bookmarkCount.tag is Subscription) {
+            (holder.bookmarkCount.tag as Subscription).unsubscribe()
         }
-        if (!feed.faviconUrl.isEmpty()) {
-            Picasso.with(context).load(feed.faviconUrl).into(holder.favicon)
+        if (holder.tags.tag is Subscription) {
+            (holder.tags.tag as Subscription).unsubscribe()
         }
     }
 
-    override fun setListViewCellPagerPosition(holder: FeedAdapter.ViewHolder, position: Int){
+    override fun setListViewCellPagerPosition(holder: FeedAdapter.ViewHolder, position: Int) {
         holder.viewPager.currentItem = position
+    }
+
+    override fun setTagList(holder: FeedAdapter.ViewHolder, tags: String) {
+        holder.tags.text = tags
+        holder.tags.visibility = View.VISIBLE
+    }
+
+    override fun setBookmarkCount(holder: FeedAdapter.ViewHolder, count: String) {
+        holder.bookmarkCount.text = count
+        holder.bookmarkCount.visibility = View.VISIBLE
+    }
+
+    override fun loadThumbnailImage(holder: FeedAdapter.ViewHolder, url: String) {
+        Picasso.with(context).load(url).into(holder.thumbnail)
+    }
+
+    override fun loadFaviconImage(holder: FeedAdapter.ViewHolder, url: String) {
+        Picasso.with(context).load(url).into(holder.favicon)
     }
 }
