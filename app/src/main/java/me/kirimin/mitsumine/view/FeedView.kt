@@ -1,6 +1,7 @@
 package me.kirimin.mitsumine.view
 
 import me.kirimin.mitsumine.domain.model.Feed
+import me.kirimin.mitsumine.view.adapter.FeedAdapter
 
 interface FeedView {
     fun initViews()
@@ -13,4 +14,6 @@ interface FeedView {
     open fun sendShareUrlIntent(title: String, url: String)
     open fun sendShareUrlWithTitleIntent(title: String, url: String)
     open fun removeItem(feed: Feed)
+    open fun initListViewCell(holder: FeedAdapter.ViewHolder, feed: Feed)
+    open fun setListViewCellPagerPosition(holder: FeedAdapter.ViewHolder, position: Int)
 }
