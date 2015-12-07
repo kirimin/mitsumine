@@ -1,36 +1,53 @@
 package me.kirimin.mitsumine.data.network.api.parser
 
-import android.util.Log
 import me.kirimin.mitsumine.domain.model.Feed
-import me.kirimin.mitsumine.domain.common.util.toList
-import org.json.JSONException
-import org.json.JSONObject
+import org.xml.sax.InputSource
+import org.xml.sax.SAXException
 import rx.Observable
+import java.io.ByteArrayInputStream
+import java.io.IOException
+import java.util.*
+import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.parsers.ParserConfigurationException
 
 class FeedApiParser {
     companion object {
 
-        public fun parseResponse(response: JSONObject): Observable<Feed> {
-            return try {
-                val entries = response.getJSONObject("responseData").getJSONObject("feed").getJSONArray("entries")
-                val feedList = entries.toList<JSONObject>().map { json -> parseEntryObject(json) }
-                Observable.from(feedList)
-            } catch (e: JSONException) {
-                Observable.empty()
+        public fun parseResponse(response: String): Observable<Feed> {
+            val childList = try {
+                val document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(InputSource(ByteArrayInputStream(response.toByteArray("UTF-8"))))
+                document.documentElement.childNodes
+            } catch (e: ParserConfigurationException) {
+                return Observable.empty()
+            } catch (e: SAXException) {
+                return Observable.empty()
+            } catch (e: IOException) {
+                return Observable.empty()
             }
-        }
 
-        private fun parseEntryObject(entriesObject: JSONObject): Feed {
-            val feed = Feed()
-            feed.title = entriesObject.getString("title")
-            feed.linkUrl = entriesObject.getString("link").replace("#", "%23")
-            feed.content = entriesObject.getString("contentSnippet")
-            val content = entriesObject.getString("content")
-            feed.thumbnailUrl = parseThumbnailUrl(content)
-            feed.bookmarkCountUrl = "http://b.hatena.ne.jp/entry/image/" + feed.linkUrl
-            feed.faviconUrl = "http://cdn-ak.favicon.st-hatena.com/?url=" + feed.linkUrl
-            feed.entryLinkUrl = "http://b.hatena.ne.jp/entry/" + feed.linkUrl
-            return feed
+            val list = ArrayList<Feed>()
+            for (i in 0..childList.length - 1) {
+                val node = childList.item(i)
+                if (!"item".equals(node.getNodeName())) {
+                    continue
+                }
+                try {
+                    val feed = Feed()
+                    val att = node.childNodes
+                    feed.title = att.item(1).childNodes.item(0).textContent
+                    feed.linkUrl = att.item(3).childNodes.item(0).textContent.replace("#", "%23")
+                    feed.content = att.item(5).childNodes.item(0).textContent
+                    val content = att.item(7).childNodes.item(0).textContent
+                    feed.thumbnailUrl = parseThumbnailUrl(content)
+                    feed.bookmarkCountUrl = "http://b.hatena.ne.jp/entry/image/" + feed.linkUrl
+                    feed.faviconUrl = "http://cdn-ak.favicon.st-hatena.com/?url=" + feed.linkUrl
+                    feed.entryLinkUrl = "http://b.hatena.ne.jp/entry/" + feed.linkUrl
+                    list.add(feed)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            return Observable.from(list)
         }
 
         private fun parseThumbnailUrl(content: String): String {
