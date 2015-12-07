@@ -18,17 +18,21 @@ class FeedApiParser {
                 if (!"item".equals(node.getNodeName())) {
                     continue
                 }
-                val feed = Feed()
-                val att = node.getChildNodes()
-                feed.title = att.item(1).getChildNodes().item(0).getTextContent()
-                feed.linkUrl = att.item(3).getChildNodes().item(0).getTextContent().replace("#", "%23")
-                feed.content = att.item(5).getChildNodes().item(0).getTextContent()
-                val content = att.item(7).getChildNodes().item(0).getTextContent()
-                feed.thumbnailUrl = parseThumbnailUrl(content)
-                feed.bookmarkCountUrl = "http://b.hatena.ne.jp/entry/image/" + feed.linkUrl
-                feed.faviconUrl = "http://cdn-ak.favicon.st-hatena.com/?url=" + feed.linkUrl
-                feed.entryLinkUrl = "http://b.hatena.ne.jp/entry/" + feed.linkUrl
-                list.add(feed)
+                try {
+                    val feed = Feed()
+                    val att = node.getChildNodes()
+                    feed.title = att.item(1).getChildNodes().item(0).getTextContent()
+                    feed.linkUrl = att.item(3).getChildNodes().item(0).getTextContent().replace("#", "%23")
+                    feed.content = att.item(5).getChildNodes().item(0).getTextContent()
+                    val content = att.item(7).getChildNodes().item(0).getTextContent()
+                    feed.thumbnailUrl = parseThumbnailUrl(content)
+                    feed.bookmarkCountUrl = "http://b.hatena.ne.jp/entry/image/" + feed.linkUrl
+                    feed.faviconUrl = "http://cdn-ak.favicon.st-hatena.com/?url=" + feed.linkUrl
+                    feed.entryLinkUrl = "http://b.hatena.ne.jp/entry/" + feed.linkUrl
+                    list.add(feed)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
             return Observable.from(list)
         }
