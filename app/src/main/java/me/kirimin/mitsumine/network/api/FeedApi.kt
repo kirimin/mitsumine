@@ -1,5 +1,6 @@
 package me.kirimin.mitsumine.network.api
 
+import android.util.Log
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
@@ -39,16 +40,18 @@ public class FeedApi {
 
     companion object {
 
-        private val FEED_URL_HEADER = "https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&q=http://b.hatena.ne.jp/"
-        private val FEED_URL_FOOTER = ".rss&num=-1"
+        private val FEED_URL_HEADER = "http://b.hatena.ne.jp/"
+        private val FEED_URL_FOOTER = ".rss"
 
         public fun requestCategory(requestQueue: RequestQueue, category: CATEGORY, type: TYPE): Observable<Feed> {
-            val observable = ApiAccessor.request(requestQueue, FEED_URL_HEADER + type + category + FEED_URL_FOOTER)
+            val url = if (category == CATEGORY.MAIN && type == TYPE.HOT) "http://feeds.feedburner.com/hatena/b/hotentry" else FEED_URL_HEADER + type + category + FEED_URL_FOOTER
+            Log.d("test", url)
+            val observable = ApiAccessor.stringRequest(requestQueue, url)
             return observable.flatMap { response -> FeedApiParser.parseResponse(response) }
         }
 
         public fun requestUserBookmark(requestQueue: RequestQueue, userName: String): Observable<Feed> {
-            val observable = ApiAccessor.request(requestQueue, FEED_URL_HEADER + userName + "/bookmark" + FEED_URL_FOOTER)
+            val observable = ApiAccessor.stringRequest(requestQueue, FEED_URL_HEADER + userName + "/bookmark" + FEED_URL_FOOTER)
             return observable.flatMap { response -> FeedApiParser.parseResponse(response) }
         }
 
@@ -59,7 +62,7 @@ public class FeedApi {
                 keyword
             }
 
-            val observable = ApiAccessor.request(requestQueue, FEED_URL_HEADER + "keyword/" + keywordVal + "?mode=rss&num=-1")
+            val observable = ApiAccessor.stringRequest(requestQueue, FEED_URL_HEADER + "keyword/" + keywordVal + "?mode=rss&num=-1")
             return observable.flatMap { response -> FeedApiParser.parseResponse(response) }
         }
     }

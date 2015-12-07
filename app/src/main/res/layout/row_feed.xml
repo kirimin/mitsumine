@@ -147,6 +147,8 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/text_secondary"
                             android:textSize="@dimen/text_small"
+                            android:maxLines="4"
+                            android:ellipsize="end"
                             tools:text="コンテンツコンテンツコンテンツコンテンツコンテンツコンテンツコンテンツコンテンツコンテンツ" />
                     </LinearLayout>
                 </LinearLayout>
