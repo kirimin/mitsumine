@@ -18,9 +18,9 @@ import rx.android.widget.WidgetObservable
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
 
-import kotlinx.android.synthetic.fragment_register_bookmark.view.*
+import kotlinx.android.synthetic.main.fragment_register_bookmark.view.*
 
-public class RegisterBookmarkFragment : Fragment(), TagEditDialogFragment.OnOkClickListener {
+class RegisterBookmarkFragment : Fragment(), TagEditDialogFragment.OnOkClickListener {
 
     companion object {
 
@@ -93,7 +93,7 @@ public class RegisterBookmarkFragment : Fragment(), TagEditDialogFragment.OnOkCl
                     }))
         }
         WidgetObservable.text(rootView.commentEditText)
-                .map { event -> event.text().length() }
+                .map { event -> event.text().length }
                 .subscribe { i -> rootView.commentCountTextView.text = getString(R.string.register_bookmark_limit, i) }
         rootView.tagEditButton.setOnClickListener {
             TagEditDialogFragment.newInstance(tags, this).show(fragmentManager, null)
@@ -107,15 +107,15 @@ public class RegisterBookmarkFragment : Fragment(), TagEditDialogFragment.OnOkCl
     }
 
     override fun onOkClick(tags: ArrayList<String>) {
-        if (view == null) return
+        val view = view ?: return
         this.tags = tags
         view.tagListText.text = TextUtils.join(", ", tags)
     }
 
     private fun changeBookmarkStatus(isAlreadyBookmarked: Boolean) {
-        if (view == null) return
+        val view = view ?: return
         this.isAlreadyBookmarked = isAlreadyBookmarked
-        getView().deleteButton.isEnabled = isAlreadyBookmarked
-        getView().registerButton.text = getString(if (isAlreadyBookmarked) R.string.register_bookmark_edit else R.string.register_bookmark_resister)
+        view.deleteButton.isEnabled = isAlreadyBookmarked
+        view.registerButton.text = getString(if (isAlreadyBookmarked) R.string.register_bookmark_edit else R.string.register_bookmark_resister)
     }
 }

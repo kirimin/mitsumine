@@ -6,16 +6,15 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.MenuItemCompat
-import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
 
-import kotlinx.android.synthetic.activity_common_container.*
+import kotlinx.android.synthetic.main.activity_common_container.*
 
-public abstract class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
+abstract class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
 
     private var mSearchItem: MenuItem? = null
     private var mSearchView: SearchView? = null
@@ -33,8 +32,8 @@ public abstract class SearchActivity : AppCompatActivity(), SearchView.OnQueryTe
         setContentView(R.layout.activity_common_container)
         setSupportActionBar(toolBar)
         val actionBar = supportActionBar
-        actionBar.setDisplayHomeAsUpEnabled(true)
-        actionBar.setHomeButtonEnabled(true)
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+        actionBar?.setHomeButtonEnabled(true)
 
         val keyword = intent.getStringExtra("keyword")
         if (keyword == null) {
@@ -103,11 +102,11 @@ public abstract class SearchActivity : AppCompatActivity(), SearchView.OnQueryTe
 
     companion object {
 
-        public fun buildBundle(keyword: String): Bundle {
+        fun buildBundle(keyword: String): Bundle {
             return buildBundle(keyword, true)
         }
 
-        public fun buildBundle(keyword: String, isShowFavorite: Boolean): Bundle {
+        fun buildBundle(keyword: String, isShowFavorite: Boolean): Bundle {
             val bundle = Bundle()
             bundle.putString("keyword", keyword)
             bundle.putBoolean("isShowFavorite", isShowFavorite)

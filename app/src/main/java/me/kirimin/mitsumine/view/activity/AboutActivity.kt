@@ -29,8 +29,8 @@ public class AboutActivity : AppCompatActivity(), AboutView {
     override fun initViews() {
         setSupportActionBar(findViewById(R.id.tool_bar) as Toolbar)
         val actionBar = supportActionBar
-        actionBar.setTitle(R.string.about_title)
-        actionBar.setDisplayHomeAsUpEnabled(true)
-        actionBar.setHomeButtonEnabled(true)
+        actionBar?.setTitle(R.string.about_title)
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+        actionBar?.setHomeButtonEnabled(true)
     }
 }

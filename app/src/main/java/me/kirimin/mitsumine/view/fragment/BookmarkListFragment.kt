@@ -16,12 +16,12 @@ import me.kirimin.mitsumine.view.adapter.BookmarkListAdapter
 import me.kirimin.mitsumine.presenter.BookmarkListPresenter
 import me.kirimin.mitsumine.view.BookmarkListView
 
-import kotlinx.android.synthetic.fragment_bookmark_list.view.*
+import kotlinx.android.synthetic.main.fragment_bookmark_list.view.*
 
-public class BookmarkListFragment : Fragment(), BookmarkListView {
+class BookmarkListFragment : Fragment(), BookmarkListView {
 
     companion object {
-        public fun newFragment(bookmarkList: List<Bookmark>): BookmarkListFragment {
+        fun newFragment(bookmarkList: List<Bookmark>): BookmarkListFragment {
             val fragment = BookmarkListFragment()
             val bundle = Bundle()
             bundle.putParcelableArray("bookmarkList", bookmarkList.toTypedArray())
@@ -45,7 +45,7 @@ public class BookmarkListFragment : Fragment(), BookmarkListView {
     override fun initViews(bookmarks: List<Bookmark>) {
         val adapter = BookmarkListAdapter(activity, presenter)
         adapter.addAll(bookmarks)
-        view.listView.adapter = adapter
+        view?.listView?.adapter = adapter
     }
 
     override fun startUserSearchActivity(userId: String) {

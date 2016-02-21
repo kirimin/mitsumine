@@ -15,14 +15,14 @@ import me.kirimin.mitsumine.domain.model.EntryInfo
 import me.kirimin.mitsumine.presenter.EntryInfoPresenter
 import me.kirimin.mitsumine.view.EntryInfoView
 
-import kotlinx.android.synthetic.activity_entry_info.*
+import kotlinx.android.synthetic.main.activity_entry_info.*
 import me.kirimin.mitsumine.data.EntryInfoData
 import me.kirimin.mitsumine.domain.EntryInfoUseCase
 import me.kirimin.mitsumine.domain.model.Bookmark
 import me.kirimin.mitsumine.view.fragment.BookmarkListFragment
 import me.kirimin.mitsumine.view.fragment.RegisterBookmarkFragment
 
-public class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
+class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
 
     companion object {
         val KEY_URL = "url"
@@ -64,9 +64,9 @@ public class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
     override fun initActionBar() {
         setSupportActionBar(toolBar as Toolbar)
         val actionBar = supportActionBar
-        actionBar.setTitle(R.string.entry_info_title)
-        actionBar.setDisplayHomeAsUpEnabled(true)
-        actionBar.setHomeButtonEnabled(true)
+        actionBar?.setTitle(R.string.entry_info_title)
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+        actionBar?.setHomeButtonEnabled(true)
     }
 
     override fun setBookmarkFragments(allList: List<Bookmark>, hasCommentList: List<Bookmark>) {

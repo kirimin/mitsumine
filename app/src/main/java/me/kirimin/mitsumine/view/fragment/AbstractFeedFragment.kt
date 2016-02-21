@@ -1,6 +1,5 @@
 package me.kirimin.mitsumine.view.fragment
 
-
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.domain.model.Feed
 import me.kirimin.mitsumine.view.activity.EntryInfoActivity
@@ -17,19 +16,14 @@ import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 
-import kotlinx.android.synthetic.fragment_feed.view.*
+import kotlinx.android.synthetic.main.fragment_feed.view.*
 import me.kirimin.mitsumine.data.AbstractFeedData
-import me.kirimin.mitsumine.data.network.api.BookmarkCountApi
-import me.kirimin.mitsumine.data.network.api.TagListApi
 import me.kirimin.mitsumine.domain.FeedUseCase
 import me.kirimin.mitsumine.presenter.FeedPresenter
 import me.kirimin.mitsumine.view.FeedView
 import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
-import rx.android.view.ViewObservable
-import rx.schedulers.Schedulers
 
-public abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener, View.OnLongClickListener, SwipeRefreshLayout.OnRefreshListener {
+abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener, View.OnLongClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     abstract fun isUseReadLater(): Boolean
     abstract fun isUseRead(): Boolean
@@ -67,6 +61,7 @@ public abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickL
     }
     
     override fun initViews() {
+        val view = view ?: return
         view.swipeLayout.setColorSchemeResources(R.color.blue, R.color.orange)
         view.swipeLayout.setOnRefreshListener(this)
         view.swipeLayout.setProgressViewOffset(false, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, resources.displayMetrics).toInt())
@@ -79,10 +74,12 @@ public abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickL
     }
 
     override fun showRefreshing() {
+        val view = view ?: return
         view.swipeLayout.isRefreshing = true
     }
 
     override fun dismissRefreshing() {
+        val view = view ?: return
         view.swipeLayout.isRefreshing = false
     }
 

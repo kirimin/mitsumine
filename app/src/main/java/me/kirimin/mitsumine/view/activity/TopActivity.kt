@@ -24,7 +24,7 @@ import android.widget.TextView
 import com.makeramen.RoundedTransformationBuilder
 import com.squareup.picasso.Picasso
 
-import kotlinx.android.synthetic.activity_top.*
+import kotlinx.android.synthetic.main.activity_top.*
 import me.kirimin.mitsumine.data.TopData
 import me.kirimin.mitsumine.domain.TopUseCase
 import me.kirimin.mitsumine.domain.enums.Category
@@ -34,7 +34,7 @@ import me.kirimin.mitsumine.view.TopView
 import me.kirimin.mitsumine.view.fragment.FeedFragment
 import java.io.Serializable
 
-public class TopActivity : AppCompatActivity(), TopView {
+class TopActivity : AppCompatActivity(), TopView {
 
     private var mDrawerToggle: ActionBarDrawerToggle? = null
     private var presenter: TopPresenter = TopPresenter()
@@ -105,7 +105,7 @@ public class TopActivity : AppCompatActivity(), TopView {
 
     override fun initViews() {
         setSupportActionBar(toolBar)
-        val actionBar = supportActionBar
+        val actionBar = supportActionBar ?: return
         actionBar.navigationMode = ActionBar.NAVIGATION_MODE_LIST
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setHomeButtonEnabled(true)
@@ -142,8 +142,8 @@ public class TopActivity : AppCompatActivity(), TopView {
     }
 
     override fun refreshShowCategoryAndType(category: Category, type: Type, typeInt: Int) {
-        supportActionBar.setTitle(category.labelResource)
-        supportActionBar.setSelectedNavigationItem(typeInt)
+        supportActionBar?.setTitle(category.labelResource)
+        supportActionBar?.setSelectedNavigationItem(typeInt)
         supportFragmentManager.beginTransaction()
                 .replace(R.id.containerFrameLayout, FeedFragment.newFragment(category, type))
                 .commit()

@@ -11,7 +11,7 @@ import me.kirimin.mitsumine.data.database.AccountDAO
 import me.kirimin.mitsumine.data.database.NGWordDAO
 import me.kirimin.mitsumine.view.activity.AboutActivity
 
-public class SettingFragment : PreferenceFragment() {
+class SettingFragment : PreferenceFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.app_preferences)
@@ -40,7 +40,7 @@ public class SettingFragment : PreferenceFragment() {
         return AlertDialog.Builder(activity)
                 .setTitle(R.string.settings_ngword)
                 .setItems(ngWordList.toTypedArray(), { dialog, which ->
-                    if (which == ngWordList.size() - 1) {
+                    if (which == ngWordList.size - 1) {
                         createAddDialog().show()
                     } else {
                         createDeleteDialog(which).show()
@@ -54,7 +54,7 @@ public class SettingFragment : PreferenceFragment() {
         return AlertDialog.Builder(activity)
                 .setTitle(R.string.settings_ngword_add)
                 .setPositiveButton(android.R.string.ok, { dialog, which ->
-                    if (editText.text.length() != 0) NGWordDAO.save(editText.text.toString())
+                    if (editText.text.length != 0) NGWordDAO.save(editText.text.toString())
                 })
                 .setView(editText)
                 .create()

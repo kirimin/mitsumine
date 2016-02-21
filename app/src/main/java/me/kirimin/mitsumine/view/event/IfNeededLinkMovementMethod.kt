@@ -7,7 +7,7 @@ import android.text.style.ClickableSpan
 import android.view.MotionEvent
 import android.widget.TextView
 
-public class IfNeededLinkMovementMethod : LinkMovementMethod() {
+class IfNeededLinkMovementMethod : LinkMovementMethod() {
     override fun onTouchEvent(widget: TextView, buffer: Spannable, event: MotionEvent): Boolean {
         val action = event.action
 
@@ -27,7 +27,7 @@ public class IfNeededLinkMovementMethod : LinkMovementMethod() {
 
             val link = buffer.getSpans<ClickableSpan>(off, off, ClickableSpan::class.java)
 
-            if (link.size() != 0) {
+            if (link.size != 0) {
                 if (action == MotionEvent.ACTION_UP) {
                     link[0].onClick(widget)
                 } else {

@@ -3,23 +3,20 @@ package me.kirimin.mitsumine.view.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.Toast
 
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.data.database.AccountDAO
-import me.kirimin.mitsumine.domain.model.Account
 import me.kirimin.mitsumine.data.network.api.oauth.HatenaOAuth
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
 
-import kotlinx.android.synthetic.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.*
 
-public class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     private val subscriptions = CompositeSubscription()
 
@@ -28,9 +25,9 @@ public class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         setSupportActionBar(toolBar)
         val actionBar = supportActionBar
-        actionBar.setTitle(R.string.settings_login)
-        actionBar.setDisplayHomeAsUpEnabled(true)
-        actionBar.setHomeButtonEnabled(true)
+        actionBar?.setTitle(R.string.settings_login)
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+        actionBar?.setHomeButtonEnabled(true)
 
         val OAuthApiManager = HatenaOAuth()
         authButton.setOnClickListener { v ->

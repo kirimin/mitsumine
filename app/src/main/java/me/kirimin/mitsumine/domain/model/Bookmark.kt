@@ -5,16 +5,16 @@ import android.os.Parcelable
 
 import java.util.ArrayList
 
-public class Bookmark : Parcelable {
+class Bookmark : Parcelable {
 
-    public val user: String
-    public val tags: List<String>
-    public val timeStamp: String
-    public val comment: CharSequence
-    public val userIcon: String
+    val user: String
+    val tags: List<String>
+    val timeStamp: String
+    val comment: CharSequence
+    val userIcon: String
     private var isPrivate: Boolean = false
 
-    public constructor(user: String, tags: List<String>, timeStamp: String, comment: CharSequence, userIcon: String) {
+    constructor(user: String, tags: List<String>, timeStamp: String, comment: CharSequence, userIcon: String) {
         this.user = user
         this.tags = tags
         this.timeStamp = timeStamp
@@ -22,15 +22,15 @@ public class Bookmark : Parcelable {
         this.userIcon = userIcon
     }
 
-    public fun isPrivate(): Boolean {
+    fun isPrivate(): Boolean {
         return isPrivate
     }
 
-    public fun setPrivate(isPrivate: Boolean) {
+    fun setPrivate(isPrivate: Boolean) {
         this.isPrivate = isPrivate
     }
 
-    public fun hasComment(): Boolean {
+    fun hasComment(): Boolean {
         return !comment.toString().isEmpty()
     }
 
@@ -38,12 +38,12 @@ public class Bookmark : Parcelable {
         user = `in`.readString()
         if (`in`.readByte() == 1.toByte()) {
             tags = ArrayList<String>()
-            `in`.readList(tags, javaClass<String>().getClassLoader())
+            `in`.readList(tags, String::class.java.classLoader)
         } else {
             tags = ArrayList()
         }
         timeStamp = `in`.readString()
-        comment = `in`.readValue(javaClass<CharSequence>().getClassLoader()) as CharSequence
+        comment = `in`.readValue(CharSequence::class.java.classLoader) as CharSequence
         userIcon = `in`.readString()
         isPrivate = `in`.readByte() != 0.toByte()
     }

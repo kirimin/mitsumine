@@ -13,12 +13,11 @@ import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.view.adapter.TagEditDialogFragmentAdapter
 import rx.functions.Action1
 
-import kotlinx.android.synthetic.dialog_fragment_tag_edit.view.*
+import kotlinx.android.synthetic.main.dialog_fragment_tag_edit.view.*
 
-public class TagEditDialogFragment : DialogFragment() {
+class TagEditDialogFragment : DialogFragment() {
 
     companion object {
-
         fun newInstance(tags: ArrayList<String>, targetFragment: Fragment): TagEditDialogFragment {
             val fragment = TagEditDialogFragment()
             val bundle = Bundle()
@@ -29,8 +28,8 @@ public class TagEditDialogFragment : DialogFragment() {
         }
     }
 
-    public interface OnOkClickListener {
-        public fun onOkClick(tags: ArrayList<String>)
+    interface OnOkClickListener {
+        fun onOkClick(tags: ArrayList<String>)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

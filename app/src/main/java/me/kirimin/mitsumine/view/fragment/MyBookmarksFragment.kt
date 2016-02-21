@@ -16,14 +16,14 @@ import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.view.activity.EntryInfoActivity
 import me.kirimin.mitsumine.view.adapter.MyBookmarksAdapter
 
-import kotlinx.android.synthetic.fragment_my_bookmarks.view.*
+import kotlinx.android.synthetic.main.fragment_my_bookmarks.view.*
 import me.kirimin.mitsumine.data.MyBookmarksData
 import me.kirimin.mitsumine.domain.MyBookmarksUseCase
 import me.kirimin.mitsumine.domain.model.MyBookmark
 import me.kirimin.mitsumine.presenter.MyBookmarksPresenter
 import me.kirimin.mitsumine.view.MyBookmarksView
 
-public class MyBookmarksFragment : Fragment(), MyBookmarksView, SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
+class MyBookmarksFragment : Fragment(), MyBookmarksView, SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
 
     companion object {
         public fun newFragment(keyword: String): MyBookmarksFragment {
@@ -61,10 +61,12 @@ public class MyBookmarksFragment : Fragment(), MyBookmarksView, SwipeRefreshLayo
     }
 
     override fun onScroll(absListView: AbsListView, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
+        val view = view ?: return
         presenter.onScroll(firstVisibleItem, visibleItemCount, totalItemCount, view.swipeLayout.isRefreshing)
     }
 
     override fun initViews() {
+        val view = view ?: return
         view.swipeLayout.setColorSchemeResources(R.color.blue, R.color.orange)
         view.swipeLayout.setOnRefreshListener(this)
         view.swipeLayout.setProgressViewOffset(false, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, resources.displayMetrics).toInt())
@@ -78,10 +80,12 @@ public class MyBookmarksFragment : Fragment(), MyBookmarksView, SwipeRefreshLayo
     }
 
     override fun showRefreshing() {
+        val view = view ?: return
         view.swipeLayout.isRefreshing = true
     }
 
     override fun dismissRefreshing() {
+        val view = view ?: return
         view.swipeLayout.isRefreshing = false
     }
 

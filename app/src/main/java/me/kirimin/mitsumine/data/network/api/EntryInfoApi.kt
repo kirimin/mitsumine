@@ -7,14 +7,12 @@ import org.json.JSONObject
 
 import rx.Observable
 
-public class EntryInfoApi {
-    companion object {
+object EntryInfoApi {
 
-        private val REQUEST_URL = "http://b.hatena.ne.jp/entry/jsonlite/?url="
+    private val REQUEST_URL = "http://b.hatena.ne.jp/entry/jsonlite/?url="
 
-        public fun request(context: Context, url: String): Observable<EntryInfo> {
-            return ApiAccessor.request(context, REQUEST_URL + url)
-                    .map { response -> EntryInfoApiParser.parseResponse(response) }
-        }
+    fun request(context: Context, url: String): Observable<EntryInfo> {
+        return ApiAccessor.request(context, REQUEST_URL + url)
+                .map { response -> EntryInfoApiParser.parseResponse(response) }
     }
 }
