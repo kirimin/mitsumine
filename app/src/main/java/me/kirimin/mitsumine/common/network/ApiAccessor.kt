@@ -15,7 +15,6 @@ import me.kirimin.mitsumine.common.network.oauth.Consumer
 import me.kirimin.mitsumine.common.network.oauth.HatenaOAuthProvider
 import rx.Observable
 import java.io.File
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 object ApiAccessor {
@@ -68,7 +67,7 @@ object ApiAccessor {
     private fun newClient(context: Context): OkHttpClient {
         val client = OkHttpClient()
         val cache = Cache(File(context.cacheDir, "mitsumine_cache"), MAX_CACHE_SIZE)
-        client.setCache(cache)
+        client.cache = cache
         client.networkInterceptors().add(Interceptor { chain ->
             chain.proceed(chain.request()).newBuilder()
                     .header("cache-control", "max-age=" + MAX_AGE_SECOND)

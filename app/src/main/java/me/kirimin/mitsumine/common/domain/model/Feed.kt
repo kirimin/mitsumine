@@ -3,46 +3,64 @@ package me.kirimin.mitsumine.common.domain.model
 import com.activeandroid.Model
 import com.activeandroid.annotation.Column
 import com.activeandroid.annotation.Table
+import me.kirimin.mitsumine.common.network.entity.Item
 
 @Table(name = "feed")
-public class Feed : Model() {
+class Feed() : Model() {
+
+    constructor(apiData: Item) : this() {
+        title = apiData.title
+        linkUrl = apiData.link.replace("#", "%23")
+        content = apiData.description
+        apiData.contentEncoded?.let { thumbnailUrl = parseThumbnailUrl(it) }
+        bookmarkCountUrl = "http://b.hatena.ne.jp/entry/image/" + linkUrl
+        faviconUrl = "http://cdn-ak.favicon.st-hatena.com/?url=" + linkUrl
+        entryLinkUrl = "http://b.hatena.ne.jp/entry/" + linkUrl
+    }
 
     @Column(name = "title")
-    public var title: String = ""
+    var title: String = ""
 
     @Column(name = "thumbnailUrl")
-    public var thumbnailUrl: String = ""
+    var thumbnailUrl: String = ""
 
     @Column(name = "content")
-    public var content: String = ""
+    var content: String = ""
 
     @Column(name = "linkUrl", unique = true)
-    public var linkUrl: String = ""
+    var linkUrl: String = ""
 
     @Column(name = "entryLinkUrl")
-    public var entryLinkUrl: String = ""
+    var entryLinkUrl: String = ""
 
     @Column(name = "bookmarkCountUrl")
-    public var bookmarkCountUrl: String = ""
+    var bookmarkCountUrl: String = ""
 
     @Column(name = "faviconUrl")
-    public var faviconUrl: String = ""
+    var faviconUrl: String = ""
 
     @Column(name = "type")
-    public var type: String = ""
+    var type: String = ""
 
     @Column(name = "saveTime")
-    public var saveTime: Long = 0
-
-    public var tagList: List<String> = emptyList()
+    var saveTime: Long = 0
 
     override fun toString(): String {
         return StringBuilder().append("title:").append(title).append(" type:").append(type).toString()
     }
 
+    private fun parseThumbnailUrl(content: String): String {
+        val urlStartIndex = content.indexOf("http://cdn-ak.b.st-hatena.com/entryimage/")
+        if (urlStartIndex != -1) {
+            return content.substring(urlStartIndex, content.indexOf("\"", urlStartIndex))
+        } else {
+            return ""
+        }
+    }
+
     companion object {
 
-        public val TYPE_READ: String = "read"
-        public val TYPE_READ_LATER: String = "readlater"
+        val TYPE_READ: String = "read"
+        val TYPE_READ_LATER: String = "readlater"
     }
 }

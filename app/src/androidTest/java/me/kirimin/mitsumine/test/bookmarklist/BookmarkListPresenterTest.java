@@ -9,9 +9,9 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.kirimin.mitsumine.domain.model.Bookmark;
 import me.kirimin.mitsumine.bookmarklist.BookmarkListPresenter;
 import me.kirimin.mitsumine.bookmarklist.BookmarkListView;
+import me.kirimin.mitsumine.common.domain.model.Bookmark;
 
 import static org.mockito.Mockito.*;
 

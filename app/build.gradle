@@ -43,6 +43,11 @@ dependencies {
     compile 'io.reactivex:rxandroid:0.24.0'
     compile 'org.scribe:scribe:1.3.6'
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    compile('org.simpleframework:simple-xml:2.7.1'){
+        exclude module: 'xpp3'
+        exclude module: 'stax'
+        exclude module: 'stax-api'
+    }
 
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
     androidTestCompile 'com.android.support.test:testing-support-lib:0.1'

@@ -11,10 +11,10 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.kirimin.mitsumine.common.domain.model.Bookmark;
+import me.kirimin.mitsumine.common.domain.model.EntryInfo;
 import me.kirimin.mitsumine.entryinfo.EntryInfoData;
 import me.kirimin.mitsumine.entryinfo.EntryInfoUseCase;
-import me.kirimin.mitsumine.domain.model.Bookmark;
-import me.kirimin.mitsumine.domain.model.EntryInfo;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.observers.TestSubscriber;
