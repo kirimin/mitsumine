@@ -1,8 +1,8 @@
 package me.kirimin.mitsumine.search
 
 import android.os.Bundle
-import me.kirimin.mitsumine.feed.AbstractFeedData
-import me.kirimin.mitsumine.search.UserFeedData
+import me.kirimin.mitsumine.feed.AbstractFeedRepository
+import me.kirimin.mitsumine.search.UserFeedRepository
 import me.kirimin.mitsumine.feed.AbstractFeedFragment
 
 public class UserFeedFragment : AbstractFeedFragment() {
@@ -17,7 +17,7 @@ public class UserFeedFragment : AbstractFeedFragment() {
         }
     }
 
-    override fun getDataInstance(): AbstractFeedData = UserFeedData(context, arguments.getString("user"))
+    override fun getDataInstance(): AbstractFeedRepository = UserFeedRepository(context, arguments.getString("user"))
 
     override fun isUseReadLater(): Boolean = true
 

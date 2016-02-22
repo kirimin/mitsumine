@@ -17,7 +17,7 @@ import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.fragment_feed.view.*
-import me.kirimin.mitsumine.feed.AbstractFeedData
+import me.kirimin.mitsumine.feed.AbstractFeedRepository
 import me.kirimin.mitsumine.feed.FeedUseCase
 import me.kirimin.mitsumine.feed.FeedPresenter
 import me.kirimin.mitsumine.feed.FeedView
@@ -27,7 +27,7 @@ abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener
 
     abstract fun isUseReadLater(): Boolean
     abstract fun isUseRead(): Boolean
-    abstract fun getDataInstance(): AbstractFeedData
+    abstract fun getDataInstance(): AbstractFeedRepository
 
     private var adapter: FeedAdapter? = null
     private val presenter: FeedPresenter = FeedPresenter()

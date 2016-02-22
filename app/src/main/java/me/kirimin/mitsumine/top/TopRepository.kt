@@ -6,7 +6,7 @@ import me.kirimin.mitsumine.common.database.KeywordDAO
 import me.kirimin.mitsumine.common.database.UserIdDAO
 import me.kirimin.mitsumine.common.domain.model.Account
 
-class TopData {
+class TopRepository {
 
     val account: Account?
         get() = AccountDAO.get()

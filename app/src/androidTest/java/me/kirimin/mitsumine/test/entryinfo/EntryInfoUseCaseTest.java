@@ -13,7 +13,7 @@ import java.util.List;
 
 import me.kirimin.mitsumine.common.domain.model.Bookmark;
 import me.kirimin.mitsumine.common.domain.model.EntryInfo;
-import me.kirimin.mitsumine.entryinfo.EntryInfoData;
+import me.kirimin.mitsumine.entryinfo.EntryInfoRepository;
 import me.kirimin.mitsumine.entryinfo.EntryInfoUseCase;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -24,11 +24,11 @@ import static org.mockito.Mockito.*;
 @RunWith(AndroidJUnit4.class)
 public class EntryInfoUseCaseTest {
 
-    EntryInfoData dataMock;
+    EntryInfoRepository dataMock;
 
     @Before
     public void setup() {
-        dataMock = mock(EntryInfoData.class);
+        dataMock = mock(EntryInfoRepository.class);
     }
 
     @Test

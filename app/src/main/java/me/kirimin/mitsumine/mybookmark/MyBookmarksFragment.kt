@@ -17,7 +17,7 @@ import me.kirimin.mitsumine.entryinfo.EntryInfoActivity
 import me.kirimin.mitsumine.mybookmark.MyBookmarksAdapter
 
 import kotlinx.android.synthetic.main.fragment_my_bookmarks.view.*
-import me.kirimin.mitsumine.mybookmark.MyBookmarksData
+import me.kirimin.mitsumine.mybookmark.MyBookmarksRepository
 import me.kirimin.mitsumine.mybookmark.MyBookmarksUseCase
 import me.kirimin.mitsumine.common.domain.model.MyBookmark
 import me.kirimin.mitsumine.mybookmark.MyBookmarksPresenter
@@ -45,7 +45,7 @@ class MyBookmarksFragment : Fragment(), MyBookmarksView, SwipeRefreshLayout.OnRe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.onCreate(this, MyBookmarksUseCase(MyBookmarksData()), arguments.getString("keyword"))
+        presenter.onCreate(this, MyBookmarksUseCase(MyBookmarksRepository()), arguments.getString("keyword"))
     }
 
     override fun onDestroyView() {

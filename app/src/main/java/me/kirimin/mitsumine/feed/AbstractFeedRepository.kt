@@ -9,7 +9,7 @@ import me.kirimin.mitsumine.common.network.TagListApi
 import me.kirimin.mitsumine.common.domain.model.Feed
 import rx.Observable
 
-abstract class AbstractFeedData(val context: Context) {
+abstract class AbstractFeedRepository(val context: Context) {
 
     val isUseBrowserSettingEnable: Boolean
         get() = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.key_use_browser_to_comment_list), false)

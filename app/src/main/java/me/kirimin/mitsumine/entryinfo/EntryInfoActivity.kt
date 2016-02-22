@@ -16,7 +16,7 @@ import me.kirimin.mitsumine.entryinfo.EntryInfoPresenter
 import me.kirimin.mitsumine.entryinfo.EntryInfoView
 
 import kotlinx.android.synthetic.main.activity_entry_info.*
-import me.kirimin.mitsumine.entryinfo.EntryInfoData
+import me.kirimin.mitsumine.entryinfo.EntryInfoRepository
 import me.kirimin.mitsumine.entryinfo.EntryInfoUseCase
 import me.kirimin.mitsumine.common.domain.model.Bookmark
 import me.kirimin.mitsumine.bookmarklist.BookmarkListFragment
@@ -46,7 +46,7 @@ class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
             finish()
             return
         }
-        presenter.onCreate(this, EntryInfoUseCase(EntryInfoData()), url, applicationContext)
+        presenter.onCreate(this, EntryInfoUseCase(EntryInfoRepository()), url, applicationContext)
     }
 
     override fun onDestroy() {

@@ -25,7 +25,7 @@ import com.makeramen.RoundedTransformationBuilder
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_top.*
-import me.kirimin.mitsumine.top.TopData
+import me.kirimin.mitsumine.top.TopRepository
 import me.kirimin.mitsumine.top.TopUseCase
 import me.kirimin.mitsumine.common.domain.enums.Category
 import me.kirimin.mitsumine.common.domain.enums.Type
@@ -46,9 +46,9 @@ class TopActivity : AppCompatActivity(), TopView {
         if (savedInstanceState != null) {
             val selectedCategory = savedInstanceState.getSerializable(Category::class.java.canonicalName) as Category
             val selectedType = savedInstanceState.getSerializable(Type::class.java.canonicalName) as Type
-            presenter.onCreate(this, TopUseCase(TopData()), selectedCategory, selectedType)
+            presenter.onCreate(this, TopUseCase(TopRepository()), selectedCategory, selectedType)
         } else {
-            presenter.onCreate(this, TopUseCase(TopData()))
+            presenter.onCreate(this, TopUseCase(TopRepository()))
         }
     }
 

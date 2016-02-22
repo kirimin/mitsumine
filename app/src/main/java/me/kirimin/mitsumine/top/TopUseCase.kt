@@ -1,36 +1,36 @@
 package me.kirimin.mitsumine.top
 
-import me.kirimin.mitsumine.top.TopData
+import me.kirimin.mitsumine.top.TopRepository
 import me.kirimin.mitsumine.common.domain.model.Account
 import me.kirimin.mitsumine.common.domain.enums.Type
 
 open class TopUseCase {
 
-    val data: TopData
+    val repository: TopRepository
 
-    constructor(topData: TopData) {
-        this.data = topData
+    constructor(topRepository: TopRepository) {
+        this.repository = topRepository
     }
 
     open val additionUsers: List<String>
-        get() = data.additionUsers
+        get() = repository.additionUsers
 
     open fun deleteAdditionUser(userId: String) {
-        data.deleteAdditionUser(userId)
+        repository.deleteAdditionUser(userId)
     }
 
     open val additionKeywords: List<String>
-        get() = data.additionKeywords
+        get() = repository.additionKeywords
 
     open fun deleteAdditionKeyword(keyword: String) {
-        data.deleteAdditionKeyword(keyword)
+        repository.deleteAdditionKeyword(keyword)
     }
 
     open val account: Account?
-        get() = data.account
+        get() = repository.account
 
     open fun deleteOldFeedData() {
-        data.deleteOldFeedData(3)
+        repository.deleteOldFeedData(3)
     }
 
     fun getTypeInt(type: Type): Int {
