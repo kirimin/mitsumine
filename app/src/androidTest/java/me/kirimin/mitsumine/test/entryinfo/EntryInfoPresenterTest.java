@@ -10,11 +10,11 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.kirimin.mitsumine.domain.EntryInfoUseCase;
+import me.kirimin.mitsumine.entryinfo.EntryInfoUseCase;
 import me.kirimin.mitsumine.domain.model.Bookmark;
 import me.kirimin.mitsumine.domain.model.EntryInfo;
-import me.kirimin.mitsumine.presenter.EntryInfoPresenter;
-import me.kirimin.mitsumine.view.EntryInfoView;
+import me.kirimin.mitsumine.entryinfo.EntryInfoPresenter;
+import me.kirimin.mitsumine.entryinfo.EntryInfoView;
 
 import static org.mockito.Mockito.*;
 

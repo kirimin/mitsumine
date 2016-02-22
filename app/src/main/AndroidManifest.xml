@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.activity.TopActivity"
+            android:name=".top.TopActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop">
             <intent-filter>
@@ -22,17 +22,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.ReadActivity" />
-        <activity android:name=".view.activity.ReadLaterActivity" />
+        <activity android:name=".feed.read.ReadActivity" />
+        <activity android:name=".feed.readlater.ReadLaterActivity" />
         <activity android:name=".view.activity.search.KeywordSearchActivity" />
         <activity android:name=".view.activity.search.UserSearchActivity" />
-        <activity android:name=".view.activity.SettingActivity" />
-        <activity android:name=".view.activity.AboutActivity" />
-        <activity android:name=".view.activity.EntryInfoActivity" />
-        <activity android:name=".view.activity.LoginActivity" />
-        <activity android:name=".view.activity.search.MyBookmarksActivity" />
+        <activity android:name=".setting.SettingActivity" />
+        <activity android:name=".about.AboutActivity" />
+        <activity android:name=".entryinfo.EntryInfoActivity" />
+        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".search.MyBookmarksActivity" />
         <activity
-            android:name=".view.activity.UrlReceiveActivity"
+            android:name=".urlreceive.UrlReceiveActivity"
             android:label="@string/urlreceive_title">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />

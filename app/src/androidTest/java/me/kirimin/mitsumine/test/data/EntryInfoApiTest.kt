@@ -9,10 +9,10 @@ import org.json.JSONException
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import me.kirimin.mitsumine.data.network.api.EntryInfoApi
+import me.kirimin.mitsumine.common.network.EntryInfoApi
 
 import android.support.test.espresso.matcher.ViewMatchers.assertThat
-import me.kirimin.mitsumine.domain.model.EntryInfo
+import me.kirimin.mitsumine.common.domain.model.EntryInfo
 import org.hamcrest.Matchers.`is`
 import rx.observers.TestSubscriber
 

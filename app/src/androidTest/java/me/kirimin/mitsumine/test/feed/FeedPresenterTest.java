@@ -9,10 +9,10 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.kirimin.mitsumine.domain.FeedUseCase;
-import me.kirimin.mitsumine.domain.model.Feed;
-import me.kirimin.mitsumine.presenter.FeedPresenter;
-import me.kirimin.mitsumine.view.FeedView;
+import me.kirimin.mitsumine.feed.FeedUseCase;
+import me.kirimin.mitsumine.common.domain.model.Feed;
+import me.kirimin.mitsumine.feed.FeedPresenter;
+import me.kirimin.mitsumine.feed.FeedView;
 
 import static org.mockito.Mockito.*;
 

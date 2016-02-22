@@ -6,9 +6,9 @@ import android.support.test.runner.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import me.kirimin.mitsumine.data.network.api.FeedApi
-import me.kirimin.mitsumine.domain.enums.Category
-import me.kirimin.mitsumine.domain.enums.Type
+import me.kirimin.mitsumine.common.network.FeedApi
+import me.kirimin.mitsumine.common.domain.enums.Category
+import me.kirimin.mitsumine.common.domain.enums.Type
 
 import org.hamcrest.Matchers.not
 import org.junit.Assert.*;

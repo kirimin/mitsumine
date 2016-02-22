@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.kirimin.mitsumine.domain.model.Bookmark;
-import me.kirimin.mitsumine.presenter.BookmarkListPresenter;
-import me.kirimin.mitsumine.view.BookmarkListView;
+import me.kirimin.mitsumine.bookmarklist.BookmarkListPresenter;
+import me.kirimin.mitsumine.bookmarklist.BookmarkListView;
 
 import static org.mockito.Mockito.*;
 

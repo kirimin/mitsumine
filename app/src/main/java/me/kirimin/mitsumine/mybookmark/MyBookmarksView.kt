@@ -1,0 +1,14 @@
+package me.kirimin.mitsumine.mybookmark
+
+import me.kirimin.mitsumine.common.domain.model.MyBookmark
+
+interface MyBookmarksView {
+    fun initViews()
+    fun showRefreshing()
+    fun addListViewItem(myBookmarks: List<MyBookmark>)
+    fun dismissRefreshing()
+    fun showErrorToast()
+    fun clearListViewItem()
+    fun sendBrowserIntent(linkUrl: String)
+    fun startEntryInfo(linkUrl: String)
+}
