@@ -11,10 +11,6 @@ import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.common.domain.model.Bookmark
 import me.kirimin.mitsumine.search.SearchActivity
 import me.kirimin.mitsumine.search.UserSearchActivity
-import me.kirimin.mitsumine.bookmarklist.BookmarkListAdapter
-
-import me.kirimin.mitsumine.bookmarklist.BookmarkListPresenter
-import me.kirimin.mitsumine.bookmarklist.BookmarkListView
 
 import kotlinx.android.synthetic.main.fragment_bookmark_list.view.*
 
@@ -39,13 +35,14 @@ class BookmarkListFragment : Fragment(), BookmarkListView {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        presenter.onCreate(this, arguments.getParcelableArray("bookmarkList").map { o -> o as Bookmark })
+        presenter.onCreate(this, arguments.getParcelableArray("bookmarkList").map { it as Bookmark })
     }
 
     override fun initViews(bookmarks: List<Bookmark>) {
+        val view = view ?: return
         val adapter = BookmarkListAdapter(activity, presenter)
         adapter.addAll(bookmarks)
-        view?.listView?.adapter = adapter
+        view.listView.adapter = adapter
     }
 
     override fun startUserSearchActivity(userId: String) {

@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine.feed
+package me.kirimin.mitsumine.feed.mainfeed
 
 import android.content.Context
 import me.kirimin.mitsumine.feed.AbstractFeedRepository

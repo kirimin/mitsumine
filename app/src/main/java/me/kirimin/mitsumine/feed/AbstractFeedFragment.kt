@@ -3,7 +3,6 @@ package me.kirimin.mitsumine.feed
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.common.domain.model.Feed
 import me.kirimin.mitsumine.entryinfo.EntryInfoActivity
-import me.kirimin.mitsumine.feed.FeedAdapter
 
 import android.content.Intent
 import android.net.Uri
@@ -17,19 +16,15 @@ import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.fragment_feed.view.*
-import me.kirimin.mitsumine.feed.AbstractFeedRepository
-import me.kirimin.mitsumine.feed.FeedUseCase
-import me.kirimin.mitsumine.feed.FeedPresenter
-import me.kirimin.mitsumine.feed.FeedView
 import rx.Subscription
 
 abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener, View.OnLongClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     abstract fun isUseReadLater(): Boolean
     abstract fun isUseRead(): Boolean
-    abstract fun getDataInstance(): AbstractFeedRepository
+    abstract fun getRepository(): AbstractFeedRepository
 
-    private var adapter: FeedAdapter? = null
+    private lateinit var adapter: FeedAdapter
     private val presenter: FeedPresenter = FeedPresenter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -40,7 +35,7 @@ abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        presenter.onCreate(this, FeedUseCase(getDataInstance()));
+        presenter.onCreate(this, FeedUseCase(getRepository()));
     }
 
     override fun onDestroyView() {
@@ -70,7 +65,7 @@ abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener
     }
 
     override fun setFeed(feedList: List<Feed>) {
-        adapter!!.addAll(feedList)
+        adapter.addAll(feedList)
     }
 
     override fun showRefreshing() {
@@ -84,11 +79,11 @@ abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener
     }
 
     override fun clearAllItem() {
-        adapter!!.clear()
+        adapter.clear()
     }
 
     override fun removeItem(feed: Feed) {
-        adapter!!.remove(feed)
+        adapter.remove(feed)
     }
 
     override fun sendUrlIntent(url: String) {

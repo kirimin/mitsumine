@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine.test.data
+package me.kirimin.mitsumine.test.network
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

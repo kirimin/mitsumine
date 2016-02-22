@@ -18,7 +18,7 @@ public class KeywordFeedFragment : AbstractFeedFragment() {
         }
     }
 
-    override fun getDataInstance(): AbstractFeedRepository = KeyWordFeedRepository(context, arguments.getString("keyword"))
+    override fun getRepository(): AbstractFeedRepository = KeyWordFeedRepository(context, arguments.getString("keyword"))
 
     override fun isUseReadLater(): Boolean = true
 

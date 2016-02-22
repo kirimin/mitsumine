@@ -60,7 +60,7 @@ class Feed() : Model() {
 
     companion object {
 
-        val TYPE_READ: String = "read"
-        val TYPE_READ_LATER: String = "readlater"
+        const val TYPE_READ: String = "read"
+        const val TYPE_READ_LATER: String = "readlater"
     }
 }

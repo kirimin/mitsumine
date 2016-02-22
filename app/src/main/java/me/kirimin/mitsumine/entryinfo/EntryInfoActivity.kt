@@ -27,7 +27,7 @@ class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
     companion object {
         val KEY_URL = "url"
 
-        public fun buildBundle(url: String): Bundle {
+        fun buildBundle(url: String): Bundle {
             val bundle = Bundle()
             bundle.putString(KEY_URL, url)
             return bundle

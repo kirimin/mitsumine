@@ -1,17 +1,17 @@
-package me.kirimin.mitsumine.feed
+package me.kirimin.mitsumine.feed.mainfeed
 
 import android.os.Bundle
 
-import me.kirimin.mitsumine.feed.FeedRepository
+import me.kirimin.mitsumine.feed.mainfeed.FeedRepository
 import me.kirimin.mitsumine.common.domain.enums.Category
 import me.kirimin.mitsumine.common.domain.enums.Type
 import me.kirimin.mitsumine.feed.AbstractFeedFragment
 import java.io.Serializable
 
-public class FeedFragment : AbstractFeedFragment() {
+class FeedFragment : AbstractFeedFragment() {
 
     companion object {
-        public fun newFragment(category: Category, type: Type): FeedFragment {
+        fun newFragment(category: Category, type: Type): FeedFragment {
             val fragment = FeedFragment()
             val bundle = Bundle()
             bundle.putSerializable(Category::class.java.canonicalName, category as Serializable)
@@ -21,7 +21,7 @@ public class FeedFragment : AbstractFeedFragment() {
         }
     }
 
-    override fun getDataInstance(): FeedRepository {
+    override fun getRepository(): FeedRepository {
         val category = arguments.getSerializable(Category::class.java.canonicalName) as Category
         val type = arguments.getSerializable(Type::class.java.canonicalName) as Type
         return FeedRepository(context, category, type)

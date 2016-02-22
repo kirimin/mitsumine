@@ -1,6 +1,5 @@
 package me.kirimin.mitsumine.feed
 
-import me.kirimin.mitsumine.feed.AbstractFeedRepository
 import me.kirimin.mitsumine.common.domain.model.Feed
 import rx.Observer
 import rx.Subscription

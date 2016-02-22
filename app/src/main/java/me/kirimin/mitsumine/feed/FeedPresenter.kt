@@ -1,41 +1,33 @@
 package me.kirimin.mitsumine.feed
 
-import android.view.View
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.common.network.BookmarkCountApi
-import me.kirimin.mitsumine.common.network.TagListApi
-import me.kirimin.mitsumine.feed.FeedUseCase
 import me.kirimin.mitsumine.common.domain.model.Feed
-import me.kirimin.mitsumine.feed.FeedView
-import me.kirimin.mitsumine.feed.FeedAdapter
 import rx.Subscriber
-import rx.android.schedulers.AndroidSchedulers
-import rx.android.view.ViewObservable
-import rx.schedulers.Schedulers
 
 class FeedPresenter : Subscriber<List<Feed>>() {
 
-    var view: FeedView? = null
-    var useCase: FeedUseCase? = null
+    private var view: FeedView? = null
+    private lateinit var useCase: FeedUseCase
 
     fun onCreate(feedView: FeedView, feedUseCase: FeedUseCase) {
         this.view = feedView
         this.useCase = feedUseCase
 
-        view?.initViews()
-        view?.showRefreshing()
-        useCase?.requestFeed(this)
+        feedView.initViews()
+        feedView.showRefreshing()
+        feedUseCase.requestFeed(this)
     }
 
     fun onDestroy() {
         view = null
-        useCase?.unSubscribe()
+        useCase.unSubscribe()
     }
 
     fun onRefresh() {
-        view?.clearAllItem()
-        view?.showRefreshing()
-        useCase?.requestFeed(this)
+        val view = view ?: return
+        view.clearAllItem()
+        view.showRefreshing()
+        useCase.requestFeed(this)
     }
 
     override fun onNext(feedList: List<Feed>) {
@@ -51,35 +43,37 @@ class FeedPresenter : Subscriber<List<Feed>>() {
     }
 
     fun onClick(viewId: Int, feed: Feed) {
+        val view = view ?: return
         when (viewId) {
             R.id.card_view -> {
-                view?.sendUrlIntent(feed.linkUrl)
+                view.sendUrlIntent(feed.linkUrl)
             }
             R.id.FeedFragmentImageViewShare -> {
-                if (useCase!!.isShareWithTitleSettingEnable()) {
-                    view?.sendShareUrlWithTitleIntent(feed.title, feed.linkUrl)
+                if (useCase.isShareWithTitleSettingEnable()) {
+                    view.sendShareUrlWithTitleIntent(feed.title, feed.linkUrl)
                 } else {
-                    view?.sendShareUrlIntent(feed.title, feed.linkUrl)
+                    view.sendShareUrlIntent(feed.title, feed.linkUrl)
                 }
             }
         }
     }
 
     fun onLongClick(viewId: Int, feed: Feed): Boolean {
+        val view = view ?: return false
         when (viewId) {
             R.id.card_view -> {
-                if (useCase!!.isUseBrowserSettingEnable()) {
-                    view?.sendUrlIntent(feed.entryLinkUrl)
+                if (useCase.isUseBrowserSettingEnable()) {
+                    view.sendUrlIntent(feed.entryLinkUrl)
                 } else {
-                    view?.startEntryInfoView(feed.linkUrl)
+                    view.startEntryInfoView(feed.linkUrl)
                 }
                 return true
             }
             R.id.FeedFragmentImageViewShare -> {
-                if (useCase!!.isShareWithTitleSettingEnable()) {
-                    view?.sendShareUrlIntent(feed.title, feed.linkUrl)
+                if (useCase.isShareWithTitleSettingEnable()) {
+                    view.sendShareUrlIntent(feed.title, feed.linkUrl)
                 } else {
-                    view?.sendShareUrlWithTitleIntent(feed.title, feed.linkUrl)
+                    view.sendShareUrlWithTitleIntent(feed.title, feed.linkUrl)
                 }
                 return true
             }
@@ -92,57 +86,63 @@ class FeedPresenter : Subscriber<List<Feed>>() {
     }
 
     fun onItemLongClick(feed: Feed) {
-        if (useCase!!.isUseBrowserSettingEnable()) {
-            view?.sendUrlIntent(feed.entryLinkUrl)
+        val view = view ?: return
+        if (useCase.isUseBrowserSettingEnable()) {
+            view.sendUrlIntent(feed.entryLinkUrl)
         } else {
-            view?.startEntryInfoView(feed.linkUrl)
+            view.startEntryInfoView(feed.linkUrl)
         }
     }
 
     fun onFeedShareClick(feed: Feed) {
-        if (useCase!!.isShareWithTitleSettingEnable()) {
-            view?.sendShareUrlWithTitleIntent(feed.title, feed.linkUrl)
+        val view = view ?: return
+        if (useCase.isShareWithTitleSettingEnable()) {
+            view.sendShareUrlWithTitleIntent(feed.title, feed.linkUrl)
         } else {
-            view?.sendShareUrlIntent(feed.title, feed.linkUrl)
+            view.sendShareUrlIntent(feed.title, feed.linkUrl)
         }
     }
 
     fun onFeedShareLongClick(feed: Feed) {
-        if (useCase!!.isShareWithTitleSettingEnable()) {
-            view?.sendShareUrlIntent(feed.title, feed.linkUrl)
+        val view = view ?: return
+        if (useCase.isShareWithTitleSettingEnable()) {
+            view.sendShareUrlIntent(feed.title, feed.linkUrl)
         } else {
-            view?.sendShareUrlWithTitleIntent(feed.title, feed.linkUrl)
+            view.sendShareUrlWithTitleIntent(feed.title, feed.linkUrl)
         }
     }
 
     fun onFeedLeftSlide(holder: FeedAdapter.ViewHolder, feed: Feed, useReadLater: Boolean) {
-        useCase!!.saveFeed(feed, Feed.TYPE_READ)
+        val view = view ?: return
+        useCase.saveFeed(feed, Feed.TYPE_READ)
         if (useReadLater) {
-            view?.setListViewCellPagerPosition(holder, 1)
+            view.setListViewCellPagerPosition(holder, 1)
         } else {
-            view?.setListViewCellPagerPosition(holder, 0)
+            view.setListViewCellPagerPosition(holder, 0)
         }
-        view?.removeItem(feed)
+        view.removeItem(feed)
     }
 
     fun onFeedRightSlide(holder: FeedAdapter.ViewHolder, feed: Feed) {
-        useCase!!.saveFeed(feed, Feed.TYPE_READ_LATER)
-        view?.setListViewCellPagerPosition(holder, 1)
-        view?.removeItem(feed)
+        val view = view ?: return
+        useCase.saveFeed(feed, Feed.TYPE_READ_LATER)
+        view.setListViewCellPagerPosition(holder, 1)
+        view.removeItem(feed)
     }
 
     fun onGetView(holder: FeedAdapter.ViewHolder, item: Feed) {
-        view?.initListViewCell(holder, item)
+        val view = view ?: return
+        view.initListViewCell(holder, item)
         if (!item.thumbnailUrl.isEmpty()) {
-            view?.loadThumbnailImage(holder, item.thumbnailUrl)
+            view.loadThumbnailImage(holder, item.thumbnailUrl)
         }
         if (!item.faviconUrl.isEmpty()) {
-            view?.loadFaviconImage(holder, item.faviconUrl)
+            view.loadFaviconImage(holder, item.faviconUrl)
         }
 
-        holder.tags.tag = useCase!!.requestTagList(object : Subscriber<String>() {
+        holder.tags.tag = useCase.requestTagList(object : Subscriber<String>() {
             override fun onNext(tags: String) {
-                view?.setTagList(holder, tags)
+                view.setTagList(holder, tags)
             }
 
             override fun onError(e: Throwable) {
@@ -151,9 +151,9 @@ class FeedPresenter : Subscriber<List<Feed>>() {
             override fun onCompleted() {
             }
         }, item.linkUrl)
-        holder.tags.tag = useCase!!.requestBookmarkCount(object : Subscriber<String>() {
+        holder.tags.tag = useCase.requestBookmarkCount(object : Subscriber<String>() {
             override fun onNext(count: String) {
-                view?.setBookmarkCount(holder, count)
+                view.setBookmarkCount(holder, count)
             }
 
             override fun onError(e: Throwable) {

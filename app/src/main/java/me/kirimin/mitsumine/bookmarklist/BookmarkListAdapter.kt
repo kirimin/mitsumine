@@ -18,19 +18,14 @@ import me.kirimin.mitsumine.common.domain.model.Bookmark
 import me.kirimin.mitsumine.bookmarklist.BookmarkListPresenter
 import me.kirimin.mitsumine.common.widget.IfNeededLinkMovementMethod
 
-public class BookmarkListAdapter(activity: Activity, val presenter: BookmarkListPresenter) : ArrayAdapter<Bookmark>(activity, 0) {
+class BookmarkListAdapter(activity: Activity, val presenter: BookmarkListPresenter) : ArrayAdapter<Bookmark>(activity, 0) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
         val holder: ViewHolder
         if (convertView == null) {
             view = LayoutInflater.from(context).inflate(R.layout.row_bookmark_list, null)
-            holder = ViewHolder(view.findViewById(R.id.card_view),
-                    view.findViewById(R.id.BookmarkListUserNameTextView) as TextView,
-                    view.findViewById(R.id.BookmarkListUserIconImageView) as ImageView,
-                    view.findViewById(R.id.BookmarkListCommentTextView) as TextView,
-                    view.findViewById(R.id.BookmarkListUserTagTextView) as TextView,
-                    view.findViewById(R.id.BookmarkListTimeStampTextView) as TextView)
+            holder = ViewHolder(view)
             view.tag = holder
             holder.comment.setOnTouchListener { v, event ->
                 val linkMovementMethod = IfNeededLinkMovementMethod()
@@ -56,12 +51,12 @@ public class BookmarkListAdapter(activity: Activity, val presenter: BookmarkList
         return view
     }
 
-    class ViewHolder(
-            val cardView: View,
-            val userName: TextView,
-            val userIcon: ImageView,
-            val comment: TextView,
-            val tag: TextView,
-            val timeStamp: TextView
-    ) {}
+    class ViewHolder(view: View) {
+        val cardView: View = view.findViewById(R.id.card_view)
+        val userName: TextView = view.findViewById(R.id.BookmarkListUserNameTextView) as TextView
+        val userIcon: ImageView = view.findViewById(R.id.BookmarkListUserIconImageView) as ImageView
+        val comment: TextView = view.findViewById(R.id.BookmarkListCommentTextView) as TextView
+        val tag: TextView = view.findViewById(R.id.BookmarkListUserTagTextView) as TextView
+        val timeStamp: TextView = view.findViewById(R.id.BookmarkListTimeStampTextView) as TextView
+    }
 }

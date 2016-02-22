@@ -16,8 +16,8 @@ import kotlinx.android.synthetic.main.activity_common_container.*
 
 abstract class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
 
-    private var mSearchItem: MenuItem? = null
-    private var mSearchView: SearchView? = null
+    private lateinit var mSearchItem: MenuItem
+    private lateinit var mSearchView: SearchView
     private var mQueryStr = ""
     private var mIsShowFavorite = true
 
@@ -54,10 +54,10 @@ abstract class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListe
 
         mSearchItem = menu.findItem(R.id.SearchMenuItemSearchView)
         mSearchView = MenuItemCompat.getActionView(mSearchItem) as SearchView
-        mSearchView!!.queryHint = getSearchTitle()
-        mSearchView!!.setOnQueryTextListener(this)
+        mSearchView.queryHint = getSearchTitle()
+        mSearchView.setOnQueryTextListener(this)
         if (mQueryStr.isEmpty()) {
-            mSearchItem!!.expandActionView()
+            mSearchItem.expandActionView()
         }
         if (!mIsShowFavorite) {
             menu.findItem(R.id.SearchMenuItemFavorite).setVisible(false)
@@ -71,7 +71,7 @@ abstract class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListe
         } else if (R.id.SearchMenuItemFavorite == item.itemId && !mQueryStr.isEmpty()) {
             doFavorite()
         } else if (R.id.SearchMenuItemSearchView == item.itemId) {
-            mSearchItem!!.expandActionView()
+            mSearchItem.expandActionView()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -79,7 +79,7 @@ abstract class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListe
     override fun onQueryTextSubmit(query: String): Boolean {
         title = query
         mQueryStr = query
-        mSearchItem!!.collapseActionView()
+        mSearchItem.collapseActionView()
         MenuItemCompat.setOnActionExpandListener(mSearchItem, this)
 
         supportFragmentManager.beginTransaction().replace(R.id.containerFrameLayout, newFragment(query)).commit()
@@ -96,7 +96,7 @@ abstract class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListe
 
     override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(mSearchView!!.getWindowToken(), 0)
+        inputMethodManager.hideSoftInputFromWindow(mSearchView.windowToken, 0)
         return true
     }
 

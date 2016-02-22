@@ -17,7 +17,7 @@ public class UserFeedFragment : AbstractFeedFragment() {
         }
     }
 
-    override fun getDataInstance(): AbstractFeedRepository = UserFeedRepository(context, arguments.getString("user"))
+    override fun getRepository(): AbstractFeedRepository = UserFeedRepository(context, arguments.getString("user"))
 
     override fun isUseReadLater(): Boolean = true
 

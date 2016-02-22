@@ -1,7 +1,6 @@
 package me.kirimin.mitsumine.entryinfo
 
 import android.content.Context
-import me.kirimin.mitsumine.entryinfo.EntryInfoRepository
 import me.kirimin.mitsumine.common.database.AccountDAO
 import me.kirimin.mitsumine.common.domain.model.Bookmark
 import me.kirimin.mitsumine.common.domain.model.EntryInfo

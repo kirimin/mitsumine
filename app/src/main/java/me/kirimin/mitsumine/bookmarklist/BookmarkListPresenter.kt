@@ -9,7 +9,7 @@ class BookmarkListPresenter {
 
     fun onCreate(bookmarkListView: BookmarkListView, bookmarks: List<Bookmark>){
         this.view = bookmarkListView
-        view!!.initViews(bookmarks)
+        bookmarkListView.initViews(bookmarks)
     }
 
     fun onItemClick(bookmark: Bookmark) {

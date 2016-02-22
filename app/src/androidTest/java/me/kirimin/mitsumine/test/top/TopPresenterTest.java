@@ -12,13 +12,13 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.kirimin.mitsumine.common.domain.enums.Category;
+import me.kirimin.mitsumine.common.domain.enums.Type;
+import me.kirimin.mitsumine.search.KeywordSearchActivity;
+import me.kirimin.mitsumine.search.UserSearchActivity;
 import me.kirimin.mitsumine.top.TopUseCase;
-import me.kirimin.mitsumine.domain.enums.Category;
-import me.kirimin.mitsumine.domain.enums.Type;
 import me.kirimin.mitsumine.top.TopPresenter;
 import me.kirimin.mitsumine.top.TopView;
-import me.kirimin.mitsumine.view.activity.search.KeywordSearchActivity;
-import me.kirimin.mitsumine.view.activity.search.UserSearchActivity;
 
 import static org.mockito.Mockito.*;
 

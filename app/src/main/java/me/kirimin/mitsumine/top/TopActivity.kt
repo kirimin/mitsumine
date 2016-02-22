@@ -32,7 +32,7 @@ import me.kirimin.mitsumine.common.domain.enums.Type
 import me.kirimin.mitsumine.top.TopPresenter
 import me.kirimin.mitsumine.top.TopView
 import me.kirimin.mitsumine.feed.readlater.ReadLaterActivity
-import me.kirimin.mitsumine.feed.FeedFragment
+import me.kirimin.mitsumine.feed.mainfeed.FeedFragment
 import java.io.Serializable
 
 class TopActivity : AppCompatActivity(), TopView {
