@@ -33,6 +33,9 @@ import me.kirimin.mitsumine.top.TopPresenter
 import me.kirimin.mitsumine.top.TopView
 import me.kirimin.mitsumine.feed.readlater.ReadLaterActivity
 import me.kirimin.mitsumine.feed.mainfeed.FeedFragment
+import me.kirimin.mitsumine.search.KeywordSearchActivity
+import me.kirimin.mitsumine.search.SearchActivity
+import me.kirimin.mitsumine.search.UserSearchActivity
 import java.io.Serializable
 
 class TopActivity : AppCompatActivity(), TopView {
@@ -167,13 +170,24 @@ class TopActivity : AppCompatActivity(), TopView {
         return drawerLayout.isDrawerOpen(Gravity.LEFT)
     }
 
+    // TODO 分割する
     override fun startActivity(activityClass: Class<*>) {
         startActivity(Intent(this, activityClass));
     }
 
-    override fun startActivity(activityClass: Class<*>, bundle: Bundle) {
-        val intent = Intent(this, activityClass)
-        startActivity(intent.putExtras(bundle))
+    override fun startMyBookmarksActivity() {
+        val intent = Intent(this, UserSearchActivity::class.java)
+        startActivity(intent.putExtras(SearchActivity.buildBundle("", false)))
+    }
+
+    override fun startUserSearchActivity(userId: String) {
+        val intent = Intent(this, UserSearchActivity::class.java)
+        startActivity(intent.putExtras(SearchActivity.buildBundle(userId)))
+    }
+
+    override fun startKeywordSearchActivity(keyword: String) {
+        val intent = Intent(this, KeywordSearchActivity::class.java)
+        startActivity(intent.putExtras(SearchActivity.buildBundle(keyword)))
     }
 
     override fun enableUserInfo(userName: String, iconUrl: String) {

@@ -1,11 +1,9 @@
-package me.kirimin.mitsumine.test.entryinfo;
+package me.kirimin.mitsumine;
 
 import android.content.Context;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +16,6 @@ import me.kirimin.mitsumine.entryinfo.EntryInfoView;
 
 import static org.mockito.Mockito.*;
 
-@RunWith(AndroidJUnit4.class)
 public class EntryInfoPresenterTest {
 
     EntryInfoView viewMock;

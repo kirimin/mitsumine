@@ -1,28 +1,22 @@
-package me.kirimin.mitsumine.test.top;
+package me.kirimin.mitsumine;
 
-import android.os.Bundle;
-import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import me.kirimin.mitsumine.common.domain.enums.Category;
 import me.kirimin.mitsumine.common.domain.enums.Type;
-import me.kirimin.mitsumine.search.KeywordSearchActivity;
-import me.kirimin.mitsumine.search.UserSearchActivity;
 import me.kirimin.mitsumine.top.TopUseCase;
 import me.kirimin.mitsumine.top.TopPresenter;
 import me.kirimin.mitsumine.top.TopView;
 
 import static org.mockito.Mockito.*;
 
-@RunWith(AndroidJUnit4.class)
 public class TopPresenterTest {
 
     TopView viewMock;
@@ -138,7 +132,7 @@ public class TopPresenterTest {
 
         View testBView = mock(View.class);
         presenter.onAdditionUserClick(users.get(1));
-        verify(viewMock, times(1)).startActivity(eq(UserSearchActivity.class), any(Bundle.class));
+        verify(viewMock, times(1)).startUserSearchActivity("testB");
         verify(viewMock, times(1)).closeNavigation();
 
         presenter.onAdditionUserLongClick(users.get(1), testBView);
@@ -172,7 +166,7 @@ public class TopPresenterTest {
 
         View testBView = mock(View.class);
         presenter.onAdditionKeywordClick(keywords.get(1));
-        verify(viewMock, times(1)).startActivity(eq(KeywordSearchActivity.class), any(Bundle.class));
+        verify(viewMock, times(1)).startKeywordSearchActivity("testB");
         verify(viewMock, times(1)).closeNavigation();
 
         presenter.onAdditionKeywordLongClick(keywords.get(1), testBView);

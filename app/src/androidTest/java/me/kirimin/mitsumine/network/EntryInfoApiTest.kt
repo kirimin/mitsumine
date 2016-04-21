@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine.test.network
+package me.kirimin.mitsumine.network
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -17,10 +17,10 @@ import org.hamcrest.Matchers.`is`
 import rx.observers.TestSubscriber
 
 @RunWith(AndroidJUnit4::class)
-public class EntryInfoApiTest {
+class EntryInfoApiTest {
 
     @Test
-    public fun requestTest() {
+    fun requestTest() {
         val testSubscriber = TestSubscriber<EntryInfo>()
         val url = "http://kirimin.hatenablog.com/entry/20140629/1404039922"
         EntryInfoApi.request(InstrumentationRegistry.getContext(), url).subscribe(testSubscriber)

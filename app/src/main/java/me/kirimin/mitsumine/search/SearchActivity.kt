@@ -102,11 +102,7 @@ abstract class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListe
 
     companion object {
 
-        fun buildBundle(keyword: String): Bundle {
-            return buildBundle(keyword, true)
-        }
-
-        fun buildBundle(keyword: String, isShowFavorite: Boolean): Bundle {
+        fun buildBundle(keyword: String, isShowFavorite: Boolean = true): Bundle {
             val bundle = Bundle()
             bundle.putString("keyword", keyword)
             bundle.putBoolean("isShowFavorite", isShowFavorite)

@@ -20,8 +20,6 @@ open class EntryInfoUseCase {
 
     open fun requestEntryInfo(url: String, context: Context, subscriber: Subscriber<EntryInfo>) {
         subscriptions.add(repository.requestEntryInfoApi(context, url)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
                 .filter { entryInfo -> !entryInfo.isNullObject() }
                 .subscribe (subscriber))
     }

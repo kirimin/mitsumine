@@ -1,10 +1,7 @@
-package me.kirimin.mitsumine.test.bookmarklist;
-
-import android.support.test.runner.AndroidJUnit4;
+package me.kirimin.mitsumine;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +12,6 @@ import me.kirimin.mitsumine.common.domain.model.Bookmark;
 
 import static org.mockito.Mockito.*;
 
-@RunWith(AndroidJUnit4.class)
 public class BookmarkListPresenterTest {
 
     BookmarkListView viewMock;

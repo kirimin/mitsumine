@@ -17,8 +17,6 @@ interface TopView {
 
     fun startActivity(activityClass: Class<*>)
 
-    fun startActivity(activityClass: Class<*>, bundle: Bundle)
-
     fun backPress()
 
     fun enableUserInfo(userName: String, iconUrl: String)
@@ -38,4 +36,7 @@ interface TopView {
     fun showDeleteUserDialog(userId: String, view: View)
 
     fun showDeleteKeywordDialog(keyword: String, view: View)
+    open fun startUserSearchActivity(userId: String = "")
+    open fun startKeywordSearchActivity(keyword: String = "")
+    open fun startMyBookmarksActivity()
 }

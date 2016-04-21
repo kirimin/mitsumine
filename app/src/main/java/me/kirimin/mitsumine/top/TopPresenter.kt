@@ -109,7 +109,7 @@ class TopPresenter {
                 view.closeNavigation()
             }
             R.id.navigationUserInfoLayout -> {
-                view.startActivity(MyBookmarksActivity::class.java, SearchActivity.buildBundle("", false))
+                view.startMyBookmarksActivity()
                 view.closeNavigation()
             }
             R.id.navigationLoginButton -> {
@@ -125,10 +125,10 @@ class TopPresenter {
         mSelectedCategory = category
     }
 
-    fun onAdditionUserClick(userId: String){
+    fun onAdditionUserClick(userId: String) {
         val view = view ?: return
         view.closeNavigation()
-        view.startActivity(UserSearchActivity::class.java, SearchActivity.buildBundle(userId))
+        view.startUserSearchActivity(userId)
     }
 
     fun onAdditionUserLongClick(userId: String, target: View): Boolean {
@@ -140,7 +140,7 @@ class TopPresenter {
     fun onAdditionKeywordClick(keyword: String) {
         val view = view ?: return
         view.closeNavigation()
-        view.startActivity(KeywordSearchActivity::class.java, SearchActivity.buildBundle(keyword))
+        view.startKeywordSearchActivity(keyword)
     }
 
     fun onAdditionKeywordLongClick(keyword: String, target: View): Boolean {

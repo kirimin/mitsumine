@@ -1,10 +1,8 @@
-package me.kirimin.mitsumine.test.network
+package me.kirimin.mitsumine.network
 
 import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
 
 import org.junit.Test
-import org.junit.runner.RunWith
 
 import me.kirimin.mitsumine.common.network.FeedApi
 import me.kirimin.mitsumine.common.domain.enums.Category
@@ -14,7 +12,6 @@ import org.hamcrest.Matchers.not
 import org.junit.Assert.*;
 import rx.observers.TestSubscriber
 
-@RunWith(AndroidJUnit4::class)
 public class FeedApiTest {
 
     @Test

@@ -1,12 +1,8 @@
 package me.kirimin.mitsumine.common.domain.model
 
-import com.activeandroid.Model
-import com.activeandroid.annotation.Column
-import com.activeandroid.annotation.Table
 import me.kirimin.mitsumine.common.network.entity.Item
 
-@Table(name = "feed")
-class Feed() : Model() {
+class Feed() {
 
     constructor(apiData: Item) : this() {
         title = apiData.title
@@ -18,31 +14,22 @@ class Feed() : Model() {
         entryLinkUrl = "http://b.hatena.ne.jp/entry/" + linkUrl
     }
 
-    @Column(name = "title")
     var title: String = ""
 
-    @Column(name = "thumbnailUrl")
     var thumbnailUrl: String = ""
 
-    @Column(name = "content")
     var content: String = ""
 
-    @Column(name = "linkUrl", unique = true)
     var linkUrl: String = ""
 
-    @Column(name = "entryLinkUrl")
     var entryLinkUrl: String = ""
 
-    @Column(name = "bookmarkCountUrl")
     var bookmarkCountUrl: String = ""
 
-    @Column(name = "faviconUrl")
     var faviconUrl: String = ""
 
-    @Column(name = "type")
     var type: String = ""
 
-    @Column(name = "saveTime")
     var saveTime: Long = 0
 
     override fun toString(): String {

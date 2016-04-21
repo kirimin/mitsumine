@@ -1,12 +1,10 @@
-package me.kirimin.mitsumine.test.entryinfo;
+package me.kirimin.mitsumine;
 
 import android.content.Context;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +14,10 @@ import me.kirimin.mitsumine.common.domain.model.EntryInfo;
 import me.kirimin.mitsumine.entryinfo.EntryInfoRepository;
 import me.kirimin.mitsumine.entryinfo.EntryInfoUseCase;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.observers.TestSubscriber;
 
 import static org.mockito.Mockito.*;
 
-@RunWith(AndroidJUnit4.class)
 public class EntryInfoUseCaseTest {
 
     EntryInfoRepository dataMock;
@@ -53,7 +49,7 @@ public class EntryInfoUseCaseTest {
         entryInfos.add(new EntryInfo("test2", 0, "url", "thumUrl", new ArrayList<Bookmark>(), new ArrayList<String>()));
         entryInfos.add(new EntryInfo("empty", 0, "url", "thumUrl", new ArrayList<Bookmark>(), new ArrayList<String>()));
         entryInfos.add(new EntryInfo("test4", 0, "url", "thumUrl", new ArrayList<Bookmark>(), new ArrayList<String>()));
-        when(dataMock.requestEntryInfoApi(any(Context.class), anyString())).thenReturn(Observable.from(entryInfos).observeOn(AndroidSchedulers.mainThread()));
+        when(dataMock.requestEntryInfoApi(any(Context.class), anyString())).thenReturn(Observable.from(entryInfos));
 
         EntryInfoUseCase useCase = new EntryInfoUseCase(dataMock);
         TestSubscriber<EntryInfo> testSubscriber = new TestSubscriber<>();

@@ -1,23 +1,18 @@
-package me.kirimin.mitsumine.test.feed;
-
-import android.support.test.runner.AndroidJUnit4;
+package me.kirimin.mitsumine;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import me.kirimin.mitsumine.feed.FeedUseCase;
 import me.kirimin.mitsumine.common.domain.model.Feed;
 import me.kirimin.mitsumine.feed.FeedPresenter;
+import me.kirimin.mitsumine.feed.FeedUseCase;
 import me.kirimin.mitsumine.feed.FeedView;
 import rx.Observer;
-
 import static org.mockito.Mockito.*;
 
-@RunWith(AndroidJUnit4.class)
 public class FeedPresenterTest {
 
     FeedView viewMock;
