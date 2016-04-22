@@ -25,7 +25,7 @@ public class HatenaOAuth {
     }
 
     public fun requestAuthUrl(): Observable<String> {
-        return Observable.create<String>{ subscriber ->
+        return Observable.create<String> { subscriber ->
             requestToken = oAuthService.requestToken
             subscriber.onNext(oAuthService.getAuthorizationUrl(requestToken))
             subscriber.onCompleted()
@@ -33,7 +33,7 @@ public class HatenaOAuth {
     }
 
     public fun requestUserInfo(pinCode: String): Observable<Account> {
-        return Observable.create<Account>{ subscriber ->
+        return Observable.create<Account> { subscriber ->
             if (requestToken == null) {
                 subscriber.onError(ApiRequestException("Request token is not exist."))
             }
@@ -43,13 +43,12 @@ public class HatenaOAuth {
             oAuthService.signRequest(accessToken, request)
             val response = request.send()
             try {
-                val user = Account()
-                user.token = accessToken.token
-                user.tokenSecret = accessToken.secret
                 val json = JSONObject(response.body)
-                user.urlName = json.getString("url_name")
-                user.displayName = json.getString("display_name")
-                user.imageUrl = json.getString("profile_image_url")
+                val user = Account(token = accessToken.token,
+                        tokenSecret = accessToken.secret,
+                        urlName = json.getString("url_name"),
+                        displayName = json.getString("display_name"),
+                        imageUrl = json.getString("profile_image_url"))
                 subscriber.onNext(user)
                 subscriber.onCompleted()
             } catch (e: JSONException) {

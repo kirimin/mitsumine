@@ -2,56 +2,51 @@ package me.kirimin.mitsumine.top
 
 import android.view.View
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.top.TopUseCase
 import me.kirimin.mitsumine.common.domain.enums.Category
 import me.kirimin.mitsumine.common.domain.enums.Type
-import me.kirimin.mitsumine.top.TopView
-import me.kirimin.mitsumine.login.LoginActivity
-import me.kirimin.mitsumine.feed.read.ReadActivity
-import me.kirimin.mitsumine.setting.SettingActivity
-import me.kirimin.mitsumine.search.KeywordSearchActivity
-import me.kirimin.mitsumine.search.MyBookmarksActivity
-import me.kirimin.mitsumine.search.SearchActivity
-import me.kirimin.mitsumine.search.UserSearchActivity
 
 class TopPresenter {
 
     private var view: TopView? = null
-    private lateinit var useCase: TopUseCase
+    private lateinit var repository: TopRepository
 
-    private var mSelectedType = Type.HOT
-    private var mSelectedCategory = Category.MAIN
+    var selectedType = Type.HOT
+        private set
+    var selectedCategory = Category.MAIN
+        private set
 
-    fun onCreate(topView: TopView, topUseCase: TopUseCase, category: Category = Category.MAIN, type: Type = Type.HOT) {
-        view = topView
-        useCase = topUseCase
-        mSelectedCategory = category
-        mSelectedType = type
+    fun getTypeInt(type: Type) = if (type == Type.HOT) 0 else 1
 
-        topView.initViews()
+    fun onCreate(view: TopView, repository: TopRepository, category: Category = Category.MAIN, type: Type = Type.HOT) {
+        this.view = view
+        this.repository = repository
+        selectedCategory = category
+        selectedType = type
 
-        topView.addNavigationCategoryButton(Category.MAIN)
-        topView.addNavigationCategoryButton(Category.SOCIAL)
-        topView.addNavigationCategoryButton(Category.ECONOMICS)
-        topView.addNavigationCategoryButton(Category.LIFE)
-        topView.addNavigationCategoryButton(Category.KNOWLEDGE)
-        topView.addNavigationCategoryButton(Category.IT)
-        topView.addNavigationCategoryButton(Category.FUN)
-        topView.addNavigationCategoryButton(Category.ENTERTAINMENT)
-        topView.addNavigationCategoryButton(Category.GAME)
+        view.initViews()
+
+        view.addNavigationCategoryButton(Category.MAIN)
+        view.addNavigationCategoryButton(Category.SOCIAL)
+        view.addNavigationCategoryButton(Category.ECONOMICS)
+        view.addNavigationCategoryButton(Category.LIFE)
+        view.addNavigationCategoryButton(Category.KNOWLEDGE)
+        view.addNavigationCategoryButton(Category.IT)
+        view.addNavigationCategoryButton(Category.FUN)
+        view.addNavigationCategoryButton(Category.ENTERTAINMENT)
+        view.addNavigationCategoryButton(Category.GAME)
 
         // 古い既読を削除
-        topUseCase.deleteOldFeedData()
-        topView.refreshShowCategoryAndType(mSelectedCategory, mSelectedType, topUseCase.getTypeInt(mSelectedType))
+        repository.deleteOldFeedData(3)
+        view.refreshShowCategoryAndType(selectedCategory, selectedType)
     }
 
     fun onStart() {
         val view = view ?: return
         view.removeNavigationAdditions()
-        useCase.additionKeywords.forEach { keyword -> view.addAdditionKeyword(keyword) }
-        useCase.additionUsers.forEach { userId -> view.addAdditionUser(userId) }
+        repository.additionKeywords.forEach { keyword -> view.addAdditionKeyword(keyword) }
+        repository.additionUsers.forEach { userId -> view.addAdditionUser(userId) }
 
-        val account = useCase.account
+        val account = repository.account
         if (account != null) {
             view.enableUserInfo(account.displayName, account.imageUrl)
         } else {
@@ -64,10 +59,9 @@ class TopPresenter {
     }
 
     fun onNavigationClick(position: Int): Boolean {
-        val view = view ?: return true
-        view.closeNavigation()
-        mSelectedType = if (position == 0) Type.HOT else Type.NEW
-        view.refreshShowCategoryAndType(mSelectedCategory, mSelectedType, useCase.getTypeInt(mSelectedType))
+        selectedType = if (position == 0) Type.HOT else Type.NEW
+        view?.closeNavigation()
+        view?.refreshShowCategoryAndType(selectedCategory, selectedType)
         return true
     }
 
@@ -89,23 +83,23 @@ class TopPresenter {
         }
     }
 
-    fun onViewClick(id: Int) {
+    fun onNavigationItemClick(id: Int) {
         val view = view ?: return
         when (id) {
             R.id.navigationReadTextView -> {
-                view.startActivity(ReadActivity::class.java)
+                view.startReadActivity()
                 view.closeNavigation()
             }
             R.id.navigationSettingsTextView -> {
-                view.startActivity(SettingActivity::class.java)
+                view.startSettingActivity()
                 view.closeNavigation()
             }
             R.id.navigationKeywordSearchTextView -> {
-                view.startActivity(KeywordSearchActivity::class.java)
+                view.startKeywordSearchActivity()
                 view.closeNavigation()
             }
             R.id.navigationUserSearchTextView -> {
-                view.startActivity(UserSearchActivity::class.java)
+                view.startUserSearchActivity()
                 view.closeNavigation()
             }
             R.id.navigationUserInfoLayout -> {
@@ -113,57 +107,45 @@ class TopPresenter {
                 view.closeNavigation()
             }
             R.id.navigationLoginButton -> {
-                view.startActivity(LoginActivity::class.java)
+                view.startLoginActivity()
+                view.closeNavigation()
             }
         }
     }
 
     fun onCategoryClick(category: Category) {
-        val view = view ?: return
-        view.closeNavigation()
-        view.refreshShowCategoryAndType(category, mSelectedType, useCase.getTypeInt(mSelectedType))
-        mSelectedCategory = category
+        view?.closeNavigation()
+        view?.refreshShowCategoryAndType(category, selectedType)
+        selectedCategory = category
     }
 
     fun onAdditionUserClick(userId: String) {
-        val view = view ?: return
-        view.closeNavigation()
-        view.startUserSearchActivity(userId)
+        view?.closeNavigation()
+        view?.startUserSearchActivity(userId)
     }
 
     fun onAdditionUserLongClick(userId: String, target: View): Boolean {
-        val view = view ?: return false
-        view.showDeleteUserDialog(userId, target)
+        view?.showDeleteUserDialog(userId, target)
         return false
     }
 
     fun onAdditionKeywordClick(keyword: String) {
-        val view = view ?: return
-        view.closeNavigation()
-        view.startKeywordSearchActivity(keyword)
+        view?.closeNavigation()
+        view?.startKeywordSearchActivity(keyword)
     }
 
     fun onAdditionKeywordLongClick(keyword: String, target: View): Boolean {
-        val view = view ?: return false
-        view.showDeleteKeywordDialog(keyword, target)
+        view?.showDeleteKeywordDialog(keyword, target)
         return false
     }
 
     fun onDeleteUserIdDialogClick(word: String, target: View) {
-        useCase.deleteAdditionUser(word)
+        repository.deleteAdditionUser(word)
         target.visibility = View.GONE
     }
 
     fun onDeleteKeywordDialogClick(word: String, target: View) {
-        useCase.deleteAdditionKeyword(word)
+        repository.deleteAdditionKeyword(word)
         target.visibility = View.GONE
-    }
-
-    fun getCurrentType(): Type {
-        return mSelectedType
-    }
-
-    fun getCurrentCategory(): Category {
-        return mSelectedCategory
     }
 }

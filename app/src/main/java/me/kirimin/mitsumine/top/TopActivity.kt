@@ -25,23 +25,22 @@ import com.makeramen.RoundedTransformationBuilder
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_top.*
-import me.kirimin.mitsumine.top.TopRepository
-import me.kirimin.mitsumine.top.TopUseCase
 import me.kirimin.mitsumine.common.domain.enums.Category
 import me.kirimin.mitsumine.common.domain.enums.Type
-import me.kirimin.mitsumine.top.TopPresenter
-import me.kirimin.mitsumine.top.TopView
 import me.kirimin.mitsumine.feed.readlater.ReadLaterActivity
 import me.kirimin.mitsumine.feed.mainfeed.FeedFragment
+import me.kirimin.mitsumine.feed.read.ReadActivity
+import me.kirimin.mitsumine.login.LoginActivity
 import me.kirimin.mitsumine.search.KeywordSearchActivity
 import me.kirimin.mitsumine.search.SearchActivity
 import me.kirimin.mitsumine.search.UserSearchActivity
+import me.kirimin.mitsumine.setting.SettingActivity
 import java.io.Serializable
 
 class TopActivity : AppCompatActivity(), TopView {
 
-    private lateinit var mDrawerToggle: ActionBarDrawerToggle
-    private var presenter: TopPresenter = TopPresenter()
+    private lateinit var drawerToggle: ActionBarDrawerToggle
+    private val presenter: TopPresenter = TopPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,9 +48,9 @@ class TopActivity : AppCompatActivity(), TopView {
         if (savedInstanceState != null) {
             val selectedCategory = savedInstanceState.getSerializable(Category::class.java.canonicalName) as Category
             val selectedType = savedInstanceState.getSerializable(Type::class.java.canonicalName) as Type
-            presenter.onCreate(this, TopUseCase(TopRepository()), selectedCategory, selectedType)
+            presenter.onCreate(this, TopRepository(), selectedCategory, selectedType)
         } else {
-            presenter.onCreate(this, TopUseCase(TopRepository()))
+            presenter.onCreate(this, TopRepository())
         }
     }
 
@@ -67,8 +66,8 @@ class TopActivity : AppCompatActivity(), TopView {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putSerializable(Category::class.java.canonicalName, presenter.getCurrentCategory() as Serializable)
-        outState.putSerializable(Type::class.java.canonicalName, presenter.getCurrentType() as Serializable)
+        outState.putSerializable(Category::class.java.canonicalName, presenter.selectedCategory as Serializable)
+        outState.putSerializable(Type::class.java.canonicalName, presenter.selectedType as Serializable)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -79,9 +78,7 @@ class TopActivity : AppCompatActivity(), TopView {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true
-        }
+        if (drawerToggle.onOptionsItemSelected(item)) return true
 
         if (item.title == getString(R.string.type_read_later)) {
             startActivity(Intent(this, ReadLaterActivity::class.java))
@@ -91,12 +88,12 @@ class TopActivity : AppCompatActivity(), TopView {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        mDrawerToggle.syncState()
+        drawerToggle.syncState()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        mDrawerToggle.onConfigurationChanged(newConfig)
+        drawerToggle.onConfigurationChanged(newConfig)
     }
 
     override fun onBackPressed() {
@@ -118,11 +115,11 @@ class TopActivity : AppCompatActivity(), TopView {
         val adapter = ArrayAdapter(actionBar.themedContext, android.R.layout.simple_list_item_1, data)
         actionBar.setListNavigationCallbacks(adapter, { position, id -> presenter.onNavigationClick(position) })
 
-        mDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.app_name, R.string.app_name)
-        drawerLayout.setDrawerListener(mDrawerToggle)
+        drawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.app_name, R.string.app_name)
+        drawerLayout.setDrawerListener(drawerToggle)
         toolBar.setOnClickListener { presenter.onToolbarClick() }
 
-        val onclickListener = OnClickListener { v -> presenter.onViewClick(v.id) }
+        val onclickListener = OnClickListener { v -> presenter.onNavigationItemClick(v.id) }
         navigationReadTextView.setOnClickListener(onclickListener)
         navigationSettingsTextView.setOnClickListener(onclickListener)
         navigationKeywordSearchTextView.setOnClickListener(onclickListener)
@@ -132,25 +129,17 @@ class TopActivity : AppCompatActivity(), TopView {
     }
 
     override fun addNavigationCategoryButton(category: Category) {
-        val button = makeNavigationButton(getString(category.labelResource), OnClickListener { v -> presenter.onCategoryClick(category) }, null)
+        val button = createNavigationButton(getString(category.labelResource), OnClickListener { v -> presenter.onCategoryClick(category) }, null)
         navigationCategories.addView(button)
     }
 
-    private fun makeNavigationButton(label: String, onClick: OnClickListener, onLongClick: OnLongClickListener?): View {
-        val navigationView = LayoutInflater.from(applicationContext).inflate(R.layout.activity_top_navigation, null)
-        val textView = navigationView.findViewById(R.id.MainNavigationTextView) as TextView
-        textView.text = label
-        textView.setOnClickListener(onClick)
-        textView.setOnLongClickListener(onLongClick)
-        return navigationView
-    }
-
-    override fun refreshShowCategoryAndType(category: Category, type: Type, typeInt: Int) {
+    override fun refreshShowCategoryAndType(category: Category, type: Type) {
         supportActionBar?.setTitle(category.labelResource)
-        supportActionBar?.setSelectedNavigationItem(typeInt)
+        supportActionBar?.setSelectedNavigationItem(presenter.getTypeInt(type))
         supportFragmentManager.beginTransaction()
                 .replace(R.id.containerFrameLayout, FeedFragment.newFragment(category, type))
                 .commit()
+        // 選択中のカテゴリの色を変える
         for (i in 0..navigationCategories.childCount - 1) {
             val categoryButton = navigationCategories.getChildAt(i).findViewById(R.id.MainNavigationTextView) as TextView
             val isSelectedCategory = categoryButton.text == getString(category.labelResource)
@@ -166,13 +155,18 @@ class TopActivity : AppCompatActivity(), TopView {
         drawerLayout.openDrawer(Gravity.LEFT)
     }
 
-    override fun isOpenNavigation(): Boolean {
-        return drawerLayout.isDrawerOpen(Gravity.LEFT)
+    override fun isOpenNavigation(): Boolean = drawerLayout.isDrawerOpen(Gravity.LEFT)
+
+    override fun startReadActivity() {
+        startActivity(Intent(this, ReadActivity::class.java))
     }
 
-    // TODO 分割する
-    override fun startActivity(activityClass: Class<*>) {
-        startActivity(Intent(this, activityClass));
+    override fun startSettingActivity() {
+        startActivity(Intent(this, SettingActivity::class.java))
+    }
+
+    override fun startLoginActivity() {
+        startActivity(Intent(this, LoginActivity::class.java))
     }
 
     override fun startMyBookmarksActivity() {
@@ -209,13 +203,13 @@ class TopActivity : AppCompatActivity(), TopView {
     }
 
     override fun addAdditionKeyword(keyword: String) {
-        navigationAdditions.addView(makeNavigationButton(keyword,
+        navigationAdditions.addView(createNavigationButton(keyword,
                 OnClickListener { presenter.onAdditionKeywordClick(keyword) },
                 OnLongClickListener { v -> presenter.onAdditionKeywordLongClick(keyword, v) }))
     }
 
     override fun addAdditionUser(userId: String) {
-        navigationAdditions.addView(makeNavigationButton(userId,
+        navigationAdditions.addView(createNavigationButton(userId,
                 OnClickListener { presenter.onAdditionUserClick(userId) },
                 OnLongClickListener { v -> presenter.onAdditionUserLongClick(userId, v) }))
     }
@@ -233,5 +227,14 @@ class TopActivity : AppCompatActivity(), TopView {
                 .setPositiveButton(android.R.string.ok, { dialog, id -> presenter.onDeleteKeywordDialogClick(keyword, view) })
                 .setNegativeButton(android.R.string.cancel, null)
                 .create().show()
+    }
+
+    private fun createNavigationButton(label: String, onClick: OnClickListener, onLongClick: OnLongClickListener?): View {
+        val navigationView = LayoutInflater.from(applicationContext).inflate(R.layout.activity_top_navigation, null)
+        val textView = navigationView.findViewById(R.id.MainNavigationTextView) as TextView
+        textView.text = label
+        textView.setOnClickListener(onClick)
+        textView.setOnLongClickListener(onLongClick)
+        return navigationView
     }
 }

@@ -1,6 +1,5 @@
 package me.kirimin.mitsumine.top
 
-import android.os.Bundle
 import android.view.View
 import me.kirimin.mitsumine.common.domain.enums.Category
 import me.kirimin.mitsumine.common.domain.enums.Type
@@ -13,9 +12,7 @@ interface TopView {
 
     fun isOpenNavigation(): Boolean
 
-    fun refreshShowCategoryAndType(category: Category, type: Type, typeInt: Int)
-
-    fun startActivity(activityClass: Class<*>)
+    fun refreshShowCategoryAndType(category: Category, type: Type)
 
     fun backPress()
 
@@ -36,7 +33,16 @@ interface TopView {
     fun showDeleteUserDialog(userId: String, view: View)
 
     fun showDeleteKeywordDialog(keyword: String, view: View)
-    open fun startUserSearchActivity(userId: String = "")
-    open fun startKeywordSearchActivity(keyword: String = "")
-    open fun startMyBookmarksActivity()
+
+    fun startUserSearchActivity(userId: String = "")
+
+    fun startKeywordSearchActivity(keyword: String = "")
+
+    fun startMyBookmarksActivity()
+
+    fun startReadActivity()
+
+    fun startSettingActivity()
+
+    fun startLoginActivity()
 }
