@@ -11,17 +11,11 @@ class EntryInfoPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     private val fragmentList = ArrayList<Fragment>()
     private val titleList = ArrayList<String>()
 
-    override fun getItem(i: Int): Fragment {
-        return fragmentList.get(i)
-    }
+    override fun getItem(i: Int) = fragmentList[i]
 
-    override fun getCount(): Int {
-        return fragmentList.size
-    }
+    override fun getCount() = fragmentList.size
 
-    override fun getPageTitle(position: Int): CharSequence {
-        return titleList.get(position)
-    }
+    override fun getPageTitle(position: Int) = titleList[position]
 
     fun addPage(fragment: Fragment, title: String) {
         fragmentList.add(fragment)

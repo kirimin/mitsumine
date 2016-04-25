@@ -10,29 +10,14 @@ import android.widget.Toast
 import com.squareup.picasso.Picasso
 
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.entryinfo.EntryInfoPagerAdapter
 import me.kirimin.mitsumine.common.domain.model.EntryInfo
-import me.kirimin.mitsumine.entryinfo.EntryInfoPresenter
-import me.kirimin.mitsumine.entryinfo.EntryInfoView
-
-import kotlinx.android.synthetic.main.activity_entry_info.*
-import me.kirimin.mitsumine.entryinfo.EntryInfoRepository
-import me.kirimin.mitsumine.entryinfo.EntryInfoUseCase
 import me.kirimin.mitsumine.common.domain.model.Bookmark
 import me.kirimin.mitsumine.bookmarklist.BookmarkListFragment
 import me.kirimin.mitsumine.registerbookmark.RegisterBookmarkFragment
 
+import kotlinx.android.synthetic.main.activity_entry_info.*
+
 class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
-
-    companion object {
-        val KEY_URL = "url"
-
-        fun buildBundle(url: String): Bundle {
-            val bundle = Bundle()
-            bundle.putString(KEY_URL, url)
-            return bundle
-        }
-    }
 
     private val presenter = EntryInfoPresenter()
     private val adapter = EntryInfoPagerAdapter(supportFragmentManager)
@@ -41,12 +26,8 @@ class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entry_info)
 
-        val url = intent.getStringExtra(KEY_URL)
-        if (url == null) {
-            finish()
-            return
-        }
-        presenter.onCreate(this, EntryInfoUseCase(EntryInfoRepository()), url, applicationContext)
+        val url = intent.getStringExtra(KEY_URL) ?: let { finish(); return }
+        presenter.onCreate(this, EntryInfoRepository(), url, applicationContext)
     }
 
     override fun onDestroy() {
@@ -63,10 +44,10 @@ class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
 
     override fun initActionBar() {
         setSupportActionBar(toolBar as Toolbar)
-        val actionBar = supportActionBar
-        actionBar?.setTitle(R.string.entry_info_title)
-        actionBar?.setDisplayHomeAsUpEnabled(true)
-        actionBar?.setHomeButtonEnabled(true)
+        val actionBar = supportActionBar ?: return
+        actionBar.setTitle(R.string.entry_info_title)
+        actionBar.setDisplayHomeAsUpEnabled(true)
+        actionBar.setHomeButtonEnabled(true)
     }
 
     override fun setBookmarkFragments(allList: List<Bookmark>, hasCommentList: List<Bookmark>) {
@@ -100,4 +81,15 @@ class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
     override fun showNetworkErrorToast() {
         Toast.makeText(applicationContext, R.string.network_error, Toast.LENGTH_SHORT).show()
     }
+
+    companion object {
+        val KEY_URL = "url"
+
+        fun buildBundle(url: String): Bundle {
+            val bundle = Bundle()
+            bundle.putString(KEY_URL, url)
+            return bundle
+        }
+    }
+
 }
