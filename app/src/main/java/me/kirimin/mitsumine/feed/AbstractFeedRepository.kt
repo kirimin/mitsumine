@@ -3,11 +3,11 @@ package me.kirimin.mitsumine.feed
 import android.content.Context
 import android.preference.PreferenceManager
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.common.database.FeedDAO
-import me.kirimin.mitsumine.common.database.NGWordDAO
-import me.kirimin.mitsumine.common.network.BookmarkCountApi
-import me.kirimin.mitsumine.common.network.TagListApi
-import me.kirimin.mitsumine.common.domain.model.Feed
+import me.kirimin.mitsumine._common.database.FeedDAO
+import me.kirimin.mitsumine._common.database.NGWordDAO
+import me.kirimin.mitsumine._common.network.BookmarkCountApi
+import me.kirimin.mitsumine._common.network.TagListApi
+import me.kirimin.mitsumine._common.domain.model.Feed
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers

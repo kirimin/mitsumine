@@ -1,8 +1,8 @@
 package me.kirimin.mitsumine.mybookmark
 
-import me.kirimin.mitsumine.common.database.AccountDAO
-import me.kirimin.mitsumine.common.network.MyBookmarksApi
-import me.kirimin.mitsumine.common.domain.model.MyBookmark
+import me.kirimin.mitsumine._common.database.AccountDAO
+import me.kirimin.mitsumine._common.network.MyBookmarksApi
+import me.kirimin.mitsumine._common.domain.model.MyBookmark
 import rx.Observable
 
 class MyBookmarkSearchRepository {

@@ -7,8 +7,8 @@ import junit.framework.Assert
 import org.junit.Before
 import org.junit.Test
 
-import me.kirimin.mitsumine.common.domain.model.Bookmark
-import me.kirimin.mitsumine.common.domain.model.EntryInfo
+import me.kirimin.mitsumine._common.domain.model.Bookmark
+import me.kirimin.mitsumine._common.domain.model.EntryInfo
 import me.kirimin.mitsumine.entryinfo.EntryInfoPresenter
 import me.kirimin.mitsumine.entryinfo.EntryInfoRepository
 import me.kirimin.mitsumine.entryinfo.EntryInfoView

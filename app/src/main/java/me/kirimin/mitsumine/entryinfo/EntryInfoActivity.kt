@@ -10,8 +10,8 @@ import android.widget.Toast
 import com.squareup.picasso.Picasso
 
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.common.domain.model.EntryInfo
-import me.kirimin.mitsumine.common.domain.model.Bookmark
+import me.kirimin.mitsumine._common.domain.model.EntryInfo
+import me.kirimin.mitsumine._common.domain.model.Bookmark
 import me.kirimin.mitsumine.bookmarklist.BookmarkListFragment
 import me.kirimin.mitsumine.registerbookmark.RegisterBookmarkFragment
 

@@ -1,7 +1,7 @@
 package me.kirimin.mitsumine.feed
 
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.common.domain.model.Feed
+import me.kirimin.mitsumine._common.domain.model.Feed
 import me.kirimin.mitsumine.feed.FeedPagerAdapter.OnSlideListener
 
 import android.content.Context

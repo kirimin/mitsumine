@@ -2,7 +2,7 @@ package me.kirimin.mitsumine.feed.readlater
 
 import me.kirimin.mitsumine.feed.AbstractFeedRepository
 import me.kirimin.mitsumine.feed.read.ReadFeedRepository
-import me.kirimin.mitsumine.common.domain.model.Feed
+import me.kirimin.mitsumine._common.domain.model.Feed
 import me.kirimin.mitsumine.feed.AbstractFeedFragment
 
 class ReadLaterFeedFragment : AbstractFeedFragment() {

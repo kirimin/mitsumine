@@ -19,7 +19,7 @@ import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchAdapter
 import kotlinx.android.synthetic.main.fragment_my_bookmarks.view.*
 import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchRepository
 import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchUseCase
-import me.kirimin.mitsumine.common.domain.model.MyBookmark
+import me.kirimin.mitsumine._common.domain.model.MyBookmark
 import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchPresenter
 import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchView
 

@@ -1,9 +1,9 @@
 package me.kirimin.mitsumine.entryinfo
 
 import android.content.Context
-import me.kirimin.mitsumine.common.database.AccountDAO
-import me.kirimin.mitsumine.common.network.EntryInfoApi
-import me.kirimin.mitsumine.common.domain.model.EntryInfo
+import me.kirimin.mitsumine._common.database.AccountDAO
+import me.kirimin.mitsumine._common.network.EntryInfoApi
+import me.kirimin.mitsumine._common.domain.model.EntryInfo
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers

@@ -9,9 +9,9 @@ import org.junit.Test
 
 import java.util.ArrayList
 
-import me.kirimin.mitsumine.common.domain.enums.Category
-import me.kirimin.mitsumine.common.domain.enums.Type
-import me.kirimin.mitsumine.common.domain.model.Account
+import me.kirimin.mitsumine._common.domain.enums.Category
+import me.kirimin.mitsumine._common.domain.enums.Type
+import me.kirimin.mitsumine._common.domain.model.Account
 import me.kirimin.mitsumine.top.TopRepository
 import me.kirimin.mitsumine.top.TopPresenter
 import me.kirimin.mitsumine.top.TopView

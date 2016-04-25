@@ -1,6 +1,6 @@
 package me.kirimin.mitsumine.bookmarklist
 
-import me.kirimin.mitsumine.common.domain.model.Bookmark
+import me.kirimin.mitsumine._common.domain.model.Bookmark
 
 interface BookmarkListView {
 

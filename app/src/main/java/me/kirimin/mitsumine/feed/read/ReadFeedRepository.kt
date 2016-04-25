@@ -1,8 +1,8 @@
 package me.kirimin.mitsumine.feed.read
 
 import android.content.Context
-import me.kirimin.mitsumine.common.database.FeedDAO
-import me.kirimin.mitsumine.common.domain.model.Feed
+import me.kirimin.mitsumine._common.database.FeedDAO
+import me.kirimin.mitsumine._common.domain.model.Feed
 import me.kirimin.mitsumine.feed.AbstractFeedRepository
 import rx.Observable
 

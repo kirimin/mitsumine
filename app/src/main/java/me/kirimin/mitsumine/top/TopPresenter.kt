@@ -1,9 +1,10 @@
 package me.kirimin.mitsumine.top
 
+import android.util.Log
 import android.view.View
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.common.domain.enums.Category
-import me.kirimin.mitsumine.common.domain.enums.Type
+import me.kirimin.mitsumine._common.domain.enums.Category
+import me.kirimin.mitsumine._common.domain.enums.Type
 
 class TopPresenter {
 
@@ -45,7 +46,6 @@ class TopPresenter {
         view.removeNavigationAdditions()
         repository.additionKeywords.forEach { keyword -> view.addAdditionKeyword(keyword) }
         repository.additionUsers.forEach { userId -> view.addAdditionUser(userId) }
-
         val account = repository.account
         if (account != null) {
             view.enableUserInfo(account.displayName, account.imageUrl)

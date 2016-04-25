@@ -6,17 +6,17 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
-import me.kirimin.mitsumine.about.AboutPresenter
-import me.kirimin.mitsumine.about.AboutView
 
-public class AboutActivity : AppCompatActivity(), AboutView {
-
-    val presenter = AboutPresenter()
+class AboutActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
-        presenter.onCreate(this)
+        setSupportActionBar(findViewById(R.id.tool_bar) as Toolbar)
+        val actionBar = supportActionBar ?: return
+        actionBar.setTitle(R.string.about_title)
+        actionBar.setDisplayHomeAsUpEnabled(true)
+        actionBar.setHomeButtonEnabled(true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -24,13 +24,5 @@ public class AboutActivity : AppCompatActivity(), AboutView {
             finish()
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun initViews() {
-        setSupportActionBar(findViewById(R.id.tool_bar) as Toolbar)
-        val actionBar = supportActionBar
-        actionBar?.setTitle(R.string.about_title)
-        actionBar?.setDisplayHomeAsUpEnabled(true)
-        actionBar?.setHomeButtonEnabled(true)
     }
 }

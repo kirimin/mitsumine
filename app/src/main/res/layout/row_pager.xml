@@ -9,6 +9,6 @@
         android:id="@+id/FeedFragmentViewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        class="me.kirimin.mitsumine.common.widget.WrapContentHeightViewPager"/>
+        class="me.kirimin.mitsumine._common.widget.WrapContentHeightViewPager"/>
 
 </LinearLayout>

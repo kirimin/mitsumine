@@ -14,9 +14,9 @@ import com.makeramen.RoundedTransformationBuilder
 import com.squareup.picasso.Picasso
 
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.common.domain.model.Bookmark
+import me.kirimin.mitsumine._common.domain.model.Bookmark
 import me.kirimin.mitsumine.bookmarklist.BookmarkListPresenter
-import me.kirimin.mitsumine.common.widget.IfNeededLinkMovementMethod
+import me.kirimin.mitsumine._common.widget.IfNeededLinkMovementMethod
 
 class BookmarkListAdapter(activity: Activity, val presenter: BookmarkListPresenter) : ArrayAdapter<Bookmark>(activity, 0) {
 

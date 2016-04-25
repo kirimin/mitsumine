@@ -3,8 +3,8 @@ package me.kirimin.mitsumine.feed.mainfeed
 import android.os.Bundle
 
 import me.kirimin.mitsumine.feed.mainfeed.FeedRepository
-import me.kirimin.mitsumine.common.domain.enums.Category
-import me.kirimin.mitsumine.common.domain.enums.Type
+import me.kirimin.mitsumine._common.domain.enums.Category
+import me.kirimin.mitsumine._common.domain.enums.Type
 import me.kirimin.mitsumine.feed.AbstractFeedFragment
 import java.io.Serializable
 

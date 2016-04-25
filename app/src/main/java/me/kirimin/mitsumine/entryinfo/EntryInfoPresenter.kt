@@ -1,7 +1,7 @@
 package me.kirimin.mitsumine.entryinfo
 
 import android.content.Context
-import me.kirimin.mitsumine.common.domain.model.EntryInfo
+import me.kirimin.mitsumine._common.domain.model.EntryInfo
 import rx.Subscriber
 import rx.subscriptions.CompositeSubscription
 

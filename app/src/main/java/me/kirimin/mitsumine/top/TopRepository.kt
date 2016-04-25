@@ -1,10 +1,10 @@
 package me.kirimin.mitsumine.top
 
-import me.kirimin.mitsumine.common.database.AccountDAO
-import me.kirimin.mitsumine.common.database.FeedDAO
-import me.kirimin.mitsumine.common.database.KeywordDAO
-import me.kirimin.mitsumine.common.database.UserIdDAO
-import me.kirimin.mitsumine.common.domain.model.Account
+import me.kirimin.mitsumine._common.database.AccountDAO
+import me.kirimin.mitsumine._common.database.FeedDAO
+import me.kirimin.mitsumine._common.database.KeywordDAO
+import me.kirimin.mitsumine._common.database.UserIdDAO
+import me.kirimin.mitsumine._common.domain.model.Account
 
 open class TopRepository {
 

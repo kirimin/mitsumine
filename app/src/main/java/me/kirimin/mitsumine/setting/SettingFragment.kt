@@ -7,8 +7,8 @@ import android.preference.PreferenceFragment
 import android.widget.EditText
 import android.widget.Toast
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.common.database.AccountDAO
-import me.kirimin.mitsumine.common.database.NGWordDAO
+import me.kirimin.mitsumine._common.database.AccountDAO
+import me.kirimin.mitsumine._common.database.NGWordDAO
 import me.kirimin.mitsumine.about.AboutActivity
 
 class SettingFragment : PreferenceFragment() {

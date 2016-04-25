@@ -25,8 +25,8 @@ import com.makeramen.RoundedTransformationBuilder
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_top.*
-import me.kirimin.mitsumine.common.domain.enums.Category
-import me.kirimin.mitsumine.common.domain.enums.Type
+import me.kirimin.mitsumine._common.domain.enums.Category
+import me.kirimin.mitsumine._common.domain.enums.Type
 import me.kirimin.mitsumine.feed.readlater.ReadLaterActivity
 import me.kirimin.mitsumine.feed.mainfeed.FeedFragment
 import me.kirimin.mitsumine.feed.read.ReadActivity
@@ -34,6 +34,7 @@ import me.kirimin.mitsumine.login.LoginActivity
 import me.kirimin.mitsumine.feed.keyword.KeywordSearchActivity
 import me.kirimin.mitsumine.search.AbstractSearchActivity
 import me.kirimin.mitsumine.feed.user.UserSearchActivity
+import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchActivity
 import me.kirimin.mitsumine.setting.SettingActivity
 import java.io.Serializable
 
@@ -170,7 +171,7 @@ class TopActivity : AppCompatActivity(), TopView {
     }
 
     override fun startMyBookmarksActivity() {
-        val intent = Intent(this, UserSearchActivity::class.java)
+        val intent = Intent(this, MyBookmarkSearchActivity::class.java)
         startActivity(intent.putExtras(AbstractSearchActivity.buildBundle("", false)))
     }
 

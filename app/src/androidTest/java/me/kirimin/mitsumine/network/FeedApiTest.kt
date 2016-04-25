@@ -4,9 +4,9 @@ import android.support.test.InstrumentationRegistry
 
 import org.junit.Test
 
-import me.kirimin.mitsumine.common.network.FeedApi
-import me.kirimin.mitsumine.common.domain.enums.Category
-import me.kirimin.mitsumine.common.domain.enums.Type
+import me.kirimin.mitsumine._common.network.FeedApi
+import me.kirimin.mitsumine._common.domain.enums.Category
+import me.kirimin.mitsumine._common.domain.enums.Type
 
 import org.hamcrest.Matchers.not
 import org.junit.Assert.*;

@@ -6,7 +6,7 @@ import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Before
 import org.junit.Test
 
-import me.kirimin.mitsumine.common.domain.model.Feed
+import me.kirimin.mitsumine._common.domain.model.Feed
 import me.kirimin.mitsumine.feed.AbstractFeedRepository
 import me.kirimin.mitsumine.feed.FeedPresenter
 import me.kirimin.mitsumine.feed.FeedView

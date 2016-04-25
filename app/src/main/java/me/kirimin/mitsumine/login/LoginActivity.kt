@@ -8,8 +8,8 @@ import android.view.MenuItem
 import android.widget.Toast
 
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.common.database.AccountDAO
-import me.kirimin.mitsumine.common.network.oauth.HatenaOAuth
+import me.kirimin.mitsumine._common.database.AccountDAO
+import me.kirimin.mitsumine._common.network.oauth.HatenaOAuth
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription

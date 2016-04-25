@@ -1,7 +1,7 @@
 package me.kirimin.mitsumine.feed.keyword
 
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.common.database.KeywordDAO
+import me.kirimin.mitsumine._common.database.KeywordDAO
 import me.kirimin.mitsumine.feed.AbstractFeedFragment
 import me.kirimin.mitsumine.feed.keyword.KeywordSearchFragment
 import android.widget.Toast

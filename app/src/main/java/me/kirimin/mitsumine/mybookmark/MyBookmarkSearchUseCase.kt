@@ -1,7 +1,7 @@
 package me.kirimin.mitsumine.mybookmark
 
 import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchRepository
-import me.kirimin.mitsumine.common.domain.model.MyBookmark
+import me.kirimin.mitsumine._common.domain.model.MyBookmark
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers

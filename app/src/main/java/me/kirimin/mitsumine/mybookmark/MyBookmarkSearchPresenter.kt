@@ -1,7 +1,7 @@
 package me.kirimin.mitsumine.mybookmark
 
 import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchUseCase
-import me.kirimin.mitsumine.common.domain.model.MyBookmark
+import me.kirimin.mitsumine._common.domain.model.MyBookmark
 import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchView
 import rx.Observer
 

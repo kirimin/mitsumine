@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.common.domain.model.Bookmark
+import me.kirimin.mitsumine._common.domain.model.Bookmark
 import me.kirimin.mitsumine.search.AbstractSearchActivity
 import me.kirimin.mitsumine.feed.user.UserSearchActivity
 

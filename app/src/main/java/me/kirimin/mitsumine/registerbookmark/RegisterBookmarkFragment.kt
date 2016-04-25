@@ -2,121 +2,115 @@ package me.kirimin.mitsumine.registerbookmark
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import kotlinx.android.synthetic.main.fragment_register_bookmark.*
 
 import java.util.ArrayList
 
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.common.database.AccountDAO
-import me.kirimin.mitsumine.common.network.BookmarkApi
-import rx.android.schedulers.AndroidSchedulers
-import rx.android.widget.WidgetObservable
-import rx.schedulers.Schedulers
-import rx.subscriptions.CompositeSubscription
+import me.kirimin.mitsumine._common.domain.model.Bookmark
 
-import kotlinx.android.synthetic.main.fragment_register_bookmark.view.*
-import me.kirimin.mitsumine.registerbookmark.TagEditDialogFragment
+class RegisterBookmarkFragment : RegisterBookmarkView, Fragment(), TagEditDialogFragment.OnOkClickListener {
 
-class RegisterBookmarkFragment : Fragment(), TagEditDialogFragment.OnOkClickListener {
+    private val presenter = RegisterBookmarkPresenter()
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return inflater.inflate(R.layout.fragment_register_bookmark, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val url = arguments.getString("url") ?: throw IllegalStateException("url is null")
+        presenter.onCreate(this, RegisterBookmarkRepository(), url)
+    }
+
+    override fun initView() {
+        cardView.visibility = View.INVISIBLE
+        registerButton.setOnClickListener { presenter.onRegisterButtonClick() }
+        deleteButton.setOnClickListener { presenter.onDeleteButtonClick() }
+        tagEditButton.setOnClickListener { presenter.onTagEditButtonClick() }
+        commentEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                presenter.onCommentEditTextChanged(s.toString())
+            }
+        })
+    }
+
+    override fun onDestroy() {
+        presenter.onDestroy()
+        super.onDestroy()
+    }
+
+    override fun onOkClick(tags: ArrayList<String>) {
+        tagListText.text = TextUtils.join(", ", tags)
+    }
+
+    override fun showViewWithoutBookmarkInfo() {
+        cardView.visibility = View.VISIBLE
+        deleteButton.isEnabled = false
+        registerButton.isEnabled = true
+        registerButton.text = getString(R.string.register_bookmark_resister)
+    }
+
+    override fun showViewWithBookmarkInfo(bookmark: Bookmark) {
+        cardView.visibility = View.VISIBLE
+        deleteButton.isEnabled = true
+        registerButton.isEnabled = true
+        registerButton.text = getString(R.string.register_bookmark_edit)
+        commentEditText.setText(bookmark.comment)
+        tagListText.text = TextUtils.join(", ", bookmark.tags)
+        privateCheckBox.isChecked = bookmark.isPrivate()
+    }
+
+    override fun showErrorToast() {
+        Toast.makeText(activity, R.string.network_error, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showDeletedToast() {
+        Toast.makeText(activity, R.string.register_bookmark_delete_success, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showRegisterToast() {
+        Toast.makeText(activity, R.string.register_bookmark_register_success, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showTagEditDialog(tags: ArrayList<String>) {
+        TagEditDialogFragment.newInstance(tags, this).show(fragmentManager, null)
+    }
+
+    override fun disableButtons() {
+        registerButton.isEnabled = false
+        deleteButton.isEnabled = false
+    }
+
+    override fun updateCommentCount(length: Int) {
+        commentCountTextView.text = getString(R.string.register_bookmark_limit, length)
+    }
+
+    override fun getViewStatus() = Triple(commentEditText.text.toString(), privateCheckBox.isChecked, postTwitterCheckBox.isChecked)
+
+    override fun getTagsText() = tagListText.text.toString()
 
     companion object {
 
-        public fun newFragment(url: String): RegisterBookmarkFragment {
+        fun newFragment(url: String): RegisterBookmarkFragment {
             val fragment = RegisterBookmarkFragment()
             val bundle = Bundle()
             bundle.putString("url", url)
             fragment.arguments = bundle
             return fragment
         }
-    }
-
-    private var isAlreadyBookmarked: Boolean = false
-    private var tags = ArrayList<String>()
-    private val subscriptions = CompositeSubscription()
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val url = arguments.getString("url") ?: throw IllegalStateException("url is null")
-        val rootView = inflater.inflate(R.layout.fragment_register_bookmark, container, false)
-        rootView.cardView.visibility = View.INVISIBLE
-        subscriptions.add(BookmarkApi.requestBookmarkInfo(url, AccountDAO.get()!!)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ bookmark ->
-                    rootView.cardView.visibility = View.VISIBLE
-                    changeBookmarkStatus(bookmark != null)
-                    if (bookmark == null) {
-                        rootView.commentEditText.setText("")
-                    } else {
-                        tags = ArrayList(bookmark.tags)
-                        rootView.commentEditText.setText(bookmark.comment)
-                        rootView.tagListText.text = TextUtils.join(", ", tags)
-                        rootView.privateCheckBox.isChecked = bookmark.isPrivate()
-                    }
-                }, { e -> Toast.makeText(activity, R.string.network_error, Toast.LENGTH_SHORT).show() }))
-
-        rootView.registerButton.setOnClickListener {
-            rootView.registerButton.isEnabled = false
-            rootView.deleteButton.isEnabled = false
-            val comment = rootView.commentEditText.text.toString()
-            val isPrivate = rootView.privateCheckBox.isChecked
-            val isTwitter = rootView.postTwitterCheckBox.isChecked
-            subscriptions.add(BookmarkApi.requestAddBookmark(url, AccountDAO.get()!!, comment, tags, isPrivate, isTwitter)
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ bookmark ->
-                        Toast.makeText(activity,
-                                if (isAlreadyBookmarked) R.string.register_bookmark_edit_success else R.string.register_bookmark_register_success,
-                                Toast.LENGTH_SHORT).show()
-                        changeBookmarkStatus(true)
-                        rootView.registerButton.isEnabled = true
-                        rootView.deleteButton.isEnabled = true
-                    }, { e ->
-                        rootView.registerButton.isEnabled = true
-                        rootView.deleteButton.isEnabled = true
-                        Toast.makeText(activity, R.string.network_error, Toast.LENGTH_SHORT).show()
-                    }))
-        }
-        rootView.deleteButton.setOnClickListener {
-            rootView.deleteButton.isEnabled = false
-            subscriptions.add(BookmarkApi.requestDeleteBookmark(url, AccountDAO.get()!!)
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        changeBookmarkStatus(false)
-                        Toast.makeText(activity, R.string.register_bookmark_delete_success, Toast.LENGTH_SHORT).show()
-                    }, { e ->
-                        rootView.deleteButton.setEnabled(true)
-                        Toast.makeText(activity, R.string.network_error, Toast.LENGTH_SHORT).show()
-                    }))
-        }
-        WidgetObservable.text(rootView.commentEditText)
-                .map { event -> event.text().length }
-                .subscribe { i -> rootView.commentCountTextView.text = getString(R.string.register_bookmark_limit, i) }
-        rootView.tagEditButton.setOnClickListener {
-            TagEditDialogFragment.newInstance(tags, this).show(fragmentManager, null)
-        }
-        return rootView
-    }
-
-    override fun onDestroy() {
-        subscriptions.unsubscribe()
-        super.onDestroy()
-    }
-
-    override fun onOkClick(tags: ArrayList<String>) {
-        val view = view ?: return
-        this.tags = tags
-        view.tagListText.text = TextUtils.join(", ", tags)
-    }
-
-    private fun changeBookmarkStatus(isAlreadyBookmarked: Boolean) {
-        val view = view ?: return
-        this.isAlreadyBookmarked = isAlreadyBookmarked
-        view.deleteButton.isEnabled = isAlreadyBookmarked
-        view.registerButton.text = getString(if (isAlreadyBookmarked) R.string.register_bookmark_edit else R.string.register_bookmark_resister)
     }
 }

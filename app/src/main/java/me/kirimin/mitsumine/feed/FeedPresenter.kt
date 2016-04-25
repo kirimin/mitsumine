@@ -1,7 +1,7 @@
 package me.kirimin.mitsumine.feed
 
-import me.kirimin.mitsumine.common.domain.model.Feed
-import me.kirimin.mitsumine.common.domain.util.FeedUtil
+import me.kirimin.mitsumine._common.domain.model.Feed
+import me.kirimin.mitsumine._common.domain.util.FeedUtil
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
