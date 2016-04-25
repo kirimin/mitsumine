@@ -2,7 +2,15 @@ package me.kirimin.mitsumine.common.domain.model
 
 import me.kirimin.mitsumine.common.network.entity.Item
 
-class Feed() {
+class Feed(var title: String = "",
+           var thumbnailUrl: String = "",
+           var content: String = "",
+           var linkUrl: String = "",
+           var entryLinkUrl: String = "",
+           var bookmarkCountUrl: String = "",
+           var faviconUrl: String = "",
+           var type: String = "",
+           var saveTime: Long = 0) {
 
     constructor(apiData: Item) : this() {
         title = apiData.title
@@ -13,24 +21,6 @@ class Feed() {
         faviconUrl = "http://cdn-ak.favicon.st-hatena.com/?url=" + linkUrl
         entryLinkUrl = "http://b.hatena.ne.jp/entry/" + linkUrl
     }
-
-    var title: String = ""
-
-    var thumbnailUrl: String = ""
-
-    var content: String = ""
-
-    var linkUrl: String = ""
-
-    var entryLinkUrl: String = ""
-
-    var bookmarkCountUrl: String = ""
-
-    var faviconUrl: String = ""
-
-    var type: String = ""
-
-    var saveTime: Long = 0
 
     override fun toString(): String {
         return StringBuilder().append("title:").append(title).append(" type:").append(type).toString()

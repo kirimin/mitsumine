@@ -2,7 +2,7 @@ package me.kirimin.mitsumine.mybookmark
 
 import me.kirimin.mitsumine.common.domain.model.MyBookmark
 
-interface MyBookmarksView {
+interface MyBookmarkSearchView {
     fun initViews()
     fun showRefreshing()
     fun addListViewItem(myBookmarks: List<MyBookmark>)

@@ -13,12 +13,5 @@ import rx.Observable
 
 class FeedRepository(context: Context, val category: Category, val type: Type) : AbstractFeedRepository(context) {
 
-    override fun requestFeed(): Observable<Feed> = FeedApi.requestCategory(context, category, type)
-            .filter { feed -> !FeedUtil.contains(feed, readFeedList) && !FeedUtil.containsWord(feed, ngWordList) }
-
-    val readFeedList: List<Feed>
-        get() = FeedDAO.findAll()
-
-    val ngWordList: List<String>
-        get() = NGWordDAO.findAll()
+    override fun getObservable(): Observable<Feed> = FeedApi.requestCategory(context, category, type)
 }

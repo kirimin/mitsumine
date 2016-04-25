@@ -1,18 +1,18 @@
 package me.kirimin.mitsumine.mybookmark
 
-import me.kirimin.mitsumine.mybookmark.MyBookmarksUseCase
+import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchUseCase
 import me.kirimin.mitsumine.common.domain.model.MyBookmark
-import me.kirimin.mitsumine.mybookmark.MyBookmarksView
+import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchView
 import rx.Observer
 
-class MyBookmarksPresenter : Observer<List<MyBookmark>> {
+class MyBookmarkSearchPresenter : Observer<List<MyBookmark>> {
 
-    private var view: MyBookmarksView? = null
-    private var useCase: MyBookmarksUseCase? = null
+    private var view: MyBookmarkSearchView? = null
+    private var useCase: MyBookmarkSearchUseCase? = null
 
     private var keyword: String? = null
 
-    fun onCreate(myBookmarksView: MyBookmarksView, myBookmarksUseCase: MyBookmarksUseCase, keyword: String) {
+    fun onCreate(myBookmarksView: MyBookmarkSearchView, myBookmarksUseCase: MyBookmarkSearchUseCase, keyword: String) {
         view = myBookmarksView
         useCase = myBookmarksUseCase
         this.keyword = keyword

@@ -14,17 +14,23 @@ import android.view.inputmethod.InputMethodManager
 
 import kotlinx.android.synthetic.main.activity_common_container.*
 
-abstract class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
+/**
+ * 検索UIを持った画面の共通親Activity
+ */
+abstract class AbstractSearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
 
     private lateinit var mSearchItem: MenuItem
     private lateinit var mSearchView: SearchView
     private var mQueryStr = ""
     private var mIsShowFavorite = true
 
+    /** インスンタンス生成 */
     abstract fun newFragment(keyword: String): Fragment
 
+    /** 保存ボタン押下時の挙動 */
     abstract fun doFavorite()
 
+    /** 初期表示される画面タイトル */
     abstract fun getSearchTitle(): String
 
     override fun onCreate(savedInstanceState: Bundle?) {

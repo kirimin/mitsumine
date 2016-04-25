@@ -1,37 +1,43 @@
 package me.kirimin.mitsumine.feed
 
-import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.common.domain.model.Feed
+import me.kirimin.mitsumine.common.domain.util.FeedUtil
 import rx.Subscriber
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
+import rx.subscriptions.CompositeSubscription
 
 class FeedPresenter : Subscriber<List<Feed>>() {
 
-    private var view: FeedView? = null
-    private lateinit var useCase: FeedUseCase
+    private val subscriptions = CompositeSubscription()
 
-    fun onCreate(feedView: FeedView, feedUseCase: FeedUseCase) {
+    private var view: FeedView? = null
+    private lateinit var repository: AbstractFeedRepository
+
+    fun onCreate(feedView: FeedView, repository: AbstractFeedRepository) {
         this.view = feedView
-        this.useCase = feedUseCase
+        this.repository = repository
 
         feedView.initViews()
         feedView.showRefreshing()
-        feedUseCase.requestFeed(this)
+        requestFeed()
     }
 
     fun onDestroy() {
         view = null
-        useCase.unSubscribe()
+        subscriptions.unsubscribe()
     }
 
     fun onRefresh() {
         val view = view ?: return
         view.clearAllItem()
         view.showRefreshing()
-        useCase.requestFeed(this)
+        requestFeed()
     }
 
     override fun onNext(feedList: List<Feed>) {
-        view?.setFeed(feedList)
+        view?.setFeed(feedList.filter { feed -> !FeedUtil.contains(feed, repository.readFeedList) && !FeedUtil.containsWord(feed, repository.ngWordList) })
+        view?.dismissRefreshing()
     }
 
     override fun onError(e: Throwable?) {
@@ -39,46 +45,6 @@ class FeedPresenter : Subscriber<List<Feed>>() {
     }
 
     override fun onCompleted() {
-        view?.dismissRefreshing()
-    }
-
-    fun onClick(viewId: Int, feed: Feed) {
-        val view = view ?: return
-        when (viewId) {
-            R.id.card_view -> {
-                view.sendUrlIntent(feed.linkUrl)
-            }
-            R.id.FeedFragmentImageViewShare -> {
-                if (useCase.isShareWithTitleSettingEnable()) {
-                    view.sendShareUrlWithTitleIntent(feed.title, feed.linkUrl)
-                } else {
-                    view.sendShareUrlIntent(feed.title, feed.linkUrl)
-                }
-            }
-        }
-    }
-
-    fun onLongClick(viewId: Int, feed: Feed): Boolean {
-        val view = view ?: return false
-        when (viewId) {
-            R.id.card_view -> {
-                if (useCase.isUseBrowserSettingEnable()) {
-                    view.sendUrlIntent(feed.entryLinkUrl)
-                } else {
-                    view.startEntryInfoView(feed.linkUrl)
-                }
-                return true
-            }
-            R.id.FeedFragmentImageViewShare -> {
-                if (useCase.isShareWithTitleSettingEnable()) {
-                    view.sendShareUrlIntent(feed.title, feed.linkUrl)
-                } else {
-                    view.sendShareUrlWithTitleIntent(feed.title, feed.linkUrl)
-                }
-                return true
-            }
-        }
-        return false
     }
 
     fun onItemClick(feed: Feed) {
@@ -87,7 +53,7 @@ class FeedPresenter : Subscriber<List<Feed>>() {
 
     fun onItemLongClick(feed: Feed) {
         val view = view ?: return
-        if (useCase.isUseBrowserSettingEnable()) {
+        if (repository.isUseBrowserSettingEnable) {
             view.sendUrlIntent(feed.entryLinkUrl)
         } else {
             view.startEntryInfoView(feed.linkUrl)
@@ -96,7 +62,7 @@ class FeedPresenter : Subscriber<List<Feed>>() {
 
     fun onFeedShareClick(feed: Feed) {
         val view = view ?: return
-        if (useCase.isShareWithTitleSettingEnable()) {
+        if (repository.isShareWithTitleSettingEnable) {
             view.sendShareUrlWithTitleIntent(feed.title, feed.linkUrl)
         } else {
             view.sendShareUrlIntent(feed.title, feed.linkUrl)
@@ -105,7 +71,7 @@ class FeedPresenter : Subscriber<List<Feed>>() {
 
     fun onFeedShareLongClick(feed: Feed) {
         val view = view ?: return
-        if (useCase.isShareWithTitleSettingEnable()) {
+        if (repository.isShareWithTitleSettingEnable) {
             view.sendShareUrlIntent(feed.title, feed.linkUrl)
         } else {
             view.sendShareUrlWithTitleIntent(feed.title, feed.linkUrl)
@@ -114,7 +80,8 @@ class FeedPresenter : Subscriber<List<Feed>>() {
 
     fun onFeedLeftSlide(holder: FeedAdapter.ViewHolder, feed: Feed, useReadLater: Boolean) {
         val view = view ?: return
-        useCase.saveFeed(feed, Feed.TYPE_READ)
+        feed.type = Feed.TYPE_READ
+        repository.saveFeed(feed)
         if (useReadLater) {
             view.setListViewCellPagerPosition(holder, 1)
         } else {
@@ -125,7 +92,8 @@ class FeedPresenter : Subscriber<List<Feed>>() {
 
     fun onFeedRightSlide(holder: FeedAdapter.ViewHolder, feed: Feed) {
         val view = view ?: return
-        useCase.saveFeed(feed, Feed.TYPE_READ_LATER)
+        feed.type = Feed.TYPE_READ_LATER
+        repository.saveFeed(feed)
         view.setListViewCellPagerPosition(holder, 1)
         view.removeItem(feed)
     }
@@ -140,27 +108,40 @@ class FeedPresenter : Subscriber<List<Feed>>() {
             view.loadFaviconImage(holder, item.faviconUrl)
         }
 
-        holder.tags.tag = useCase.requestTagList(object : Subscriber<String>() {
-            override fun onNext(tags: String) {
-                view.setTagList(holder, tags)
-            }
+        holder.tags.tag = repository.requestTagList(item.linkUrl)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map { it.joinToString(", ") }
+                .subscribe(object : Subscriber<String>() {
+                    override fun onNext(tags: String) {
+                        view.setTagList(holder, tags)
+                    }
 
-            override fun onError(e: Throwable) {
-            }
+                    override fun onError(e: Throwable) {
+                    }
 
-            override fun onCompleted() {
-            }
-        }, item.linkUrl)
-        holder.tags.tag = useCase.requestBookmarkCount(object : Subscriber<String>() {
-            override fun onNext(count: String) {
-                view.setBookmarkCount(holder, count)
-            }
+                    override fun onCompleted() {
+                    }
+                })
+        holder.tags.tag = repository.requestBookmarkCount(item.linkUrl)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Subscriber<String>() {
+                    override fun onNext(count: String) {
+                        view.setBookmarkCount(holder, count)
+                    }
 
-            override fun onError(e: Throwable) {
-            }
+                    override fun onError(e: Throwable) {
+                    }
 
-            override fun onCompleted() {
-            }
-        }, item.linkUrl)
+                    override fun onCompleted() {
+                    }
+                })
+    }
+
+    private fun requestFeed() {
+        subscriptions.add(repository.requestFeed()
+                .toList()
+                .subscribe(this))
     }
 }

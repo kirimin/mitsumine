@@ -14,20 +14,20 @@ import android.widget.Toast
 
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.entryinfo.EntryInfoActivity
-import me.kirimin.mitsumine.mybookmark.MyBookmarksAdapter
+import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchAdapter
 
 import kotlinx.android.synthetic.main.fragment_my_bookmarks.view.*
-import me.kirimin.mitsumine.mybookmark.MyBookmarksRepository
-import me.kirimin.mitsumine.mybookmark.MyBookmarksUseCase
+import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchRepository
+import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchUseCase
 import me.kirimin.mitsumine.common.domain.model.MyBookmark
-import me.kirimin.mitsumine.mybookmark.MyBookmarksPresenter
-import me.kirimin.mitsumine.mybookmark.MyBookmarksView
+import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchPresenter
+import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchView
 
-class MyBookmarksFragment : Fragment(), MyBookmarksView, SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
+class MyBookmarkSearchFragment : Fragment(), MyBookmarkSearchView, SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
 
     companion object {
-        public fun newFragment(keyword: String): MyBookmarksFragment {
-            val fragment = MyBookmarksFragment()
+        public fun newFragment(keyword: String): MyBookmarkSearchFragment {
+            val fragment = MyBookmarkSearchFragment()
             val bundle = Bundle()
             bundle.putString("keyword", keyword)
             fragment.arguments = bundle
@@ -35,9 +35,9 @@ class MyBookmarksFragment : Fragment(), MyBookmarksView, SwipeRefreshLayout.OnRe
         }
     }
 
-    private val presenter = MyBookmarksPresenter()
+    private val presenter = MyBookmarkSearchPresenter()
 
-    private var adapter: MyBookmarksAdapter? = null
+    private var adapter: MyBookmarkSearchAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_my_bookmarks, container, false)
@@ -45,7 +45,7 @@ class MyBookmarksFragment : Fragment(), MyBookmarksView, SwipeRefreshLayout.OnRe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.onCreate(this, MyBookmarksUseCase(MyBookmarksRepository()), arguments.getString("keyword"))
+        presenter.onCreate(this, MyBookmarkSearchUseCase(MyBookmarkSearchRepository()), arguments.getString("keyword"))
     }
 
     override fun onDestroyView() {
@@ -70,7 +70,7 @@ class MyBookmarksFragment : Fragment(), MyBookmarksView, SwipeRefreshLayout.OnRe
         view.swipeLayout.setColorSchemeResources(R.color.blue, R.color.orange)
         view.swipeLayout.setOnRefreshListener(this)
         view.swipeLayout.setProgressViewOffset(false, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, resources.displayMetrics).toInt())
-        adapter = MyBookmarksAdapter(activity, { v, myBookmark ->
+        adapter = MyBookmarkSearchAdapter(activity, { v, myBookmark ->
             presenter.onListItemClick(myBookmark)
         }, { v, myBookmark ->
             presenter.onListItemLongClick(myBookmark)

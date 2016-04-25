@@ -9,8 +9,8 @@ import android.view.ViewGroup
 
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.common.domain.model.Bookmark
-import me.kirimin.mitsumine.search.SearchActivity
-import me.kirimin.mitsumine.search.UserSearchActivity
+import me.kirimin.mitsumine.search.AbstractSearchActivity
+import me.kirimin.mitsumine.feed.user.UserSearchActivity
 
 import kotlinx.android.synthetic.main.fragment_bookmark_list.view.*
 
@@ -47,7 +47,7 @@ class BookmarkListFragment : Fragment(), BookmarkListView {
 
     override fun startUserSearchActivity(userId: String) {
         val intent = Intent(activity, UserSearchActivity::class.java)
-        intent.putExtras(SearchActivity.buildBundle(userId))
+        intent.putExtras(AbstractSearchActivity.buildBundle(userId))
         startActivity(intent)
     }
 }

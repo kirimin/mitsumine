@@ -18,10 +18,16 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_feed.view.*
 import rx.Subscription
 
+/**
+ * フィードを表示する画面で共通して使用する親Fragment
+ */
 abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener, View.OnLongClickListener, SwipeRefreshLayout.OnRefreshListener {
 
+    /** スライドで後で読む機能を使用するか */
     abstract fun isUseReadLater(): Boolean
+    /** スライドで既読機能を使用するか */
     abstract fun isUseRead(): Boolean
+    /** フィードの取得元 */
     abstract fun getRepository(): AbstractFeedRepository
 
     private lateinit var adapter: FeedAdapter
@@ -35,7 +41,7 @@ abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        presenter.onCreate(this, FeedUseCase(getRepository()));
+        presenter.onCreate(this, getRepository());
     }
 
     override fun onDestroyView() {
@@ -48,13 +54,31 @@ abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener
     }
 
     override fun onClick(v: View) {
-        presenter.onClick(v.id, v.tag as Feed)
+        val feed = v.tag as Feed
+        when (v.id) {
+            R.id.card_view -> {
+                presenter.onItemClick(feed)
+            }
+            R.id.FeedFragmentImageViewShare -> {
+                presenter.onFeedShareClick(feed)
+            }
+        }
     }
 
     override fun onLongClick(v: View): Boolean {
-        return presenter.onLongClick(v.id, v.tag as Feed)
+        val feed = v.tag as Feed
+        when (v.id) {
+            R.id.card_view -> {
+                presenter.onItemLongClick(feed)
+            }
+            R.id.FeedFragmentImageViewShare -> {
+                presenter.onFeedShareLongClick(feed)
+                return true
+            }
+        }
+        return false
     }
-    
+
     override fun initViews() {
         val view = view ?: return
         view.swipeLayout.setColorSchemeResources(R.color.blue, R.color.orange)
@@ -69,13 +93,11 @@ abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener
     }
 
     override fun showRefreshing() {
-        val view = view ?: return
-        view.swipeLayout.isRefreshing = true
+        view?.swipeLayout?.isRefreshing = true
     }
 
     override fun dismissRefreshing() {
-        val view = view ?: return
-        view.swipeLayout.isRefreshing = false
+        view?.swipeLayout?.isRefreshing = false
     }
 
     override fun clearAllItem() {
@@ -98,7 +120,7 @@ abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener
 
     override fun sendShareUrlIntent(title: String, url: String) {
         val share = Intent(Intent.ACTION_SEND)
-        share.setType("text/plain")
+        share.type = "text/plain"
         share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
         share.putExtra(Intent.EXTRA_SUBJECT, title)
         share.putExtra(Intent.EXTRA_TEXT, url)
@@ -107,7 +129,7 @@ abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener
 
     override fun sendShareUrlWithTitleIntent(title: String, url: String) {
         val share = Intent(Intent.ACTION_SEND)
-        share.setType("text/plain")
+        share.type = "text/plain"
         share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
         share.putExtra(Intent.EXTRA_TEXT, title + " " + url)
         startActivity(share)

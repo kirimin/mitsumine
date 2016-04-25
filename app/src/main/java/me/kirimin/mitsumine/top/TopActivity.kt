@@ -31,9 +31,9 @@ import me.kirimin.mitsumine.feed.readlater.ReadLaterActivity
 import me.kirimin.mitsumine.feed.mainfeed.FeedFragment
 import me.kirimin.mitsumine.feed.read.ReadActivity
 import me.kirimin.mitsumine.login.LoginActivity
-import me.kirimin.mitsumine.search.KeywordSearchActivity
-import me.kirimin.mitsumine.search.SearchActivity
-import me.kirimin.mitsumine.search.UserSearchActivity
+import me.kirimin.mitsumine.feed.keyword.KeywordSearchActivity
+import me.kirimin.mitsumine.search.AbstractSearchActivity
+import me.kirimin.mitsumine.feed.user.UserSearchActivity
 import me.kirimin.mitsumine.setting.SettingActivity
 import java.io.Serializable
 
@@ -171,17 +171,17 @@ class TopActivity : AppCompatActivity(), TopView {
 
     override fun startMyBookmarksActivity() {
         val intent = Intent(this, UserSearchActivity::class.java)
-        startActivity(intent.putExtras(SearchActivity.buildBundle("", false)))
+        startActivity(intent.putExtras(AbstractSearchActivity.buildBundle("", false)))
     }
 
     override fun startUserSearchActivity(userId: String) {
         val intent = Intent(this, UserSearchActivity::class.java)
-        startActivity(intent.putExtras(SearchActivity.buildBundle(userId)))
+        startActivity(intent.putExtras(AbstractSearchActivity.buildBundle(userId)))
     }
 
     override fun startKeywordSearchActivity(keyword: String) {
         val intent = Intent(this, KeywordSearchActivity::class.java)
-        startActivity(intent.putExtras(SearchActivity.buildBundle(keyword)))
+        startActivity(intent.putExtras(AbstractSearchActivity.buildBundle(keyword)))
     }
 
     override fun enableUserInfo(userName: String, iconUrl: String) {

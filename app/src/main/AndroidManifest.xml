@@ -24,13 +24,13 @@
         </activity>
         <activity android:name=".feed.read.ReadActivity" />
         <activity android:name=".feed.readlater.ReadLaterActivity" />
-        <activity android:name=".view.activity.search.KeywordSearchActivity" />
-        <activity android:name=".view.activity.search.UserSearchActivity" />
+        <activity android:name=".feed.keyword.KeywordSearchActivity" />
+        <activity android:name=".feed.user.UserSearchActivity" />
+        <activity android:name=".mybookmark.MyBookmarkSearchActivity" />
         <activity android:name=".setting.SettingActivity" />
         <activity android:name=".about.AboutActivity" />
         <activity android:name=".entryinfo.EntryInfoActivity" />
         <activity android:name=".login.LoginActivity" />
-        <activity android:name=".search.MyBookmarksActivity" />
         <activity
             android:name=".urlreceive.UrlReceiveActivity"
             android:label="@string/urlreceive_title">

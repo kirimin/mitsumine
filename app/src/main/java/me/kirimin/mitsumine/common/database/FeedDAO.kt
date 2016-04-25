@@ -30,11 +30,13 @@ object FeedDAO {
     fun deleteOldData(days: Int) {
         val cal = Calendar.getInstance(Locale.JAPAN)
         val milliseconds = 1000 * 60 * 60 * 24 * days
-        Delete().from(FeedDBModel::class.java).where("saveTime < ? AND type = ?", cal.time.time - milliseconds, Feed.TYPE_READ).execute<Model>()
+        Delete().from(FeedDBModel::class.java).where("saveTime < ? AND type = ?", cal.time.time - milliseconds, Feed.TYPE_READ).execute<FeedDBModel>()
     }
 
     @Table(name = "feed")
     private class FeedDBModel(feed: Feed) : Model() {
+
+        constructor() : this(Feed())
 
         @Column(name = "title")
         var title: String = feed.title

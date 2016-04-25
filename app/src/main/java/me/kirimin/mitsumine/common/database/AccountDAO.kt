@@ -25,6 +25,8 @@ object AccountDAO {
     @Table(name = "account")
     private class AccountDBModel(account: Account) : Model() {
 
+        constructor() : this(Account())
+
         @Column(name = "token")
         var token: String = account.token
 

@@ -1,15 +1,16 @@
-package me.kirimin.mitsumine.search
+package me.kirimin.mitsumine.feed.user
 
 import android.widget.Toast
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.common.database.UserIdDAO
 import me.kirimin.mitsumine.feed.AbstractFeedFragment
-import me.kirimin.mitsumine.search.UserFeedFragment
+import me.kirimin.mitsumine.feed.user.UserSearchFragment
+import me.kirimin.mitsumine.search.AbstractSearchActivity
 
-public class UserSearchActivity : SearchActivity() {
+public class UserSearchActivity : AbstractSearchActivity() {
 
     override fun newFragment(keyword: String): AbstractFeedFragment {
-        return UserFeedFragment.newFragment(keyword)
+        return UserSearchFragment.newFragment(keyword)
     }
 
     override fun doFavorite() {
