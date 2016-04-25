@@ -17,7 +17,7 @@ class EntryInfoPresenter : Subscriber<EntryInfo>() {
 
         view.initActionBar()
         subscriptions.add(repository.requestEntryInfoApi(context, url)
-                .filter { entryInfo -> !entryInfo.isNullObject() }
+                .filter { !it.isNullObject() }
                 .subscribe (this))
     }
 
@@ -29,7 +29,7 @@ class EntryInfoPresenter : Subscriber<EntryInfo>() {
     override fun onNext(entryInfo: EntryInfo) {
         val view = view ?: return
         view.setEntryInfo(entryInfo)
-        val commentList = entryInfo.bookmarkList.filter { bookmark -> bookmark.hasComment() }
+        val commentList = entryInfo.bookmarkList.filter { it.hasComment() }
         view.setBookmarkFragments(entryInfo.bookmarkList, commentList)
         view.setCommentCount(commentList.count().toString())
         if (repository.isLogin()) {

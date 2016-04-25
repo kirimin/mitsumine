@@ -2,11 +2,10 @@ package me.kirimin.mitsumine
 
 import android.content.Context
 import com.nhaarman.mockito_kotlin.*
+import junit.framework.Assert
 
 import org.junit.Before
 import org.junit.Test
-
-import java.util.ArrayList
 
 import me.kirimin.mitsumine.common.domain.model.Bookmark
 import me.kirimin.mitsumine.common.domain.model.EntryInfo
@@ -45,11 +44,12 @@ class EntryInfoPresenterTest {
     fun onNextTest() {
         presenter.onCreate(viewMock, repositoryMock, "http://sample", mock())
         val bookmarks = listOf(
-                Bookmark("test1", emptyList(), "", "comment", ""),
+                Bookmark("test1", listOf("TagA"), "", "comment", ""),
                 Bookmark("test2", emptyList(), "", "", ""),
-                Bookmark("test3", emptyList(), "", "comment", "")
+                Bookmark("test3", listOf("TagB", "TagC"), "", "comment", ""),
+                Bookmark("test4", listOf("TagB"), "", "", "")
         )
-        val entryInfo = EntryInfo("testA", 1, "http://sample", "http://thum", bookmarks, emptyList())
+        val entryInfo = EntryInfo("testA", 1, "http://sample", "http://thum", bookmarks)
 
         whenever(repositoryMock.isLogin()).thenReturn(false)
         presenter.onNext(entryInfo)
@@ -58,6 +58,8 @@ class EntryInfoPresenterTest {
         verify(viewMock, never()).setRegisterBookmarkFragment("http://sample")
         // コメントありは2件
         verify(viewMock, times(1)).setCommentCount("2")
+        // タグは多い順にカンマ区切り
+        Assert.assertEquals(entryInfo.tagListString(), "TagB, TagA, TagC")
         verify(viewMock, times(1)).setViewPagerSettings(currentItem = 1, offscreenPageLimit = 2)
     }
 
@@ -66,7 +68,7 @@ class EntryInfoPresenterTest {
     fun onNextTestWithLogin() {
         presenter.onCreate(viewMock, repositoryMock, "http://sample", mock())
         val bookmarks = listOf(Bookmark("test1", emptyList(), "", "comment", ""))
-        val entryInfo = EntryInfo("testA", 1, "http://sample", "http://thum", bookmarks, emptyList())
+        val entryInfo = EntryInfo("testA", 1, "http://sample", "http://thum", bookmarks)
 
         whenever(repositoryMock.isLogin()).thenReturn(true)
         presenter.onNext(entryInfo)

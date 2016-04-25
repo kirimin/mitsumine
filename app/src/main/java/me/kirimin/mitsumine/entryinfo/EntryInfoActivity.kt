@@ -64,7 +64,7 @@ class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
         titleTextView.text = entryInfo.title
         bookmarkCountTextView.text = entryInfo.bookmarkCount.toString()
         Picasso.with(applicationContext).load(entryInfo.thumbnailUrl).fit().into(thumbnailImageView)
-        tagsText.text = entryInfo.tagList.joinToString(", ")
+        tagsText.text = entryInfo.tagListString()
     }
 
     override fun setViewPagerSettings(currentItem: Int, offscreenPageLimit: Int) {

@@ -17,6 +17,6 @@ object EntryInfoApi {
         return ApiAccessor.request(context, REQUEST_URL + url)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map { response -> EntryInfoApiParser.parseResponse(response) }
+                .map { EntryInfoApiParser.parseResponse(it) }
     }
 }
