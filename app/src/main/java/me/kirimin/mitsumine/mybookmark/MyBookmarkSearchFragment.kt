@@ -14,30 +14,15 @@ import android.widget.Toast
 
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.entryinfo.EntryInfoActivity
-import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchAdapter
 
 import kotlinx.android.synthetic.main.fragment_my_bookmarks.view.*
-import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchRepository
-import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchUseCase
 import me.kirimin.mitsumine._common.domain.model.MyBookmark
-import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchPresenter
-import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchView
 
 class MyBookmarkSearchFragment : Fragment(), MyBookmarkSearchView, SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
 
-    companion object {
-        public fun newFragment(keyword: String): MyBookmarkSearchFragment {
-            val fragment = MyBookmarkSearchFragment()
-            val bundle = Bundle()
-            bundle.putString("keyword", keyword)
-            fragment.arguments = bundle
-            return fragment
-        }
-    }
-
     private val presenter = MyBookmarkSearchPresenter()
 
-    private var adapter: MyBookmarkSearchAdapter? = null
+    private lateinit var adapter: MyBookmarkSearchAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_my_bookmarks, container, false)
@@ -45,7 +30,7 @@ class MyBookmarkSearchFragment : Fragment(), MyBookmarkSearchView, SwipeRefreshL
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.onCreate(this, MyBookmarkSearchUseCase(MyBookmarkSearchRepository()), arguments.getString("keyword"))
+        presenter.onCreate(this, MyBookmarkSearchRepository(), arguments.getString("keyword"))
     }
 
     override fun onDestroyView() {
@@ -75,7 +60,7 @@ class MyBookmarkSearchFragment : Fragment(), MyBookmarkSearchView, SwipeRefreshL
         }, { v, myBookmark ->
             presenter.onListItemLongClick(myBookmark)
         })
-        view.listView.adapter = adapter!!
+        view.listView.adapter = adapter
         view.listView.setOnScrollListener(this)
     }
 
@@ -90,11 +75,11 @@ class MyBookmarkSearchFragment : Fragment(), MyBookmarkSearchView, SwipeRefreshL
     }
 
     override fun addListViewItem(myBookmarks: List<MyBookmark>) {
-        adapter!!.addAll(myBookmarks)
+        adapter.addAll(myBookmarks)
     }
 
     override fun clearListViewItem() {
-        adapter!!.clear()
+        adapter.clear()
     }
 
     override fun showErrorToast() {
@@ -109,5 +94,15 @@ class MyBookmarkSearchFragment : Fragment(), MyBookmarkSearchView, SwipeRefreshL
         val intent = Intent(activity, EntryInfoActivity::class.java)
         intent.putExtras(EntryInfoActivity.buildBundle(linkUrl))
         startActivity(intent)
+    }
+
+    companion object {
+        fun newFragment(keyword: String): MyBookmarkSearchFragment {
+            val fragment = MyBookmarkSearchFragment()
+            val bundle = Bundle()
+            bundle.putString("keyword", keyword)
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 }

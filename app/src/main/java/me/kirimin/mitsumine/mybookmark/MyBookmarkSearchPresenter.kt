@@ -1,25 +1,24 @@
 package me.kirimin.mitsumine.mybookmark
 
-import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchUseCase
 import me.kirimin.mitsumine._common.domain.model.MyBookmark
-import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchView
 import rx.Observer
+import rx.subscriptions.CompositeSubscription
 
 class MyBookmarkSearchPresenter : Observer<List<MyBookmark>> {
 
+    private val subscriptions = CompositeSubscription()
     private var view: MyBookmarkSearchView? = null
-    private var useCase: MyBookmarkSearchUseCase? = null
+    private lateinit var repository: MyBookmarkSearchRepository
+    private lateinit var keyword: String
 
-    private var keyword: String? = null
-
-    fun onCreate(myBookmarksView: MyBookmarkSearchView, myBookmarksUseCase: MyBookmarkSearchUseCase, keyword: String) {
-        view = myBookmarksView
-        useCase = myBookmarksUseCase
+    fun onCreate(view: MyBookmarkSearchView, repository: MyBookmarkSearchRepository, keyword: String) {
+        this.view = view
+        this.repository = repository
         this.keyword = keyword
 
-        view!!.initViews()
-        view!!.showRefreshing()
-        useCase!!.requestMyBookmarks(this, keyword, 0)
+        view.initViews()
+        view.showRefreshing()
+        request()
     }
 
     fun onDestroy() {
@@ -40,9 +39,10 @@ class MyBookmarkSearchPresenter : Observer<List<MyBookmark>> {
     }
 
     fun onRefresh() {
-        view?.clearListViewItem()
-        view?.showRefreshing()
-        useCase!!.requestMyBookmarks(this, keyword!!, 0)
+        val view = view ?: return
+        view.clearListViewItem()
+        view.showRefreshing()
+        request()
     }
 
     fun onScroll(firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int, isRefreshing: Boolean) {
@@ -50,7 +50,7 @@ class MyBookmarkSearchPresenter : Observer<List<MyBookmark>> {
 
         if (firstVisibleItem + visibleItemCount == totalItemCount && !isRefreshing) {
             view?.showRefreshing()
-            useCase!!.requestMyBookmarks(this, keyword!!, totalItemCount - 1)
+            request(offset = totalItemCount - 1)
         }
     }
 
@@ -60,5 +60,11 @@ class MyBookmarkSearchPresenter : Observer<List<MyBookmark>> {
 
     fun onListItemLongClick(myBookmark: MyBookmark) {
         view?.startEntryInfo(myBookmark.linkUrl)
+    }
+
+    private fun request(offset: Int = 0) {
+        subscriptions.add(repository.requestMyBookmarks(keyword, offset)
+                .toList()
+                .subscribe(this))
     }
 }

@@ -10,7 +10,7 @@ import android.widget.TextView
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine._common.domain.model.MyBookmark
 
-public class MyBookmarkSearchAdapter(context: Context,
+class MyBookmarkSearchAdapter(context: Context,
                                      private val onMyBookmarkClick: (v: View, myBookmark: MyBookmark) -> Unit,
                                      private val onMyBookmarkLongClick: (v: View, myBookmark: MyBookmark) -> Unit) : ArrayAdapter<MyBookmark>(context, 0) {
 
