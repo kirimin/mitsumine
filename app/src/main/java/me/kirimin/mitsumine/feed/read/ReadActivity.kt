@@ -1,7 +1,6 @@
 package me.kirimin.mitsumine.feed.read
 
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.feed.read.ReadFeedFragment
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -9,7 +8,7 @@ import android.view.MenuItem
 
 import kotlinx.android.synthetic.main.activity_common_container.*
 
-public class ReadActivity : AppCompatActivity() {
+class ReadActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -8,5 +8,5 @@ import rx.Observable
 
 open class ReadFeedRepository(context: Context, val type: String) : AbstractFeedRepository(context) {
 
-    override fun getObservable(): Observable<Feed> = Observable.from(FeedDAO.findByType(type))
+    override fun getObservable() = Observable.from(FeedDAO.findByType(type))
 }

@@ -20,9 +20,6 @@ abstract class AbstractFeedRepository(val context: Context) {
     open val isShareWithTitleSettingEnable: Boolean
         get() = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.key_is_share_with_title), false)
 
-    open val readFeedList: List<Feed>
-        get() = FeedDAO.findAll()
-
     open val ngWordList: List<String>
         get() = NGWordDAO.findAll()
 

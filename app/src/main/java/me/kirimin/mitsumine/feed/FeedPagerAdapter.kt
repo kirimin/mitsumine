@@ -10,12 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-public class FeedPagerAdapter(context: Context, private val mLayout: View, private val mOnSlideListener: OnSlideListener, private val mUseLeft: Boolean, useRight: Boolean) : PagerAdapter(), ViewPager.OnPageChangeListener {
+class FeedPagerAdapter(context: Context, private val mLayout: View, private val mOnSlideListener: OnSlideListener, private val mUseLeft: Boolean, useRight: Boolean) : PagerAdapter(), ViewPager.OnPageChangeListener {
 
-    public interface OnSlideListener {
-        public fun onLeftSlide(view: View)
+    interface OnSlideListener {
+        fun onLeftSlide(view: View)
 
-        public fun onRightSlide(view: View)
+        fun onRightSlide(view: View)
     }
 
     private val mInflater: LayoutInflater

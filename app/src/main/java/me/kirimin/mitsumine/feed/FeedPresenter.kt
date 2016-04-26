@@ -111,7 +111,7 @@ class FeedPresenter {
                     override fun onCompleted() {
                     }
                 })
-        holder.tags.tag = repository.requestBookmarkCount(item.linkUrl)
+        holder.bookmarkCount.tag = repository.requestBookmarkCount(item.linkUrl)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<String>() {
@@ -131,7 +131,7 @@ class FeedPresenter {
         subscriptions.add(repository.requestFeed()
                 .toList()
                 .subscribe({
-                    view?.setFeed(it.filter { !FeedUtil.contains(it, repository.readFeedList) && !FeedUtil.containsWord(it, repository.ngWordList) })
+                    view?.setFeed(it.filter { !FeedUtil.containsWord(it, repository.ngWordList) })
                     view?.dismissRefreshing()
                 }, { e ->
                     view?.dismissRefreshing()

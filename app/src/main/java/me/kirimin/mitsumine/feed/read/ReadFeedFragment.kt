@@ -7,7 +7,7 @@ import me.kirimin.mitsumine.feed.AbstractFeedFragment
 
 class ReadFeedFragment : AbstractFeedFragment() {
 
-    override fun getRepository(): AbstractFeedRepository = ReadFeedRepository(context, Feed.Companion.TYPE_READ)
-    override fun isUseReadLater(): Boolean = true
-    override fun isUseRead(): Boolean = false
+    override fun getRepository() = ReadFeedRepository(context, Feed.Companion.TYPE_READ)
+    override fun isUseReadLater() = true
+    override fun isUseRead() = false
 }

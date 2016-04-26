@@ -45,6 +45,7 @@ class FeedAdapter(context: Context, private val presenter: FeedPresenter, val us
     }
 
     class ViewHolder(view: View, val viewPager: ViewPager) {
+        val root: View = view
         val cassette: View = view.findViewById(R.id.card_view)
         val thumbnail: ImageView = view.findViewById(R.id.FeedFragmentImageViewThumbnail) as ImageView
         val favicon: ImageView = view.findViewById(R.id.FeedFragmentImageViewFavicon) as ImageView

@@ -25,8 +25,10 @@ abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener
 
     /** スライドで後で読む機能を使用するか */
     abstract fun isUseReadLater(): Boolean
+
     /** スライドで既読機能を使用するか */
     abstract fun isUseRead(): Boolean
+
     /** フィードの取得元 */
     abstract fun getRepository(): AbstractFeedRepository
 
@@ -134,6 +136,7 @@ abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener
     }
 
     override fun initListViewCell(holder: FeedAdapter.ViewHolder, feed: Feed) {
+        holder.root.tag = feed
         holder.cassette.tag = feed
         holder.cassette.setOnClickListener(this)
         holder.cassette.setOnLongClickListener(this)

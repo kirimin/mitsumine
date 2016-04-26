@@ -1,7 +1,6 @@
 package me.kirimin.mitsumine.feed.readlater
 
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.feed.readlater.ReadLaterFeedFragment
 
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
