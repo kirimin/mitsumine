@@ -12,7 +12,7 @@ object FeedApiParser {
             val xmlRoot = Persister().read(RssRoot::class.java, response, false)
             return Observable.from(xmlRoot.itemList.map { Feed(it) })
         } catch(e: Exception) {
-            return Observable.empty()
+            return Observable.error(e)
         }
     }
 }

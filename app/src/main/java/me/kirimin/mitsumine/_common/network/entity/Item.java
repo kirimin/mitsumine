@@ -14,7 +14,8 @@ public class Item {
     @Element(name = "link")
     public String link;
 
-    @Element(name = "description")
+    @Element(name = "description", required = false)
+    @Nullable
     public String description;
 
     @Nullable

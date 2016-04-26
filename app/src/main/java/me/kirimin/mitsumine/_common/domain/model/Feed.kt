@@ -15,8 +15,8 @@ class Feed(var title: String = "",
     constructor(apiData: Item) : this() {
         title = apiData.title
         linkUrl = apiData.link.replace("#", "%23")
-        content = apiData.description
-        apiData.contentEncoded?.let { thumbnailUrl = parseThumbnailUrl(it) }
+        content = apiData.description ?: ""
+        thumbnailUrl = parseThumbnailUrl(apiData.contentEncoded ?: "")
         bookmarkCountUrl = "http://b.hatena.ne.jp/entry/image/" + linkUrl
         faviconUrl = "http://cdn-ak.favicon.st-hatena.com/?url=" + linkUrl
         entryLinkUrl = "http://b.hatena.ne.jp/entry/" + linkUrl
