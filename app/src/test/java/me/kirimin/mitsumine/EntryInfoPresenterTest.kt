@@ -20,7 +20,7 @@ class EntryInfoPresenterTest {
     lateinit var viewMock: EntryInfoView
     lateinit var repositoryMock: EntryInfoRepository
     lateinit var contextMock: Context
-
+    lateinit var resultMock: EntryInfo
     val presenter = EntryInfoPresenter()
 
     @Before
@@ -28,51 +28,42 @@ class EntryInfoPresenterTest {
         viewMock = mock()
         repositoryMock = mock()
         contextMock = mock()
-        whenever(repositoryMock.requestEntryInfoApi(any(), any())).thenReturn(Observable.never())
-    }
 
-    @Test
-    @JvmName(name = "onCreate時にページ情報のリクエストが投げられる")
-    fun onCreateTest() {
-        presenter.onCreate(viewMock, repositoryMock, "http://sample", contextMock)
-        verify(viewMock, times(1)).initActionBar()
-        verify(repositoryMock, times(1)).requestEntryInfoApi(contextMock, "http://sample")
-    }
-
-    @Test
-    @JvmName(name = "ページ情報取得成功時に情報が設定される")
-    fun onNextTest() {
-        presenter.onCreate(viewMock, repositoryMock, "http://sample", mock())
         val bookmarks = listOf(
                 Bookmark("test1", listOf("TagA"), "", "comment", ""),
                 Bookmark("test2", emptyList(), "", "", ""),
                 Bookmark("test3", listOf("TagB", "TagC"), "", "comment", ""),
                 Bookmark("test4", listOf("TagB"), "", "", "")
         )
-        val entryInfo = EntryInfo("testA", 1, "http://sample", "http://thum", bookmarks)
+        resultMock = EntryInfo("testA", 4, "http://sample", "http://thum", bookmarks)
+        whenever(repositoryMock.requestEntryInfoApi(any(), any())).thenReturn(Observable.just(resultMock))
+    }
 
+    @Test
+    @JvmName(name = "onCreate時にページ情報を取得し表示する")
+    fun onCreateTest() {
         whenever(repositoryMock.isLogin()).thenReturn(false)
-        presenter.onNext(entryInfo)
-        verify(viewMock, times(1)).setEntryInfo(entryInfo)
+        presenter.onCreate(viewMock, repositoryMock, "http://sample", contextMock)
+        verify(viewMock, times(1)).initActionBar()
+        verify(repositoryMock, times(1)).requestEntryInfoApi(contextMock, "http://sample")
+
+        // 取得したものが設定される
+        verify(viewMock, times(1)).setEntryInfo(resultMock)
         // 非ログイン時は対象ページのブクマ登録Fragmentは設定されない
         verify(viewMock, never()).setRegisterBookmarkFragment("http://sample")
         // コメントありは2件
         verify(viewMock, times(1)).setCommentCount("2")
         // タグは多い順にカンマ区切り
-        Assert.assertEquals(entryInfo.tagListString(), "TagB, TagA, TagC")
+        Assert.assertEquals(resultMock.tagListString(), "TagB, TagA, TagC")
         verify(viewMock, times(1)).setViewPagerSettings(currentItem = 1, offscreenPageLimit = 2)
     }
 
     @Test
     @JvmName(name = "ログイン時にはブクマ登録Fragmentが追加される")
     fun onNextTestWithLogin() {
-        presenter.onCreate(viewMock, repositoryMock, "http://sample", mock())
-        val bookmarks = listOf(Bookmark("test1", emptyList(), "", "comment", ""))
-        val entryInfo = EntryInfo("testA", 1, "http://sample", "http://thum", bookmarks)
-
         whenever(repositoryMock.isLogin()).thenReturn(true)
-        presenter.onNext(entryInfo)
-        verify(viewMock, times(1)).setEntryInfo(entryInfo)
+        presenter.onCreate(viewMock, repositoryMock, "http://sample", contextMock)
+        verify(viewMock, times(1)).setEntryInfo(resultMock)
         verify(viewMock, times(1)).setRegisterBookmarkFragment("http://sample")
     }
 }

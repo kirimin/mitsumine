@@ -1,16 +1,15 @@
 package me.kirimin.mitsumine.mybookmark
 
 import me.kirimin.mitsumine._common.domain.model.MyBookmark
-import rx.Observer
 import rx.subscriptions.CompositeSubscription
 
-class MyBookmarkSearchPresenter : Observer<List<MyBookmark>> {
+class MyBookmarkSearchPresenter {
 
     private val subscriptions = CompositeSubscription()
     private var view: MyBookmarkSearchView? = null
     private lateinit var repository: MyBookmarkSearchRepository
     private lateinit var keyword: String
-    private var totalBookmackCount = -1
+    private var totalBookmarkCount = -1
 
     fun onCreate(view: MyBookmarkSearchView, repository: MyBookmarkSearchRepository, keyword: String) {
         this.view = view
@@ -26,20 +25,6 @@ class MyBookmarkSearchPresenter : Observer<List<MyBookmark>> {
         view = null
     }
 
-    override fun onNext(myBookmarks: List<MyBookmark>) {
-        totalBookmackCount = myBookmarks[0].totalCount
-        view?.addListViewItem(myBookmarks)
-    }
-
-    override fun onError(e: Throwable?) {
-        view?.showErrorToast()
-        view?.dismissRefreshing()
-    }
-
-    override fun onCompleted() {
-        view?.dismissRefreshing()
-    }
-
     fun onRefresh() {
         val view = view ?: return
         view.clearListViewItem()
@@ -48,7 +33,7 @@ class MyBookmarkSearchPresenter : Observer<List<MyBookmark>> {
     }
 
     fun onScroll(firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int, isRefreshing: Boolean) {
-        if (totalItemCount == 0 || totalItemCount >= totalBookmackCount) return;
+        if (totalItemCount == 0 || totalItemCount >= totalBookmarkCount) return;
 
         if (firstVisibleItem + visibleItemCount == totalItemCount && !isRefreshing) {
             view?.showRefreshing()
@@ -67,6 +52,15 @@ class MyBookmarkSearchPresenter : Observer<List<MyBookmark>> {
     private fun request(offset: Int = 0) {
         subscriptions.add(repository.requestMyBookmarks(keyword, offset)
                 .toList()
-                .subscribe(this))
+                .subscribe({
+                    totalBookmarkCount = it[0].totalCount
+                    view?.addListViewItem(it)
+                }, {
+                    view?.showErrorToast()
+                    view?.dismissRefreshing()
+                }, {
+                    view?.dismissRefreshing()
+                })
+        )
     }
 }

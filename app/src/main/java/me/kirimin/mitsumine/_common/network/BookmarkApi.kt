@@ -13,7 +13,7 @@ import rx.Observable
 
 object BookmarkApi {
 
-    fun requestAddBookmark(url: String, account: Account, comment: String, tags: List<String>, isPrivate: Boolean, isTwitter: Boolean): Observable<Bookmark?> {
+    fun requestAddBookmark(url: String, account: Account, comment: String, tags: List<String>, isPrivate: Boolean, isTwitter: Boolean): Observable<Bookmark> {
         return Observable.create<JSONObject> { subscriber ->
             val request = OAuthRequest(Verb.POST, "http://api.b.hatena.ne.jp/1/my/bookmark")
             request.addQuerystringParameter("url", url)

@@ -5,44 +5,37 @@ import me.kirimin.mitsumine._common.domain.model.EntryInfo
 import rx.Subscriber
 import rx.subscriptions.CompositeSubscription
 
-class EntryInfoPresenter : Subscriber<EntryInfo>() {
+class EntryInfoPresenter {
 
     private val subscriptions = CompositeSubscription()
     private var view: EntryInfoView? = null
     private lateinit var repository: EntryInfoRepository
 
-    fun onCreate(view: EntryInfoView, repository: EntryInfoRepository, url: String, context: Context) {
-        this.view = view
+    fun onCreate(entryInfoView: EntryInfoView, repository: EntryInfoRepository, url: String, context: Context) {
+        this.view = entryInfoView
         this.repository = repository
-
-        view.initActionBar()
+        entryInfoView.initActionBar()
         subscriptions.add(repository.requestEntryInfoApi(context, url)
                 .filter { !it.isNullObject() }
-                .subscribe (this))
+                .subscribe ({ entryInfo ->
+                    val view = view ?: return@subscribe
+                    view.setEntryInfo(entryInfo)
+                    val commentList = entryInfo.bookmarkList.filter { it.hasComment() }
+                    view.setBookmarkFragments(entryInfo.bookmarkList, commentList)
+                    view.setCommentCount(commentList.count().toString())
+                    if (repository.isLogin()) {
+                        view.setRegisterBookmarkFragment(entryInfo.url)
+                    }
+                    view.setViewPagerSettings(currentItem = 1, offscreenPageLimit = 2)
+                }, {
+                    view?.showNetworkErrorToast()
+                })
+        )
     }
 
     fun onDestroy() {
         subscriptions.unsubscribe()
         view = null
-    }
-
-    override fun onNext(entryInfo: EntryInfo) {
-        val view = view ?: return
-        view.setEntryInfo(entryInfo)
-        val commentList = entryInfo.bookmarkList.filter { it.hasComment() }
-        view.setBookmarkFragments(entryInfo.bookmarkList, commentList)
-        view.setCommentCount(commentList.count().toString())
-        if (repository.isLogin()) {
-            view.setRegisterBookmarkFragment(entryInfo.url)
-        }
-        view.setViewPagerSettings(currentItem = 1, offscreenPageLimit = 2)
-    }
-
-    override fun onError(e: Throwable) {
-        view?.showNetworkErrorToast()
-    }
-
-    override fun onCompleted() {
     }
 
 }
