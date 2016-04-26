@@ -27,13 +27,7 @@ object FeedApi {
     }
 
     fun requestKeyword(context: Context, keyword: String): Observable<Feed> {
-        val keywordVal = try {
-            URLEncoder.encode(keyword, "UTF-8")
-        } catch (e: UnsupportedEncodingException) {
-            keyword
-        }
-
-        val observable = ApiAccessor.stringRequest(context, FEED_URL_HEADER + "keyword/" + keywordVal + "?mode=rss&num=-1")
+        val observable = ApiAccessor.stringRequest(context, FEED_URL_HEADER + "keyword/" + keyword + "?mode=rss&num=-1")
         return observable.flatMap { response -> FeedApiParser.parseResponse(response) }
     }
 }

@@ -36,7 +36,7 @@ class MyBookmarkSearchAdapter(context: Context,
             false
         }
         holder.title.text = bookmark.title
-        holder.userCount.text = bookmark.bookmarkCount.toString() + getContext().getString(R.string.users_lower_case)
+        holder.userCount.text = bookmark.bookmarkCount.toString() + context.getString(R.string.users_lower_case)
         holder.url.text = bookmark.linkUrl
         return view
     }

@@ -1,6 +1,7 @@
 package me.kirimin.mitsumine._common.domain.model
 
 import me.kirimin.mitsumine._common.network.entity.Item
+import java.net.URLEncoder
 
 class Feed(var title: String = "",
            var thumbnailUrl: String = "",
@@ -17,7 +18,7 @@ class Feed(var title: String = "",
         linkUrl = apiData.link.replace("#", "%23")
         content = apiData.description ?: ""
         thumbnailUrl = parseThumbnailUrl(apiData.contentEncoded ?: "")
-        bookmarkCountUrl = "http://b.hatena.ne.jp/entry/image/" + linkUrl
+        bookmarkCountUrl = "http://b.hatena.ne.jp/entry/image/" + URLEncoder.encode(linkUrl, "utf-8")
         faviconUrl = "http://cdn-ak.favicon.st-hatena.com/?url=" + linkUrl
         entryLinkUrl = "http://b.hatena.ne.jp/entry/" + linkUrl
     }

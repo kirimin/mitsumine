@@ -4,6 +4,7 @@ import android.content.Context
 import me.kirimin.mitsumine._common.domain.model.EntryInfo
 import rx.Subscriber
 import rx.subscriptions.CompositeSubscription
+import java.net.URLEncoder
 
 class EntryInfoPresenter {
 
@@ -15,7 +16,7 @@ class EntryInfoPresenter {
         this.view = entryInfoView
         this.repository = repository
         entryInfoView.initActionBar()
-        subscriptions.add(repository.requestEntryInfoApi(context, url)
+        subscriptions.add(repository.requestEntryInfoApi(context, URLEncoder.encode(url, "utf-8"))
                 .filter { !it.isNullObject() }
                 .subscribe ({ entryInfo ->
                     val view = view ?: return@subscribe
