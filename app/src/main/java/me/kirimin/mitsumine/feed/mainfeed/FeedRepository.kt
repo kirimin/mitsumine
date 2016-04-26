@@ -2,10 +2,7 @@ package me.kirimin.mitsumine.feed.mainfeed
 
 import android.content.Context
 import me.kirimin.mitsumine.feed.AbstractFeedRepository
-import me.kirimin.mitsumine._common.database.FeedDAO
-import me.kirimin.mitsumine._common.database.NGWordDAO
 import me.kirimin.mitsumine._common.network.FeedApi
-import me.kirimin.mitsumine._common.domain.util.FeedUtil
 import me.kirimin.mitsumine._common.domain.model.Feed
 import me.kirimin.mitsumine._common.domain.enums.Category
 import me.kirimin.mitsumine._common.domain.enums.Type

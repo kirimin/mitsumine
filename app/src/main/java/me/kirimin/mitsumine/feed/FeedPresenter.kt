@@ -7,7 +7,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
 
-class FeedPresenter : Subscriber<List<Feed>>() {
+class FeedPresenter {
 
     private val subscriptions = CompositeSubscription()
 
@@ -33,18 +33,6 @@ class FeedPresenter : Subscriber<List<Feed>>() {
         view.clearAllItem()
         view.showRefreshing()
         requestFeed()
-    }
-
-    override fun onNext(feedList: List<Feed>) {
-        view?.setFeed(feedList.filter { feed -> !FeedUtil.contains(feed, repository.readFeedList) && !FeedUtil.containsWord(feed, repository.ngWordList) })
-        view?.dismissRefreshing()
-    }
-
-    override fun onError(e: Throwable?) {
-        view?.dismissRefreshing()
-    }
-
-    override fun onCompleted() {
     }
 
     fun onItemClick(feed: Feed) {
@@ -142,6 +130,12 @@ class FeedPresenter : Subscriber<List<Feed>>() {
     private fun requestFeed() {
         subscriptions.add(repository.requestFeed()
                 .toList()
-                .subscribe(this))
+                .subscribe({
+                    view?.setFeed(it.filter { !FeedUtil.contains(it, repository.readFeedList) && !FeedUtil.containsWord(it, repository.ngWordList) })
+                    view?.dismissRefreshing()
+                }, { e ->
+                    view?.dismissRefreshing()
+                })
+        )
     }
 }

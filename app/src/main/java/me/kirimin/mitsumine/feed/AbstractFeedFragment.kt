@@ -34,13 +34,11 @@ abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener
     private val presenter: FeedPresenter = FeedPresenter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val rootView = inflater.inflate(R.layout.fragment_feed, container, false)
-        return rootView
+        return inflater.inflate(R.layout.fragment_feed, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         presenter.onCreate(this, getRepository());
     }
 

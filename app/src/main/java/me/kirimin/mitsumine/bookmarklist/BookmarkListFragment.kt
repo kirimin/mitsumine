@@ -16,16 +16,6 @@ import kotlinx.android.synthetic.main.fragment_bookmark_list.view.*
 
 class BookmarkListFragment : Fragment(), BookmarkListView {
 
-    companion object {
-        fun newFragment(bookmarkList: List<Bookmark>): BookmarkListFragment {
-            val fragment = BookmarkListFragment()
-            val bundle = Bundle()
-            bundle.putParcelableArray("bookmarkList", bookmarkList.toTypedArray())
-            fragment.arguments = bundle
-            return fragment
-        }
-    }
-
     val presenter = BookmarkListPresenter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -49,5 +39,15 @@ class BookmarkListFragment : Fragment(), BookmarkListView {
         val intent = Intent(activity, UserSearchActivity::class.java)
         intent.putExtras(AbstractSearchActivity.buildBundle(userId))
         startActivity(intent)
+    }
+
+    companion object {
+        fun newFragment(bookmarkList: List<Bookmark>): BookmarkListFragment {
+            val fragment = BookmarkListFragment()
+            val bundle = Bundle()
+            bundle.putParcelableArray("bookmarkList", bookmarkList.toTypedArray())
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 }

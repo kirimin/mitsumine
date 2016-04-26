@@ -19,21 +19,25 @@ class FeedPresenterTest {
     lateinit var viewMock: FeedView
     lateinit var repositoryMock: AbstractFeedRepository
     val presenter = FeedPresenter()
+    val resultMock = listOf(Feed(title = "mock1"), Feed(title = "mock2"))
 
     @Before
     fun setup() {
         viewMock = mock()
         repositoryMock = mock()
-        whenever(repositoryMock.requestFeed()).thenReturn(Observable.never<Feed>())
+        whenever(repositoryMock.requestFeed()).thenReturn(Observable.from(resultMock))
     }
 
     @Test
-    @JvmName(name = "onCreate時にフィードを読み込む")
+    @JvmName(name = "onCreate時にフィードを読み込みセットする")
     fun onCreateTest() {
         presenter.onCreate(viewMock, repositoryMock)
         verify(viewMock, times(1)).initViews()
         verify(viewMock, times(1)).showRefreshing()
         verify(repositoryMock, times(1)).requestFeed()
+
+        verify(viewMock, times(1)).setFeed(resultMock)
+        verify(viewMock, times(1)).dismissRefreshing()
     }
 
     @Test
@@ -44,23 +48,16 @@ class FeedPresenterTest {
         verify(viewMock, times(1)).clearAllItem()
         verify(viewMock, times(2)).showRefreshing()
         verify(repositoryMock, times(2)).requestFeed()
-    }
 
-    @Test
-    @JvmName(name = "フィードデータ取得成功時にViewにセットしてインジケータを停止する")
-    fun onNextTest() {
-        presenter.onCreate(viewMock, repositoryMock)
-        val list = listOf(Feed(), Feed(), Feed())
-        presenter.onNext(list)
-        verify(viewMock, times(1)).setFeed(list)
-        verify(viewMock, times(1)).dismissRefreshing()
+        verify(viewMock, times(2)).setFeed(resultMock)
+        verify(viewMock, times(2)).dismissRefreshing()
     }
 
     @Test
     @JvmName(name = "フィードデータ取得失敗時にインジケータを停止する")
     fun onErrorTest() {
+        whenever(repositoryMock.requestFeed()).thenReturn(Observable.error(Exception()))
         presenter.onCreate(viewMock, repositoryMock)
-        presenter.onError(Throwable())
         verify(viewMock, never()).setFeed(anyList())
         verify(viewMock, times(1)).dismissRefreshing()
     }
