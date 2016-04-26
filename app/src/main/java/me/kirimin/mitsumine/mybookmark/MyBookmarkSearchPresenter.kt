@@ -10,6 +10,7 @@ class MyBookmarkSearchPresenter : Observer<List<MyBookmark>> {
     private var view: MyBookmarkSearchView? = null
     private lateinit var repository: MyBookmarkSearchRepository
     private lateinit var keyword: String
+    private var totalBookmackCount = -1
 
     fun onCreate(view: MyBookmarkSearchView, repository: MyBookmarkSearchRepository, keyword: String) {
         this.view = view
@@ -26,6 +27,7 @@ class MyBookmarkSearchPresenter : Observer<List<MyBookmark>> {
     }
 
     override fun onNext(myBookmarks: List<MyBookmark>) {
+        totalBookmackCount = myBookmarks[0].totalCount
         view?.addListViewItem(myBookmarks)
     }
 
@@ -46,7 +48,7 @@ class MyBookmarkSearchPresenter : Observer<List<MyBookmark>> {
     }
 
     fun onScroll(firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int, isRefreshing: Boolean) {
-        if (totalItemCount == 0) return;
+        if (totalItemCount == 0 || totalItemCount >= totalBookmackCount) return;
 
         if (firstVisibleItem + visibleItemCount == totalItemCount && !isRefreshing) {
             view?.showRefreshing()
