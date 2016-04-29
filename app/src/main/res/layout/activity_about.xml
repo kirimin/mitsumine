@@ -52,118 +52,14 @@
                 android:autoLink="web"
                 android:text="@string/about_review_url" />
 
-            <TextView
+            <Button
+                android:id="@+id/aboutLicenseButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="@string/about_license"
                 android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/volley_license_title"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:background="@color/gray_light"
-                android:padding="8dp"
-                android:text="@string/volley_license" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/active_android_license_title"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:background="@color/gray_light"
-                android:padding="8dp"
-                android:text="@string/active_android_license" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/picasso_license_title"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/gray_light"
-                android:padding="8dp"
-                android:text="@string/picasso_license" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/material_tab_strip_license_title"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/gray_light"
-                android:padding="8dp"
-                android:text="@string/material_tab_strip_license" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/rounded_image_view_license_title"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/gray_light"
-                android:padding="8dp"
-                android:text="@string/rounded_image_view_license" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/rx_android_license_title"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/gray_light"
-                android:padding="8dp"
-                android:text="@string/rx_android_license" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/scribe_java_license_title"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/gray_light"
-                android:padding="8dp"
-                android:text="@string/scribe_java_license" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/LeakCanary_license_title"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/gray_light"
-                android:padding="8dp"
-                android:text="@string/LeakCanary_license" />
         </LinearLayout>
     </ScrollView>
 

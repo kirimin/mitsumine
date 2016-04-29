@@ -11,11 +11,8 @@ import android.widget.TextView
 import java.util.ArrayList
 
 import me.kirimin.mitsumine.R
-import rx.android.view.OnClickEvent
-import rx.android.view.ViewObservable
-import rx.functions.Action1
 
-public class TagEditDialogFragmentAdapter(context: Context, tags: ArrayList<String>, private val onDeleteButtonClick: Action1<OnClickEvent>) : ArrayAdapter<String>(context, 0, tags) {
+class TagEditDialogFragmentAdapter(context: Context, tags: ArrayList<String>, private val onDeleteButtonClick: (view: View) -> Unit) : ArrayAdapter<String>(context, 0, tags) {
 
     private val inflater: LayoutInflater
 
@@ -30,7 +27,7 @@ public class TagEditDialogFragmentAdapter(context: Context, tags: ArrayList<Stri
             val holder = ViewHolder(
                     view.findViewById(R.id.RegisterBookmarkTagEditDialogTagName) as TextView,
                     view.findViewById(R.id.RegisterBookmarkTagEditDialogDelete) as Button)
-            ViewObservable.clicks(holder.deleteButton).subscribe(onDeleteButtonClick)
+            holder.deleteButton.setOnClickListener { onDeleteButtonClick(it) }
             view.tag = holder
         } else {
             view = convertView

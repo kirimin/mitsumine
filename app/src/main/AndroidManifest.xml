@@ -29,6 +29,7 @@
         <activity android:name=".mybookmark.MyBookmarkSearchActivity" />
         <activity android:name=".setting.SettingActivity" />
         <activity android:name=".about.AboutActivity" />
+        <activity android:name=".about.LicenseActivity" />
         <activity android:name=".entryinfo.EntryInfoActivity" />
         <activity android:name=".login.LoginActivity" />
         <activity

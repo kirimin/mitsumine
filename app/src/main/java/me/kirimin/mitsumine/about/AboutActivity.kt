@@ -1,5 +1,6 @@
 package me.kirimin.mitsumine.about
 
+import android.content.Intent
 import me.kirimin.mitsumine.R
 
 import android.os.Bundle
@@ -17,6 +18,7 @@ class AboutActivity : AppCompatActivity() {
         actionBar.setTitle(R.string.about_title)
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setHomeButtonEnabled(true)
+        findViewById(R.id.aboutLicenseButton)?.setOnClickListener { startActivity(Intent(this@AboutActivity, LicenseActivity::class.java)) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

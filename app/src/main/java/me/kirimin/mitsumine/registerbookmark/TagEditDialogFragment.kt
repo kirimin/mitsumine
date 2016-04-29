@@ -10,8 +10,6 @@ import android.view.ViewGroup
 import java.util.ArrayList
 
 import me.kirimin.mitsumine.R
-import me.kirimin.mitsumine.registerbookmark.TagEditDialogFragmentAdapter
-import rx.functions.Action1
 
 import kotlinx.android.synthetic.main.dialog_fragment_tag_edit.view.*
 
@@ -35,9 +33,9 @@ class TagEditDialogFragment : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val tags = arguments.getStringArrayList("tags")
         val rootView = inflater.inflate(R.layout.dialog_fragment_tag_edit, container, false)
-        rootView.listView.adapter = TagEditDialogFragmentAdapter(activity, tags, Action1 { onClickEvent ->
+        rootView.listView.adapter = TagEditDialogFragmentAdapter(activity, tags, { view ->
             val adapter = rootView.listView.adapter as TagEditDialogFragmentAdapter
-            adapter.remove(onClickEvent.view().tag as String)
+            adapter.remove(view.tag as String)
         })
         rootView.okButton.setOnClickListener {
             val adapter = rootView.listView.adapter as TagEditDialogFragmentAdapter
@@ -53,7 +51,7 @@ class TagEditDialogFragment : DialogFragment() {
             }
         }
 
-        getDialog().setTitle(R.string.register_bookmark_tag_edit)
+        dialog.setTitle(R.string.register_bookmark_tag_edit)
         return rootView
     }
 }
