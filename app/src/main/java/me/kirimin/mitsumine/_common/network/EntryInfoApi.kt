@@ -3,7 +3,6 @@ package me.kirimin.mitsumine._common.network
 import android.content.Context
 import me.kirimin.mitsumine._common.domain.model.EntryInfo
 import me.kirimin.mitsumine._common.network.parser.EntryInfoApiParser
-import org.json.JSONObject
 
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
@@ -15,8 +14,9 @@ object EntryInfoApi {
 
     fun request(context: Context, url: String): Observable<EntryInfo> {
         return ApiAccessor.request(context, REQUEST_URL + url)
+                .map { EntryInfoApiParser.parseResponse(it) }
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map { EntryInfoApiParser.parseResponse(it) }
+
     }
 }

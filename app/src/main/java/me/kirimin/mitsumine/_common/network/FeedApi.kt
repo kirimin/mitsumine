@@ -1,8 +1,6 @@
 package me.kirimin.mitsumine._common.network
 
 import android.content.Context
-import java.io.UnsupportedEncodingException
-import java.net.URLEncoder
 
 import rx.Observable
 

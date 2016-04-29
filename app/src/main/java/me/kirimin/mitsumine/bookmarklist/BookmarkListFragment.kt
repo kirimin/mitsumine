@@ -30,7 +30,7 @@ class BookmarkListFragment : Fragment(), BookmarkListView {
 
     override fun initViews(bookmarks: List<Bookmark>) {
         val view = view ?: return
-        val adapter = BookmarkListAdapter(activity, presenter)
+        val adapter = BookmarkListAdapter(activity, presenter, arguments.getString("entryId"))
         adapter.addAll(bookmarks)
         view.listView.adapter = adapter
     }
@@ -42,10 +42,11 @@ class BookmarkListFragment : Fragment(), BookmarkListView {
     }
 
     companion object {
-        fun newFragment(bookmarkList: List<Bookmark>): BookmarkListFragment {
+        fun newFragment(bookmarkList: List<Bookmark>, entryId: String): BookmarkListFragment {
             val fragment = BookmarkListFragment()
             val bundle = Bundle()
             bundle.putParcelableArray("bookmarkList", bookmarkList.toTypedArray())
+            bundle.putString("entryId", entryId)
             fragment.arguments = bundle
             return fragment
         }

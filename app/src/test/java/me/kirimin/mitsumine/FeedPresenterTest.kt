@@ -23,6 +23,7 @@ class FeedPresenterTest {
 
     @Before
     fun setup() {
+        
         viewMock = mock()
         repositoryMock = mock()
         whenever(repositoryMock.requestFeed()).thenReturn(Observable.from(resultMock))

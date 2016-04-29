@@ -9,7 +9,7 @@ interface EntryInfoView {
 
     fun setEntryInfo(entryInfo: EntryInfo)
 
-    fun setBookmarkFragments(allList: List<Bookmark>, hasCommentList: List<Bookmark>)
+    fun setBookmarkFragments(allList: List<Bookmark>, hasCommentList: List<Bookmark>, entryId: String)
 
     fun setRegisterBookmarkFragment(url: String)
 

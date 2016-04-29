@@ -11,6 +11,7 @@ import java.util.regex.Pattern
 import me.kirimin.mitsumine._common.domain.model.Bookmark
 import me.kirimin.mitsumine._common.domain.model.EntryInfo
 import me.kirimin.mitsumine._common.domain.extensions.toList
+import me.kirimin.mitsumine._common.network.StarApi
 
 object EntryInfoApiParser {
 
@@ -22,8 +23,9 @@ object EntryInfoApiParser {
             val count = response.getInt("count")
             val url = response.getString("url")
             val thumbnail = response.getString("screenshot")
+            val eid = response.getString("eid")
             val bookmarkList = parseBookmarksObject(response.getJSONArray("bookmarks"))
-            return EntryInfo(title, count, url, thumbnail, bookmarkList)
+            return EntryInfo(title = title, bookmarkCount = count, url = url, thumbnailUrl = thumbnail, bookmarkList = bookmarkList, entryId = eid)
         } catch (e: JSONException) {
             return EntryInfo()
         }
@@ -37,7 +39,7 @@ object EntryInfoApiParser {
             val timeStamp = timeStampTmp.substring(0, timeStampTmp.indexOf(" "))
             val userIcon = "http://cdn1.www.st-hatena.com/users/" + user.subSequence(0, 2) + "/" + user + "/profile.gif"
             val tags = bookmark.getJSONArray("tags").toList<String>()
-            Bookmark(user, tags, timeStamp, comment, userIcon)
+            Bookmark(user, tags, timeStamp, comment, userIcon, emptyList())
         }
     }
 

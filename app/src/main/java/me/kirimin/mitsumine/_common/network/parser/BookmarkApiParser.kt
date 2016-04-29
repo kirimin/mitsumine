@@ -13,7 +13,7 @@ object BookmarkApiParser {
             val comment = response.getString("comment")
             val timeStamp = response.getString("created_datetime")
             val tags = response.getJSONArray("tags").toList<String>()
-            val bookmark = Bookmark(user, tags, timeStamp, comment, "")
+            val bookmark = Bookmark(user, tags, timeStamp, comment, "", emptyList())
             bookmark.setPrivate(response.getBoolean("private"))
             bookmark
         } catch (e: JSONException) {

@@ -50,9 +50,9 @@ class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
         actionBar.setHomeButtonEnabled(true)
     }
 
-    override fun setBookmarkFragments(allList: List<Bookmark>, hasCommentList: List<Bookmark>) {
-        adapter.addPage(BookmarkListFragment.newFragment(allList), getString(R.string.entry_info_all_bookmarks))
-        adapter.addPage(BookmarkListFragment.newFragment(hasCommentList), getString(R.string.entry_info_comments))
+    override fun setBookmarkFragments(allList: List<Bookmark>, hasCommentList: List<Bookmark>, entryId: String) {
+        adapter.addPage(BookmarkListFragment.newFragment(allList, entryId), getString(R.string.entry_info_all_bookmarks))
+        adapter.addPage(BookmarkListFragment.newFragment(hasCommentList, entryId), getString(R.string.entry_info_comments))
     }
 
     override fun setRegisterBookmarkFragment(url: String) {

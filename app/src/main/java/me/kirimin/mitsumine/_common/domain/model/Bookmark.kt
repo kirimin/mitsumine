@@ -12,14 +12,16 @@ class Bookmark : Parcelable {
     val timeStamp: String
     val comment: CharSequence
     val userIcon: String
+    val stars: List<Star>
     private var isPrivate: Boolean = false
 
-    constructor(user: String, tags: List<String>, timeStamp: String, comment: CharSequence, userIcon: String) {
+    constructor(user: String, tags: List<String>, timeStamp: String, comment: CharSequence, userIcon: String, stars: List<Star>) {
         this.user = user
         this.tags = tags
         this.timeStamp = timeStamp
         this.comment = comment
         this.userIcon = userIcon
+        this.stars = stars
     }
 
     fun isPrivate(): Boolean {
@@ -45,6 +47,12 @@ class Bookmark : Parcelable {
         timeStamp = `in`.readString()
         comment = `in`.readValue(CharSequence::class.java.classLoader) as CharSequence
         userIcon = `in`.readString()
+        if (`in`.readByte() == 1.toByte()) {
+            stars = ArrayList<Star>()
+            `in`.readList(stars, String::class.java.classLoader)
+        } else {
+            stars = ArrayList()
+        }
         isPrivate = `in`.readByte() != 0.toByte()
     }
 
@@ -59,6 +67,8 @@ class Bookmark : Parcelable {
         dest.writeString(timeStamp)
         dest.writeValue(comment)
         dest.writeString(userIcon)
+        dest.writeByte((1).toByte())
+        dest.writeList(stars)
         dest.writeByte((if (isPrivate) 1 else 0).toByte())
     }
 
