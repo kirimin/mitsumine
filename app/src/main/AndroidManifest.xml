@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.kirimin.mitsumine"
-    android:versionCode="20402"
-    android:versionName="2.4.2">
+    android:versionCode="20500"
+    android:versionName="2.5.0">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
