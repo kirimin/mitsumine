@@ -11,8 +11,8 @@ import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine._common.domain.model.MyBookmark
 
 class MyBookmarkSearchAdapter(context: Context,
-                                     private val onMyBookmarkClick: (v: View, myBookmark: MyBookmark) -> Unit,
-                                     private val onMyBookmarkLongClick: (v: View, myBookmark: MyBookmark) -> Unit) : ArrayAdapter<MyBookmark>(context, 0) {
+                              private val onMyBookmarkClick: (v: View, myBookmark: MyBookmark) -> Unit,
+                              private val onMyBookmarkLongClick: (v: View, myBookmark: MyBookmark) -> Unit) : ArrayAdapter<MyBookmark>(context, 0) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
@@ -21,6 +21,7 @@ class MyBookmarkSearchAdapter(context: Context,
             view = LayoutInflater.from(context).inflate(R.layout.row_my_bookmarks, null)
             holder = ViewHolder(view.findViewById(R.id.card_view),
                     view.findViewById(R.id.MyBookmarksTitleTextView) as TextView,
+                    view.findViewById(R.id.MyBookmarksContentTextView) as TextView,
                     view.findViewById(R.id.MyBookmarksUsersTextView) as TextView,
                     view.findViewById(R.id.MyBookmarksUrlTextView) as TextView)
             view.tag = holder
@@ -36,6 +37,7 @@ class MyBookmarkSearchAdapter(context: Context,
             false
         }
         holder.title.text = bookmark.title
+        holder.contents.text = bookmark.snippet
         holder.userCount.text = bookmark.bookmarkCount.toString() + context.getString(R.string.users_lower_case)
         holder.url.text = bookmark.linkUrl
         return view
@@ -44,6 +46,7 @@ class MyBookmarkSearchAdapter(context: Context,
     class ViewHolder(
             val cardView: View,
             val title: TextView,
+            val contents: TextView,
             val userCount: TextView,
             val url: TextView) {
     }

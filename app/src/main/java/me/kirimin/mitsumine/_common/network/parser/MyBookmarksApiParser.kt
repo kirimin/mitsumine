@@ -16,9 +16,10 @@ object MyBookmarksApiParser {
                 val comment = bookmark.getString("comment")
                 val entryObject = bookmark.getJSONObject("entry")
                 val title = entryObject.getString("title")
+                val snippet = entryObject.getString("snippet")
                 val count = entryObject.getInt("count")
                 val url = entryObject.getString("url")
-                MyBookmark(title, comment, count, url, total)
+                MyBookmark(title, comment, count, url, total, snippet)
             }
             return Observable.from(myBookmarks)
         } catch (e: JSONException) {
