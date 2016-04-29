@@ -76,4 +76,5 @@
     <string name="register_bookmark_private">private</string>
     <string name="register_bookmark_twitter">Twitterに投稿</string>
     <string name="my_bookmarks_title">マイブックマーク全文検索</string>
+    <string name="login_header_text">■ログインするとMitsumineからのブックマーク登録や、マイブックマーク全文検索が利用できます。</string>
 </resources>

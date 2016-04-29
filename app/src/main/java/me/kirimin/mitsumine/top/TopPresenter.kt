@@ -102,7 +102,7 @@ class TopPresenter {
                 view.startUserSearchActivity()
                 view.closeNavigation()
             }
-            R.id.navigationUserInfoLayout -> {
+            R.id.navigationMyBookmarksButton -> {
                 view.startMyBookmarksActivity()
                 view.closeNavigation()
             }

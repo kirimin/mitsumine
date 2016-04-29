@@ -125,7 +125,7 @@ class TopActivity : AppCompatActivity(), TopView {
         navigationSettingsTextView.setOnClickListener(onclickListener)
         navigationKeywordSearchTextView.setOnClickListener(onclickListener)
         navigationUserSearchTextView.setOnClickListener(onclickListener)
-        navigationUserInfoLayout.setOnClickListener(onclickListener)
+        navigationMyBookmarksButton.setOnClickListener(onclickListener)
         navigationLoginButton.setOnClickListener(onclickListener)
     }
 
