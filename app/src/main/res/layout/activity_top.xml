@@ -61,7 +61,15 @@
                         android:layout_gravity="center_vertical"
                         android:paddingTop="8dp"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_large" />
+                        android:textSize="@dimen/text_medium" />
+
+                    <Button
+                        android:id="@+id/navigationMyBookmarksButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/my_bookmarks_title"
+                        android:textColor="@color/text"
+                        android:textSize="@dimen/text_medium" />
 
                 </LinearLayout>
 

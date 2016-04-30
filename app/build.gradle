@@ -1,14 +1,15 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 23
+    buildToolsVersion '23.0.2'
 
     defaultConfig {
         applicationId "me.kirimin.mitsumine"
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 23
 
         testApplicationId "me.kirimin.mitsumine.test"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -30,27 +31,33 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-annotations:22.+'
-    compile 'com.android.support:support-v4:22.+'
-    compile 'com.android.support:appcompat-v7:22.+'
-    compile 'com.android.support:cardview-v7:22.+'
-    compile 'com.mcxiaoke.volley:library:1.0.+'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile 'com.android.support:support-annotations:23.3.0'
+    compile 'com.android.support:support-v4:23.3.0'
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:cardview-v7:23.3.0'
+
+    compile 'com.squareup.okhttp:okhttp:2.5.+'
     compile 'com.squareup.picasso:picasso:2.5.+'
     compile 'com.jpardogo.materialtabstrip:library:1.0.6'
     compile 'com.makeramen:roundedimageview:1.5.0'
-    compile 'io.reactivex:rxandroid:0.24.0'
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'io.reactivex:rxjava:1.1.3'
     compile 'org.scribe:scribe:1.3.6'
-    compile 'com.github.kirimin:JsonArralin:0.1.2'
-    compile files('libs/activeandroid.jar')
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
+    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    compile('org.simpleframework:simple-xml:2.7.1') {
+        exclude module: 'xpp3'
+        exclude module: 'stax'
+        exclude module: 'stax-api'
+    }
 
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
-    androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile "com.nhaarman:mockito-kotlin:0.3.1"
 }
 buildscript {
-    ext.kotlin_version = '0.12.200'
+    ext.kotlin_version = '1.0.1-1'
     repositories {
         mavenCentral()
     }
@@ -61,7 +68,5 @@ buildscript {
 }
 repositories {
     mavenCentral()
-    maven {
-        url "https://jitpack.io"
-    }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }

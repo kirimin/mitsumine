@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.kirimin.mitsumine"
-    android:versionCode="20402"
-    android:versionName="2.4.2">
+    android:versionCode="20500"
+    android:versionName="2.5.0">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="me.kirimin.mitsumine.ui.activity.TopActivity"
+            android:name=".top.TopActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop">
             <intent-filter>
@@ -22,17 +22,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="me.kirimin.mitsumine.ui.activity.ReadActivity" />
-        <activity android:name="me.kirimin.mitsumine.ui.activity.ReadLaterActivity" />
-        <activity android:name="me.kirimin.mitsumine.ui.activity.search.KeywordSearchActivity" />
-        <activity android:name="me.kirimin.mitsumine.ui.activity.search.UserSearchActivity" />
-        <activity android:name="me.kirimin.mitsumine.ui.activity.SettingActivity" />
-        <activity android:name="me.kirimin.mitsumine.ui.activity.AboutActivity" />
-        <activity android:name="me.kirimin.mitsumine.ui.activity.EntryInfoActivity" />
-        <activity android:name=".ui.activity.LoginActivity" />
-        <activity android:name=".ui.activity.search.MyBookmarksActivity" />
+        <activity android:name=".feed.read.ReadActivity" />
+        <activity android:name=".feed.readlater.ReadLaterActivity" />
+        <activity android:name=".feed.keyword.KeywordSearchActivity" />
+        <activity android:name=".feed.user.UserSearchActivity" />
+        <activity android:name=".mybookmark.MyBookmarkSearchActivity" />
+        <activity android:name=".setting.SettingActivity" />
+        <activity android:name=".about.AboutActivity" />
+        <activity android:name=".about.LicenseActivity" />
+        <activity android:name=".entryinfo.EntryInfoActivity" />
+        <activity android:name=".login.LoginActivity" />
         <activity
-            android:name="me.kirimin.mitsumine.ui.activity.UrlReceiveActivity"
+            android:name=".urlreceive.UrlReceiveActivity"
             android:label="@string/urlreceive_title">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
