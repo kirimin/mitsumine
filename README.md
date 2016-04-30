@@ -12,4 +12,4 @@ Mitsumineははてなブックマークを閲覧するためのAndroidアプリ�
 
 #Screenshot
 
-![screenshot](http://f.st-hatena.com/images/fotolife/k/kirimin/20150111/20150111174505.gif) 
+![screenshot](https://i.gyazo.com/4abefe309e4739222e020fd0176179e1.gif) 
