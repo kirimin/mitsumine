@@ -1,17 +1,40 @@
 package me.kirimin.mitsumine._common.domain.model
 
+import com.activeandroid.Model
+import com.activeandroid.annotation.Column
+import com.activeandroid.annotation.Table
 import me.kirimin.mitsumine._common.network.entity.Item
 import java.net.URLEncoder
 
-class Feed(var title: String = "",
-           var thumbnailUrl: String = "",
-           var content: String = "",
-           var linkUrl: String = "",
-           var entryLinkUrl: String = "",
-           var bookmarkCountUrl: String = "",
-           var faviconUrl: String = "",
-           var type: String = "",
-           var saveTime: Long = 0) {
+@Table(name = "feed")
+class Feed() : Model() {
+
+    @Column(name = "title")
+    var title: String = ""
+
+    @Column(name = "thumbnailUrl")
+    var thumbnailUrl: String = ""
+
+    @Column(name = "content")
+    var content: String = ""
+
+    @Column(name = "linkUrl", unique = true)
+    var linkUrl: String = ""
+
+    @Column(name = "entryLinkUrl")
+    var entryLinkUrl: String = ""
+
+    @Column(name = "bookmarkCountUrl")
+    var bookmarkCountUrl: String = ""
+
+    @Column(name = "faviconUrl")
+    var faviconUrl: String = ""
+
+    @Column(name = "type")
+    var type: String = ""
+
+    @Column(name = "saveTime")
+    var saveTime: Long = 0
 
     constructor(apiData: Item) : this() {
         title = apiData.title

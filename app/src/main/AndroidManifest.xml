@@ -12,6 +12,16 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="me.kirimin.mitsumine._common.domain.model.Feed,
+                me.kirimin.mitsumine._common.domain.model.Account,
+                me.kirimin.mitsumine._common.domain.model.NGWord,
+                me.kirimin.mitsumine._common.domain.model.Keyword,
+                me.kirimin.mitsumine._common.domain.model.UserId,
+                " />
+
         <activity
             android:name=".top.TopActivity"
             android:label="@string/app_name"

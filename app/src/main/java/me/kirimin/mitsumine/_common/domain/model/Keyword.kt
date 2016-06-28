@@ -5,8 +5,8 @@ import com.activeandroid.annotation.Column
 import com.activeandroid.annotation.Table
 
 @Table(name = "keyword")
-public class Keyword : Model() {
+class Keyword : Model() {
 
     @Column(name = "word", unique = true)
-    public var word: String = ""
+    var word: String = ""
 }

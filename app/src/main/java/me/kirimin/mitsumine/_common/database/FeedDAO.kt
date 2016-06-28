@@ -1,8 +1,5 @@
 package me.kirimin.mitsumine._common.database
 
-import com.activeandroid.Model
-import com.activeandroid.annotation.Column
-import com.activeandroid.annotation.Table
 import java.util.Calendar
 import java.util.Locale
 
@@ -12,71 +9,24 @@ import me.kirimin.mitsumine._common.domain.model.Feed
 
 object FeedDAO {
 
-    fun save(feed: Feed) {
-        val model = FeedDBModel(feed)
+    fun save(model: Feed) {
         val cal = Calendar.getInstance(Locale.JAPAN)
         model.saveTime = cal.time.time
         model.save()
     }
 
     fun findAll(): List<Feed> {
-        return Select().from(FeedDBModel::class.java).execute<FeedDBModel>().map { it.toFeed() }
+        return Select().from(Feed::class.java).execute<Feed>()
     }
 
     fun findByType(type: String): List<Feed> {
-        return Select().from(FeedDBModel::class.java).where("type = ?", type).execute<FeedDBModel>().map { it.toFeed() }
+        return Select().from(Feed::class.java).where("type = ?", type).execute<Feed>()
     }
 
     fun deleteOldData(days: Int) {
         val cal = Calendar.getInstance(Locale.JAPAN)
         val milliseconds = 1000 * 60 * 60 * 24 * days
-        Delete().from(FeedDBModel::class.java).where("saveTime < ? AND type = ?", cal.time.time - milliseconds, Feed.TYPE_READ).execute<FeedDBModel>()
+        Delete().from(Feed::class.java).where("saveTime < ? AND type = ?", cal.time.time - milliseconds, Feed.TYPE_READ).execute<Feed>()
     }
 
-    @Table(name = "feed")
-    class FeedDBModel(feed: Feed) : Model() {
-
-        constructor() : this(Feed())
-
-        @Column(name = "title")
-        var title: String = feed.title
-
-        @Column(name = "thumbnailUrl")
-        var thumbnailUrl: String = feed.thumbnailUrl
-
-        @Column(name = "content")
-        var content: String = feed.content
-
-        @Column(name = "linkUrl", unique = true)
-        var linkUrl: String = feed.linkUrl
-
-        @Column(name = "entryLinkUrl")
-        var entryLinkUrl: String = feed.entryLinkUrl
-
-        @Column(name = "bookmarkCountUrl")
-        var bookmarkCountUrl: String = feed.bookmarkCountUrl
-
-        @Column(name = "faviconUrl")
-        var faviconUrl: String = feed.faviconUrl
-
-        @Column(name = "type")
-        var type: String = feed.type
-
-        @Column(name = "saveTime")
-        var saveTime: Long = feed.saveTime
-
-        fun toFeed(): Feed {
-            val feed = Feed()
-            feed.title = title
-            feed.thumbnailUrl = thumbnailUrl
-            feed.content = content
-            feed.linkUrl = linkUrl
-            feed.entryLinkUrl = entryLinkUrl
-            feed.bookmarkCountUrl = bookmarkCountUrl
-            feed.faviconUrl = faviconUrl
-            feed.type = type
-            feed.saveTime = saveTime
-            return feed
-        }
-    }
 }
