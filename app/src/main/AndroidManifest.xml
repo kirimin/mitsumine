@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.kirimin.mitsumine"
-    android:versionCode="20500"
-    android:versionName="2.5.0">
+    android:versionCode="20501"
+    android:versionName="2.5.1">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -12,6 +12,16 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="me.kirimin.mitsumine._common.domain.model.Feed,
+                me.kirimin.mitsumine._common.domain.model.Account,
+                me.kirimin.mitsumine._common.domain.model.NGWord,
+                me.kirimin.mitsumine._common.domain.model.Keyword,
+                me.kirimin.mitsumine._common.domain.model.UserId,
+                " />
+
         <activity
             android:name=".top.TopActivity"
             android:label="@string/app_name"
