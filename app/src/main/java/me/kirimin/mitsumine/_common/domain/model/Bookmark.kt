@@ -73,6 +73,9 @@ class Bookmark : Parcelable {
     }
 
     companion object {
+
+        @Suppress("unused")
+        @JvmField
         val CREATOR: Parcelable.Creator<Bookmark> = object : Parcelable.Creator<Bookmark> {
             override fun createFromParcel(`in`: Parcel): Bookmark {
                 return Bookmark(`in`)
