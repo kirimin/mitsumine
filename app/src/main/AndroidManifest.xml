@@ -10,7 +10,7 @@
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
+        android:label="${appName}"
         android:theme="@style/AppTheme">
 
         <meta-data
@@ -24,7 +24,7 @@
 
         <activity
             android:name=".top.TopActivity"
-            android:label="@string/app_name"
+            android:label="${appName}"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

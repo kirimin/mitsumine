@@ -11,11 +11,17 @@ android {
         testApplicationId "me.kirimin.mitsumine.test"
         minSdkVersion 15
         targetSdkVersion 23
+        manifestPlaceholders = [appName: "@string/app_name"]
     }
 
     buildTypes {
         release {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+
+        debug {
+            applicationIdSuffix = ".debug"
+            manifestPlaceholders = [appName: "debug_mitsumine"]
         }
     }
 
