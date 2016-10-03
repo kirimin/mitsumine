@@ -30,6 +30,7 @@ class BookmarkListAdapter(activity: Activity, val presenter: BookmarkListPresent
             holder = ViewHolder(view)
             view.tag = holder
             holder.comment.setOnTouchListener { v, event ->
+                // コメント欄のリンク部分をタップ時はリンクを開きそれ以外の場所のタップは透過する為の処理
                 val linkMovementMethod = IfNeededLinkMovementMethod()
                 holder.comment.movementMethod = linkMovementMethod
                 val onTouchResult = linkMovementMethod.onTouchEvent(holder.comment, holder.comment.text as Spannable, event);
