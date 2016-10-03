@@ -1,8 +1,6 @@
 package me.kirimin.mitsumine.bookmarklist
 
 import android.app.Activity
-import android.support.v4.content.ContextCompat
-import android.support.v4.graphics.drawable.DrawableCompat
 import android.text.Spannable
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -47,7 +45,7 @@ class BookmarkListAdapter(activity: Activity, val presenter: BookmarkListPresent
         holder.cardView.setOnClickListener { v -> presenter.onItemClick(v.tag as Bookmark) }
         holder.cardView.tag = bookmark
         holder.userName.text = bookmark.user
-        holder.comment.text = bookmark.comment.toString()
+        holder.comment.text = bookmark.comment
         holder.tag.text = TextUtils.join(", ", bookmark.tags)
         holder.timeStamp.text = bookmark.timeStamp
         holder.stars.visibility = View.GONE
