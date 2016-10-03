@@ -12,10 +12,13 @@ import me.kirimin.mitsumine._common.domain.model.EntryInfo
 import me.kirimin.mitsumine.entryinfo.EntryInfoPresenter
 import me.kirimin.mitsumine.entryinfo.EntryInfoRepository
 import me.kirimin.mitsumine.entryinfo.EntryInfoView
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
 import rx.Observable
 import java.net.URLEncoder
 
+@RunWith(JUnit4::class)
 class EntryInfoPresenterTest {
 
     lateinit var viewMock: EntryInfoView

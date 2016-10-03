@@ -5,7 +5,7 @@ import com.activeandroid.annotation.Column
 import com.activeandroid.annotation.Table
 
 @Table(name = "account")
-class Account() : Model() {
+open class Account() : Model() {
 
     constructor(token: String, tokenSecret: String, urlName: String, displayName: String, imageUrl: String) : this() {
         this.token = token
@@ -16,17 +16,17 @@ class Account() : Model() {
     }
 
     @Column(name = "token")
-    var token: String = ""
+    open var token: String = ""
 
     @Column(name = "tokenSecret")
-    var tokenSecret: String = ""
+    open var tokenSecret: String = ""
 
     @Column(name = "url_name")
-    var urlName: String = ""
+    open var urlName: String = ""
 
     @Column(name = "display_name")
-    var displayName: String = ""
+    open var displayName: String = ""
 
     @Column(name = "profile_image_name")
-    var imageUrl: String = ""
+    open var imageUrl: String = ""
 }

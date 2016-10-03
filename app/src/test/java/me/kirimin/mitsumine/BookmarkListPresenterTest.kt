@@ -11,7 +11,10 @@ import java.util.ArrayList
 import me.kirimin.mitsumine.bookmarklist.BookmarkListPresenter
 import me.kirimin.mitsumine.bookmarklist.BookmarkListView
 import me.kirimin.mitsumine._common.domain.model.Bookmark
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
+@RunWith(JUnit4::class)
 class BookmarkListPresenterTest {
 
     lateinit var viewMock: BookmarkListView

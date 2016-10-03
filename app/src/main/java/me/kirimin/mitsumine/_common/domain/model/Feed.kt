@@ -7,34 +7,34 @@ import me.kirimin.mitsumine._common.network.entity.Item
 import java.net.URLEncoder
 
 @Table(name = "feed")
-class Feed() : Model() {
+open class Feed() : Model() {
 
     @Column(name = "title")
-    var title: String = ""
+    open var title: String = ""
 
     @Column(name = "thumbnailUrl")
-    var thumbnailUrl: String = ""
+    open var thumbnailUrl: String = ""
 
     @Column(name = "content")
-    var content: String = ""
+    open var content: String = ""
 
     @Column(name = "linkUrl", unique = true)
-    var linkUrl: String = ""
+    open var linkUrl: String = ""
 
     @Column(name = "entryLinkUrl")
-    var entryLinkUrl: String = ""
+    open var entryLinkUrl: String = ""
 
     @Column(name = "bookmarkCountUrl")
-    var bookmarkCountUrl: String = ""
+    open var bookmarkCountUrl: String = ""
 
     @Column(name = "faviconUrl")
-    var faviconUrl: String = ""
+    open var faviconUrl: String = ""
 
     @Column(name = "type")
-    var type: String = ""
+    open var type: String = ""
 
     @Column(name = "saveTime")
-    var saveTime: Long = 0
+    open var saveTime: Long = 0
 
     constructor(apiData: Item) : this() {
         title = apiData.title

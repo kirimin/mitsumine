@@ -10,16 +10,19 @@ import me.kirimin.mitsumine._common.domain.model.Feed
 import me.kirimin.mitsumine.feed.AbstractFeedRepository
 import me.kirimin.mitsumine.feed.FeedPresenter
 import me.kirimin.mitsumine.feed.FeedView
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import rx.Observable
 
 import org.mockito.Mockito.*
 
+@RunWith(JUnit4::class)
 class FeedPresenterTest {
 
     lateinit var viewMock: FeedView
     lateinit var repositoryMock: AbstractFeedRepository
     val presenter = FeedPresenter()
-    val resultMock = listOf(Feed(title = "mock1"), Feed(title = "mock2"))
+    val resultMock = listOf<Feed>(mock(), mock())
 
     @Before
     fun setup() {
@@ -67,16 +70,18 @@ class FeedPresenterTest {
     @JvmName(name = "アイテムクリック時にURLをブラウザで開く")
     fun onItemClick() {
         presenter.onCreate(viewMock, repositoryMock)
-        presenter.onItemClick(Feed(linkUrl = "http://test"))
+        val feed = mock<Feed>()
+        whenever(feed.linkUrl).thenReturn("http://test")
+        presenter.onItemClick(feed)
         verify(viewMock, times(1)).sendUrlIntent("http://test")
     }
 
     @Test
     @JvmName(name = "アイテム長押し時にコメント一覧を開く")
     fun onItemLongClick() {
-        val feed = Feed()
-        feed.linkUrl = "http://test"
-        feed.entryLinkUrl = "http://entry"
+        val feed = mock<Feed>()
+        whenever(feed.linkUrl).thenReturn("http://test")
+        whenever(feed.entryLinkUrl).thenReturn("http://entry")
 
         // ブラウザで開く
         whenever(repositoryMock.isUseBrowserSettingEnable).thenReturn(true)
@@ -95,10 +100,10 @@ class FeedPresenterTest {
     @Test
     @JvmName(name = "シェアボタン押下と長押しでタイトルを付けるかを切り替える")
     fun onFeedShareClick() {
-        val feed = Feed()
-        feed.title = "title"
-        feed.linkUrl = "http://test"
-        feed.entryLinkUrl = "http://entry"
+        val feed = mock<Feed>()
+        whenever(feed.title).thenReturn("title")
+        whenever(feed.linkUrl).thenReturn("http://test")
+        whenever(feed.entryLinkUrl).thenReturn("http://entry")
 
         // 押下
         // タイトル入り設定

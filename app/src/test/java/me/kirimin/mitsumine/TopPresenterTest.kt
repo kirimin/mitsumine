@@ -7,15 +7,16 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-import java.util.ArrayList
-
 import me.kirimin.mitsumine._common.domain.enums.Category
 import me.kirimin.mitsumine._common.domain.enums.Type
 import me.kirimin.mitsumine._common.domain.model.Account
 import me.kirimin.mitsumine.top.TopRepository
 import me.kirimin.mitsumine.top.TopPresenter
 import me.kirimin.mitsumine.top.TopView
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
+@RunWith(JUnit4::class)
 class TopPresenterTest {
 
     lateinit var viewMock: TopView
@@ -72,7 +73,10 @@ class TopPresenterTest {
     @Test
     @JvmName(name = "画面表示時にログインしていればユーザー情報が表示されログインボタンが非表示になる")
     fun userInfoEnableTest() {
-        whenever(repositoryMock.account).then { Account(displayName = "kirimin", imageUrl = "image.png") }
+        val account = mock<Account>()
+        whenever(account.displayName).thenReturn("kirimin")
+        whenever(account.imageUrl).thenReturn("image.png")
+        whenever(repositoryMock.account).then { account }
         presenter.onCreate(viewMock, repositoryMock)
         presenter.onStart()
         verify(viewMock, times(1)).removeNavigationAdditions()
