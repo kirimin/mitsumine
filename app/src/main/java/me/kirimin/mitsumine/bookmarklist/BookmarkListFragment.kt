@@ -1,6 +1,7 @@
 package me.kirimin.mitsumine.bookmarklist
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import me.kirimin.mitsumine.search.AbstractSearchActivity
 import me.kirimin.mitsumine.feed.user.UserSearchActivity
 
 import kotlinx.android.synthetic.main.fragment_bookmark_list.view.*
+import java.net.URL
 
 class BookmarkListFragment : Fragment(), BookmarkListView {
 
@@ -39,6 +41,17 @@ class BookmarkListFragment : Fragment(), BookmarkListView {
         val intent = Intent(activity, UserSearchActivity::class.java)
         intent.putExtras(AbstractSearchActivity.buildBundle(userId))
         startActivity(intent)
+    }
+
+    override fun shareCommentLink(text: String) {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_TEXT, text)
+        startActivity(intent)
+    }
+
+    override fun showBrowser(url: String) {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
     }
 
     companion object {

@@ -4,7 +4,11 @@ import me.kirimin.mitsumine._common.domain.model.Bookmark
 
 interface BookmarkListView {
 
-    open fun initViews(bookmarks: List<Bookmark>)
+    fun initViews(bookmarks: List<Bookmark>)
 
-    open fun startUserSearchActivity(userId: String)
+    fun startUserSearchActivity(userId: String)
+
+    fun shareCommentLink(text: String)
+
+    fun showBrowser(url: String)
 }
