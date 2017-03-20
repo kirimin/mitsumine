@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.3'
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "me.kirimin.mitsumine"
@@ -18,12 +18,16 @@ android {
 
     buildTypes {
         release {
+            buildConfigField "String", "OAUTH_KEY", "\"${project.property("oauthKey")}\""
+            buildConfigField "String", "OAUTH_SECRET", "\"${project.property("oauthSecret")}\""
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
 
         debug {
             applicationIdSuffix = ".debug"
             manifestPlaceholders = [appName: "debug_mitsumine"]
+            buildConfigField "String", "OAUTH_KEY", "\"${project.property("oauthKey")}\""
+            buildConfigField "String", "OAUTH_SECRET", "\"${project.property("oauthSecret")}\""
         }
     }
 

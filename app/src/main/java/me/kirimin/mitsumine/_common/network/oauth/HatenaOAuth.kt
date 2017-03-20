@@ -1,5 +1,6 @@
 package me.kirimin.mitsumine._common.network.oauth
 
+import me.kirimin.mitsumine.BuildConfig
 import org.json.JSONException
 import org.json.JSONObject
 import org.scribe.builder.ServiceBuilder
@@ -21,7 +22,7 @@ public class HatenaOAuth {
     private var requestToken: Token? = null
 
     init {
-        oAuthService = ServiceBuilder().provider(HatenaOAuthProvider::class.java).apiKey(Consumer.K).apiSecret(Consumer.S).build()
+        oAuthService = ServiceBuilder().provider(HatenaOAuthProvider::class.java).apiKey(BuildConfig.OAUTH_KEY).apiSecret(BuildConfig.OAUTH_SECRET).build()
     }
 
     public fun requestAuthUrl(): Observable<String> {
