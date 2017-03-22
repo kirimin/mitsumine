@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine
+package me.kirimin.mitsumine.feed
 
 import com.nhaarman.mockito_kotlin.anyList
 import com.nhaarman.mockito_kotlin.mock

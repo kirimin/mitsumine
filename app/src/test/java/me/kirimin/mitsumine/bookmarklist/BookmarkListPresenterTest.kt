@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine
+package me.kirimin.mitsumine.bookmarklist
 
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.times
