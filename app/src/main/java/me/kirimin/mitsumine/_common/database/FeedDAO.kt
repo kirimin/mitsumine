@@ -20,7 +20,7 @@ object FeedDAO {
     }
 
     fun findByType(type: String): List<Feed> {
-        return Select().from(Feed::class.java).where("type = ?", type).execute<Feed>()
+        return Select().from(Feed::class.java).where("type = ?", type).orderBy("saveTime DESC").execute<Feed>()
     }
 
     fun deleteOldData(days: Int) {

@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine
+package me.kirimin.mitsumine.bookmarklist
 
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.times
@@ -11,6 +11,7 @@ import java.util.ArrayList
 import me.kirimin.mitsumine.bookmarklist.BookmarkListPresenter
 import me.kirimin.mitsumine.bookmarklist.BookmarkListView
 import me.kirimin.mitsumine._common.domain.model.Bookmark
+import me.kirimin.mitsumine.bookmarklist.BookmarkPopupWindowBuilder
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
@@ -38,7 +39,8 @@ class BookmarkListPresenterTest {
         val bookmarks = ArrayList<Bookmark>()
         val bookmark = Bookmark("user", emptyList(), "", "", "", emptyList())
         presenter.onCreate(viewMock, bookmarks)
-        presenter.onItemClick(bookmark)
+        presenter.onMoreIconClick(bookmark, "1", BookmarkPopupWindowBuilder.INDEX_SEARCH)
         verify(viewMock, times(1)).startUserSearchActivity("user")
+        // TODO add tests
     }
 }

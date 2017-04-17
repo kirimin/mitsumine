@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine
+package me.kirimin.mitsumine.entryinfo
 
 import android.content.Context
 import com.nhaarman.mockito_kotlin.*

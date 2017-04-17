@@ -1,4 +1,6 @@
-mitsumine
+![build status](https://circleci.com/gh/kirimin/mitsumine.png?style=shield&circle-token=6dcef4af0b5deb494ce9431fcd197866ba2bc04e)
+
+README
 =========
 Mitsumineははてなブックマークを閲覧するためのAndroidアプリです。  
 はてブを快適に流し見するために自分用に開発しています。  

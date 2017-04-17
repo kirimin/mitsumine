@@ -11,7 +11,6 @@ import org.scribe.model.Token
 
 import me.kirimin.mitsumine._common.domain.model.Account
 import me.kirimin.mitsumine._common.domain.exceptions.ApiRequestException
-import me.kirimin.mitsumine._common.network.oauth.Consumer
 import me.kirimin.mitsumine._common.network.oauth.HatenaOAuthProvider
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
@@ -67,7 +66,7 @@ object ApiAccessor {
     }
 
     fun oAuthRequest(account: Account, request: OAuthRequest): Response {
-        val oAuthService = ServiceBuilder().provider(HatenaOAuthProvider::class.java).apiKey(Consumer.K).apiSecret(Consumer.S).build()
+        val oAuthService = ServiceBuilder().provider(HatenaOAuthProvider::class.java).apiKey(BuildConfig.OAUTH_KEY).apiSecret(BuildConfig.OAUTH_SECRET).build()
         val accessToken = Token(account.token, account.tokenSecret)
         oAuthService.signRequest(accessToken, request)
         return request.send()

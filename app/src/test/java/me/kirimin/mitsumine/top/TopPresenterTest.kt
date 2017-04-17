@@ -1,4 +1,4 @@
-package me.kirimin.mitsumine
+package me.kirimin.mitsumine.top
 
 import android.view.View
 import com.nhaarman.mockito_kotlin.*

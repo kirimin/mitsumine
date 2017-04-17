@@ -3,14 +3,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.3'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId "me.kirimin.mitsumine"
         testApplicationId "me.kirimin.mitsumine.test"
-        versionCode 20600
-        versionName "2.6.0"
+        versionCode 20601
+        versionName "2.6.1"
         minSdkVersion 15
         targetSdkVersion 23
         manifestPlaceholders = [appName: "@string/app_name"]
@@ -18,12 +18,16 @@ android {
 
     buildTypes {
         release {
+            buildConfigField "String", "OAUTH_KEY", "\"${project.property("oauthKey")}\""
+            buildConfigField "String", "OAUTH_SECRET", "\"${project.property("oauthSecret")}\""
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
 
         debug {
             applicationIdSuffix = ".debug"
             manifestPlaceholders = [appName: "debug_mitsumine"]
+            buildConfigField "String", "OAUTH_KEY", "\"${project.property("oauthKey")}\""
+            buildConfigField "String", "OAUTH_SECRET", "\"${project.property("oauthSecret")}\""
         }
     }
 
@@ -38,16 +42,16 @@ android {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile 'com.android.support:support-annotations:23.3.0'
-    compile 'com.android.support:support-v4:23.3.0'
-    compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support:cardview-v7:23.3.0'
+    compile "com.android.support:support-annotations:$support_library_version"
+    compile "com.android.support:support-v4:$support_library_version"
+    compile "com.android.support:appcompat-v7:$support_library_version"
+    compile "com.android.support:cardview-v7:$support_library_version"
     compile 'com.google.firebase:firebase-analytics:9.6.1'
     compile 'com.google.firebase:firebase-crash:9.6.1'
 
     compile 'com.squareup.okhttp3:okhttp:3.3.1'
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
-    compile 'com.squareup.picasso:picasso:2.5.+'
+    compile 'com.squareup.picasso:picasso:2.5.3-SNAPSHOT'
     compile 'com.jpardogo.materialtabstrip:library:1.0.6'
     compile 'com.makeramen:roundedimageview:1.5.0'
     compile 'io.reactivex:rxandroid:1.1.0'
@@ -66,7 +70,8 @@ dependencies {
     testCompile "com.nhaarman:mockito-kotlin:0.3.1"
 }
 buildscript {
-    ext.kotlin_version = '1.0.4'
+    ext.kotlin_version = '1.1.1'
+    ext.support_library_version = '25.3.0'
     repositories {
         mavenCentral()
     }
@@ -78,3 +83,4 @@ repositories {
     mavenCentral()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
+apply plugin: 'com.google.gms.google-services'
