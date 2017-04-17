@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "515410156148",
+    "firebase_url": "https://mitsumine-2c292.firebaseio.com",
+    "project_id": "mitsumine-2c292",
+    "storage_bucket": "mitsumine-2c292.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:515410156148:android:80fec450e6772614",
+        "android_client_info": {
+          "package_name": "me.kirimin.mitsumine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "515410156148-990te1gq3tlld82jf4evcs9ajd2mu7u6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfkJDU5j5Jd7fe0yYG0ZbCtsNRoa9GD8k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:515410156148:android:a4a397929432f477",
+        "android_client_info": {
+          "package_name": "me.kirimin.mitsumine.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "515410156148-990te1gq3tlld82jf4evcs9ajd2mu7u6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfkJDU5j5Jd7fe0yYG0ZbCtsNRoa9GD8k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

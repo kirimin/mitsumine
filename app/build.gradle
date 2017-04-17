@@ -83,3 +83,4 @@ repositories {
     mavenCentral()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
+apply plugin: 'com.google.gms.google-services'
