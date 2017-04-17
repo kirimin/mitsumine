@@ -38,7 +38,8 @@ class LoginActivity : AppCompatActivity() {
                     .subscribe({ authUrl ->
                         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(authUrl)))
                         v.isEnabled = true
-                    }, { e ->
+                    }, {
+                        Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show()
                         v.isEnabled = true
                     })
             )
