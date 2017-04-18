@@ -3,7 +3,7 @@ package me.kirimin.mitsumine._common.domain.model
 import com.activeandroid.Model
 import com.activeandroid.annotation.Column
 import com.activeandroid.annotation.Table
-import me.kirimin.mitsumine._common.network.entity.Item
+import me.kirimin.mitsumine._common.network.entity.FeedEntity
 import java.net.URLEncoder
 
 @Table(name = "feed")
@@ -36,11 +36,11 @@ open class Feed() : Model() {
     @Column(name = "saveTime")
     open var saveTime: Long = 0
 
-    constructor(apiData: Item) : this() {
-        title = apiData.title
-        linkUrl = apiData.link.replace("#", "%23")
-        content = apiData.description ?: ""
-        thumbnailUrl = parseThumbnailUrl(apiData.contentEncoded ?: "")
+    constructor(entity: FeedEntity) : this() {
+        title = entity.title
+        linkUrl = entity.link.replace("#", "%23")
+        content = entity.description ?: ""
+        thumbnailUrl = parseThumbnailUrl(entity.contentEncoded ?: "")
         bookmarkCountUrl = "http://b.hatena.ne.jp/entry/image/" + URLEncoder.encode(linkUrl, "utf-8")
         faviconUrl = "http://cdn-ak.favicon.st-hatena.com/?url=" + linkUrl
         entryLinkUrl = "http://b.hatena.ne.jp/entry/" + linkUrl

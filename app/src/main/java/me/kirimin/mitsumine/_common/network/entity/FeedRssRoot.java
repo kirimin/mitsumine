@@ -5,9 +5,12 @@ import org.simpleframework.xml.Root;
 
 import java.util.List;
 
+/**
+ * フィードのRSSルート
+ */
 @Root(name = "rdf:RDF", strict = false)
-public class RssRoot {
+public class FeedRssRoot {
 
     @ElementList(required = false, inline = true, empty = true, entry = "item", name = "item")
-    public List<Item> itemList;
+    public List<FeedEntity> itemList;
 }
