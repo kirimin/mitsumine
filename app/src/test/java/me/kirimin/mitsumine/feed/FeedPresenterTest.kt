@@ -6,25 +6,35 @@ import org.junit.Before
 import org.junit.Test
 
 import me.kirimin.mitsumine._common.domain.model.Feed
+import org.junit.Rule
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.mockito.Mock
 import rx.Observable
 
 import org.mockito.Mockito.*
+import org.mockito.Spy
+import org.mockito.quality.Strictness
+import org.mockito.junit.MockitoJUnit
 
 @RunWith(JUnit4::class)
 class FeedPresenterTest {
 
+    @Rule
+    @JvmField
+    var rule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS)
+
+    @Mock
     lateinit var viewMock: FeedView
+    @Mock
     lateinit var repositoryMock: AbstractFeedRepository
-    val presenter = FeedPresenter()
+    @Spy
+    lateinit var presenter : FeedPresenter
+
     val resultMock = listOf<Feed>(mock(), mock())
 
     @Before
     fun setup() {
-        
-        viewMock = mock()
-        repositoryMock = mock()
         whenever(repositoryMock.requestFeed()).thenReturn(Observable.from(resultMock))
     }
 
@@ -99,7 +109,6 @@ class FeedPresenterTest {
         val feed = mock<Feed>()
         whenever(feed.title).thenReturn("title")
         whenever(feed.linkUrl).thenReturn("http://test")
-        whenever(feed.entryLinkUrl).thenReturn("http://entry")
 
         // 押下
         // タイトル入り設定

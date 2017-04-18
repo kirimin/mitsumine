@@ -12,8 +12,13 @@ import me.kirimin.mitsumine._common.domain.model.EntryInfo
 import me.kirimin.mitsumine.entryinfo.EntryInfoPresenter
 import me.kirimin.mitsumine.entryinfo.EntryInfoRepository
 import me.kirimin.mitsumine.entryinfo.EntryInfoView
+import org.junit.Rule
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.mockito.Mock
+import org.mockito.Spy
+import org.mockito.junit.MockitoJUnit
+import org.mockito.quality.Strictness
 
 import rx.Observable
 import java.net.URLEncoder
@@ -21,18 +26,23 @@ import java.net.URLEncoder
 @RunWith(JUnit4::class)
 class EntryInfoPresenterTest {
 
+    @Rule
+    @JvmField
+    var rule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS)
+
+    @Mock
     lateinit var viewMock: EntryInfoView
+    @Mock
     lateinit var repositoryMock: EntryInfoRepository
+    @Mock
     lateinit var contextMock: Context
+    @Mock
     lateinit var resultMock: EntryInfo
-    val presenter = EntryInfoPresenter()
+    @Spy
+    lateinit var presenter: EntryInfoPresenter
 
     @Before
     fun setup() {
-        viewMock = mock()
-        repositoryMock = mock()
-        contextMock = mock()
-
         val bookmarks = listOf(
                 Bookmark("test1", listOf("TagA"), "", "comment", "", emptyList()),
                 Bookmark("test2", emptyList(), "", "", "", emptyList()),

@@ -13,21 +13,27 @@ import me.kirimin.mitsumine._common.domain.model.Account
 import me.kirimin.mitsumine.top.TopRepository
 import me.kirimin.mitsumine.top.TopPresenter
 import me.kirimin.mitsumine.top.TopView
+import org.junit.Rule
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.mockito.Mock
+import org.mockito.Spy
+import org.mockito.junit.MockitoJUnit
+import org.mockito.quality.Strictness
 
 @RunWith(JUnit4::class)
 class TopPresenterTest {
 
-    lateinit var viewMock: TopView
-    lateinit var repositoryMock: TopRepository
-    val presenter = TopPresenter()
+    @Rule
+    @JvmField
+    var rule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS)
 
-    @Before
-    fun setup() {
-        viewMock = mock()
-        repositoryMock = mock()
-    }
+    @Mock
+    lateinit var viewMock: TopView
+    @Mock
+    lateinit var repositoryMock: TopRepository
+    @Spy
+    lateinit var presenter: TopPresenter
 
     @Test
     @JvmName(name = "onCreate時にNavigationBarに全カテゴリが追加される")
