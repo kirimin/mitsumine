@@ -39,7 +39,6 @@ class FeedPresenterTest {
     }
 
     @Test
-    @JvmName(name = "onCreate時にフィードを読み込みセットする")
     fun onCreateTest() {
         presenter.onCreate(viewMock, repositoryMock)
         verify(viewMock, times(1)).initViews()
@@ -51,7 +50,6 @@ class FeedPresenterTest {
     }
 
     @Test
-    @JvmName(name = "PullToRefresh時にフィードを更新する")
     fun onRefreshTest() {
         presenter.onCreate(viewMock, repositoryMock)
         presenter.onRefresh()
@@ -64,7 +62,6 @@ class FeedPresenterTest {
     }
 
     @Test
-    @JvmName(name = "フィードデータ取得失敗時にインジケータを停止する")
     fun onErrorTest() {
         whenever(repositoryMock.requestFeed()).thenReturn(Observable.error(Exception()))
         presenter.onCreate(viewMock, repositoryMock)
@@ -73,7 +70,6 @@ class FeedPresenterTest {
     }
 
     @Test
-    @JvmName(name = "アイテムクリック時にURLをブラウザで開く")
     fun onItemClick() {
         presenter.onCreate(viewMock, repositoryMock)
         val feed = mock<Feed>()
@@ -83,8 +79,7 @@ class FeedPresenterTest {
     }
 
     @Test
-    @JvmName(name = "アイテム長押し時にコメント一覧を開く")
-    fun onItemLongClick() {
+    fun onItemLongClickTest() {
         val feed = mock<Feed>()
         whenever(feed.linkUrl).thenReturn("http://test")
         whenever(feed.entryLinkUrl).thenReturn("http://entry")
@@ -104,8 +99,7 @@ class FeedPresenterTest {
     }
 
     @Test
-    @JvmName(name = "シェアボタン押下と長押しでタイトルを付けるかを切り替える")
-    fun onFeedShareClick() {
+    fun onFeedShareClickTest() {
         val feed = mock<Feed>()
         whenever(feed.title).thenReturn("title")
         whenever(feed.linkUrl).thenReturn("http://test")

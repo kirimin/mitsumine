@@ -54,7 +54,6 @@ class EntryInfoPresenterTest {
     }
 
     @Test
-    @JvmName(name = "onCreate時にページ情報を取得し表示する")
     fun onCreateTest() {
         whenever(repositoryMock.isLogin()).thenReturn(false)
         presenter.onCreate(viewMock, repositoryMock, "http://sample", contextMock)
@@ -73,7 +72,6 @@ class EntryInfoPresenterTest {
     }
 
     @Test
-    @JvmName(name = "ログイン時にはブクマ登録Fragmentが追加される")
     fun onNextTestWithLogin() {
         whenever(repositoryMock.isLogin()).thenReturn(true)
         presenter.onCreate(viewMock, repositoryMock, "http://sample", contextMock)
