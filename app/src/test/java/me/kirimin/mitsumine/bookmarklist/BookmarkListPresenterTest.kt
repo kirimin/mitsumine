@@ -1,33 +1,34 @@
 package me.kirimin.mitsumine.bookmarklist
 
-import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
-import org.junit.Before
 import org.junit.Test
 
 import java.util.ArrayList
 
-import me.kirimin.mitsumine.bookmarklist.BookmarkListPresenter
-import me.kirimin.mitsumine.bookmarklist.BookmarkListView
 import me.kirimin.mitsumine._common.domain.model.Bookmark
-import me.kirimin.mitsumine.bookmarklist.BookmarkPopupWindowBuilder
+import org.junit.Rule
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.mockito.Mock
+import org.mockito.Spy
+import org.mockito.junit.MockitoJUnit
+import org.mockito.quality.Strictness
 
 @RunWith(JUnit4::class)
 class BookmarkListPresenterTest {
 
-    lateinit var viewMock: BookmarkListView
+    @Rule
+    @JvmField
+    var rule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS)
 
-    @Before
-    fun setup() {
-        viewMock = mock()
-    }
+    @Mock
+    lateinit var viewMock: BookmarkListView
+    @Spy
+    lateinit var presenter: BookmarkListPresenter
 
     @Test
     fun onCreateTest() {
-        val presenter = BookmarkListPresenter()
         val bookmarks = ArrayList<Bookmark>()
         presenter.onCreate(viewMock, bookmarks)
         verify(viewMock, times(1)).initViews(bookmarks)

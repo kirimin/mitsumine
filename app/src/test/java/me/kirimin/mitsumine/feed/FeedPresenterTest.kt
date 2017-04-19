@@ -1,39 +1,44 @@
 package me.kirimin.mitsumine.feed
 
-import com.nhaarman.mockito_kotlin.anyList
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Before
 import org.junit.Test
 
 import me.kirimin.mitsumine._common.domain.model.Feed
-import me.kirimin.mitsumine.feed.AbstractFeedRepository
-import me.kirimin.mitsumine.feed.FeedPresenter
-import me.kirimin.mitsumine.feed.FeedView
+import org.junit.Rule
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.mockito.Mock
 import rx.Observable
 
 import org.mockito.Mockito.*
+import org.mockito.Spy
+import org.mockito.quality.Strictness
+import org.mockito.junit.MockitoJUnit
 
 @RunWith(JUnit4::class)
 class FeedPresenterTest {
 
+    @Rule
+    @JvmField
+    var rule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS)
+
+    @Mock
     lateinit var viewMock: FeedView
+    @Mock
     lateinit var repositoryMock: AbstractFeedRepository
-    val presenter = FeedPresenter()
+    @Spy
+    lateinit var presenter : FeedPresenter
+
     val resultMock = listOf<Feed>(mock(), mock())
 
     @Before
     fun setup() {
-        
-        viewMock = mock()
-        repositoryMock = mock()
         whenever(repositoryMock.requestFeed()).thenReturn(Observable.from(resultMock))
     }
 
     @Test
-    @JvmName(name = "onCreate時にフィードを読み込みセットする")
     fun onCreateTest() {
         presenter.onCreate(viewMock, repositoryMock)
         verify(viewMock, times(1)).initViews()
@@ -45,7 +50,6 @@ class FeedPresenterTest {
     }
 
     @Test
-    @JvmName(name = "PullToRefresh時にフィードを更新する")
     fun onRefreshTest() {
         presenter.onCreate(viewMock, repositoryMock)
         presenter.onRefresh()
@@ -58,7 +62,6 @@ class FeedPresenterTest {
     }
 
     @Test
-    @JvmName(name = "フィードデータ取得失敗時にインジケータを停止する")
     fun onErrorTest() {
         whenever(repositoryMock.requestFeed()).thenReturn(Observable.error(Exception()))
         presenter.onCreate(viewMock, repositoryMock)
@@ -67,7 +70,6 @@ class FeedPresenterTest {
     }
 
     @Test
-    @JvmName(name = "アイテムクリック時にURLをブラウザで開く")
     fun onItemClick() {
         presenter.onCreate(viewMock, repositoryMock)
         val feed = mock<Feed>()
@@ -77,8 +79,7 @@ class FeedPresenterTest {
     }
 
     @Test
-    @JvmName(name = "アイテム長押し時にコメント一覧を開く")
-    fun onItemLongClick() {
+    fun onItemLongClickTest() {
         val feed = mock<Feed>()
         whenever(feed.linkUrl).thenReturn("http://test")
         whenever(feed.entryLinkUrl).thenReturn("http://entry")
@@ -98,12 +99,10 @@ class FeedPresenterTest {
     }
 
     @Test
-    @JvmName(name = "シェアボタン押下と長押しでタイトルを付けるかを切り替える")
-    fun onFeedShareClick() {
+    fun onFeedShareClickTest() {
         val feed = mock<Feed>()
         whenever(feed.title).thenReturn("title")
         whenever(feed.linkUrl).thenReturn("http://test")
-        whenever(feed.entryLinkUrl).thenReturn("http://entry")
 
         // 押下
         // タイトル入り設定
