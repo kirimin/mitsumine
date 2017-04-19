@@ -8,16 +8,16 @@ import me.kirimin.mitsumine._common.domain.model.Keyword
 import com.activeandroid.query.Delete
 import com.activeandroid.query.Select
 
-public class KeywordDAO private constructor() {
+class KeywordDAO private constructor() {
     companion object {
 
-        public fun save(word: String) {
+        fun save(word: String) {
             val keyword = Keyword()
             keyword.word = word
             keyword.save()
         }
 
-        public fun findAll(): List<String> {
+        fun findAll(): List<String> {
             val list = Select().from(Keyword::class.java).execute<Keyword>()
             val stringList = ArrayList<String>()
             for (w in list) {
@@ -26,7 +26,7 @@ public class KeywordDAO private constructor() {
             return stringList
         }
 
-        public fun delete(word: String) {
+        fun delete(word: String) {
             Delete().from(Keyword::class.java).where("word = ?", word).execute<Model>()
         }
     }

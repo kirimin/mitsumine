@@ -14,24 +14,24 @@ import rx.schedulers.Schedulers
 
 abstract class AbstractFeedRepository(val context: Context) {
 
-    open val isUseBrowserSettingEnable: Boolean
+     val isUseBrowserSettingEnable: Boolean
         get() = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.key_use_browser_to_comment_list), false)
 
-    open val isShareWithTitleSettingEnable: Boolean
+     val isShareWithTitleSettingEnable: Boolean
         get() = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.key_is_share_with_title), false)
 
-    open val ngWordList: List<String>
+     val ngWordList: List<String>
         get() = NGWordDAO.findAll()
 
-    open fun requestFeed() = getObservable()
+     fun requestFeed() = getObservable()
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
 
-    open fun requestTagList(url: String): Observable<List<String>> = TagListApi.request(context.applicationContext, url)
+     fun requestTagList(url: String): Observable<List<String>> = TagListApi.request(context.applicationContext, url)
 
-    open fun requestBookmarkCount(url: String): Observable<String> = BookmarkCountApi.request(context.applicationContext, url)
+     fun requestBookmarkCount(url: String): Observable<String> = BookmarkCountApi.request(context.applicationContext, url)
 
-    open fun saveFeed(feed: Feed) {
+     fun saveFeed(feed: Feed) {
         FeedDAO.save(feed)
     }
 

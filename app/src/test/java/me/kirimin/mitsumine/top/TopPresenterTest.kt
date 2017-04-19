@@ -13,24 +13,29 @@ import me.kirimin.mitsumine._common.domain.model.Account
 import me.kirimin.mitsumine.top.TopRepository
 import me.kirimin.mitsumine.top.TopPresenter
 import me.kirimin.mitsumine.top.TopView
+import org.junit.Rule
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.mockito.Mock
+import org.mockito.Spy
+import org.mockito.junit.MockitoJUnit
+import org.mockito.quality.Strictness
 
 @RunWith(JUnit4::class)
 class TopPresenterTest {
 
-    lateinit var viewMock: TopView
-    lateinit var repositoryMock: TopRepository
-    val presenter = TopPresenter()
+    @Rule
+    @JvmField
+    var rule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS)
 
-    @Before
-    fun setup() {
-        viewMock = mock()
-        repositoryMock = mock()
-    }
+    @Mock
+    lateinit var viewMock: TopView
+    @Mock
+    lateinit var repositoryMock: TopRepository
+    @Spy
+    lateinit var presenter: TopPresenter
 
     @Test
-    @JvmName(name = "onCreate時にNavigationBarに全カテゴリが追加される")
     fun onCreateTest() {
         presenter.onCreate(viewMock, repositoryMock)
         verify(viewMock, times(1)).initViews()
@@ -46,21 +51,18 @@ class TopPresenterTest {
     }
 
     @Test
-    @JvmName(name = "onCreate時にデフォルトで総合・人気が表示される")
-    fun onCreateTest2() {
+    fun defaultShowCategoryAndTypeTest() {
         presenter.onCreate(viewMock, repositoryMock)
         verify(viewMock, times(1)).refreshShowCategoryAndType(Category.MAIN, Type.HOT)
     }
 
     @Test
-    @JvmName(name = "onCreate時に受け取ったカテゴリ・タイプが表示される")
-    fun onCreateTest3() {
+    fun ShowSelectedCategoryAndTypeTestOnCreateTest() {
         presenter.onCreate(viewMock, repositoryMock, Category.IT, Type.NEW)
         verify(viewMock, times(1)).refreshShowCategoryAndType(Category.IT, Type.NEW)
     }
 
     @Test
-    @JvmName(name = "画面表示時にログインしてなければユーザー情報が非表示になりログインボタンが表示される")
     fun userInfoDisableTest() {
         whenever(repositoryMock.account).then { null }
         presenter.onCreate(viewMock, repositoryMock)
@@ -71,7 +73,6 @@ class TopPresenterTest {
     }
 
     @Test
-    @JvmName(name = "画面表示時にログインしていればユーザー情報が表示されログインボタンが非表示になる")
     fun userInfoEnableTest() {
         val account = mock<Account>()
         whenever(account.displayName).thenReturn("kirimin")
@@ -85,7 +86,6 @@ class TopPresenterTest {
     }
 
     @Test
-    @JvmName(name = "画面表示時に登録しているユーザーが表示される。クリックでユーザー検索に遷移。ロングクリックで削除ダイアログ表示")
     fun additionUserTest() {
         val users = listOf("testA", "testB", "testC")
         whenever(repositoryMock.additionUsers).thenReturn(users)
@@ -120,7 +120,6 @@ class TopPresenterTest {
     }
 
     @Test
-    @JvmName(name = "画面表示時に登録しているキーワードが表示される。クリックでキーワード検索に遷移。ロングクリックで削除ダイアログ表示")
     fun additionKeywordTest() {
         val keywords = listOf("testA", "testB", "testC")
         whenever(repositoryMock.additionKeywords).thenReturn(keywords)
@@ -151,7 +150,6 @@ class TopPresenterTest {
     }
 
     @Test
-    @JvmName(name = "ツールバークリックでNavigationBarが開閉する")
     fun toolbarClickTest() {
         whenever(viewMock.isOpenNavigation()).thenReturn(false)
 
@@ -172,7 +170,6 @@ class TopPresenterTest {
     }
 
     @Test
-    @JvmName(name = "人気・新着の切替えが出来る")
     fun typeSelectTest() {
         val presenter = TopPresenter()
         presenter.onCreate(viewMock, repositoryMock, Category.MAIN, Type.HOT)
@@ -193,7 +190,6 @@ class TopPresenterTest {
     }
 
     @Test
-    @JvmName(name = "バックキー押下時にNavigationBarが開いていたら閉じ、閉じていたら画面を終了する")
     fun backKeyPressTest() {
         whenever(viewMock.isOpenNavigation()).thenReturn(false)
 
@@ -211,7 +207,6 @@ class TopPresenterTest {
     }
 
     @Test
-    @JvmName(name = "onCreate時に古い既読データを削除する")
     fun deleteOldDataTest() {
         presenter.onCreate(viewMock, repositoryMock)
         verify(repositoryMock, times(1)).deleteOldFeedData(3)
