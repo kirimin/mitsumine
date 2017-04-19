@@ -13,7 +13,7 @@
 
         <meta-data
             android:name="AA_MODELS"
-            android:value="me.kirimin.mitsumine._common.domain.model.Feed,
+            android:value="me.kirimin.mitsumine._common.database.entity.FeedDataBaseEntity,
                 me.kirimin.mitsumine._common.domain.model.Account,
                 me.kirimin.mitsumine._common.domain.model.NGWord,
                 me.kirimin.mitsumine._common.domain.model.Keyword,
