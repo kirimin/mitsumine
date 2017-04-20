@@ -10,7 +10,7 @@ object FeedApiParser {
     fun parseResponse(response: String): Observable<Feed> {
         try {
             val xmlRoot = Persister().read(FeedRssRoot::class.java, response, false)
-            return Observable.from(xmlRoot.itemList.map { Feed(it) })
+            return Observable.from(xmlRoot.itemList.map(::Feed))
         } catch(e: Exception) {
             return Observable.error(e)
         }
