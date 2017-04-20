@@ -9,7 +9,7 @@ import me.kirimin.mitsumine._common.domain.model.Feed
  * フィードをDBに保存するためのテーブルモデル
  */
 @Table(name = "feed")
-class FeedDataBaseEntity() : Model() {
+class FeedTableEntity() : Model() {
 
     constructor(feed: Feed): this() {
         title = feed.title
