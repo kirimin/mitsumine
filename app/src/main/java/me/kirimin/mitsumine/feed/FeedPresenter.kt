@@ -99,7 +99,7 @@ class FeedPresenter {
         holder.tags.tag = repository.requestTagList(item.linkUrl)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map { it.joinToString(", ") }
+                .map { it.tagListString }
                 .subscribe(object : Subscriber<String>() {
                     override fun onNext(tags: String) {
                         view.setTagList(holder, tags)

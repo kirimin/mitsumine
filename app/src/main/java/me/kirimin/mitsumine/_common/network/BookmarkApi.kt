@@ -8,7 +8,6 @@ import org.scribe.model.Verb
 import me.kirimin.mitsumine._common.domain.model.Account
 import me.kirimin.mitsumine._common.domain.model.Bookmark
 import me.kirimin.mitsumine._common.domain.exceptions.ApiRequestException
-import me.kirimin.mitsumine._common.network.parser.BookmarkApiParser
 import rx.Observable
 
 object BookmarkApi {

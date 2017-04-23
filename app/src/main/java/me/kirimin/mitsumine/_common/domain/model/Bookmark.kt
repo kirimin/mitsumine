@@ -1,89 +1,36 @@
 package me.kirimin.mitsumine._common.domain.model
 
-import android.os.Parcel
-import android.os.Parcelable
+import android.text.Html
+import me.kirimin.mitsumine._common.network.entity.BookmarkResponse
+import java.io.Serializable
+import java.util.regex.Pattern
 
-import java.util.ArrayList
-
-class Bookmark : Parcelable {
+data class Bookmark(
+        val response: BookmarkResponse,
+        val stars: List<Star> = emptyList()) : Serializable {
+    private val urlLinkPattern = Pattern.compile("(http://|https://){1}[\\w\\.\\-/:\\#\\?\\=\\&\\;\\%\\~\\+]+", Pattern.CASE_INSENSITIVE)
 
     val user: String
+        get() = response.user
+
     val tags: List<String>
+        get() = response.tags
+
     val timeStamp: String
+        get() = response.timeStamp?.let { it.substring(0, it.indexOf(" ")) } ?: ""
+
     val comment: CharSequence
+        get() = response.comment?.let { parseCommentToHtmlTag(it) } ?: ""
+
     val userIcon: String
-    val stars: List<Star>
-    private var isPrivate: Boolean = false
+        get() = "http://cdn1.www.st-hatena.com/users/" + user.subSequence(0, 2) + "/" + user + "/profile.gif"
 
-    constructor(user: String, tags: List<String>, timeStamp: String, comment: CharSequence, userIcon: String, stars: List<Star>) {
-        this.user = user
-        this.tags = tags
-        this.timeStamp = timeStamp
-        this.comment = comment
-        this.userIcon = userIcon
-        this.stars = stars
-    }
+    val hasComment = comment.toString() != ""
 
-    fun isPrivate(): Boolean {
-        return isPrivate
-    }
+    var isPrivate = false
 
-    fun setPrivate(isPrivate: Boolean) {
-        this.isPrivate = isPrivate
-    }
-
-    fun hasComment(): Boolean {
-        return !comment.toString().isEmpty()
-    }
-
-    protected constructor(`in`: Parcel) {
-        user = `in`.readString()
-        if (`in`.readByte() == 1.toByte()) {
-            tags = ArrayList<String>()
-            `in`.readList(tags, String::class.java.classLoader)
-        } else {
-            tags = ArrayList()
-        }
-        timeStamp = `in`.readString()
-        comment = `in`.readValue(CharSequence::class.java.classLoader) as CharSequence
-        userIcon = `in`.readString()
-        if (`in`.readByte() == 1.toByte()) {
-            stars = ArrayList<Star>()
-            `in`.readList(stars, String::class.java.classLoader)
-        } else {
-            stars = ArrayList()
-        }
-        isPrivate = `in`.readByte() != 0.toByte()
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeString(user)
-        dest.writeByte((1).toByte())
-        dest.writeList(tags)
-        dest.writeString(timeStamp)
-        dest.writeValue(comment)
-        dest.writeString(userIcon)
-        dest.writeByte((1).toByte())
-        dest.writeList(stars)
-        dest.writeByte((if (isPrivate) 1 else 0).toByte())
-    }
-
-    companion object {
-
-        @Suppress("unused")
-        @JvmField
-        val CREATOR: Parcelable.Creator<Bookmark> = object : Parcelable.Creator<Bookmark> {
-            override fun createFromParcel(`in`: Parcel): Bookmark {
-                return Bookmark(`in`)
-            }
-
-            override fun newArray(size: Int): Array<Bookmark?> {
-                return arrayOfNulls(size)
-            }
-        }
+    private fun parseCommentToHtmlTag(comment: String): CharSequence {
+        val matcher = urlLinkPattern.matcher(comment)
+        return Html.fromHtml(matcher.replaceAll("<a href=\"$0\">$0</a>"))
     }
 }

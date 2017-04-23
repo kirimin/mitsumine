@@ -12,5 +12,5 @@ import java.util.List;
 public class FeedRssRoot {
 
     @ElementList(required = false, inline = true, empty = true, entry = "item", name = "item")
-    public List<FeedEntity> itemList;
+    public List<FeedResponse> itemList;
 }

@@ -2,12 +2,16 @@ package me.kirimin.mitsumine.feed
 
 import android.content.Context
 import android.preference.PreferenceManager
+import com.google.gson.GsonBuilder
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine._common.database.FeedDAO
 import me.kirimin.mitsumine._common.database.NGWordDAO
+import me.kirimin.mitsumine._common.domain.model.EntryInfo
 import me.kirimin.mitsumine._common.network.BookmarkCountApi
-import me.kirimin.mitsumine._common.network.TagListApi
+import me.kirimin.mitsumine._common.network.EntryInfoService
 import me.kirimin.mitsumine._common.domain.model.Feed
+import me.kirimin.mitsumine._common.network.RetrofitClient
+import me.kirimin.mitsumine._common.network.entity.EntryInfoResponse
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -27,7 +31,11 @@ abstract class AbstractFeedRepository(val context: Context) {
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
 
-     fun requestTagList(url: String): Observable<List<String>> = TagListApi.request(context.applicationContext, url)
+    fun requestTagList(url: String): Observable<EntryInfo>
+            = RetrofitClient.default(RetrofitClient.EndPoint.ENTRY_INFO).build().create(EntryInfoService::class.java).getEntryInfo(url)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map (::EntryInfo)
 
      fun requestBookmarkCount(url: String): Observable<String> = BookmarkCountApi.request(context.applicationContext, url)
 

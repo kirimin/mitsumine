@@ -27,7 +27,7 @@ class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
         setContentView(R.layout.activity_entry_info)
 
         val url = intent.getStringExtra(KEY_URL) ?: let { finish(); return }
-        presenter.onCreate(this, EntryInfoRepository(), url, applicationContext)
+        presenter.onCreate(this, EntryInfoRepository(), url)
     }
 
     override fun onDestroy() {
@@ -64,7 +64,7 @@ class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
         titleTextView.text = entryInfo.title
         bookmarkCountTextView.text = entryInfo.bookmarkCount.toString()
         Picasso.with(applicationContext).load(entryInfo.thumbnailUrl).fit().into(thumbnailImageView)
-        tagsText.text = entryInfo.tagListString()
+        tagsText.text = entryInfo.tagListString
     }
 
     override fun setViewPagerSettings(currentItem: Int, offscreenPageLimit: Int) {

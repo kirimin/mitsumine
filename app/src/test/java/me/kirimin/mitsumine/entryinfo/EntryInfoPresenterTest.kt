@@ -9,9 +9,6 @@ import org.junit.Test
 
 import me.kirimin.mitsumine._common.domain.model.Bookmark
 import me.kirimin.mitsumine._common.domain.model.EntryInfo
-import me.kirimin.mitsumine.entryinfo.EntryInfoPresenter
-import me.kirimin.mitsumine.entryinfo.EntryInfoRepository
-import me.kirimin.mitsumine.entryinfo.EntryInfoView
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -50,7 +47,7 @@ class EntryInfoPresenterTest {
                 Bookmark("test4", listOf("TagB"), "", "", "", emptyList())
         )
         resultMock = EntryInfo("testA", 4, "http://sample", "http://thum", bookmarks)
-        whenever(repositoryMock.requestEntryInfoApi(any(), any())).thenReturn(Observable.just(resultMock))
+        whenever(repositoryMock.requestEntryInfo(any(), any())).thenReturn(Observable.just(resultMock))
     }
 
     @Test
@@ -58,7 +55,7 @@ class EntryInfoPresenterTest {
         whenever(repositoryMock.isLogin()).thenReturn(false)
         presenter.onCreate(viewMock, repositoryMock, "http://sample", contextMock)
         verify(viewMock, times(1)).initActionBar()
-        verify(repositoryMock, times(1)).requestEntryInfoApi(contextMock, URLEncoder.encode("http://sample", "utf-8"))
+        verify(repositoryMock, times(1)).requestEntryInfo(contextMock, URLEncoder.encode("http://sample", "utf-8"))
 
         // 取得したものが設定される
         verify(viewMock, times(1)).setEntryInfo(resultMock)

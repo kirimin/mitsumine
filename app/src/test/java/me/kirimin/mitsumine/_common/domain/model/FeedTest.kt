@@ -1,6 +1,6 @@
 package me.kirimin.mitsumine._common.domain.model
 
-import me.kirimin.mitsumine._common.network.entity.FeedEntity
+import me.kirimin.mitsumine._common.network.entity.FeedResponse
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
@@ -12,7 +12,7 @@ class FeedTest {
 
     @Test
     fun convertFromEntityTest() {
-        val entity = FeedEntity()
+        val entity = FeedResponse()
         entity.title = "Testタイトル"
         entity.link = "http://google.com?page=1#section2"
         entity.description = "test"
