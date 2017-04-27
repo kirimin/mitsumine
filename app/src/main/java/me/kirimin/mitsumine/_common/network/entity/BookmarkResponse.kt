@@ -6,5 +6,6 @@ data class BookmarkResponse(
         var user: String = "__",
         var tags: List<String> = emptyList(),
         var timeStamp: String? = null,
+        var private: Boolean = false,
         var comment: String? = null) : Serializable {
 }

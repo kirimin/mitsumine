@@ -1,3 +1,3 @@
 package me.kirimin.mitsumine._common.domain.exceptions
 
-public class ApiRequestException(e: String) : Exception(e)
+class ApiRequestException(e: String, val code: Int = 0) : Exception(e)

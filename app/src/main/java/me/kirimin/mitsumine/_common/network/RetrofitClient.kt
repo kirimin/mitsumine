@@ -1,24 +1,24 @@
 package me.kirimin.mitsumine._common.network
 
 import me.kirimin.mitsumine.BuildConfig
+import me.kirimin.mitsumine._common.domain.model.Account
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import se.akerfeldt.okhttp.signpost.OkHttpOAuthConsumer
+import se.akerfeldt.okhttp.signpost.SigningInterceptor
+
 
 object RetrofitClient {
 
     val defaultClient: OkHttpClient
 
     init {
-        val httpClient = OkHttpClient.Builder()
-        if (BuildConfig.DEBUG) {
-            val logging = HttpLoggingInterceptor()
-            logging.level = HttpLoggingInterceptor.Level.BODY
-            httpClient.addInterceptor(logging)
-        }
-        defaultClient = httpClient.build()
+        val clientBuilder = OkHttpClient.Builder()
+        if (BuildConfig.DEBUG) setLoggingInterceptor(clientBuilder)
+        defaultClient = clientBuilder.build()
     }
 
     fun default(endPoint: EndPoint): Retrofit.Builder {
@@ -29,7 +29,28 @@ object RetrofitClient {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
     }
 
+    fun authClient(endPoint: EndPoint, account: Account): Retrofit.Builder {
+        val clientBuilder = OkHttpClient.Builder()
+        if (BuildConfig.DEBUG) setLoggingInterceptor(clientBuilder)
+        val consumer = OkHttpOAuthConsumer(BuildConfig.OAUTH_KEY, BuildConfig.OAUTH_SECRET)
+        consumer.setTokenWithSecret(account.token, account.tokenSecret)
+        clientBuilder.addInterceptor(SigningInterceptor(consumer))
+        val authClient = clientBuilder.build()
+        return Retrofit.Builder()
+                .baseUrl(endPoint.value)
+                .client(authClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+    }
+
+    private fun setLoggingInterceptor(clientBuilder: OkHttpClient.Builder) {
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
+        clientBuilder.addInterceptor(logging)
+    }
+
     enum class EndPoint(val value:String) {
-        ENTRY_INFO("http://b.hatena.ne.jp")
+        ENTRY_INFO("http://b.hatena.ne.jp"),
+        HATENA_BOOKMARK_API("http://api.b.hatena.ne.jp")
     }
 }

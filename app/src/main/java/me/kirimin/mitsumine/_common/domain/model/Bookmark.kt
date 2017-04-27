@@ -5,7 +5,7 @@ import me.kirimin.mitsumine._common.network.entity.BookmarkResponse
 import java.io.Serializable
 import java.util.regex.Pattern
 
-data class Bookmark(
+open class Bookmark(
         val response: BookmarkResponse,
         val stars: List<Star> = emptyList()) : Serializable {
     private val urlLinkPattern = Pattern.compile("(http://|https://){1}[\\w\\.\\-/:\\#\\?\\=\\&\\;\\%\\~\\+]+", Pattern.CASE_INSENSITIVE)
@@ -27,10 +27,13 @@ data class Bookmark(
 
     val hasComment = comment.toString() != ""
 
-    var isPrivate = false
+    val isPrivate
+        get() = response.private
 
     private fun parseCommentToHtmlTag(comment: String): CharSequence {
         val matcher = urlLinkPattern.matcher(comment)
         return Html.fromHtml(matcher.replaceAll("<a href=\"$0\">$0</a>"))
     }
+
+    class EmptyBookmark : Bookmark(BookmarkResponse())
 }

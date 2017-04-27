@@ -52,6 +52,8 @@ dependencies {
     def okhttp_verson = '3.7.0'
     compile "com.squareup.okhttp3:okhttp:$okhttp_verson"
     compile "com.squareup.okhttp3:logging-interceptor:$okhttp_verson"
+    compile 'se.akerfeldt:okhttp-signpost:1.1.0'
+    compile 'oauth.signpost:signpost-core:1.2.1.2'
     def retrofit_version = '2.2.0'
     compile "com.squareup.retrofit2:retrofit:$retrofit_version"
     compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
