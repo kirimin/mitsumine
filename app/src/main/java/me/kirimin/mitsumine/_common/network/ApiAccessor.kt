@@ -50,28 +50,6 @@ object ApiAccessor {
         }
     }
 
-    fun get(context: Context, url: String): JSONObject {
-        val client = getDefaultClient(context)
-        val request = Request.Builder()
-                .url(url)
-                .cacheControl(CacheControl.Builder().maxAge(MAX_AGE_SECOND, TimeUnit.SECONDS).build())
-                .get()
-                .build();
-        val response = client.newCall(request).execute()
-        if (response.isSuccessful) {
-            return JSONObject(response.body().string())
-        } else {
-            throw ApiRequestException("error:" + response.code());
-        }
-    }
-
-    fun oAuthRequest(account: Account, request: OAuthRequest): Response {
-        val oAuthService = ServiceBuilder().provider(HatenaOAuthProvider::class.java).apiKey(BuildConfig.OAUTH_KEY).apiSecret(BuildConfig.OAUTH_SECRET).build()
-        val accessToken = Token(account.token, account.tokenSecret)
-        oAuthService.signRequest(accessToken, request)
-        return request.send()
-    }
-
     @Synchronized fun getDefaultClient(context: Context): OkHttpClient {
         if (defaultClient != null) {
             return defaultClient!!
