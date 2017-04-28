@@ -31,7 +31,7 @@ abstract class AbstractFeedRepository(val context: Context) {
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
 
-    fun requestTagList(url: String): Observable<EntryInfo>
+    fun requestEntryInfo(url: String): Observable<EntryInfo>
             = RetrofitClient.default(RetrofitClient.EndPoint.ENTRY_INFO).build().create(EntryInfoService::class.java).getEntryInfo(url)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())

@@ -96,7 +96,7 @@ class FeedPresenter {
             view.loadFaviconImage(holder, item.faviconUrl)
         }
 
-        holder.tags.tag = repository.requestTagList(item.linkUrl)
+        holder.tags.tag = repository.requestEntryInfo(item.linkUrl)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { it.tagListString }
