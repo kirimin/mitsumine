@@ -71,7 +71,7 @@ class RegisterBookmarkFragment : RegisterBookmarkView, Fragment(), TagEditDialog
         registerButton.text = getString(R.string.register_bookmark_edit)
         commentEditText.setText(bookmark.comment)
         tagListText.text = TextUtils.join(", ", bookmark.tags)
-        privateCheckBox.isChecked = bookmark.isPrivate()
+        privateCheckBox.isChecked = bookmark.isPrivate
     }
 
     override fun showErrorToast() {

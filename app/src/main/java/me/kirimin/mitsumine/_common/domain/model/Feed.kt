@@ -1,31 +1,30 @@
 package me.kirimin.mitsumine._common.domain.model
 
-import me.kirimin.mitsumine._common.network.entity.Item
+import me.kirimin.mitsumine._common.network.entity.FeedResponse
 import java.net.URLEncoder
 
-class Feed(
+/**
+ * はてブのエントリフィードのモデルクラス
+ */
+data class Feed(
         var title: String = "",
         var thumbnailUrl: String = "",
         var content: String = "",
-        var linkUrl: String = "",
-        var entryLinkUrl: String = "",
-        var bookmarkCountUrl: String = "",
-        var faviconUrl: String = "",
-        var type: String = "",
+        var linkUrl: String = "", // ブックマークのURL
+        var entryLinkUrl: String = "", // エントリのURL
+        var bookmarkCountUrl: String = "", // ブクマ数取得のURL
+        var faviconUrl: String = "", // faviconのURL
+        var type: String = "", // あとで読む・既読の状態
         var saveTime: Long = 0) {
 
-    constructor(apiData: Item) : this() {
-        title = apiData.title
-        linkUrl = apiData.link.replace("#", "%23")
-        content = apiData.description ?: ""
-        thumbnailUrl = parseThumbnailUrl(apiData.contentEncoded ?: "")
+    constructor(response: FeedResponse) : this() {
+        title = response.title
+        thumbnailUrl = parseThumbnailUrl(response.contentEncoded ?: "")
+        content = response.description ?: ""
+        linkUrl = response.link.replace("#", "%23")
         bookmarkCountUrl = "http://b.hatena.ne.jp/entry/image/" + URLEncoder.encode(linkUrl, "utf-8")
         faviconUrl = "http://cdn-ak.favicon.st-hatena.com/?url=" + linkUrl
         entryLinkUrl = "http://b.hatena.ne.jp/entry/" + linkUrl
-    }
-
-    override fun toString(): String {
-        return StringBuilder().append("title:").append(title).append(" type:").append(type).toString()
     }
 
     private fun parseThumbnailUrl(content: String): String {

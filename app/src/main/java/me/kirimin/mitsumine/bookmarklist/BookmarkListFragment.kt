@@ -27,7 +27,7 @@ class BookmarkListFragment : Fragment(), BookmarkListView {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        presenter.onCreate(this, arguments.getParcelableArray("bookmarkList").map { it as Bookmark })
+        presenter.onCreate(this, arguments.getSerializable("bookmarkList") as ArrayList<Bookmark>)
     }
 
     override fun initViews(bookmarks: List<Bookmark>) {
@@ -58,7 +58,7 @@ class BookmarkListFragment : Fragment(), BookmarkListView {
         fun newFragment(bookmarkList: List<Bookmark>, entryId: String): BookmarkListFragment {
             val fragment = BookmarkListFragment()
             val bundle = Bundle()
-            bundle.putParcelableArray("bookmarkList", bookmarkList.toTypedArray())
+            bundle.putSerializable("bookmarkList", ArrayList(bookmarkList))
             bundle.putString("entryId", entryId)
             fragment.arguments = bundle
             return fragment

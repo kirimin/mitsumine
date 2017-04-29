@@ -1,13 +1,28 @@
 package me.kirimin.mitsumine._common.domain.model
 
-class EntryInfo(val title: String = "empty",
-                val bookmarkCount: Int = 0,
-                val url: String = "",
-                val thumbnailUrl: String = "",
-                val bookmarkList: List<Bookmark> = emptyList(),
-                val entryId: String = "") {
+import me.kirimin.mitsumine._common.network.entity.EntryInfoResponse
 
-    val tagList: List<String> = bookmarkList
+data class EntryInfo(val response: EntryInfoResponse) {
+
+    val title
+        get() = response.title ?: "empty"
+
+    val url
+        get() = response.url ?: ""
+
+    val bookmarkCount
+        get() = response.count
+
+    val thumbnailUrl
+        get() = response.screenshot ?: ""
+
+    val entryId
+        get() = response.eid ?: ""
+
+    val bookmarkList
+        get() = response.bookmarks.map { Bookmark(it) }
+
+    val tagList: List<String> = response.bookmarks
             .flatMap { it.tags }
             .groupBy { it }
             .map { it.value }
@@ -15,7 +30,9 @@ class EntryInfo(val title: String = "empty",
             .take(4)
             .map { it[0] }
 
-    fun isNullObject() = title == "empty"
+    val isNullObject
+        get() = response.title == "empty"
 
-    fun tagListString() = tagList.joinToString(", ")
+    val tagListString
+        get() = tagList.joinToString(", ")
 }

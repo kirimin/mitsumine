@@ -1,5 +1,6 @@
 package me.kirimin.mitsumine.registerbookmark
 
+import me.kirimin.mitsumine._common.domain.model.Bookmark
 import rx.subscriptions.CompositeSubscription
 import java.util.*
 
@@ -17,7 +18,7 @@ class RegisterBookmarkPresenter {
         registerBookmarkView.initView()
         subscriptions.add(repository.requestBookmarkInfo(url)
                 .subscribe({ bookmark ->
-                    if (bookmark == null) {
+                    if (bookmark is Bookmark.EmptyBookmark) {
                         view?.showViewWithoutBookmarkInfo()
                     } else {
                         view?.showViewWithBookmarkInfo(bookmark)
@@ -35,7 +36,7 @@ class RegisterBookmarkPresenter {
     fun onRegisterButtonClick() {
         view!!.disableButtons();
         val (comment, isPrivate, isTwitter) = view!!.getViewStatus()
-        subscriptions.add(repository.requestRegisterBookmark(url, comment, getTags(), isPrivate, isTwitter)
+        subscriptions.add(repository.requestAddBookmark(url, comment, getTags(), isPrivate, isTwitter)
                 .subscribe({
                     view?.showViewWithBookmarkInfo(it)
                     view?.showRegisterToast()

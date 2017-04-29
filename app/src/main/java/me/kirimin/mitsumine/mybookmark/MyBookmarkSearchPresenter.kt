@@ -51,14 +51,15 @@ class MyBookmarkSearchPresenter {
 
     private fun request(offset: Int = 0) {
         subscriptions.add(repository.requestMyBookmarks(keyword, offset)
-                .toList()
                 .subscribe({
-                    totalBookmarkCount = it[0].totalCount
-                    view?.addListViewItem(it)
-                }, {
-                    view?.showErrorToast()
+                    val bookmarks = it.first
+                    val totalCount = it.second
+                    totalBookmarkCount = totalCount
+                    view?.addListViewItem(bookmarks)
                     view?.dismissRefreshing()
                 }, {
+                    it.printStackTrace()
+                    view?.showErrorToast()
                     view?.dismissRefreshing()
                 })
         )

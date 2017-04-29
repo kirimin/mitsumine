@@ -5,9 +5,10 @@ import android.preference.PreferenceManager
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine._common.database.FeedDAO
 import me.kirimin.mitsumine._common.database.NGWordDAO
-import me.kirimin.mitsumine._common.network.BookmarkCountApi
-import me.kirimin.mitsumine._common.network.TagListApi
+import me.kirimin.mitsumine._common.domain.model.EntryInfo
 import me.kirimin.mitsumine._common.domain.model.Feed
+import me.kirimin.mitsumine._common.network.HatenaBookmarkService
+import me.kirimin.mitsumine._common.network.Client
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -27,9 +28,16 @@ abstract class AbstractFeedRepository(val context: Context) {
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
 
-     fun requestTagList(url: String): Observable<List<String>> = TagListApi.request(context.applicationContext, url)
+    fun requestEntryInfo(url: String): Observable<EntryInfo>
+            = Client.default(Client.EndPoint.API).build().create(HatenaBookmarkService::class.java).entryInfo(url)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map (::EntryInfo)
 
-     fun requestBookmarkCount(url: String): Observable<String> = BookmarkCountApi.request(context.applicationContext, url)
+     fun requestBookmarkCount(url: String): Observable<String> =
+             Client.default(Client.EndPoint.BOOKMARK_COUNT).build().create(HatenaBookmarkService::class.java).bookmarkCount(url)
+             .subscribeOn(Schedulers.newThread())
+             .observeOn(AndroidSchedulers.mainThread())
 
      fun saveFeed(feed: Feed) {
         FeedDAO.save(feed)

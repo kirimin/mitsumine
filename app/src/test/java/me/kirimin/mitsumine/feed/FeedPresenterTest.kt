@@ -2,6 +2,7 @@ package me.kirimin.mitsumine.feed
 
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
+import me.kirimin.mitsumine.BuildConfig
 import org.junit.Before
 import org.junit.Test
 
@@ -9,6 +10,7 @@ import me.kirimin.mitsumine._common.domain.model.Feed
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.mockito.InjectMocks
 import org.mockito.Mock
 import rx.Observable
 
@@ -16,19 +18,23 @@ import org.mockito.Mockito.*
 import org.mockito.Spy
 import org.mockito.quality.Strictness
 import org.mockito.junit.MockitoJUnit
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
-@RunWith(JUnit4::class)
+@RunWith(RobolectricTestRunner::class)
+@Config(constants = BuildConfig::class)
 class FeedPresenterTest {
 
     @Rule
     @JvmField
-    var rule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS)
+    var mockito = MockitoJUnit.rule()
 
     @Mock
     lateinit var viewMock: FeedView
     @Mock
     lateinit var repositoryMock: AbstractFeedRepository
     @Spy
+    @InjectMocks
     lateinit var presenter : FeedPresenter
 
     val resultMock = listOf<Feed>(mock(), mock())

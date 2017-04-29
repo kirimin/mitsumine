@@ -49,8 +49,15 @@ dependencies {
     compile 'com.google.firebase:firebase-analytics:9.6.1'
     compile 'com.google.firebase:firebase-crash:9.6.1'
 
-    compile 'com.squareup.okhttp3:okhttp:3.3.1'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
+    def okhttp_verson = '3.7.0'
+    compile "com.squareup.okhttp3:okhttp:$okhttp_verson"
+    compile "com.squareup.okhttp3:logging-interceptor:$okhttp_verson"
+    compile 'se.akerfeldt:okhttp-signpost:1.1.0'
+    compile 'oauth.signpost:signpost-core:1.2.1.2'
+    def retrofit_version = '2.2.0'
+    compile "com.squareup.retrofit2:retrofit:$retrofit_version"
+    compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    compile "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
     compile 'com.squareup.picasso:picasso:2.5.3-SNAPSHOT'
     compile 'com.jpardogo.materialtabstrip:library:1.0.6'
     compile 'com.makeramen:roundedimageview:1.5.0'
@@ -68,6 +75,7 @@ dependencies {
     testCompile 'junit:junit:4.+'
     testCompile 'org.mockito:mockito-inline:2.+'
     testCompile "com.nhaarman:mockito-kotlin:1.+"
+    testCompile "org.robolectric:robolectric:3.3.2"
 }
 buildscript {
     ext.kotlin_version = '1.1.1'

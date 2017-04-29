@@ -5,8 +5,11 @@ import android.support.annotation.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
+/**
+ * フィードRSSの子要素
+ */
 @Root(name = "item", strict = false)
-public class Item {
+public class FeedResponse {
 
     @Element(name = "title")
     public String title;
