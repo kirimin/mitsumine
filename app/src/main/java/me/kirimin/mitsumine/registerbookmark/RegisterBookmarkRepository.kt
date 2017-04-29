@@ -4,7 +4,7 @@ import me.kirimin.mitsumine._common.database.AccountDAO
 import me.kirimin.mitsumine._common.domain.exceptions.ApiRequestException
 import me.kirimin.mitsumine._common.domain.model.Bookmark
 import me.kirimin.mitsumine._common.network.HatenaBookmarkService
-import me.kirimin.mitsumine._common.network.RetrofitClient
+import me.kirimin.mitsumine._common.network.Client
 import me.kirimin.mitsumine._common.network.entity.BookmarkResponse
 import retrofit2.Response
 import rx.android.schedulers.AndroidSchedulers
@@ -14,21 +14,21 @@ import java.net.URLEncoder
 class RegisterBookmarkRepository {
 
     fun requestBookmarkInfo(url: String) =
-            RetrofitClient.authClient(RetrofitClient.EndPoint.REST_API, AccountDAO.get()!!).build()
+            Client.authClient(Client.EndPoint.REST_API, AccountDAO.get()!!).build()
                     .create(HatenaBookmarkService::class.java).bookmark(URLEncoder.encode(url, "utf-8"))
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .map { responseHandling(it) }!!
 
     fun requestAddBookmark(url: String, comment: String, tags: List<String>, isPrivate: Boolean, isTwitter: Boolean) =
-            RetrofitClient.authClient(RetrofitClient.EndPoint.REST_API, AccountDAO.get()!!).build()
+            Client.authClient(Client.EndPoint.REST_API, AccountDAO.get()!!).build()
                     .create(HatenaBookmarkService::class.java).addBookmark(url = URLEncoder.encode(url, "utf-8"), comment = comment, tags = tags, private = isPrivate, postTwitter = isTwitter)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .map { responseHandling(it) }!!
 
     fun requestDeleteBookmark(url: String) =
-            RetrofitClient.authClient(RetrofitClient.EndPoint.REST_API, AccountDAO.get()!!).build()
+            Client.authClient(Client.EndPoint.REST_API, AccountDAO.get()!!).build()
                     .create(HatenaBookmarkService::class.java).deleteBookmark(URLEncoder.encode(url, "utf-8"))
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())!!

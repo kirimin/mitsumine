@@ -11,7 +11,7 @@ import se.akerfeldt.okhttp.signpost.OkHttpOAuthConsumer
 import se.akerfeldt.okhttp.signpost.SigningInterceptor
 
 
-object RetrofitClient {
+object Client {
 
     private val defaultClient: OkHttpClient
 
@@ -42,6 +42,8 @@ object RetrofitClient {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
     }
+
+    fun defaultOkHttpClient() = defaultClient
 
     private fun setLoggingInterceptor(clientBuilder: OkHttpClient.Builder) {
         val logging = HttpLoggingInterceptor()

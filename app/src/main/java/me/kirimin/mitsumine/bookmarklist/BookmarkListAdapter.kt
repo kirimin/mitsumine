@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso
 
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine._common.domain.model.Bookmark
-import me.kirimin.mitsumine._common.network.StarApi
+import me.kirimin.mitsumine._common.network.StarRepository
 import rx.Subscription
 
 class BookmarkListAdapter(activity: Activity, val presenter: BookmarkListPresenter, val entryId: String) : ArrayAdapter<Bookmark>(activity, 0) {
@@ -44,7 +44,7 @@ class BookmarkListAdapter(activity: Activity, val presenter: BookmarkListPresent
         if (holder.stars.tag is Subscription) {
             (holder.stars.tag as Subscription).unsubscribe()
         }
-        holder.stars.tag = StarApi.requestCommentStar(bookmark.user, bookmark.timestamp, entryId).subscribe({
+        holder.stars.tag = StarRepository.requestCommentStar(bookmark.user, bookmark.timestamp, entryId).subscribe({
             if (it == 0) {
                 holder.stars.visibility = View.GONE
             } else {

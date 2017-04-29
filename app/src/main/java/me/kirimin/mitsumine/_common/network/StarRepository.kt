@@ -5,12 +5,12 @@ import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-object StarApi {
+object StarRepository {
 
     fun requestCommentStar(userId: String, timestamp: String, entryId: String): Observable<Int> {
         val date = timestamp.replace("/", "")
         val uri = "http://b.hatena.ne.jp/$userId/$date%23bookmark-$entryId"
-        return RetrofitClient.default(RetrofitClient.EndPoint.STAR).build()
+        return Client.default(Client.EndPoint.STAR).build()
                 .create(HatenaBookmarkService::class.java)
                 .starOfBookmark(uri)
                 .map { Star(it).allStarsCount }
