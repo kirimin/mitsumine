@@ -13,7 +13,7 @@ import se.akerfeldt.okhttp.signpost.SigningInterceptor
 
 object RetrofitClient {
 
-    val defaultClient: OkHttpClient
+    private val defaultClient: OkHttpClient
 
     init {
         val clientBuilder = OkHttpClient.Builder()
@@ -51,6 +51,7 @@ object RetrofitClient {
 
     enum class EndPoint(val value:String) {
         ENTRY_INFO("http://b.hatena.ne.jp"),
-        HATENA_BOOKMARK_API("http://api.b.hatena.ne.jp")
+        HATENA_BOOKMARK_API("http://api.b.hatena.ne.jp"),
+        STAR("http://s.hatena.com")
     }
 }

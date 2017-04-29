@@ -39,17 +39,17 @@ class BookmarkListAdapter(activity: Activity, val presenter: BookmarkListPresent
         holder.userName.text = bookmark.user
         holder.comment.text = bookmark.comment
         holder.tag.text = TextUtils.join(", ", bookmark.tags)
-        holder.timeStamp.text = bookmark.timeStamp
+        holder.timeStamp.text = bookmark.timestamp
         holder.stars.visibility = View.GONE
         if (holder.stars.tag is Subscription) {
             (holder.stars.tag as Subscription).unsubscribe()
         }
-        holder.stars.tag = StarApi.requestCommentStar(context, bookmark.user, bookmark.timeStamp, entryId).subscribe({
-            if (it.isEmpty()) {
+        holder.stars.tag = StarApi.requestCommentStar(bookmark.user, bookmark.timestamp, entryId).subscribe({
+            if (it == 0) {
                 holder.stars.visibility = View.GONE
             } else {
                 holder.stars.visibility = View.VISIBLE
-                holder.stars.text = it.count().toString()
+                holder.stars.text = it.toString()
             }
         }, { holder.stars.visibility = View.GONE })
         val transformation = RoundedTransformationBuilder().borderWidthDp(0f).cornerRadiusDp(32f).oval(false).build()

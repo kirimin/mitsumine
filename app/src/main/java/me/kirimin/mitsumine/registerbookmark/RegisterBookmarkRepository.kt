@@ -15,7 +15,7 @@ class RegisterBookmarkRepository {
 
     fun requestBookmarkInfo(url: String) =
             RetrofitClient.authClient(RetrofitClient.EndPoint.HATENA_BOOKMARK_API, AccountDAO.get()!!).build()
-                    .create(HatenaBookmarkService::class.java).requestBookmark(URLEncoder.encode(url, "utf-8"))
+                    .create(HatenaBookmarkService::class.java).bookmark(URLEncoder.encode(url, "utf-8"))
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .map { responseHandling(it) }!!

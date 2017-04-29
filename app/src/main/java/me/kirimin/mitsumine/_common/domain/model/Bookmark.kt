@@ -16,8 +16,8 @@ open class Bookmark(
     val tags: List<String>
         get() = response.tags
 
-    val timeStamp: String
-        get() = response.timeStamp?.let { it.substring(0, it.indexOf(" ")) } ?: ""
+    val timestamp: String
+        get() = response.timestamp?.let { it.substring(0, it.indexOf(" ")) } ?: ""
 
     val comment: CharSequence
         get() = response.comment?.let { parseCommentToHtmlTag(it) } ?: ""

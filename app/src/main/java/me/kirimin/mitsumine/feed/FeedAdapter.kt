@@ -15,7 +15,10 @@ import android.widget.TextView
 import me.kirimin.mitsumine.feed.FeedPresenter
 import me.kirimin.mitsumine.feed.FeedPagerAdapter
 
-class FeedAdapter(context: Context, private val presenter: FeedPresenter, val useReadLater: Boolean, val useRead: Boolean) : ArrayAdapter<Feed>(context, 0) {
+class FeedAdapter(context: Context,
+                  private val presenter: FeedPresenter,
+                  val useReadLater: Boolean,
+                  val useRead: Boolean) : ArrayAdapter<Feed>(context, 0) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View

@@ -1,6 +1,8 @@
 package me.kirimin.mitsumine._common.network
 
 import me.kirimin.mitsumine._common.network.entity.BookmarkResponse
+import me.kirimin.mitsumine._common.network.entity.EntryInfoResponse
+import me.kirimin.mitsumine._common.network.entity.StarOfBookmarkResponse
 import retrofit2.Response
 import retrofit2.http.*
 import rx.Observable
@@ -8,7 +10,7 @@ import rx.Observable
 interface HatenaBookmarkService {
 
     @GET("/1/my/bookmark")
-    fun requestBookmark(@Query(value = "url", encoded = true) url: String): Observable<Response<BookmarkResponse>>
+    fun bookmark(@Query(value = "url", encoded = true) url: String): Observable<Response<BookmarkResponse>>
 
     @POST("/1/my/bookmark")
     fun addBookmark(@Query(value = "url", encoded = true) url: String,
@@ -19,4 +21,10 @@ interface HatenaBookmarkService {
 
     @DELETE("/1/my/bookmark")
     fun deleteBookmark(@Query(value = "url", encoded = true) url: String): Observable<Response<Boolean>>
+
+    @GET("/entry/jsonlite/")
+    fun entryInfo(@Query(value = "url", encoded = true) url: String): Observable<EntryInfoResponse>
+
+    @GET("/entry.json")
+    fun starOfBookmark(@Query(value = "uri", encoded = true) uri: String): Observable<StarOfBookmarkResponse>
 }
