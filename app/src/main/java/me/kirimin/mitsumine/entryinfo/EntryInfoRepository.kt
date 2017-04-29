@@ -11,7 +11,7 @@ import rx.schedulers.Schedulers
 class EntryInfoRepository {
 
     fun requestEntryInfo(url: String): Observable<EntryInfo>
-            = RetrofitClient.default(RetrofitClient.EndPoint.ENTRY_INFO).build().create(HatenaBookmarkService::class.java).entryInfo(url)
+            = RetrofitClient.default(RetrofitClient.EndPoint.API).build().create(HatenaBookmarkService::class.java).entryInfo(url)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .map (::EntryInfo)

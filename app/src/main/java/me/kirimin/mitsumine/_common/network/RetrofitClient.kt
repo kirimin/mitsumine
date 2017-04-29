@@ -50,8 +50,9 @@ object RetrofitClient {
     }
 
     enum class EndPoint(val value:String) {
-        ENTRY_INFO("http://b.hatena.ne.jp"),
-        HATENA_BOOKMARK_API("http://api.b.hatena.ne.jp"),
-        STAR("http://s.hatena.com")
+        API("http://b.hatena.ne.jp"),
+        REST_API("http://api.b.hatena.ne.jp"),
+        STAR("http://s.hatena.com"),
+        BOOKMARK_COUNT("http://api.b.st-hatena.com")
     }
 }

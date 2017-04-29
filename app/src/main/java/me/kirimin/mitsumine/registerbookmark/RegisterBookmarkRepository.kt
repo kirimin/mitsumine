@@ -14,21 +14,21 @@ import java.net.URLEncoder
 class RegisterBookmarkRepository {
 
     fun requestBookmarkInfo(url: String) =
-            RetrofitClient.authClient(RetrofitClient.EndPoint.HATENA_BOOKMARK_API, AccountDAO.get()!!).build()
+            RetrofitClient.authClient(RetrofitClient.EndPoint.REST_API, AccountDAO.get()!!).build()
                     .create(HatenaBookmarkService::class.java).bookmark(URLEncoder.encode(url, "utf-8"))
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .map { responseHandling(it) }!!
 
     fun requestAddBookmark(url: String, comment: String, tags: List<String>, isPrivate: Boolean, isTwitter: Boolean) =
-            RetrofitClient.authClient(RetrofitClient.EndPoint.HATENA_BOOKMARK_API, AccountDAO.get()!!).build()
+            RetrofitClient.authClient(RetrofitClient.EndPoint.REST_API, AccountDAO.get()!!).build()
                     .create(HatenaBookmarkService::class.java).addBookmark(url = URLEncoder.encode(url, "utf-8"), comment = comment, tags = tags, private = isPrivate, postTwitter = isTwitter)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .map { responseHandling(it) }!!
 
     fun requestDeleteBookmark(url: String) =
-            RetrofitClient.authClient(RetrofitClient.EndPoint.HATENA_BOOKMARK_API, AccountDAO.get()!!).build()
+            RetrofitClient.authClient(RetrofitClient.EndPoint.REST_API, AccountDAO.get()!!).build()
                     .create(HatenaBookmarkService::class.java).deleteBookmark(URLEncoder.encode(url, "utf-8"))
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())!!

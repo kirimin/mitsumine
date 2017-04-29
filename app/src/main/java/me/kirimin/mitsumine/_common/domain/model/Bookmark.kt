@@ -6,8 +6,8 @@ import java.io.Serializable
 import java.util.regex.Pattern
 
 open class Bookmark(
-        val response: BookmarkResponse,
-        val stars: List<Star> = emptyList()) : Serializable {
+        private val response: BookmarkResponse,
+        private val stars: List<Star> = emptyList()) : Serializable {
     private val urlLinkPattern = Pattern.compile("(http://|https://){1}[\\w\\.\\-/:\\#\\?\\=\\&\\;\\%\\~\\+]+", Pattern.CASE_INSENSITIVE)
 
     val user: String

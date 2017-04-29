@@ -6,7 +6,6 @@ import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine._common.database.FeedDAO
 import me.kirimin.mitsumine._common.database.NGWordDAO
 import me.kirimin.mitsumine._common.domain.model.EntryInfo
-import me.kirimin.mitsumine._common.network.BookmarkCountApi
 import me.kirimin.mitsumine._common.domain.model.Feed
 import me.kirimin.mitsumine._common.network.HatenaBookmarkService
 import me.kirimin.mitsumine._common.network.RetrofitClient
@@ -30,12 +29,15 @@ abstract class AbstractFeedRepository(val context: Context) {
             .observeOn(AndroidSchedulers.mainThread())
 
     fun requestEntryInfo(url: String): Observable<EntryInfo>
-            = RetrofitClient.default(RetrofitClient.EndPoint.ENTRY_INFO).build().create(HatenaBookmarkService::class.java).entryInfo(url)
+            = RetrofitClient.default(RetrofitClient.EndPoint.API).build().create(HatenaBookmarkService::class.java).entryInfo(url)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .map (::EntryInfo)
 
-     fun requestBookmarkCount(url: String): Observable<String> = BookmarkCountApi.request(context.applicationContext, url)
+     fun requestBookmarkCount(url: String): Observable<String> =
+             RetrofitClient.default(RetrofitClient.EndPoint.BOOKMARK_COUNT).build().create(HatenaBookmarkService::class.java).bookmarkCount(url)
+             .subscribeOn(Schedulers.newThread())
+             .observeOn(AndroidSchedulers.mainThread())
 
      fun saveFeed(feed: Feed) {
         FeedDAO.save(feed)

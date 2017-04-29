@@ -25,12 +25,6 @@ object ApiAccessor {
 
     private var defaultClient: OkHttpClient? = null
 
-    fun request(context: Context, url: String): Observable<JSONObject> {
-        return stringRequest(context, url).map { response ->
-            JSONObject(response)
-        }
-    }
-
     fun stringRequest(context: Context, url: String): Observable<String> {
         return Observable.create<String> { subscriber ->
             val client = getDefaultClient(context)
