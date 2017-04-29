@@ -1,13 +1,16 @@
 package me.kirimin.mitsumine._common.domain.model
 
+import me.kirimin.mitsumine.BuildConfig
 import me.kirimin.mitsumine._common.network.entity.FeedResponse
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
-@RunWith(JUnit4::class)
+@RunWith(RobolectricTestRunner::class)
+@Config(constants = BuildConfig::class)
 class FeedTest {
 
     @Test

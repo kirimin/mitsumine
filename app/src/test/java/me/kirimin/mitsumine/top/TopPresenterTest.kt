@@ -2,6 +2,7 @@ package me.kirimin.mitsumine.top
 
 import android.view.View
 import com.nhaarman.mockito_kotlin.*
+import me.kirimin.mitsumine.BuildConfig
 
 import org.junit.Assert
 import org.junit.Before
@@ -16,23 +17,28 @@ import me.kirimin.mitsumine.top.TopView
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Spy
 import org.mockito.junit.MockitoJUnit
 import org.mockito.quality.Strictness
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
-@RunWith(JUnit4::class)
+@RunWith(RobolectricTestRunner::class)
+@Config(constants = BuildConfig::class)
 class TopPresenterTest {
 
     @Rule
     @JvmField
-    var rule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS)
+    var mockito = MockitoJUnit.rule()
 
     @Mock
     lateinit var viewMock: TopView
     @Mock
     lateinit var repositoryMock: TopRepository
     @Spy
+    @InjectMocks
     lateinit var presenter: TopPresenter
 
     @Test

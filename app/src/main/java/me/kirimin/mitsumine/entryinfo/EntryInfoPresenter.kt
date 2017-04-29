@@ -1,6 +1,5 @@
 package me.kirimin.mitsumine.entryinfo
 
-import android.content.Context
 import rx.subscriptions.CompositeSubscription
 import java.net.URLEncoder
 

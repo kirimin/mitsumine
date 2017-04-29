@@ -75,6 +75,7 @@ dependencies {
     testCompile 'junit:junit:4.+'
     testCompile 'org.mockito:mockito-inline:2.+'
     testCompile "com.nhaarman:mockito-kotlin:1.+"
+    testCompile "org.robolectric:robolectric:3.3.2"
 }
 buildscript {
     ext.kotlin_version = '1.1.1'
