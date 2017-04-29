@@ -7,13 +7,13 @@ class EntryInfoPresenter {
 
     private val subscriptions = CompositeSubscription()
     private var view: EntryInfoView? = null
-    private lateinit var repository: EntryInfoRepository
+    private lateinit var useCase: EntryInfoUseCase
 
-    fun onCreate(entryInfoView: EntryInfoView, repository: EntryInfoRepository, url: String) {
+    fun onCreate(entryInfoView: EntryInfoView, useCase: EntryInfoUseCase, url: String) {
         this.view = entryInfoView
-        this.repository = repository
+        this.useCase = useCase
         entryInfoView.initActionBar()
-        subscriptions.add(repository.requestEntryInfo(URLEncoder.encode(url, "utf-8"))
+        subscriptions.add(useCase.requestEntryInfo(URLEncoder.encode(url, "utf-8"))
                 .filter { !it.isNullObject }
                 .subscribe ({ entryInfo ->
                     val view = view ?: return@subscribe
@@ -21,7 +21,7 @@ class EntryInfoPresenter {
                     val commentList = entryInfo.bookmarkList.filter { it.hasComment }
                     view.setBookmarkFragments(entryInfo.bookmarkList, commentList, entryInfo.entryId)
                     view.setCommentCount(commentList.count().toString())
-                    if (repository.isLogin()) {
+                    if (useCase.isLogin()) {
                         view.setRegisterBookmarkFragment(entryInfo.url)
                     }
                     view.setViewPagerSettings(currentItem = 1, offscreenPageLimit = 2)

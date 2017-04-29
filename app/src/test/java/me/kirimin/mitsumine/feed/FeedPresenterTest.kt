@@ -9,14 +9,12 @@ import org.junit.Test
 import me.kirimin.mitsumine._common.domain.model.Feed
 import org.junit.Rule
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import rx.Observable
 
 import org.mockito.Mockito.*
 import org.mockito.Spy
-import org.mockito.quality.Strictness
 import org.mockito.junit.MockitoJUnit
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -32,7 +30,7 @@ class FeedPresenterTest {
     @Mock
     lateinit var viewMock: FeedView
     @Mock
-    lateinit var repositoryMock: AbstractFeedRepository
+    lateinit var useCaseMock: AbstractFeedUseCase
     @Spy
     @InjectMocks
     lateinit var presenter : FeedPresenter
@@ -41,15 +39,15 @@ class FeedPresenterTest {
 
     @Before
     fun setup() {
-        whenever(repositoryMock.requestFeed()).thenReturn(Observable.from(resultMock))
+        whenever(useCaseMock.requestFeed()).thenReturn(Observable.from(resultMock))
     }
 
     @Test
     fun onCreateTest() {
-        presenter.onCreate(viewMock, repositoryMock)
+        presenter.onCreate(viewMock, useCaseMock)
         verify(viewMock, times(1)).initViews()
         verify(viewMock, times(1)).showRefreshing()
-        verify(repositoryMock, times(1)).requestFeed()
+        verify(useCaseMock, times(1)).requestFeed()
 
         verify(viewMock, times(1)).setFeed(resultMock)
         verify(viewMock, times(1)).dismissRefreshing()
@@ -57,11 +55,11 @@ class FeedPresenterTest {
 
     @Test
     fun onRefreshTest() {
-        presenter.onCreate(viewMock, repositoryMock)
+        presenter.onCreate(viewMock, useCaseMock)
         presenter.onRefresh()
         verify(viewMock, times(1)).clearAllItem()
         verify(viewMock, times(2)).showRefreshing()
-        verify(repositoryMock, times(2)).requestFeed()
+        verify(useCaseMock, times(2)).requestFeed()
 
         verify(viewMock, times(2)).setFeed(resultMock)
         verify(viewMock, times(2)).dismissRefreshing()
@@ -69,15 +67,15 @@ class FeedPresenterTest {
 
     @Test
     fun onErrorTest() {
-        whenever(repositoryMock.requestFeed()).thenReturn(Observable.error(Exception()))
-        presenter.onCreate(viewMock, repositoryMock)
+        whenever(useCaseMock.requestFeed()).thenReturn(Observable.error(Exception()))
+        presenter.onCreate(viewMock, useCaseMock)
         verify(viewMock, never()).setFeed(anyList())
         verify(viewMock, times(1)).dismissRefreshing()
     }
 
     @Test
     fun onItemClick() {
-        presenter.onCreate(viewMock, repositoryMock)
+        presenter.onCreate(viewMock, useCaseMock)
         val feed = mock<Feed>()
         whenever(feed.linkUrl).thenReturn("http://test")
         presenter.onItemClick(feed)
@@ -91,14 +89,14 @@ class FeedPresenterTest {
         whenever(feed.entryLinkUrl).thenReturn("http://entry")
 
         // ブラウザで開く
-        whenever(repositoryMock.isUseBrowserSettingEnable).thenReturn(true)
-        presenter.onCreate(viewMock, repositoryMock)
+        whenever(useCaseMock.isUseBrowserSettingEnable).thenReturn(true)
+        presenter.onCreate(viewMock, useCaseMock)
         presenter.onItemLongClick(feed)
         verify(viewMock, times(1)).sendUrlIntent("http://entry")
         verify(viewMock, never()).startEntryInfoView("http://test")
 
         // ネイティブで開く
-        whenever(repositoryMock.isUseBrowserSettingEnable).thenReturn(false)
+        whenever(useCaseMock.isUseBrowserSettingEnable).thenReturn(false)
         presenter.onItemLongClick(feed)
         verify(viewMock, times(1)).sendUrlIntent("http://entry")
         verify(viewMock, times(1)).startEntryInfoView("http://test")
@@ -112,29 +110,29 @@ class FeedPresenterTest {
 
         // 押下
         // タイトル入り設定
-        whenever(repositoryMock.isShareWithTitleSettingEnable).thenReturn(true)
-        presenter.onCreate(viewMock, repositoryMock)
+        whenever(useCaseMock.isShareWithTitleSettingEnable).thenReturn(true)
+        presenter.onCreate(viewMock, useCaseMock)
         presenter.onFeedShareClick(feed)
         verify(viewMock, times(1)).sendShareUrlWithTitleIntent("title", "http://test")
         verify(viewMock, never()).sendShareUrlIntent("title", "http://test")
 
         // タイトル無し設定
-        whenever(repositoryMock.isShareWithTitleSettingEnable).thenReturn(false)
+        whenever(useCaseMock.isShareWithTitleSettingEnable).thenReturn(false)
         presenter.onFeedShareClick(feed)
         verify(viewMock, times(1)).sendShareUrlWithTitleIntent("title", "http://test")
         verify(viewMock, times(1)).sendShareUrlIntent("title", "http://test")
 
         // 長押し
         // タイトル入り設定
-        `when`(repositoryMock.isShareWithTitleSettingEnable).thenReturn(true)
+        `when`(useCaseMock.isShareWithTitleSettingEnable).thenReturn(true)
         val presenter = FeedPresenter()
-        presenter.onCreate(viewMock, repositoryMock)
+        presenter.onCreate(viewMock, useCaseMock)
         presenter.onFeedShareLongClick(feed)
         verify(viewMock, times(1)).sendShareUrlWithTitleIntent("title", "http://test")
         verify(viewMock, times(2)).sendShareUrlIntent("title", "http://test")
 
         // タイトル無し設定
-        `when`(repositoryMock.isShareWithTitleSettingEnable).thenReturn(false)
+        `when`(useCaseMock.isShareWithTitleSettingEnable).thenReturn(false)
         presenter.onFeedShareLongClick(feed)
         verify(viewMock, times(2)).sendShareUrlWithTitleIntent("title", "http://test")
         verify(viewMock, times(2)).sendShareUrlIntent("title", "http://test")

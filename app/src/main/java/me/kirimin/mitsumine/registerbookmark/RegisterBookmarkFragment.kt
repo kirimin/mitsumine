@@ -27,7 +27,7 @@ class RegisterBookmarkFragment : RegisterBookmarkView, Fragment(), TagEditDialog
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val url = arguments.getString("url") ?: throw IllegalStateException("url is null")
-        presenter.onCreate(this, RegisterBookmarkRepository(), url)
+        presenter.onCreate(this, RegisterBookmarkUseCase(), url)
     }
 
     override fun initView() {

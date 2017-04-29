@@ -9,7 +9,7 @@ import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-class MyBookmarkSearchRepository {
+class MyBookmarkSearchUseCase {
     fun requestMyBookmarks(keyword: String, offset: Int): Observable<Pair<List<MyBookmark>, Int>> =
             Client.authClient(Client.EndPoint.API, account).build()
                     .create(HatenaBookmarkService::class.java)

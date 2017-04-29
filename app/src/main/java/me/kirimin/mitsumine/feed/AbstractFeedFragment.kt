@@ -30,7 +30,7 @@ abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener
     abstract fun isUseRead(): Boolean
 
     /** フィードの取得元 */
-    abstract fun getRepository(): AbstractFeedRepository
+    abstract fun getRepository(): AbstractFeedUseCase
 
     private lateinit var adapter: FeedAdapter
     private val presenter: FeedPresenter = FeedPresenter()

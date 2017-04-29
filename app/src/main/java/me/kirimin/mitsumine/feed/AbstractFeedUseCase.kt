@@ -13,7 +13,7 @@ import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-abstract class AbstractFeedRepository(val context: Context) {
+abstract class AbstractFeedUseCase(val context: Context) {
 
      val isUseBrowserSettingEnable: Boolean
         get() = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.key_use_browser_to_comment_list), false)

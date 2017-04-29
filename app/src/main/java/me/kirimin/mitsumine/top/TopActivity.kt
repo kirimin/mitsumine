@@ -49,9 +49,9 @@ class TopActivity : AppCompatActivity(), TopView {
         if (savedInstanceState != null) {
             val selectedCategory = savedInstanceState.getSerializable(Category::class.java.canonicalName) as Category
             val selectedType = savedInstanceState.getSerializable(Type::class.java.canonicalName) as Type
-            presenter.onCreate(this, TopRepository(), selectedCategory, selectedType)
+            presenter.onCreate(this, TopUseCase(), selectedCategory, selectedType)
         } else {
-            presenter.onCreate(this, TopRepository())
+            presenter.onCreate(this, TopUseCase())
         }
     }
 

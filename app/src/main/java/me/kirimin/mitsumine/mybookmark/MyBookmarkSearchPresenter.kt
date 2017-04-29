@@ -7,13 +7,13 @@ class MyBookmarkSearchPresenter {
 
     private val subscriptions = CompositeSubscription()
     private var view: MyBookmarkSearchView? = null
-    private lateinit var repository: MyBookmarkSearchRepository
+    private lateinit var useCase: MyBookmarkSearchUseCase
     private lateinit var keyword: String
     private var totalBookmarkCount = -1
 
-    fun onCreate(view: MyBookmarkSearchView, repository: MyBookmarkSearchRepository, keyword: String) {
+    fun onCreate(view: MyBookmarkSearchView, useCase: MyBookmarkSearchUseCase, keyword: String) {
         this.view = view
-        this.repository = repository
+        this.useCase = useCase
         this.keyword = keyword
 
         view.initViews()
@@ -50,7 +50,7 @@ class MyBookmarkSearchPresenter {
     }
 
     private fun request(offset: Int = 0) {
-        subscriptions.add(repository.requestMyBookmarks(keyword, offset)
+        subscriptions.add(useCase.requestMyBookmarks(keyword, offset)
                 .subscribe({
                     val bookmarks = it.first
                     val totalCount = it.second

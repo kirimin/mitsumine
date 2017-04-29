@@ -12,11 +12,11 @@ class FeedPresenter {
     private val subscriptions = CompositeSubscription()
 
     private var view: FeedView? = null
-    private lateinit var repository: AbstractFeedRepository
+    private lateinit var useCase: AbstractFeedUseCase
 
-    fun onCreate(feedView: FeedView, repository: AbstractFeedRepository) {
+    fun onCreate(feedView: FeedView, useCase: AbstractFeedUseCase) {
         this.view = feedView
-        this.repository = repository
+        this.useCase = useCase
 
         feedView.initViews()
         feedView.showRefreshing()
@@ -41,7 +41,7 @@ class FeedPresenter {
 
     fun onItemLongClick(feed: Feed) {
         val view = view ?: return
-        if (repository.isUseBrowserSettingEnable) {
+        if (useCase.isUseBrowserSettingEnable) {
             view.sendUrlIntent(feed.entryLinkUrl)
         } else {
             view.startEntryInfoView(feed.linkUrl)
@@ -50,7 +50,7 @@ class FeedPresenter {
 
     fun onFeedShareClick(feed: Feed) {
         val view = view ?: return
-        if (repository.isShareWithTitleSettingEnable) {
+        if (useCase.isShareWithTitleSettingEnable) {
             view.sendShareUrlWithTitleIntent(feed.title, feed.linkUrl)
         } else {
             view.sendShareUrlIntent(feed.title, feed.linkUrl)
@@ -59,7 +59,7 @@ class FeedPresenter {
 
     fun onFeedShareLongClick(feed: Feed) {
         val view = view ?: return
-        if (repository.isShareWithTitleSettingEnable) {
+        if (useCase.isShareWithTitleSettingEnable) {
             view.sendShareUrlIntent(feed.title, feed.linkUrl)
         } else {
             view.sendShareUrlWithTitleIntent(feed.title, feed.linkUrl)
@@ -69,7 +69,7 @@ class FeedPresenter {
     fun onFeedLeftSlide(holder: FeedAdapter.ViewHolder, feed: Feed, useReadLater: Boolean) {
         val view = view ?: return
         feed.type = Feed.TYPE_READ
-        repository.saveFeed(feed)
+        useCase.saveFeed(feed)
         if (useReadLater) {
             view.setListViewCellPagerPosition(holder, 1)
         } else {
@@ -81,7 +81,7 @@ class FeedPresenter {
     fun onFeedRightSlide(holder: FeedAdapter.ViewHolder, feed: Feed) {
         val view = view ?: return
         feed.type = Feed.TYPE_READ_LATER
-        repository.saveFeed(feed)
+        useCase.saveFeed(feed)
         view.setListViewCellPagerPosition(holder, 1)
         view.removeItem(feed)
     }
@@ -96,7 +96,7 @@ class FeedPresenter {
             view.loadFaviconImage(holder, item.faviconUrl)
         }
 
-        holder.tags.tag = repository.requestEntryInfo(item.linkUrl)
+        holder.tags.tag = useCase.requestEntryInfo(item.linkUrl)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { it.tagListString }
@@ -111,7 +111,7 @@ class FeedPresenter {
                     override fun onCompleted() {
                     }
                 })
-        holder.bookmarkCount.tag = repository.requestBookmarkCount(item.linkUrl)
+        holder.bookmarkCount.tag = useCase.requestBookmarkCount(item.linkUrl)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<String>() {
@@ -128,10 +128,10 @@ class FeedPresenter {
     }
 
     private fun requestFeed() {
-        subscriptions.add(repository.requestFeed()
+        subscriptions.add(useCase.requestFeed()
                 .toList()
                 .subscribe({
-                    view?.setFeed(it.filter { !FeedUtil.containsWord(it, repository.ngWordList) })
+                    view?.setFeed(it.filter { !FeedUtil.containsWord(it, useCase.ngWordList) })
                     view?.dismissRefreshing()
                 }, { e ->
                     view?.dismissRefreshing()

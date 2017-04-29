@@ -2,8 +2,7 @@ package me.kirimin.mitsumine.feed.keyword
 
 import android.os.Bundle
 
-import me.kirimin.mitsumine.feed.AbstractFeedRepository
-import me.kirimin.mitsumine.feed.keyword.KeyWordSearchRepository
+import me.kirimin.mitsumine.feed.AbstractFeedUseCase
 import me.kirimin.mitsumine.feed.AbstractFeedFragment
 
 public class KeywordSearchFragment : AbstractFeedFragment() {
@@ -18,7 +17,7 @@ public class KeywordSearchFragment : AbstractFeedFragment() {
         }
     }
 
-    override fun getRepository(): AbstractFeedRepository = KeyWordSearchRepository(context, arguments.getString("keyword"))
+    override fun getRepository(): AbstractFeedUseCase = KeyWordSearchUseCase(context, arguments.getString("keyword"))
 
     override fun isUseReadLater(): Boolean = true
 

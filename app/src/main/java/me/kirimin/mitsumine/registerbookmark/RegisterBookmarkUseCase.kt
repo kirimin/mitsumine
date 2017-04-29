@@ -11,7 +11,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.net.URLEncoder
 
-class RegisterBookmarkRepository {
+class RegisterBookmarkUseCase {
 
     fun requestBookmarkInfo(url: String) =
             Client.authClient(Client.EndPoint.REST_API, AccountDAO.get()!!).build()

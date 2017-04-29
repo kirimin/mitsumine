@@ -30,7 +30,7 @@ class MyBookmarkSearchFragment : Fragment(), MyBookmarkSearchView, SwipeRefreshL
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.onCreate(this, MyBookmarkSearchRepository(), arguments.getString("keyword"))
+        presenter.onCreate(this, MyBookmarkSearchUseCase(), arguments.getString("keyword"))
     }
 
     override fun onDestroyView() {

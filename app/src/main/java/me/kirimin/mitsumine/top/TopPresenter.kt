@@ -1,6 +1,5 @@
 package me.kirimin.mitsumine.top
 
-import android.util.Log
 import android.view.View
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine._common.domain.enums.Category
@@ -9,7 +8,7 @@ import me.kirimin.mitsumine._common.domain.enums.Type
 class TopPresenter {
 
     private var view: TopView? = null
-    private lateinit var repository: TopRepository
+    private lateinit var useCase: TopUseCase
 
     var selectedType = Type.HOT
         private set
@@ -18,9 +17,9 @@ class TopPresenter {
 
     fun getTypeInt(type: Type) = if (type == Type.HOT) 0 else 1
 
-    fun onCreate(view: TopView, repository: TopRepository, category: Category = Category.MAIN, type: Type = Type.HOT) {
+    fun onCreate(view: TopView, useCase: TopUseCase, category: Category = Category.MAIN, type: Type = Type.HOT) {
         this.view = view
-        this.repository = repository
+        this.useCase = useCase
         selectedCategory = category
         selectedType = type
 
@@ -37,16 +36,16 @@ class TopPresenter {
         view.addNavigationCategoryButton(Category.GAME)
 
         // 古い既読を削除
-        repository.deleteOldFeedData(3)
+        useCase.deleteOldFeedData(3)
         view.refreshShowCategoryAndType(selectedCategory, selectedType)
     }
 
     fun onStart() {
         val view = view ?: return
         view.removeNavigationAdditions()
-        repository.additionKeywords.forEach { keyword -> view.addAdditionKeyword(keyword) }
-        repository.additionUsers.forEach { userId -> view.addAdditionUser(userId) }
-        val account = repository.account
+        useCase.additionKeywords.forEach { keyword -> view.addAdditionKeyword(keyword) }
+        useCase.additionUsers.forEach { userId -> view.addAdditionUser(userId) }
+        val account = useCase.account
         if (account != null) {
             view.enableUserInfo(account.displayName, account.imageUrl)
         } else {
@@ -140,12 +139,12 @@ class TopPresenter {
     }
 
     fun onDeleteUserIdDialogClick(word: String, target: View) {
-        repository.deleteAdditionUser(word)
+        useCase.deleteAdditionUser(word)
         target.visibility = View.GONE
     }
 
     fun onDeleteKeywordDialogClick(word: String, target: View) {
-        repository.deleteAdditionKeyword(word)
+        useCase.deleteAdditionKeyword(word)
         target.visibility = View.GONE
     }
 }

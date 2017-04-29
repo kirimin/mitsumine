@@ -27,7 +27,7 @@ class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
         setContentView(R.layout.activity_entry_info)
 
         val url = intent.getStringExtra(KEY_URL) ?: let { finish(); return }
-        presenter.onCreate(this, EntryInfoRepository(), url)
+        presenter.onCreate(this, EntryInfoUseCase(), url)
     }
 
     override fun onDestroy() {
