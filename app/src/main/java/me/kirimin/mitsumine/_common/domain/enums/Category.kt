@@ -2,7 +2,7 @@ package me.kirimin.mitsumine._common.domain.enums
 
 import me.kirimin.mitsumine.R
 
-public enum class Category private constructor(private val url: String, public val labelResource: Int) {
+enum class Category constructor(private val url: String, val labelResource: Int) {
     MAIN("", R.string.feed_main),
     SOCIAL("/social", R.string.feed_social),
     ECONOMICS("/economics", R.string.feed_economics),

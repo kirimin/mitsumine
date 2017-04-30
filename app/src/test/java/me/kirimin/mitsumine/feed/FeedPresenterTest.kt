@@ -42,7 +42,8 @@ class FeedPresenterTest {
 
     @Before
     fun setup() {
-        whenever(useCaseMock.requestMainFeed(any(), any())).thenReturn(Observable.from(resultMock))
+        presenter.view = viewMock
+        whenever(useCaseMock.requestMainFeed(Category.MAIN, Type.HOT)).thenReturn(Observable.from(resultMock))
     }
 
     @Test
@@ -70,7 +71,7 @@ class FeedPresenterTest {
 
     @Test
     fun onErrorTest() {
-        whenever(useCaseMock.requestMainFeed(any(), any())).thenReturn(Observable.error(Exception()))
+        whenever(useCaseMock.requestMainFeed(Category.MAIN, Type.HOT)).thenReturn(Observable.error(Exception()))
         presenter.onCreate(feedMethod)
         verify(viewMock, never()).setFeed(anyList())
         verify(viewMock, times(1)).dismissRefreshing()
