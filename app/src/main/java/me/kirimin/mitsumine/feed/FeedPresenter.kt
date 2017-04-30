@@ -142,6 +142,6 @@ class FeedPresenter @Inject constructor(val useCase: FeedUseCase) {
         class KeywordSearch(val keyword: String) : FeedMethod(true, true)
         class UserSearch(val user: String) : FeedMethod(true, true)
         class Read : FeedMethod(true, false)
-        class ReadLatter : FeedMethod(true, false)
+        class ReadLatter : FeedMethod(false, true)
     }
 }
