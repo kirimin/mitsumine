@@ -14,9 +14,11 @@ import me.kirimin.mitsumine.search.AbstractSearchActivity
 import me.kirimin.mitsumine.feed.user.UserSearchActivity
 
 import kotlinx.android.synthetic.main.fragment_bookmark_list.view.*
+import me.kirimin.mitsumine.MyApplication
+import me.kirimin.mitsumine._common.ui.BaseFragment
 import java.net.URL
 
-class BookmarkListFragment : Fragment(), BookmarkListView {
+class BookmarkListFragment : BaseFragment(), BookmarkListView {
 
     val presenter = BookmarkListPresenter()
 
@@ -52,6 +54,10 @@ class BookmarkListFragment : Fragment(), BookmarkListView {
 
     override fun showBrowser(url: String) {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+    }
+
+    override fun injection() {
+        (activity.application as MyApplication).getApplicationComponent().inject(this)
     }
 
     companion object {

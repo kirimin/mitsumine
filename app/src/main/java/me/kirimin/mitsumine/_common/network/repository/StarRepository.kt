@@ -1,11 +1,14 @@
-package me.kirimin.mitsumine._common.network
+package me.kirimin.mitsumine._common.network.repository
 
 import me.kirimin.mitsumine._common.domain.model.Star
+import me.kirimin.mitsumine._common.network.Client
+import me.kirimin.mitsumine._common.network.HatenaBookmarkService
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import javax.inject.Inject
 
-object StarRepository {
+class StarRepository @Inject constructor() {
 
     fun requestCommentStar(userId: String, timestamp: String, entryId: String): Observable<Int> {
         val date = timestamp.replace("/", "")

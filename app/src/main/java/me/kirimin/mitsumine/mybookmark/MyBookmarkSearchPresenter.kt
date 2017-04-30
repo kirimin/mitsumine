@@ -2,18 +2,17 @@ package me.kirimin.mitsumine.mybookmark
 
 import me.kirimin.mitsumine._common.domain.model.MyBookmark
 import rx.subscriptions.CompositeSubscription
+import javax.inject.Inject
 
-class MyBookmarkSearchPresenter {
+class MyBookmarkSearchPresenter @Inject constructor(val useCase: MyBookmarkSearchUseCase) {
 
     private val subscriptions = CompositeSubscription()
     private var view: MyBookmarkSearchView? = null
-    private lateinit var useCase: MyBookmarkSearchUseCase
     private lateinit var keyword: String
     private var totalBookmarkCount = -1
 
-    fun onCreate(view: MyBookmarkSearchView, useCase: MyBookmarkSearchUseCase, keyword: String) {
+    fun onCreate(view: MyBookmarkSearchView, keyword: String) {
         this.view = view
-        this.useCase = useCase
         this.keyword = keyword
 
         view.initViews()

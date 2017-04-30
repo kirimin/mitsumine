@@ -3,17 +3,16 @@ package me.kirimin.mitsumine.registerbookmark
 import me.kirimin.mitsumine._common.domain.model.Bookmark
 import rx.subscriptions.CompositeSubscription
 import java.util.*
+import javax.inject.Inject
 
-class RegisterBookmarkPresenter {
+class RegisterBookmarkPresenter @Inject constructor(val useCase: RegisterBookmarkUseCase) {
 
     private val subscriptions = CompositeSubscription()
     private var view: RegisterBookmarkView? = null
-    private lateinit var useCase: RegisterBookmarkUseCase
     private lateinit var url: String
 
-    fun onCreate(registerBookmarkView: RegisterBookmarkView, useCase: RegisterBookmarkUseCase, url: String) {
+    fun onCreate(registerBookmarkView: RegisterBookmarkView, url: String) {
         this.view = registerBookmarkView
-        this.useCase = useCase
         this.url = url
         registerBookmarkView.initView()
         subscriptions.add(useCase.requestBookmarkInfo(url)

@@ -1,6 +1,7 @@
 package me.kirimin.mitsumine.feed.user
 
 import android.widget.Toast
+import me.kirimin.mitsumine.MyApplication
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine._common.database.UserIdDAO
 import me.kirimin.mitsumine.feed.AbstractFeedFragment
@@ -20,5 +21,9 @@ class UserSearchActivity : AbstractSearchActivity() {
 
     override fun getSearchTitle(): String {
         return getString(R.string.user_search_title)
+    }
+
+    override fun injection() {
+        (application as MyApplication).getApplicationComponent().inject(this)
     }
 }

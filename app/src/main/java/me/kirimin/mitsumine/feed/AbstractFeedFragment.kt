@@ -17,20 +17,20 @@ import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.fragment_feed.view.*
 import me.kirimin.mitsumine.MyApplication
+import me.kirimin.mitsumine._common.ui.BaseFragment
 import rx.Subscription
 import javax.inject.Inject
 
 /**
  * フィードを表示する画面で共通して使用する親Fragment
  */
-abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener, View.OnLongClickListener, SwipeRefreshLayout.OnRefreshListener {
+abstract class AbstractFeedFragment : BaseFragment(), FeedView, View.OnClickListener, View.OnLongClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var adapter: FeedAdapter
     @Inject
     lateinit var presenter: FeedPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        injection()
         return inflater.inflate(R.layout.fragment_feed, container, false)
     }
 
@@ -169,7 +169,7 @@ abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener
         Picasso.with(context).load(url).into(holder.favicon)
     }
 
-    private fun injection() {
+    override fun injection() {
         (activity.application as MyApplication).getApplicationComponent().inject(this)
     }
 }

@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.activity_top.*
 import me.kirimin.mitsumine.MyApplication
 import me.kirimin.mitsumine._common.domain.enums.Category
 import me.kirimin.mitsumine._common.domain.enums.Type
+import me.kirimin.mitsumine._common.ui.BaseActivity
 import me.kirimin.mitsumine.feed.readlater.ReadLaterActivity
 import me.kirimin.mitsumine.feed.mainfeed.MainFeedFragment
 import me.kirimin.mitsumine.feed.read.ReadActivity
@@ -40,7 +41,7 @@ import me.kirimin.mitsumine.setting.SettingActivity
 import java.io.Serializable
 import javax.inject.Inject
 
-class TopActivity : AppCompatActivity(), TopView {
+class TopActivity : BaseActivity(), TopView {
 
     private lateinit var drawerToggle: ActionBarDrawerToggle
     @Inject
@@ -49,7 +50,6 @@ class TopActivity : AppCompatActivity(), TopView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_top)
-        injection()
         presenter.view = this
         if (savedInstanceState != null) {
             val selectedCategory = savedInstanceState.getSerializable(Category::class.java.canonicalName) as Category
@@ -235,6 +235,10 @@ class TopActivity : AppCompatActivity(), TopView {
                 .create().show()
     }
 
+    override fun injection() {
+        (application as MyApplication).getApplicationComponent().inject(this)
+    }
+
     private fun createNavigationButton(label: String, onClick: OnClickListener, onLongClick: OnLongClickListener?): View {
         val navigationView = LayoutInflater.from(applicationContext).inflate(R.layout.activity_top_navigation, null)
         val textView = navigationView.findViewById(R.id.MainNavigationTextView) as TextView
@@ -242,9 +246,5 @@ class TopActivity : AppCompatActivity(), TopView {
         textView.setOnClickListener(onClick)
         textView.setOnLongClickListener(onLongClick)
         return navigationView
-    }
-
-    private fun injection() {
-        (application as MyApplication).getApplicationComponent().inject(this)
     }
 }

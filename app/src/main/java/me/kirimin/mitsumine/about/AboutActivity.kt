@@ -7,8 +7,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
+import me.kirimin.mitsumine.MyApplication
+import me.kirimin.mitsumine._common.ui.BaseActivity
 
-class AboutActivity : AppCompatActivity() {
+class AboutActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,5 +28,9 @@ class AboutActivity : AppCompatActivity() {
             finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun injection() {
+        (application as MyApplication).getApplicationComponent().inject(this)
     }
 }
