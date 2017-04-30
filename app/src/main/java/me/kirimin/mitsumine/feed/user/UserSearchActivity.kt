@@ -7,7 +7,7 @@ import me.kirimin.mitsumine.feed.AbstractFeedFragment
 import me.kirimin.mitsumine.feed.user.UserSearchFragment
 import me.kirimin.mitsumine.search.AbstractSearchActivity
 
-public class UserSearchActivity : AbstractSearchActivity() {
+class UserSearchActivity : AbstractSearchActivity() {
 
     override fun newFragment(keyword: String): AbstractFeedFragment {
         return UserSearchFragment.newFragment(keyword)

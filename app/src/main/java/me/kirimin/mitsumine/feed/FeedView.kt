@@ -3,7 +3,7 @@ package me.kirimin.mitsumine.feed
 import me.kirimin.mitsumine._common.domain.model.Feed
 
 interface FeedView {
-    fun initViews()
+    fun initViews(isUseRead: Boolean, isUseReadLater: Boolean)
     fun showRefreshing()
     fun clearAllItem()
     fun setFeed(feedList: List<Feed>)

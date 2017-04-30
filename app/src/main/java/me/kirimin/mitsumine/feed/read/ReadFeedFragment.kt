@@ -1,11 +1,14 @@
 package me.kirimin.mitsumine.feed.read
 
-import me.kirimin.mitsumine._common.domain.model.Feed
+import android.os.Bundle
 import me.kirimin.mitsumine.feed.AbstractFeedFragment
+import me.kirimin.mitsumine.feed.FeedPresenter
 
 class ReadFeedFragment : AbstractFeedFragment() {
 
-    override fun getRepository() = ReadFeedUseCase(context, Feed.Companion.TYPE_READ)
-    override fun isUseReadLater() = true
-    override fun isUseRead() = false
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        presenter.view = this
+        presenter.onCreate(FeedPresenter.FeedMethod.Read())
+    }
 }

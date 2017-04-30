@@ -16,32 +16,22 @@ import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.fragment_feed.view.*
+import me.kirimin.mitsumine.MyApplication
 import rx.Subscription
+import javax.inject.Inject
 
 /**
  * フィードを表示する画面で共通して使用する親Fragment
  */
 abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener, View.OnLongClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    /** スライドで後で読む機能を使用するか */
-    abstract fun isUseReadLater(): Boolean
-
-    /** スライドで既読機能を使用するか */
-    abstract fun isUseRead(): Boolean
-
-    /** フィードの取得元 */
-    abstract fun getRepository(): AbstractFeedUseCase
-
     private lateinit var adapter: FeedAdapter
-    private val presenter: FeedPresenter = FeedPresenter()
+    @Inject
+    lateinit var presenter: FeedPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        injection()
         return inflater.inflate(R.layout.fragment_feed, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        presenter.onCreate(this, getRepository());
     }
 
     override fun onDestroyView() {
@@ -79,12 +69,12 @@ abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener
         return false
     }
 
-    override fun initViews() {
+    override fun initViews(isUseRead: Boolean, isUseReadLater: Boolean) {
         val view = view ?: return
         view.swipeLayout.setColorSchemeResources(R.color.blue, R.color.orange)
         view.swipeLayout.setOnRefreshListener(this)
         view.swipeLayout.setProgressViewOffset(false, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, resources.displayMetrics).toInt())
-        adapter = FeedAdapter(activity.applicationContext, presenter, isUseReadLater(), isUseRead())
+        adapter = FeedAdapter(context = activity.applicationContext, presenter = presenter, useReadLater = isUseReadLater, useRead = isUseRead)
         view.feedListView.adapter = adapter
     }
 
@@ -177,5 +167,9 @@ abstract class AbstractFeedFragment : Fragment(), FeedView, View.OnClickListener
 
     override fun loadFaviconImage(holder: FeedAdapter.ViewHolder, url: String) {
         Picasso.with(context).load(url).into(holder.favicon)
+    }
+
+    private fun injection() {
+        (activity.application as MyApplication).getApplicationComponent().inject(this)
     }
 }

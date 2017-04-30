@@ -7,7 +7,8 @@ import android.app.Application
 import me.kirimin.mitsumine._common.di.component.AppComponent
 import me.kirimin.mitsumine._common.di.component.DaggerAppComponent
 import me.kirimin.mitsumine._common.di.module.AppModule
-
+import me.kirimin.mitsumine._common.di.module.InfraModule
+import me.kirimin.mitsumine._common.di.module.ViewModule
 
 
 class MyApplication : Application() {

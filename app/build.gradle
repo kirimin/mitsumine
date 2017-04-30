@@ -35,9 +35,8 @@ android {
     packagingOptions {
         exclude 'LICENSE.txt'
     }
-
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
+    lintOptions {
+        abortOnError false
     }
 }
 

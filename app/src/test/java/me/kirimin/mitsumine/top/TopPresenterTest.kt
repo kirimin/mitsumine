@@ -37,7 +37,7 @@ class TopPresenterTest {
 
     @Test
     fun onCreateTest() {
-        presenter.onCreate(viewMock, useCaseMock)
+        presenter.onCreate(viewMock)
         verify(viewMock, times(1)).initViews()
         verify(viewMock, times(1)).addNavigationCategoryButton(Category.MAIN)
         verify(viewMock, times(1)).addNavigationCategoryButton(Category.SOCIAL)
@@ -52,20 +52,20 @@ class TopPresenterTest {
 
     @Test
     fun defaultShowCategoryAndTypeTest() {
-        presenter.onCreate(viewMock, useCaseMock)
+        presenter.onCreate(viewMock)
         verify(viewMock, times(1)).refreshShowCategoryAndType(Category.MAIN, Type.HOT)
     }
 
     @Test
     fun ShowSelectedCategoryAndTypeTestOnCreateTest() {
-        presenter.onCreate(viewMock, useCaseMock, Category.IT, Type.NEW)
+        presenter.onCreate(viewMock, Category.IT, Type.NEW)
         verify(viewMock, times(1)).refreshShowCategoryAndType(Category.IT, Type.NEW)
     }
 
     @Test
     fun userInfoDisableTest() {
         whenever(useCaseMock.account).then { null }
-        presenter.onCreate(viewMock, useCaseMock)
+        presenter.onCreate(viewMock)
         presenter.onStart()
         verify(viewMock, times(1)).removeNavigationAdditions()
         verify(viewMock, times(1)).disableUserInfo()
@@ -78,7 +78,7 @@ class TopPresenterTest {
         whenever(account.displayName).thenReturn("kirimin")
         whenever(account.imageUrl).thenReturn("image.png")
         whenever(useCaseMock.account).then { account }
-        presenter.onCreate(viewMock, useCaseMock)
+        presenter.onCreate(viewMock)
         presenter.onStart()
         verify(viewMock, times(1)).removeNavigationAdditions()
         verify(viewMock, never()).disableUserInfo()
@@ -91,7 +91,7 @@ class TopPresenterTest {
         whenever(useCaseMock.additionUsers).thenReturn(users)
 
         // 表示
-        presenter.onCreate(viewMock, useCaseMock)
+        presenter.onCreate(viewMock)
         presenter.onStart()
         verify(useCaseMock, times(1)).additionUsers
         verify(viewMock, times(1)).addAdditionUser("testA")
@@ -124,7 +124,7 @@ class TopPresenterTest {
         val keywords = listOf("testA", "testB", "testC")
         whenever(useCaseMock.additionKeywords).thenReturn(keywords)
 
-        presenter.onCreate(viewMock, useCaseMock)
+        presenter.onCreate(viewMock)
         presenter.onStart()
         verify(useCaseMock, times(1)).additionKeywords
         verify(viewMock, times(1)).addAdditionKeyword("testA")
@@ -153,8 +153,7 @@ class TopPresenterTest {
     fun toolbarClickTest() {
         whenever(viewMock.isOpenNavigation()).thenReturn(false)
 
-        val presenter = TopPresenter()
-        presenter.onCreate(viewMock, useCaseMock, Category.MAIN, Type.HOT)
+        presenter.onCreate(viewMock, Category.MAIN, Type.HOT)
         presenter.onStart()
         verify(viewMock, never()).openNavigation()
         verify(viewMock, never()).closeNavigation()
@@ -171,8 +170,7 @@ class TopPresenterTest {
 
     @Test
     fun typeSelectTest() {
-        val presenter = TopPresenter()
-        presenter.onCreate(viewMock, useCaseMock, Category.MAIN, Type.HOT)
+        presenter.onCreate(viewMock, Category.MAIN, Type.HOT)
         presenter.onStart()
         Assert.assertEquals(presenter.selectedType, Type.HOT)
         verify(viewMock, times(1)).refreshShowCategoryAndType(any(), eq(Type.HOT))
@@ -192,9 +190,7 @@ class TopPresenterTest {
     @Test
     fun backKeyPressTest() {
         whenever(viewMock.isOpenNavigation()).thenReturn(false)
-
-        val presenter = TopPresenter()
-        presenter.onCreate(viewMock, useCaseMock, Category.MAIN, Type.HOT)
+        presenter.onCreate(viewMock, Category.MAIN, Type.HOT)
         presenter.onStart()
         presenter.onBackKeyClick()
         verify(viewMock, times(1)).backPress()
@@ -208,7 +204,7 @@ class TopPresenterTest {
 
     @Test
     fun deleteOldDataTest() {
-        presenter.onCreate(viewMock, useCaseMock)
+        presenter.onCreate(viewMock)
         verify(useCaseMock, times(1)).deleteOldFeedData(3)
     }
 }

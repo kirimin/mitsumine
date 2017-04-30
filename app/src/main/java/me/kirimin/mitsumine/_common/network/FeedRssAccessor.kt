@@ -23,12 +23,12 @@ object FeedRssAccessor {
         return observable.flatMap(this::parseResponse)
     }
 
-    fun requestUserBookmark(userName: String): Observable<Feed> {
+    fun requestUserFeed(userName: String): Observable<Feed> {
         val observable = request(FEED_URL_HEADER + userName + "/bookmark" + FEED_URL_FOOTER)
         return observable.flatMap(this::parseResponse)
     }
 
-    fun requestKeyword(keyword: String): Observable<Feed> {
+    fun requestKeywordFeed(keyword: String): Observable<Feed> {
         val observable = request(FEED_URL_HEADER + "keyword/" + keyword + "?mode=rss&num=-1")
         return observable.flatMap(this::parseResponse)
     }

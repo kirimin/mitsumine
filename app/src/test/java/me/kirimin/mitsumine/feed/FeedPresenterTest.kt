@@ -3,6 +3,8 @@ package me.kirimin.mitsumine.feed
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import me.kirimin.mitsumine.BuildConfig
+import me.kirimin.mitsumine._common.domain.enums.Category
+import me.kirimin.mitsumine._common.domain.enums.Type
 import org.junit.Before
 import org.junit.Test
 
@@ -30,24 +32,25 @@ class FeedPresenterTest {
     @Mock
     lateinit var viewMock: FeedView
     @Mock
-    lateinit var useCaseMock: AbstractFeedUseCase
+    lateinit var useCaseMock: FeedUseCase
     @Spy
     @InjectMocks
     lateinit var presenter : FeedPresenter
 
     val resultMock = listOf<Feed>(mock(), mock())
+    var feedMethod = FeedPresenter.FeedMethod.MainFeed(category = Category.MAIN, type = Type.HOT)
 
     @Before
     fun setup() {
-        whenever(useCaseMock.requestFeed()).thenReturn(Observable.from(resultMock))
+        whenever(useCaseMock.requestMainFeed(any(), any())).thenReturn(Observable.from(resultMock))
     }
 
     @Test
     fun onCreateTest() {
-        presenter.onCreate(viewMock, useCaseMock)
-        verify(viewMock, times(1)).initViews()
+        presenter.onCreate(feedMethod)
+        verify(viewMock, times(1)).initViews(feedMethod.isUseRead, feedMethod.isUseReadLater)
         verify(viewMock, times(1)).showRefreshing()
-        verify(useCaseMock, times(1)).requestFeed()
+        verify(useCaseMock, times(1)).requestMainFeed(Category.MAIN, Type.HOT)
 
         verify(viewMock, times(1)).setFeed(resultMock)
         verify(viewMock, times(1)).dismissRefreshing()
@@ -55,11 +58,11 @@ class FeedPresenterTest {
 
     @Test
     fun onRefreshTest() {
-        presenter.onCreate(viewMock, useCaseMock)
+        presenter.onCreate(feedMethod)
         presenter.onRefresh()
         verify(viewMock, times(1)).clearAllItem()
         verify(viewMock, times(2)).showRefreshing()
-        verify(useCaseMock, times(2)).requestFeed()
+        verify(useCaseMock, times(2)).requestMainFeed(Category.MAIN, Type.HOT)
 
         verify(viewMock, times(2)).setFeed(resultMock)
         verify(viewMock, times(2)).dismissRefreshing()
@@ -67,15 +70,15 @@ class FeedPresenterTest {
 
     @Test
     fun onErrorTest() {
-        whenever(useCaseMock.requestFeed()).thenReturn(Observable.error(Exception()))
-        presenter.onCreate(viewMock, useCaseMock)
+        whenever(useCaseMock.requestMainFeed(any(), any())).thenReturn(Observable.error(Exception()))
+        presenter.onCreate(feedMethod)
         verify(viewMock, never()).setFeed(anyList())
         verify(viewMock, times(1)).dismissRefreshing()
     }
 
     @Test
     fun onItemClick() {
-        presenter.onCreate(viewMock, useCaseMock)
+        presenter.onCreate(feedMethod)
         val feed = mock<Feed>()
         whenever(feed.linkUrl).thenReturn("http://test")
         presenter.onItemClick(feed)
@@ -90,7 +93,7 @@ class FeedPresenterTest {
 
         // ブラウザで開く
         whenever(useCaseMock.isUseBrowserSettingEnable).thenReturn(true)
-        presenter.onCreate(viewMock, useCaseMock)
+        presenter.onCreate(feedMethod)
         presenter.onItemLongClick(feed)
         verify(viewMock, times(1)).sendUrlIntent("http://entry")
         verify(viewMock, never()).startEntryInfoView("http://test")
@@ -111,7 +114,7 @@ class FeedPresenterTest {
         // 押下
         // タイトル入り設定
         whenever(useCaseMock.isShareWithTitleSettingEnable).thenReturn(true)
-        presenter.onCreate(viewMock, useCaseMock)
+        presenter.onCreate(feedMethod)
         presenter.onFeedShareClick(feed)
         verify(viewMock, times(1)).sendShareUrlWithTitleIntent("title", "http://test")
         verify(viewMock, never()).sendShareUrlIntent("title", "http://test")
@@ -125,8 +128,7 @@ class FeedPresenterTest {
         // 長押し
         // タイトル入り設定
         `when`(useCaseMock.isShareWithTitleSettingEnable).thenReturn(true)
-        val presenter = FeedPresenter()
-        presenter.onCreate(viewMock, useCaseMock)
+        presenter.onCreate(feedMethod)
         presenter.onFeedShareLongClick(feed)
         verify(viewMock, times(1)).sendShareUrlWithTitleIntent("title", "http://test")
         verify(viewMock, times(2)).sendShareUrlIntent("title", "http://test")
