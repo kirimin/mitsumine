@@ -1,6 +1,5 @@
 package me.kirimin.mitsumine._common.network.entity
 
-import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class BookmarkResponse(

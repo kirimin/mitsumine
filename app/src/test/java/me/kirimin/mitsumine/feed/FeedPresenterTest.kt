@@ -27,7 +27,7 @@ class FeedPresenterTest {
 
     @Rule
     @JvmField
-    var mockito = MockitoJUnit.rule()
+    var mockito = MockitoJUnit.rule()!!
 
     @Mock
     lateinit var viewMock: FeedView
@@ -43,13 +43,13 @@ class FeedPresenterTest {
     @Before
     fun setup() {
         presenter.view = viewMock
-        whenever(useCaseMock.requestMainFeed(Category.MAIN, Type.HOT)).thenReturn(Observable.from(resultMock))
     }
 
     @Test
     fun onCreateTest() {
+        whenever(useCaseMock.requestMainFeed(Category.MAIN, Type.HOT)).thenReturn(Observable.from(resultMock))
         presenter.onCreate(feedMethod)
-        verify(viewMock, times(1)).initViews(feedMethod.isUseRead, feedMethod.isUseReadLater)
+        verify(viewMock, times(1)).initViews(true, true)
         verify(viewMock, times(1)).showRefreshing()
         verify(useCaseMock, times(1)).requestMainFeed(Category.MAIN, Type.HOT)
 
@@ -59,6 +59,7 @@ class FeedPresenterTest {
 
     @Test
     fun onRefreshTest() {
+        whenever(useCaseMock.requestMainFeed(Category.MAIN, Type.HOT)).thenReturn(Observable.from(resultMock))
         presenter.onCreate(feedMethod)
         presenter.onRefresh()
         verify(viewMock, times(1)).clearAllItem()
@@ -78,7 +79,40 @@ class FeedPresenterTest {
     }
 
     @Test
+    fun onKeywordSearchMethodUsingTest() {
+        whenever(useCaseMock.requestKeywordFeed(anyString())).thenReturn(Observable.from(resultMock))
+        presenter.onCreate(FeedPresenter.FeedMethod.KeywordSearch("test"))
+        verify(viewMock, times(1)).initViews(true, true)
+        verify(useCaseMock, times(1)).requestKeywordFeed("test")
+    }
+
+    @Test
+    fun onUserSearchMethodUsingTest() {
+        whenever(useCaseMock.requestUserFeed(anyString())).thenReturn(Observable.from(resultMock))
+        presenter.onCreate(FeedPresenter.FeedMethod.UserSearch("test"))
+        verify(viewMock, times(1)).initViews(true, true)
+        verify(useCaseMock, times(1)).requestUserFeed("test")
+    }
+
+    @Test
+    fun onReadMethodUsingTest() {
+        whenever(useCaseMock.requestReadFeed()).thenReturn(Observable.from(resultMock))
+        presenter.onCreate(FeedPresenter.FeedMethod.Read())
+        verify(viewMock, times(1)).initViews(false, true)
+        verify(useCaseMock, times(1)).requestReadFeed()
+    }
+
+    @Test
+    fun onReadLatterMethodUsingTest() {
+        whenever(useCaseMock.requestReadLatterFeed()).thenReturn(Observable.from(resultMock))
+        presenter.onCreate(FeedPresenter.FeedMethod.ReadLatter())
+        verify(viewMock, times(1)).initViews(true, false)
+        verify(useCaseMock, times(1)).requestReadLatterFeed()
+    }
+
+    @Test
     fun onItemClick() {
+        whenever(useCaseMock.requestMainFeed(Category.MAIN, Type.HOT)).thenReturn(Observable.from(resultMock))
         presenter.onCreate(feedMethod)
         val feed = mock<Feed>()
         whenever(feed.linkUrl).thenReturn("http://test")
@@ -88,6 +122,7 @@ class FeedPresenterTest {
 
     @Test
     fun onItemLongClickTest() {
+        whenever(useCaseMock.requestMainFeed(Category.MAIN, Type.HOT)).thenReturn(Observable.from(resultMock))
         val feed = mock<Feed>()
         whenever(feed.linkUrl).thenReturn("http://test")
         whenever(feed.entryLinkUrl).thenReturn("http://entry")
@@ -108,6 +143,7 @@ class FeedPresenterTest {
 
     @Test
     fun onFeedShareClickTest() {
+        whenever(useCaseMock.requestMainFeed(Category.MAIN, Type.HOT)).thenReturn(Observable.from(resultMock))
         val feed = mock<Feed>()
         whenever(feed.title).thenReturn("title")
         whenever(feed.linkUrl).thenReturn("http://test")
