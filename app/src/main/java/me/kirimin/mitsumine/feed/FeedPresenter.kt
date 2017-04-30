@@ -1,47 +1,45 @@
 package me.kirimin.mitsumine.feed
 
+import me.kirimin.mitsumine._common.domain.enums.Category
+import me.kirimin.mitsumine._common.domain.enums.Type
 import me.kirimin.mitsumine._common.domain.model.Feed
 import me.kirimin.mitsumine._common.domain.util.FeedUtil
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
+import javax.inject.Inject
 
-class FeedPresenter {
+class FeedPresenter @Inject constructor(val useCase: FeedUseCase) {
 
     private val subscriptions = CompositeSubscription()
 
-    private var view: FeedView? = null
-    private lateinit var repository: AbstractFeedRepository
+    lateinit var view: FeedView get
+    lateinit var method: FeedMethod
 
-    fun onCreate(feedView: FeedView, repository: AbstractFeedRepository) {
-        this.view = feedView
-        this.repository = repository
-
-        feedView.initViews()
-        feedView.showRefreshing()
+    fun onCreate(method: FeedMethod) {
+        this.method = method
+        view.initViews(isUseRead = method.isUseRead, isUseReadLater = method.isUseReadLater)
+        view.showRefreshing()
         requestFeed()
     }
 
     fun onDestroy() {
-        view = null
         subscriptions.unsubscribe()
     }
 
     fun onRefresh() {
-        val view = view ?: return
         view.clearAllItem()
         view.showRefreshing()
         requestFeed()
     }
 
     fun onItemClick(feed: Feed) {
-        view?.sendUrlIntent(feed.linkUrl)
+        view.sendUrlIntent(feed.linkUrl)
     }
 
     fun onItemLongClick(feed: Feed) {
-        val view = view ?: return
-        if (repository.isUseBrowserSettingEnable) {
+        if (useCase.isUseBrowserSettingEnable) {
             view.sendUrlIntent(feed.entryLinkUrl)
         } else {
             view.startEntryInfoView(feed.linkUrl)
@@ -49,8 +47,7 @@ class FeedPresenter {
     }
 
     fun onFeedShareClick(feed: Feed) {
-        val view = view ?: return
-        if (repository.isShareWithTitleSettingEnable) {
+        if (useCase.isShareWithTitleSettingEnable) {
             view.sendShareUrlWithTitleIntent(feed.title, feed.linkUrl)
         } else {
             view.sendShareUrlIntent(feed.title, feed.linkUrl)
@@ -58,8 +55,7 @@ class FeedPresenter {
     }
 
     fun onFeedShareLongClick(feed: Feed) {
-        val view = view ?: return
-        if (repository.isShareWithTitleSettingEnable) {
+        if (useCase.isShareWithTitleSettingEnable) {
             view.sendShareUrlIntent(feed.title, feed.linkUrl)
         } else {
             view.sendShareUrlWithTitleIntent(feed.title, feed.linkUrl)
@@ -67,9 +63,8 @@ class FeedPresenter {
     }
 
     fun onFeedLeftSlide(holder: FeedAdapter.ViewHolder, feed: Feed, useReadLater: Boolean) {
-        val view = view ?: return
         feed.type = Feed.TYPE_READ
-        repository.saveFeed(feed)
+        useCase.saveFeed(feed)
         if (useReadLater) {
             view.setListViewCellPagerPosition(holder, 1)
         } else {
@@ -79,15 +74,13 @@ class FeedPresenter {
     }
 
     fun onFeedRightSlide(holder: FeedAdapter.ViewHolder, feed: Feed) {
-        val view = view ?: return
         feed.type = Feed.TYPE_READ_LATER
-        repository.saveFeed(feed)
+        useCase.saveFeed(feed)
         view.setListViewCellPagerPosition(holder, 1)
         view.removeItem(feed)
     }
 
     fun onGetView(holder: FeedAdapter.ViewHolder, item: Feed) {
-        val view = view ?: return
         view.initListViewCell(holder, item)
         if (!item.thumbnailUrl.isEmpty()) {
             view.loadThumbnailImage(holder, item.thumbnailUrl)
@@ -96,10 +89,9 @@ class FeedPresenter {
             view.loadFaviconImage(holder, item.faviconUrl)
         }
 
-        holder.tags.tag = repository.requestEntryInfo(item.linkUrl)
+        holder.tags.tag = useCase.requestTagList(item.linkUrl)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map { it.tagListString }
                 .subscribe(object : Subscriber<String>() {
                     override fun onNext(tags: String) {
                         view.setTagList(holder, tags)
@@ -111,7 +103,7 @@ class FeedPresenter {
                     override fun onCompleted() {
                     }
                 })
-        holder.bookmarkCount.tag = repository.requestBookmarkCount(item.linkUrl)
+        holder.bookmarkCount.tag = useCase.requestBookmarkCount(item.linkUrl)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<String>() {
@@ -128,14 +120,28 @@ class FeedPresenter {
     }
 
     private fun requestFeed() {
-        subscriptions.add(repository.requestFeed()
-                .toList()
+        val method = method
+        val observable = when (method) {
+            is FeedMethod.MainFeed -> useCase.requestMainFeed(method.category, method.type)
+            is FeedMethod.KeywordSearch -> useCase.requestKeywordFeed(method.keyword)
+            is FeedMethod.UserSearch -> useCase.requestUserFeed(method.user)
+            is FeedMethod.Read -> useCase.requestReadFeed()
+            is FeedMethod.ReadLatter -> useCase.requestReadLatterFeed()
+        }
+        subscriptions.add(observable.toList()
                 .subscribe({
-                    view?.setFeed(it.filter { !FeedUtil.containsWord(it, repository.ngWordList) })
-                    view?.dismissRefreshing()
+                    view.setFeed(it.filter { !FeedUtil.containsWord(it, useCase.ngWordList) })
+                    view.dismissRefreshing()
                 }, { e ->
-                    view?.dismissRefreshing()
-                })
-        )
+                    view.dismissRefreshing()
+                }))
+    }
+
+    sealed class FeedMethod(val isUseReadLater: Boolean, val isUseRead: Boolean) {
+        class MainFeed(val type: Type, val category: Category) : FeedMethod(true, true)
+        class KeywordSearch(val keyword: String) : FeedMethod(true, true)
+        class UserSearch(val user: String) : FeedMethod(true, true)
+        class Read : FeedMethod(true, false)
+        class ReadLatter : FeedMethod(true, false)
     }
 }

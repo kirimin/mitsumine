@@ -8,7 +8,7 @@ import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-class EntryInfoRepository {
+class EntryInfoUseCase {
 
     fun requestEntryInfo(url: String): Observable<EntryInfo>
             = Client.default(Client.EndPoint.API).build().create(HatenaBookmarkService::class.java).entryInfo(url)

@@ -13,10 +13,12 @@ import com.squareup.picasso.Picasso
 
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine._common.domain.model.Bookmark
-import me.kirimin.mitsumine._common.network.StarRepository
+import me.kirimin.mitsumine._common.network.repository.StarRepository
 import rx.Subscription
 
 class BookmarkListAdapter(activity: Activity, val presenter: BookmarkListPresenter, val entryId: String) : ArrayAdapter<Bookmark>(activity, 0) {
+
+    val starRepository = StarRepository()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
@@ -44,7 +46,7 @@ class BookmarkListAdapter(activity: Activity, val presenter: BookmarkListPresent
         if (holder.stars.tag is Subscription) {
             (holder.stars.tag as Subscription).unsubscribe()
         }
-        holder.stars.tag = StarRepository.requestCommentStar(bookmark.user, bookmark.timestamp, entryId).subscribe({
+        holder.stars.tag = starRepository.requestCommentStar(bookmark.user, bookmark.timestamp, entryId).subscribe({
             if (it == 0) {
                 holder.stars.visibility = View.GONE
             } else {

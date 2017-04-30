@@ -16,8 +16,10 @@ import me.kirimin.mitsumine.bookmarklist.BookmarkListFragment
 import me.kirimin.mitsumine.registerbookmark.RegisterBookmarkFragment
 
 import kotlinx.android.synthetic.main.activity_entry_info.*
+import me.kirimin.mitsumine.MyApplication
+import me.kirimin.mitsumine._common.ui.BaseActivity
 
-class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
+class EntryInfoActivity : BaseActivity(), EntryInfoView {
 
     private val presenter = EntryInfoPresenter()
     private val adapter = EntryInfoPagerAdapter(supportFragmentManager)
@@ -27,7 +29,7 @@ class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
         setContentView(R.layout.activity_entry_info)
 
         val url = intent.getStringExtra(KEY_URL) ?: let { finish(); return }
-        presenter.onCreate(this, EntryInfoRepository(), url)
+        presenter.onCreate(this, EntryInfoUseCase(), url)
     }
 
     override fun onDestroy() {
@@ -80,6 +82,10 @@ class EntryInfoActivity : AppCompatActivity(), EntryInfoView {
 
     override fun showNetworkErrorToast() {
         Toast.makeText(applicationContext, R.string.network_error, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun injection() {
+        (application as MyApplication).getApplicationComponent().inject(this)
     }
 
     companion object {

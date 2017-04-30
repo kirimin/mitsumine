@@ -12,12 +12,10 @@ import me.kirimin.mitsumine._common.network.entity.BookmarkResponse
 import me.kirimin.mitsumine._common.network.entity.EntryInfoResponse
 import org.junit.Rule
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Spy
 import org.mockito.junit.MockitoJUnit
-import org.mockito.quality.Strictness
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -35,7 +33,7 @@ class EntryInfoPresenterTest {
     @Mock
     lateinit var viewMock: EntryInfoView
     @Mock
-    lateinit var repositoryMock: EntryInfoRepository
+    lateinit var useCaseMock: EntryInfoUseCase
     @Spy
     @InjectMocks
     lateinit var presenter: EntryInfoPresenter
@@ -50,15 +48,15 @@ class EntryInfoPresenterTest {
                 BookmarkResponse(user = "test4", tags = listOf("TagB"), timestamp = "", private = false, comment = "")
         )
         entryInfo = EntryInfo(EntryInfoResponse("testA", 4, "http://sample", "http://thum", bookmarks))
-        whenever(repositoryMock.requestEntryInfo(any())).thenReturn(Observable.just(entryInfo))
+        whenever(useCaseMock.requestEntryInfo(any())).thenReturn(Observable.just(entryInfo))
     }
 
     @Test
     fun onCreateTest() {
-        whenever(repositoryMock.isLogin()).thenReturn(false)
-        presenter.onCreate(viewMock, repositoryMock, "http://sample")
+        whenever(useCaseMock.isLogin()).thenReturn(false)
+        presenter.onCreate(viewMock, useCaseMock, "http://sample")
         verify(viewMock, times(1)).initActionBar()
-        verify(repositoryMock, times(1)).requestEntryInfo(URLEncoder.encode("http://sample", "utf-8"))
+        verify(useCaseMock, times(1)).requestEntryInfo(URLEncoder.encode("http://sample", "utf-8"))
 
         // 取得したものが設定される
         verify(viewMock, times(1)).setEntryInfo(entryInfo)
@@ -73,8 +71,8 @@ class EntryInfoPresenterTest {
 
     @Test
     fun onNextTestWithLogin() {
-        whenever(repositoryMock.isLogin()).thenReturn(true)
-        presenter.onCreate(viewMock, repositoryMock, "http://sample")
+        whenever(useCaseMock.isLogin()).thenReturn(true)
+        presenter.onCreate(viewMock, useCaseMock, "http://sample")
         verify(viewMock, times(1)).setEntryInfo(entryInfo)
         verify(viewMock, times(1)).setRegisterBookmarkFragment("http://sample")
     }

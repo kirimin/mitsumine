@@ -1,6 +1,7 @@
 package me.kirimin.mitsumine.mybookmark
 
 import android.support.v4.app.Fragment
+import me.kirimin.mitsumine.MyApplication
 
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.search.AbstractSearchActivity
@@ -16,5 +17,9 @@ class MyBookmarkSearchActivity : AbstractSearchActivity() {
 
     override fun getSearchTitle(): String {
         return getString(R.string.my_bookmarks_title)
+    }
+
+    override fun injection() {
+        (application as MyApplication).getApplicationComponent().inject(this)
     }
 }

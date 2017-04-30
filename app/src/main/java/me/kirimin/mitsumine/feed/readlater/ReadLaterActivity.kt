@@ -8,8 +8,10 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 
 import kotlinx.android.synthetic.main.activity_common_container.*
+import me.kirimin.mitsumine.MyApplication
+import me.kirimin.mitsumine._common.ui.BaseActivity
 
-class ReadLaterActivity : AppCompatActivity() {
+class ReadLaterActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +25,10 @@ class ReadLaterActivity : AppCompatActivity() {
         actionBar?.setHomeButtonEnabled(true)
 
         supportFragmentManager.beginTransaction().replace(R.id.containerFrameLayout, ReadLaterFeedFragment()).commit()
+    }
+
+    override fun injection() {
+        (application as MyApplication).getApplicationComponent().inject(this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

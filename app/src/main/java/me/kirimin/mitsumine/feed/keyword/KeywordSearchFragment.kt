@@ -2,14 +2,19 @@ package me.kirimin.mitsumine.feed.keyword
 
 import android.os.Bundle
 
-import me.kirimin.mitsumine.feed.AbstractFeedRepository
-import me.kirimin.mitsumine.feed.keyword.KeyWordSearchRepository
 import me.kirimin.mitsumine.feed.AbstractFeedFragment
+import me.kirimin.mitsumine.feed.FeedPresenter
 
-public class KeywordSearchFragment : AbstractFeedFragment() {
+class KeywordSearchFragment : AbstractFeedFragment() {
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        presenter.view = this
+        presenter.onCreate(FeedPresenter.FeedMethod.KeywordSearch(arguments.getString("keyword", "")))
+    }
 
     companion object {
-        public fun newFragment(keyword: String): KeywordSearchFragment {
+        fun newFragment(keyword: String): KeywordSearchFragment {
             val fragment = KeywordSearchFragment()
             val bundle = Bundle()
             bundle.putString("keyword", keyword)
@@ -17,10 +22,4 @@ public class KeywordSearchFragment : AbstractFeedFragment() {
             return fragment
         }
     }
-
-    override fun getRepository(): AbstractFeedRepository = KeyWordSearchRepository(context, arguments.getString("keyword"))
-
-    override fun isUseReadLater(): Boolean = true
-
-    override fun isUseRead(): Boolean = true
 }
