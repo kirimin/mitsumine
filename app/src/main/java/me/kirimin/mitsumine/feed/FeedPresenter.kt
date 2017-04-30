@@ -89,10 +89,9 @@ class FeedPresenter @Inject constructor(val useCase: FeedUseCase) {
             view.loadFaviconImage(holder, item.faviconUrl)
         }
 
-        holder.tags.tag = useCase.requestEntryInfo(item.linkUrl)
+        holder.tags.tag = useCase.requestTagList(item.linkUrl)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map { it.tagListString }
                 .subscribe(object : Subscriber<String>() {
                     override fun onNext(tags: String) {
                         view.setTagList(holder, tags)

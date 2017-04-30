@@ -50,11 +50,12 @@ class FeedUseCase @Inject constructor(val context: Context, val feedRepository: 
     val ngWordList: List<String>
         get() = NGWordDAO.findAll()
 
-    fun requestEntryInfo(url: String): Observable<EntryInfo>
+    fun requestTagList(url: String): Observable<String>
             = Client.default(Client.EndPoint.API).build().create(HatenaBookmarkService::class.java).entryInfo(url)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .map(::EntryInfo)
+            .map { it.tagListString }
 
     fun requestBookmarkCount(url: String): Observable<String> =
             Client.default(Client.EndPoint.BOOKMARK_COUNT).build().create(HatenaBookmarkService::class.java).bookmarkCount(url)
