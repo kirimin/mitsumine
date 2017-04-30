@@ -29,12 +29,13 @@ class BookmarkListFragment : BaseFragment(), BookmarkListView {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        presenter.onCreate(this, arguments.getSerializable("bookmarkList") as ArrayList<Bookmark>)
+        presenter.view = this
+        presenter.onCreate(arguments.getSerializable("bookmarkList") as ArrayList<Bookmark>)
     }
 
     override fun initViews(bookmarks: List<Bookmark>) {
         val view = view ?: return
-        val adapter = BookmarkListAdapter(activity, presenter, arguments.getString("entryId"))
+        val adapter = BookmarkListAdapter(context, presenter, arguments.getString("entryId"))
         adapter.addAll(bookmarks)
         view.listView.adapter = adapter
     }

@@ -9,6 +9,7 @@ import java.util.ArrayList
 
 import me.kirimin.mitsumine._common.domain.model.Bookmark
 import me.kirimin.mitsumine._common.network.entity.BookmarkResponse
+import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -34,21 +35,43 @@ class BookmarkListPresenterTest {
     @InjectMocks
     lateinit var presenter: BookmarkListPresenter
 
+    @Before
+    fun setUp() {
+        presenter.view = viewMock
+    }
+
     @Test
     fun onCreateTest() {
-        val bookmarks = ArrayList<Bookmark>()
-        presenter.onCreate(viewMock, bookmarks)
+        val bookmarks = emptyList<Bookmark>()
+        presenter.onCreate(bookmarks)
         verify(viewMock, times(1)).initViews(bookmarks)
     }
 
     @Test
-    fun onItemClickTest() {
-        val presenter = BookmarkListPresenter()
-        val bookmarks = ArrayList<Bookmark>()
+    fun onMoreIconClickAndUserSearchSelectedTest() {
+        val bookmarks = emptyList<Bookmark>()
         val bookmark = Bookmark(BookmarkResponse("user", emptyList(), "", false, ""), emptyList())
-        presenter.onCreate(viewMock, bookmarks)
+        presenter.onCreate(bookmarks)
         presenter.onMoreIconClick(bookmark, "1", BookmarkPopupWindowBuilder.INDEX_SEARCH)
         verify(viewMock, times(1)).startUserSearchActivity("user")
-        // TODO add tests
     }
+
+    @Test
+    fun onMoreIconClickAndShareSelectedTest() {
+        val bookmarks = emptyList<Bookmark>()
+        val bookmark = Bookmark(BookmarkResponse("user", emptyList(), "", false, "comment"), emptyList())
+        presenter.onCreate(bookmarks)
+        presenter.onMoreIconClick(bookmark, "1", BookmarkPopupWindowBuilder.INDEX_SHARE)
+        verify(viewMock, times(1)).shareCommentLink("\"comment\" id:user http://b.hatena.ne.jp/entry/1/comment/user")
+    }
+
+    @Test
+    fun onMoreIconClickAndBrowserSelectedTest() {
+        val bookmarks = emptyList<Bookmark>()
+        val bookmark = Bookmark(BookmarkResponse("user", emptyList(), "", false, "comment"), emptyList())
+        presenter.onCreate(bookmarks)
+        presenter.onMoreIconClick(bookmark, "1", BookmarkPopupWindowBuilder.INDEX_BROWSER)
+        verify(viewMock, times(1)).showBrowser("http://b.hatena.ne.jp/entry/1/comment/user")
+    }
+
 }

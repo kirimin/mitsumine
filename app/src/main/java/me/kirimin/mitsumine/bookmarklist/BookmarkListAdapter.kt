@@ -1,6 +1,6 @@
 package me.kirimin.mitsumine.bookmarklist
 
-import android.app.Activity
+import android.content.Context
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
@@ -16,7 +16,7 @@ import me.kirimin.mitsumine._common.domain.model.Bookmark
 import me.kirimin.mitsumine._common.network.repository.StarRepository
 import rx.Subscription
 
-class BookmarkListAdapter(activity: Activity, val presenter: BookmarkListPresenter, val entryId: String) : ArrayAdapter<Bookmark>(activity, 0) {
+class BookmarkListAdapter(context: Context, val presenter: BookmarkListPresenter, val entryId: String) : ArrayAdapter<Bookmark>(context, 0) {
 
     val starRepository = StarRepository()
 
