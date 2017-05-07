@@ -1,8 +1,9 @@
 package me.kirimin.mitsumine.feed
 
 import me.kirimin.mitsumine._common.domain.model.Feed
+import me.kirimin.mitsumine._common.ui.BaseViewInterface
 
-interface FeedView {
+interface FeedView : BaseViewInterface {
     fun initViews(isUseRead: Boolean, isUseReadLater: Boolean)
     fun showRefreshing()
     fun clearAllItem()

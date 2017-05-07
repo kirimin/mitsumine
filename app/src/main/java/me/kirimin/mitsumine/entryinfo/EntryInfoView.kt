@@ -2,8 +2,9 @@ package me.kirimin.mitsumine.entryinfo
 
 import me.kirimin.mitsumine._common.domain.model.Bookmark
 import me.kirimin.mitsumine._common.domain.model.EntryInfo
+import me.kirimin.mitsumine._common.ui.BaseViewInterface
 
-interface EntryInfoView {
+interface EntryInfoView: BaseViewInterface {
 
     fun initActionBar()
 
@@ -16,7 +17,4 @@ interface EntryInfoView {
     fun setViewPagerSettings(currentItem: Int, offscreenPageLimit: Int)
 
     fun setCommentCount(commentCount: String)
-
-    fun showNetworkErrorToast()
-
 }

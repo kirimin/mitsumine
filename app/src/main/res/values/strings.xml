@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Mitsumine</string>
-    <string name="network_error">通信に失敗しました。</string>
+    <string name="network_error">データの取得に失敗しました。しばらく待つか通信環境を確認してみてください</string>
     <string name="users">USERS</string>
     <string name="users_lower_case">users</string>
     <string name="feed_new">新着</string>
