@@ -1,8 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@android:color/white"
+              android:orientation="vertical">
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawerLayout"
@@ -19,7 +19,7 @@
                 android:id="@+id/containerFrameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolBar"
@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/colorPrimary"
-                android:minHeight="?attr/actionBarSize" />
+                android:minHeight="?attr/actionBarSize"/>
         </LinearLayout>
 
         <ScrollView
@@ -52,7 +52,7 @@
                     <ImageView
                         android:id="@+id/navigationUserIconImageView"
                         android:layout_width="48dp"
-                        android:layout_height="48dp" />
+                        android:layout_height="48dp"/>
 
                     <TextView
                         android:id="@+id/navigationUserName"
@@ -61,7 +61,7 @@
                         android:layout_gravity="center_vertical"
                         android:paddingTop="8dp"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_medium" />
+                        android:textSize="@dimen/text_medium"/>
 
                     <Button
                         android:id="@+id/navigationMyBookmarksButton"
@@ -69,7 +69,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/my_bookmarks_title"
                         android:textColor="@color/text"
-                        android:textSize="@dimen/text_medium" />
+                        android:textSize="@dimen/text_medium"/>
 
                 </LinearLayout>
 
@@ -77,44 +77,54 @@
                     android:id="@+id/navigationCategories"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" />
+                    android:background="@android:color/white"
+                    android:orientation="vertical"/>
 
                 <LinearLayout
                     android:id="@+id/navigationAdditions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="1dp"
-                    android:orientation="vertical" />
+                    android:background="@android:color/white"
+                    android:orientation="vertical"/>
 
-                <TextView
-                    android:id="@+id/navigationKeywordSearchTextView"
-                    style="@style/NavigationItemOptions"
-                    android:drawableLeft="@drawable/ic_action_search"
-                    android:text="@string/keyword_search_title" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/gray_light"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/navigationUserSearchTextView"
-                    style="@style/NavigationItemOptions"
-                    android:drawableLeft="@drawable/ic_action_search"
-                    android:text="@string/user_search_title" />
+                    <TextView
+                        android:id="@+id/navigationKeywordSearchTextView"
+                        style="@style/NavigationItemOptions"
+                        android:drawableLeft="@drawable/ic_action_search"
+                        android:text="@string/keyword_search_title"/>
 
-                <TextView
-                    android:id="@+id/navigationReadTextView"
-                    style="@style/NavigationItemOptions"
-                    android:drawableLeft="@drawable/ic_action_accept"
-                    android:text="@string/read_title" />
+                    <TextView
+                        android:id="@+id/navigationUserSearchTextView"
+                        style="@style/NavigationItemOptions"
+                        android:drawableLeft="@drawable/ic_action_search"
+                        android:text="@string/user_search_title"/>
 
-                <TextView
-                    android:id="@+id/navigationSettingsTextView"
-                    style="@style/NavigationItemOptions"
-                    android:drawableLeft="@drawable/ic_action_settings"
-                    android:text="@string/settings_title" />
+                    <TextView
+                        android:id="@+id/navigationReadTextView"
+                        style="@style/NavigationItemOptions"
+                        android:drawableLeft="@drawable/ic_action_accept"
+                        android:text="@string/read_title"/>
+
+                    <TextView
+                        android:id="@+id/navigationSettingsTextView"
+                        style="@style/NavigationItemOptions"
+                        android:drawableLeft="@drawable/ic_action_settings"
+                        android:text="@string/settings_title"/>
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/navigationLoginButton"
                     style="@style/NavigationItemOptions"
+                    android:background="@color/gray_light2"
                     android:drawableLeft="@drawable/ic_account"
-                    android:text="@string/settings_login" />
+                    android:text="@string/settings_login"/>
             </LinearLayout>
         </ScrollView>
 

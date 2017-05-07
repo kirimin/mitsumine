@@ -12,6 +12,7 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary</item>
         <item name="colorAccent">@color/blue</item>
+        <item name="colorControlHighlight">@color/primary_light</item>
     </style>
 
     <style name="MyToolbarStyle" parent="Widget.AppCompat.Toolbar">
@@ -27,7 +28,7 @@
         <item name="android:paddingLeft">16dp</item>
         <item name="android:textColor">@color/text</item>
         <item name="android:textSize">@dimen/text_medium</item>
-        <item name="android:background">@drawable/background_navigation_option_button</item>
+        <item name="android:background">?android:selectableItemBackground</item>
     </style>
 
     <style name="NavigationItem">
@@ -38,6 +39,6 @@
         <item name="android:paddingLeft">16dp</item>
         <item name="android:textColor">@color/text</item>
         <item name="android:textSize">@dimen/text_large</item>
-        <item name="android:background">@drawable/background_navigation_button</item>
+        <item name="android:background">?android:selectableItemBackground</item>
     </style>
 </resources>
