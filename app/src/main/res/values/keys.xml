@@ -2,4 +2,5 @@
 <resources>
     <string name="key_is_share_with_title">isShareWithTitle</string>
     <string name="key_use_browser_to_comment_list">keyUseBrowserToCommentList</string>
+    <string name="key_is_first_boot">isFirstBoot</string>
 </resources>

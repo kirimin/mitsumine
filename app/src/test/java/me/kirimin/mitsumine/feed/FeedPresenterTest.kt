@@ -55,6 +55,25 @@ class FeedPresenterTest {
 
         verify(viewMock, times(1)).setFeed(resultMock)
         verify(viewMock, times(1)).dismissRefreshing()
+        verify(viewMock, never()).showTutorial()
+    }
+
+    @Test
+    fun showTutorialTest() {
+        whenever(useCaseMock.requestMainFeed(Category.MAIN, Type.HOT)).thenReturn(Observable.from(resultMock))
+        whenever(useCaseMock.isFirstBoot).thenReturn(true)
+        presenter.onCreate(feedMethod)
+        verify(viewMock, times(1)).showTutorial()
+    }
+
+    @Test
+    fun onTutorialTapTest() {
+        whenever(useCaseMock.requestMainFeed(Category.MAIN, Type.HOT)).thenReturn(Observable.from(resultMock))
+        whenever(useCaseMock.isFirstBoot).thenReturn(true)
+        presenter.onCreate(feedMethod)
+        presenter.onTutorialTap()
+        verify(viewMock, times(1)).hideTutorial()
+        verify(useCaseMock, times(1)).isFirstBoot = false
     }
 
     @Test

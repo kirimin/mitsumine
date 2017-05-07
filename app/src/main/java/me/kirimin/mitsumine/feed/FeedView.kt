@@ -19,4 +19,6 @@ interface FeedView {
     fun setBookmarkCount(holder: FeedAdapter.ViewHolder, count: String)
     fun loadThumbnailImage(holder: FeedAdapter.ViewHolder, url: String)
     fun loadFaviconImage(holder: FeedAdapter.ViewHolder, url: String)
+    fun showTutorial()
+    fun hideTutorial()
 }

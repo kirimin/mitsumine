@@ -22,6 +22,19 @@ constructor(val context: Context,
             val entryRepository: EntryRepository,
             val bookmarkCountRepository: BookmarkCountRepository) {
 
+    val isUseBrowserSettingEnable: Boolean
+        get() = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.key_use_browser_to_comment_list), false)
+
+    val isShareWithTitleSettingEnable: Boolean
+        get() = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.key_is_share_with_title), false)
+
+    val ngWordList: List<String>
+        get() = NGWordDAO.findAll()
+
+    var isFirstBoot
+        get() = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.key_is_first_boot), true)
+        set(value) = PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(context.getString(R.string.key_is_first_boot), value).apply()
+
     fun requestMainFeed(category: Category, type: Type) = feedRepository.requestFeed(category, type)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())!!
@@ -33,15 +46,6 @@ constructor(val context: Context,
     fun requestReadFeed() = feedRepository.requestReadFeed()
 
     fun requestReadLatterFeed() = feedRepository.requestReadLatterFeed()
-
-    val isUseBrowserSettingEnable: Boolean
-        get() = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.key_use_browser_to_comment_list), false)
-
-    val isShareWithTitleSettingEnable: Boolean
-        get() = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.key_is_share_with_title), false)
-
-    val ngWordList: List<String>
-        get() = NGWordDAO.findAll()
 
     fun requestTagList(url: String) = entryRepository.requestEntryInfo(url).map { it.tagListString }!!
 
