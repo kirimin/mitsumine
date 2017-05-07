@@ -1,5 +1,6 @@
 package me.kirimin.mitsumine._common.domain.model
 
+import me.kirimin.mitsumine._common.domain.extensions.normalizeToNFC
 import me.kirimin.mitsumine._common.network.entity.FeedResponse
 import java.net.URLEncoder
 
@@ -18,9 +19,9 @@ data class Feed(
         var saveTime: Long = 0) {
 
     constructor(response: FeedResponse) : this() {
-        title = response.title
+        title = response.title.normalizeToNFC()
         thumbnailUrl = parseThumbnailUrl(response.contentEncoded ?: "")
-        content = response.description ?: ""
+        content = response.description?.normalizeToNFC() ?: ""
         linkUrl = response.link.replace("#", "%23")
         bookmarkCountUrl = "http://b.hatena.ne.jp/entry/image/" + URLEncoder.encode(linkUrl, "utf-8")
         faviconUrl = "http://cdn-ak.favicon.st-hatena.com/?url=" + linkUrl
