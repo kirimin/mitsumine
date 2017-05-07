@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_feed.*
 
 import kotlinx.android.synthetic.main.fragment_feed.view.*
 import me.kirimin.mitsumine.MyApplication
@@ -71,6 +72,7 @@ abstract class AbstractFeedFragment : BaseFragment(), FeedView, View.OnClickList
 
     override fun initViews(isUseRead: Boolean, isUseReadLater: Boolean) {
         val view = view ?: return
+        view.tutorial_1.setOnClickListener { presenter.onTutorialTap() }
         view.swipeLayout.setColorSchemeResources(R.color.blue, R.color.orange)
         view.swipeLayout.setOnRefreshListener(this)
         view.swipeLayout.setProgressViewOffset(false, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, resources.displayMetrics).toInt())
@@ -167,6 +169,14 @@ abstract class AbstractFeedFragment : BaseFragment(), FeedView, View.OnClickList
 
     override fun loadFaviconImage(holder: FeedAdapter.ViewHolder, url: String) {
         Picasso.with(context).load(url).into(holder.favicon)
+    }
+
+    override fun showTutorial() {
+        view?.tutorial_1?.visibility = View.VISIBLE
+    }
+
+    override fun hideTutorial() {
+        view?.tutorial_1?.visibility = View.GONE
     }
 
     override fun injection() {

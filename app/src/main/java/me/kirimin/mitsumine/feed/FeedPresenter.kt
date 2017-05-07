@@ -80,6 +80,11 @@ class FeedPresenter @Inject constructor(val useCase: FeedUseCase) {
         view.removeItem(feed)
     }
 
+    fun onTutorialTap() {
+        view.hideTutorial()
+        useCase.isFirstBoot = false
+    }
+
     fun onGetView(holder: FeedAdapter.ViewHolder, item: Feed) {
         view.initListViewCell(holder, item)
         if (!item.thumbnailUrl.isEmpty()) {
@@ -132,6 +137,9 @@ class FeedPresenter @Inject constructor(val useCase: FeedUseCase) {
                 .subscribe({
                     view.setFeed(it.filter { !FeedUtil.containsWord(it, useCase.ngWordList) })
                     view.dismissRefreshing()
+                    if (useCase.isFirstBoot) {
+                        view.showTutorial()
+                    }
                 }, { e ->
                     view.dismissRefreshing()
                 }))
