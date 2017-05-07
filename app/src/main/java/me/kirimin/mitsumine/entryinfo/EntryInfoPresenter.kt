@@ -1,5 +1,6 @@
 package me.kirimin.mitsumine.entryinfo
 
+import me.kirimin.mitsumine.R
 import rx.subscriptions.CompositeSubscription
 import java.net.URLEncoder
 
@@ -25,10 +26,7 @@ class EntryInfoPresenter {
                         view.setRegisterBookmarkFragment(entryInfo.url)
                     }
                     view.setViewPagerSettings(currentItem = 1, offscreenPageLimit = 2)
-                }, {
-                    it.printStackTrace()
-                    view?.showNetworkErrorToast()
-                })
+                }, { view?.showError(R.string.network_error) })
         )
     }
 

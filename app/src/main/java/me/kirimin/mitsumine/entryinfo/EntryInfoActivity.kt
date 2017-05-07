@@ -80,10 +80,6 @@ class EntryInfoActivity : BaseActivity(), EntryInfoView {
         commentCountTextView.text = commentCount
     }
 
-    override fun showNetworkErrorToast() {
-        Toast.makeText(applicationContext, R.string.network_error, Toast.LENGTH_SHORT).show()
-    }
-
     override fun injection() {
         (application as MyApplication).getApplicationComponent().inject(this)
     }

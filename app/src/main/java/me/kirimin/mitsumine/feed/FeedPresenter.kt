@@ -1,5 +1,6 @@
 package me.kirimin.mitsumine.feed
 
+import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine._common.domain.enums.Category
 import me.kirimin.mitsumine._common.domain.enums.Type
 import me.kirimin.mitsumine._common.domain.model.Feed
@@ -142,6 +143,7 @@ class FeedPresenter @Inject constructor(val useCase: FeedUseCase) {
                     }
                 }, { e ->
                     view.dismissRefreshing()
+                    view.showError(R.string.network_error)
                 }))
     }
 
