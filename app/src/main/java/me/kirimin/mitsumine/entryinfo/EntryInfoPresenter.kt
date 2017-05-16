@@ -27,7 +27,10 @@ class EntryInfoPresenter {
                         view.setRegisterBookmarkFragment(entryInfo.url)
                     }
                     view.setViewPagerSettings(currentItem = 1, offscreenPageLimit = 2)
-                }, { this.view.showError(R.string.network_error) })
+                }, {
+                    view.hideProgressBar()
+                    view.showError(R.string.network_error)
+                })
         )
     }
 
