@@ -12,7 +12,7 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary</item>
         <item name="colorAccent">@color/blue</item>
-        <item name="colorControlHighlight">@color/primary_light</item>
+        <item name="colorControlHighlight">@color/primary</item>
     </style>
 
     <style name="MyToolbarStyle" parent="Widget.AppCompat.Toolbar">
