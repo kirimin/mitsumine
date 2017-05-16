@@ -1,14 +1,19 @@
 package me.kirimin.mitsumine.feed.user
 
 import android.os.Bundle
-import me.kirimin.mitsumine.feed.AbstractFeedRepository
-import me.kirimin.mitsumine.feed.user.UserSearchRepository
 import me.kirimin.mitsumine.feed.AbstractFeedFragment
+import me.kirimin.mitsumine.feed.FeedPresenter
 
-public class UserSearchFragment : AbstractFeedFragment() {
+class UserSearchFragment : AbstractFeedFragment() {
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        presenter.view = this
+        presenter.onCreate(FeedPresenter.FeedMethod.UserSearch(arguments.getString("user", "")))
+    }
 
     companion object {
-        public fun newFragment(user: String): UserSearchFragment {
+        fun newFragment(user: String): UserSearchFragment {
             val fragment = UserSearchFragment()
             val bundle = Bundle()
             bundle.putString("user", user)
@@ -16,10 +21,4 @@ public class UserSearchFragment : AbstractFeedFragment() {
             return fragment
         }
     }
-
-    override fun getRepository(): AbstractFeedRepository = UserSearchRepository(context, arguments.getString("user"))
-
-    override fun isUseReadLater(): Boolean = true
-
-    override fun isUseRead(): Boolean = true
 }

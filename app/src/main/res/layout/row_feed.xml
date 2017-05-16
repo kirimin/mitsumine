@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:theme="@style/AppTheme">
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
@@ -19,7 +21,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/background_feed_list"
+            android:background="?android:selectableItemBackground"
             android:orientation="vertical">
 
             <LinearLayout
@@ -43,13 +45,13 @@
                     android:textColor="@color/text"
                     android:textSize="@dimen/text_medium"
                     android:textStyle="bold"
-                    tools:text="エントリータイトル" />
+                    tools:text="エントリータイトル"/>
 
                 <ImageView
                     android:id="@+id/FeedFragmentImageViewShare"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:src="@drawable/button_share" />
+                    android:src="@drawable/button_share"/>
             </LinearLayout>
 
             <LinearLayout
@@ -84,7 +86,7 @@
                             android:textColor="@color/orange"
                             android:textSize="@dimen/text_large"
                             android:textStyle="bold"
-                            tools:text="9999" />
+                            tools:text="9999"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -94,14 +96,14 @@
                             android:text="@string/users_lower_case"
                             android:textColor="@color/orange"
                             android:textSize="@dimen/text_medium"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"/>
 
                         <ImageView
                             android:id="@+id/FeedFragmentImageViewFavicon"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:paddingRight="4dp"
-                            tools:src="@drawable/ic_launcher" />
+                            tools:src="@drawable/ic_launcher"/>
 
                         <TextView
                             android:id="@+id/FeedFragmentTextViewDomain"
@@ -114,7 +116,7 @@
                             android:textColor="@color/text"
                             android:textSize="@dimen/text_medium"
                             android:textStyle="bold"
-                            tools:text="google.com" />
+                            tools:text="google.com"/>
                     </LinearLayout>
 
                     <TextView
@@ -125,7 +127,7 @@
                         android:layout_marginLeft="8dp"
                         android:textColor="@color/gray_light4"
                         android:textSize="@dimen/text_small2"
-                        tools:text="android, Scala" />
+                        tools:text="android, Scala"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -139,17 +141,17 @@
                             android:layout_marginLeft="8dp"
                             android:layout_marginRight="8dp"
                             android:scaleType="fitStart"
-                            android:src="@color/gray_light" />
+                            android:src="@color/gray_light"/>
 
                         <TextView
                             android:id="@+id/FeedFragmentTextViewContent"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="4"
                             android:textColor="@color/text_secondary"
                             android:textSize="@dimen/text_small"
-                            android:maxLines="4"
-                            android:ellipsize="end"
-                            tools:text="コンテンツコンテンツコンテンツコンテンツコンテンツコンテンツコンテンツコンテンツコンテンツ" />
+                            tools:text="コンテンツコンテンツコンテンツコンテンツコンテンツコンテンツコンテンツコンテンツコンテンツ"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

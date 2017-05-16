@@ -6,18 +6,18 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.MenuItemCompat
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
 
 import kotlinx.android.synthetic.main.activity_common_container.*
+import me.kirimin.mitsumine._common.ui.BaseActivity
 
 /**
  * 検索UIを持った画面の共通親Activity
  */
-abstract class AbstractSearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
+abstract class AbstractSearchActivity : BaseActivity(), SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
 
     private lateinit var mSearchItem: MenuItem
     private lateinit var mSearchView: SearchView

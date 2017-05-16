@@ -1,53 +1,31 @@
 package me.kirimin.mitsumine._common.domain.model
 
-import com.activeandroid.Model
-import com.activeandroid.annotation.Column
-import com.activeandroid.annotation.Table
-import me.kirimin.mitsumine._common.network.entity.Item
+import me.kirimin.mitsumine._common.domain.extensions.normalizeToNFC
+import me.kirimin.mitsumine._common.network.entity.FeedResponse
 import java.net.URLEncoder
 
-@Table(name = "feed")
-open class Feed() : Model() {
+/**
+ * はてブのエントリフィードのモデルクラス
+ */
+data class Feed(
+        var title: String = "",
+        var thumbnailUrl: String = "",
+        var content: String = "",
+        var linkUrl: String = "", // ブックマークのURL
+        var entryLinkUrl: String = "", // エントリのURL
+        var bookmarkCountUrl: String = "", // ブクマ数取得のURL
+        var faviconUrl: String = "", // faviconのURL
+        var type: String = "", // あとで読む・既読の状態
+        var saveTime: Long = 0) {
 
-    @Column(name = "title")
-    open var title: String = ""
-
-    @Column(name = "thumbnailUrl")
-    open var thumbnailUrl: String = ""
-
-    @Column(name = "content")
-    open var content: String = ""
-
-    @Column(name = "linkUrl", unique = true)
-    open var linkUrl: String = ""
-
-    @Column(name = "entryLinkUrl")
-    open var entryLinkUrl: String = ""
-
-    @Column(name = "bookmarkCountUrl")
-    open var bookmarkCountUrl: String = ""
-
-    @Column(name = "faviconUrl")
-    open var faviconUrl: String = ""
-
-    @Column(name = "type")
-    open var type: String = ""
-
-    @Column(name = "saveTime")
-    open var saveTime: Long = 0
-
-    constructor(apiData: Item) : this() {
-        title = apiData.title
-        linkUrl = apiData.link.replace("#", "%23")
-        content = apiData.description ?: ""
-        thumbnailUrl = parseThumbnailUrl(apiData.contentEncoded ?: "")
+    constructor(response: FeedResponse) : this() {
+        title = response.title.normalizeToNFC()
+        thumbnailUrl = parseThumbnailUrl(response.contentEncoded ?: "")
+        content = response.description?.normalizeToNFC() ?: ""
+        linkUrl = response.link.replace("#", "%23")
         bookmarkCountUrl = "http://b.hatena.ne.jp/entry/image/" + URLEncoder.encode(linkUrl, "utf-8")
         faviconUrl = "http://cdn-ak.favicon.st-hatena.com/?url=" + linkUrl
         entryLinkUrl = "http://b.hatena.ne.jp/entry/" + linkUrl
-    }
-
-    override fun toString(): String {
-        return StringBuilder().append("title:").append(title).append(" type:").append(type).toString()
     }
 
     private fun parseThumbnailUrl(content: String): String {

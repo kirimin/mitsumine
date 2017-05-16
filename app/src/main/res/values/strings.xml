@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Mitsumine</string>
-    <string name="network_error">通信に失敗しました。</string>
+    <string name="network_error">データの取得に失敗しました。しばらく待つか通信環境を確認してみてください</string>
     <string name="users">USERS</string>
     <string name="users_lower_case">users</string>
     <string name="feed_new">新着</string>
@@ -77,4 +77,5 @@
     <string name="register_bookmark_twitter">Twitterに投稿</string>
     <string name="my_bookmarks_title">マイブックマーク全文検索</string>
     <string name="login_header_text">■ログインするとMitsumineからのブックマーク登録や、マイブックマーク全文検索が利用できます。</string>
+    <string name="tutorial_long_click">エントリを長押しで\nコメントが見れます</string>
 </resources>

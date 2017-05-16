@@ -14,9 +14,11 @@ import me.kirimin.mitsumine.search.AbstractSearchActivity
 import me.kirimin.mitsumine.feed.user.UserSearchActivity
 
 import kotlinx.android.synthetic.main.fragment_bookmark_list.view.*
+import me.kirimin.mitsumine.MyApplication
+import me.kirimin.mitsumine._common.ui.BaseFragment
 import java.net.URL
 
-class BookmarkListFragment : Fragment(), BookmarkListView {
+class BookmarkListFragment : BaseFragment(), BookmarkListView {
 
     val presenter = BookmarkListPresenter()
 
@@ -27,12 +29,13 @@ class BookmarkListFragment : Fragment(), BookmarkListView {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        presenter.onCreate(this, arguments.getParcelableArray("bookmarkList").map { it as Bookmark })
+        presenter.view = this
+        presenter.onCreate(arguments.getSerializable("bookmarkList") as ArrayList<Bookmark>)
     }
 
     override fun initViews(bookmarks: List<Bookmark>) {
         val view = view ?: return
-        val adapter = BookmarkListAdapter(activity, presenter, arguments.getString("entryId"))
+        val adapter = BookmarkListAdapter(context, presenter, arguments.getString("entryId"))
         adapter.addAll(bookmarks)
         view.listView.adapter = adapter
     }
@@ -54,11 +57,15 @@ class BookmarkListFragment : Fragment(), BookmarkListView {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
     }
 
+    override fun injection() {
+        (activity.application as MyApplication).getApplicationComponent().inject(this)
+    }
+
     companion object {
         fun newFragment(bookmarkList: List<Bookmark>, entryId: String): BookmarkListFragment {
             val fragment = BookmarkListFragment()
             val bundle = Bundle()
-            bundle.putParcelableArray("bookmarkList", bookmarkList.toTypedArray())
+            bundle.putSerializable("bookmarkList", ArrayList(bookmarkList))
             bundle.putString("entryId", entryId)
             fragment.arguments = bundle
             return fragment

@@ -15,8 +15,10 @@ import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
 
 import kotlinx.android.synthetic.main.activity_login.*
+import me.kirimin.mitsumine.MyApplication
+import me.kirimin.mitsumine._common.ui.BaseActivity
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
     private val subscriptions = CompositeSubscription()
 
@@ -69,5 +71,9 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun injection() {
+        (application as MyApplication).getApplicationComponent().inject(this)
     }
 }

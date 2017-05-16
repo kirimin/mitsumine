@@ -1,9 +1,10 @@
 package me.kirimin.mitsumine.feed
 
 import me.kirimin.mitsumine._common.domain.model.Feed
+import me.kirimin.mitsumine._common.ui.BaseViewInterface
 
-interface FeedView {
-    fun initViews()
+interface FeedView : BaseViewInterface {
+    fun initViews(isUseRead: Boolean, isUseReadLater: Boolean)
     fun showRefreshing()
     fun clearAllItem()
     fun setFeed(feedList: List<Feed>)
@@ -19,4 +20,6 @@ interface FeedView {
     fun setBookmarkCount(holder: FeedAdapter.ViewHolder, count: String)
     fun loadThumbnailImage(holder: FeedAdapter.ViewHolder, url: String)
     fun loadFaviconImage(holder: FeedAdapter.ViewHolder, url: String)
+    fun showTutorial()
+    fun hideTutorial()
 }

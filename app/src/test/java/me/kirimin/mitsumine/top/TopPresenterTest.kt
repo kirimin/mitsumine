@@ -2,37 +2,42 @@ package me.kirimin.mitsumine.top
 
 import android.view.View
 import com.nhaarman.mockito_kotlin.*
+import me.kirimin.mitsumine.BuildConfig
 
 import org.junit.Assert
-import org.junit.Before
 import org.junit.Test
 
 import me.kirimin.mitsumine._common.domain.enums.Category
 import me.kirimin.mitsumine._common.domain.enums.Type
 import me.kirimin.mitsumine._common.domain.model.Account
-import me.kirimin.mitsumine.top.TopRepository
-import me.kirimin.mitsumine.top.TopPresenter
-import me.kirimin.mitsumine.top.TopView
+import org.junit.Rule
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Spy
+import org.mockito.junit.MockitoJUnit
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
-@RunWith(JUnit4::class)
+@RunWith(RobolectricTestRunner::class)
+@Config(constants = BuildConfig::class)
 class TopPresenterTest {
 
-    lateinit var viewMock: TopView
-    lateinit var repositoryMock: TopRepository
-    val presenter = TopPresenter()
+    @Rule
+    @JvmField
+    var mockito = MockitoJUnit.rule()
 
-    @Before
-    fun setup() {
-        viewMock = mock()
-        repositoryMock = mock()
-    }
+    @Mock
+    lateinit var viewMock: TopView
+    @Mock
+    lateinit var useCaseMock: TopUseCase
+    @Spy
+    @InjectMocks
+    lateinit var presenter: TopPresenter
 
     @Test
-    @JvmName(name = "onCreate時にNavigationBarに全カテゴリが追加される")
     fun onCreateTest() {
-        presenter.onCreate(viewMock, repositoryMock)
+        presenter.onCreate(viewMock)
         verify(viewMock, times(1)).initViews()
         verify(viewMock, times(1)).addNavigationCategoryButton(Category.MAIN)
         verify(viewMock, times(1)).addNavigationCategoryButton(Category.SOCIAL)
@@ -46,24 +51,21 @@ class TopPresenterTest {
     }
 
     @Test
-    @JvmName(name = "onCreate時にデフォルトで総合・人気が表示される")
-    fun onCreateTest2() {
-        presenter.onCreate(viewMock, repositoryMock)
+    fun defaultShowCategoryAndTypeTest() {
+        presenter.onCreate(viewMock)
         verify(viewMock, times(1)).refreshShowCategoryAndType(Category.MAIN, Type.HOT)
     }
 
     @Test
-    @JvmName(name = "onCreate時に受け取ったカテゴリ・タイプが表示される")
-    fun onCreateTest3() {
-        presenter.onCreate(viewMock, repositoryMock, Category.IT, Type.NEW)
+    fun ShowSelectedCategoryAndTypeTestOnCreateTest() {
+        presenter.onCreate(viewMock, Category.IT, Type.NEW)
         verify(viewMock, times(1)).refreshShowCategoryAndType(Category.IT, Type.NEW)
     }
 
     @Test
-    @JvmName(name = "画面表示時にログインしてなければユーザー情報が非表示になりログインボタンが表示される")
     fun userInfoDisableTest() {
-        whenever(repositoryMock.account).then { null }
-        presenter.onCreate(viewMock, repositoryMock)
+        whenever(useCaseMock.account).then { null }
+        presenter.onCreate(viewMock)
         presenter.onStart()
         verify(viewMock, times(1)).removeNavigationAdditions()
         verify(viewMock, times(1)).disableUserInfo()
@@ -71,13 +73,12 @@ class TopPresenterTest {
     }
 
     @Test
-    @JvmName(name = "画面表示時にログインしていればユーザー情報が表示されログインボタンが非表示になる")
     fun userInfoEnableTest() {
         val account = mock<Account>()
         whenever(account.displayName).thenReturn("kirimin")
         whenever(account.imageUrl).thenReturn("image.png")
-        whenever(repositoryMock.account).then { account }
-        presenter.onCreate(viewMock, repositoryMock)
+        whenever(useCaseMock.account).then { account }
+        presenter.onCreate(viewMock)
         presenter.onStart()
         verify(viewMock, times(1)).removeNavigationAdditions()
         verify(viewMock, never()).disableUserInfo()
@@ -85,15 +86,14 @@ class TopPresenterTest {
     }
 
     @Test
-    @JvmName(name = "画面表示時に登録しているユーザーが表示される。クリックでユーザー検索に遷移。ロングクリックで削除ダイアログ表示")
     fun additionUserTest() {
         val users = listOf("testA", "testB", "testC")
-        whenever(repositoryMock.additionUsers).thenReturn(users)
+        whenever(useCaseMock.additionUsers).thenReturn(users)
 
         // 表示
-        presenter.onCreate(viewMock, repositoryMock)
+        presenter.onCreate(viewMock)
         presenter.onStart()
-        verify(repositoryMock, times(1)).additionUsers
+        verify(useCaseMock, times(1)).additionUsers
         verify(viewMock, times(1)).addAdditionUser("testA")
         verify(viewMock, times(1)).addAdditionUser("testB")
         verify(viewMock, times(1)).addAdditionUser("testC")
@@ -109,25 +109,24 @@ class TopPresenterTest {
         verify(viewMock, times(1)).showDeleteUserDialog("testB", testBView)
         verify(viewMock, never()).showDeleteUserDialog(eq("testA"), any())
         verify(viewMock, never()).showDeleteUserDialog(eq("testC"), any())
-        verify(repositoryMock, never()).deleteAdditionUser("testB")
+        verify(useCaseMock, never()).deleteAdditionUser("testB")
 
         // ダイアログOK
         presenter.onDeleteUserIdDialogClick("testB", testBView)
-        verify(repositoryMock, times(1)).deleteAdditionUser("testB")
-        verify(repositoryMock, never()).deleteAdditionUser("testA")
-        verify(repositoryMock, never()).deleteAdditionUser("testC")
+        verify(useCaseMock, times(1)).deleteAdditionUser("testB")
+        verify(useCaseMock, never()).deleteAdditionUser("testA")
+        verify(useCaseMock, never()).deleteAdditionUser("testC")
         verify(testBView, times(1)).visibility = View.GONE
     }
 
     @Test
-    @JvmName(name = "画面表示時に登録しているキーワードが表示される。クリックでキーワード検索に遷移。ロングクリックで削除ダイアログ表示")
     fun additionKeywordTest() {
         val keywords = listOf("testA", "testB", "testC")
-        whenever(repositoryMock.additionKeywords).thenReturn(keywords)
+        whenever(useCaseMock.additionKeywords).thenReturn(keywords)
 
-        presenter.onCreate(viewMock, repositoryMock)
+        presenter.onCreate(viewMock)
         presenter.onStart()
-        verify(repositoryMock, times(1)).additionKeywords
+        verify(useCaseMock, times(1)).additionKeywords
         verify(viewMock, times(1)).addAdditionKeyword("testA")
         verify(viewMock, times(1)).addAdditionKeyword("testB")
         verify(viewMock, times(1)).addAdditionKeyword("testC")
@@ -141,22 +140,20 @@ class TopPresenterTest {
         verify(viewMock, times(1)).showDeleteKeywordDialog("testB", testBView)
         verify(viewMock, never()).showDeleteKeywordDialog(eq("testA"), any())
         verify(viewMock, never()).showDeleteKeywordDialog(eq("testC"), any())
-        verify(repositoryMock, never()).deleteAdditionKeyword("testB")
+        verify(useCaseMock, never()).deleteAdditionKeyword("testB")
 
         presenter.onDeleteKeywordDialogClick("testB", testBView)
-        verify(repositoryMock, times(1)).deleteAdditionKeyword("testB")
-        verify(repositoryMock, never()).deleteAdditionKeyword("testA")
-        verify(repositoryMock, never()).deleteAdditionKeyword("testC")
+        verify(useCaseMock, times(1)).deleteAdditionKeyword("testB")
+        verify(useCaseMock, never()).deleteAdditionKeyword("testA")
+        verify(useCaseMock, never()).deleteAdditionKeyword("testC")
         verify(testBView, times(1)).visibility = View.GONE
     }
 
     @Test
-    @JvmName(name = "ツールバークリックでNavigationBarが開閉する")
     fun toolbarClickTest() {
         whenever(viewMock.isOpenNavigation()).thenReturn(false)
 
-        val presenter = TopPresenter()
-        presenter.onCreate(viewMock, repositoryMock, Category.MAIN, Type.HOT)
+        presenter.onCreate(viewMock, Category.MAIN, Type.HOT)
         presenter.onStart()
         verify(viewMock, never()).openNavigation()
         verify(viewMock, never()).closeNavigation()
@@ -172,10 +169,8 @@ class TopPresenterTest {
     }
 
     @Test
-    @JvmName(name = "人気・新着の切替えが出来る")
     fun typeSelectTest() {
-        val presenter = TopPresenter()
-        presenter.onCreate(viewMock, repositoryMock, Category.MAIN, Type.HOT)
+        presenter.onCreate(viewMock, Category.MAIN, Type.HOT)
         presenter.onStart()
         Assert.assertEquals(presenter.selectedType, Type.HOT)
         verify(viewMock, times(1)).refreshShowCategoryAndType(any(), eq(Type.HOT))
@@ -193,12 +188,9 @@ class TopPresenterTest {
     }
 
     @Test
-    @JvmName(name = "バックキー押下時にNavigationBarが開いていたら閉じ、閉じていたら画面を終了する")
     fun backKeyPressTest() {
         whenever(viewMock.isOpenNavigation()).thenReturn(false)
-
-        val presenter = TopPresenter()
-        presenter.onCreate(viewMock, repositoryMock, Category.MAIN, Type.HOT)
+        presenter.onCreate(viewMock, Category.MAIN, Type.HOT)
         presenter.onStart()
         presenter.onBackKeyClick()
         verify(viewMock, times(1)).backPress()
@@ -211,9 +203,8 @@ class TopPresenterTest {
     }
 
     @Test
-    @JvmName(name = "onCreate時に古い既読データを削除する")
     fun deleteOldDataTest() {
-        presenter.onCreate(viewMock, repositoryMock)
-        verify(repositoryMock, times(1)).deleteOldFeedData(3)
+        presenter.onCreate(viewMock)
+        verify(useCaseMock, times(1)).deleteOldFeedData(3)
     }
 }

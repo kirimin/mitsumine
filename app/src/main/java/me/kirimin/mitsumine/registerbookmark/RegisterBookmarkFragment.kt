@@ -1,7 +1,6 @@
 package me.kirimin.mitsumine.registerbookmark
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -10,15 +9,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_register_bookmark.*
+import me.kirimin.mitsumine.MyApplication
 
 import java.util.ArrayList
 
 import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine._common.domain.model.Bookmark
+import me.kirimin.mitsumine._common.ui.BaseFragment
+import javax.inject.Inject
 
-class RegisterBookmarkFragment : RegisterBookmarkView, Fragment(), TagEditDialogFragment.OnOkClickListener {
+class RegisterBookmarkFragment : RegisterBookmarkView, BaseFragment(), TagEditDialogFragment.OnOkClickListener {
 
-    private val presenter = RegisterBookmarkPresenter()
+    @Inject
+    lateinit var presenter : RegisterBookmarkPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_register_bookmark, container, false)
@@ -27,7 +30,7 @@ class RegisterBookmarkFragment : RegisterBookmarkView, Fragment(), TagEditDialog
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val url = arguments.getString("url") ?: throw IllegalStateException("url is null")
-        presenter.onCreate(this, RegisterBookmarkRepository(), url)
+        presenter.onCreate(this, url)
     }
 
     override fun initView() {
@@ -71,7 +74,7 @@ class RegisterBookmarkFragment : RegisterBookmarkView, Fragment(), TagEditDialog
         registerButton.text = getString(R.string.register_bookmark_edit)
         commentEditText.setText(bookmark.comment)
         tagListText.text = TextUtils.join(", ", bookmark.tags)
-        privateCheckBox.isChecked = bookmark.isPrivate()
+        privateCheckBox.isChecked = bookmark.isPrivate
     }
 
     override fun showErrorToast() {
@@ -102,6 +105,10 @@ class RegisterBookmarkFragment : RegisterBookmarkView, Fragment(), TagEditDialog
     override fun getViewStatus() = Triple(commentEditText.text.toString(), privateCheckBox.isChecked, postTwitterCheckBox.isChecked)
 
     override fun getTagsText() = tagListText.text.toString()
+
+    override fun injection() {
+        (activity.application as MyApplication).getApplicationComponent().inject(this)
+    }
 
     companion object {
 

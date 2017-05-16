@@ -25,10 +25,12 @@ import com.makeramen.RoundedTransformationBuilder
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_top.*
+import me.kirimin.mitsumine.MyApplication
 import me.kirimin.mitsumine._common.domain.enums.Category
 import me.kirimin.mitsumine._common.domain.enums.Type
+import me.kirimin.mitsumine._common.ui.BaseActivity
 import me.kirimin.mitsumine.feed.readlater.ReadLaterActivity
-import me.kirimin.mitsumine.feed.mainfeed.FeedFragment
+import me.kirimin.mitsumine.feed.mainfeed.MainFeedFragment
 import me.kirimin.mitsumine.feed.read.ReadActivity
 import me.kirimin.mitsumine.login.LoginActivity
 import me.kirimin.mitsumine.feed.keyword.KeywordSearchActivity
@@ -37,21 +39,24 @@ import me.kirimin.mitsumine.feed.user.UserSearchActivity
 import me.kirimin.mitsumine.mybookmark.MyBookmarkSearchActivity
 import me.kirimin.mitsumine.setting.SettingActivity
 import java.io.Serializable
+import javax.inject.Inject
 
-class TopActivity : AppCompatActivity(), TopView {
+class TopActivity : BaseActivity(), TopView {
 
     private lateinit var drawerToggle: ActionBarDrawerToggle
-    private val presenter: TopPresenter = TopPresenter()
+    @Inject
+    lateinit var presenter: TopPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_top)
+        presenter.view = this
         if (savedInstanceState != null) {
             val selectedCategory = savedInstanceState.getSerializable(Category::class.java.canonicalName) as Category
             val selectedType = savedInstanceState.getSerializable(Type::class.java.canonicalName) as Type
-            presenter.onCreate(this, TopRepository(), selectedCategory, selectedType)
+            presenter.onCreate(this, selectedCategory, selectedType)
         } else {
-            presenter.onCreate(this, TopRepository())
+            presenter.onCreate(this)
         }
     }
 
@@ -138,7 +143,7 @@ class TopActivity : AppCompatActivity(), TopView {
         supportActionBar?.setTitle(category.labelResource)
         supportActionBar?.setSelectedNavigationItem(presenter.getTypeInt(type))
         supportFragmentManager.beginTransaction()
-                .replace(R.id.containerFrameLayout, FeedFragment.newFragment(category, type))
+                .replace(R.id.containerFrameLayout, MainFeedFragment.newFragment(category, type))
                 .commit()
         // 選択中のカテゴリの色を変える
         for (i in 0..navigationCategories.childCount - 1) {
@@ -228,6 +233,10 @@ class TopActivity : AppCompatActivity(), TopView {
                 .setPositiveButton(android.R.string.ok, { dialog, id -> presenter.onDeleteKeywordDialogClick(keyword, view) })
                 .setNegativeButton(android.R.string.cancel, null)
                 .create().show()
+    }
+
+    override fun injection() {
+        (application as MyApplication).getApplicationComponent().inject(this)
     }
 
     private fun createNavigationButton(label: String, onClick: OnClickListener, onLongClick: OnLongClickListener?): View {

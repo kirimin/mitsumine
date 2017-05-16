@@ -3,7 +3,6 @@ package me.kirimin.mitsumine.mybookmark
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -16,11 +15,15 @@ import me.kirimin.mitsumine.R
 import me.kirimin.mitsumine.entryinfo.EntryInfoActivity
 
 import kotlinx.android.synthetic.main.fragment_my_bookmarks.view.*
+import me.kirimin.mitsumine.MyApplication
 import me.kirimin.mitsumine._common.domain.model.MyBookmark
+import me.kirimin.mitsumine._common.ui.BaseFragment
+import javax.inject.Inject
 
-class MyBookmarkSearchFragment : Fragment(), MyBookmarkSearchView, SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
+class MyBookmarkSearchFragment : BaseFragment(), MyBookmarkSearchView, SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
 
-    private val presenter = MyBookmarkSearchPresenter()
+    @Inject
+    lateinit var presenter: MyBookmarkSearchPresenter
 
     private lateinit var adapter: MyBookmarkSearchAdapter
 
@@ -30,7 +33,7 @@ class MyBookmarkSearchFragment : Fragment(), MyBookmarkSearchView, SwipeRefreshL
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.onCreate(this, MyBookmarkSearchRepository(), arguments.getString("keyword"))
+        presenter.onCreate(this, arguments.getString("keyword"))
     }
 
     override fun onDestroyView() {
@@ -94,6 +97,10 @@ class MyBookmarkSearchFragment : Fragment(), MyBookmarkSearchView, SwipeRefreshL
         val intent = Intent(activity, EntryInfoActivity::class.java)
         intent.putExtras(EntryInfoActivity.buildBundle(linkUrl))
         startActivity(intent)
+    }
+
+    override fun injection() {
+        (activity.application as MyApplication).getApplicationComponent().inject(this)
     }
 
     companion object {

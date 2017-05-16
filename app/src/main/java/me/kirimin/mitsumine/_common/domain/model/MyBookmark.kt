@@ -1,3 +1,12 @@
 package me.kirimin.mitsumine._common.domain.model
 
-class MyBookmark(val title: String, val comment: String, val bookmarkCount: Int, val linkUrl: String, val totalCount: Int, val snippet: String)
+import me.kirimin.mitsumine._common.network.entity.MyBookmarksResponse
+
+class MyBookmark(private val response: MyBookmarksResponse.MyBookmarkResponse) {
+
+    val title get() = response.entry.title
+    val comment get() = response.comment
+    val bookmarkCount get() = response.entry.count
+    val linkUrl get() = response.entry.url
+    val snippet: String get() = response.entry.snippet
+}

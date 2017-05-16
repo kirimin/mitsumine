@@ -14,11 +14,7 @@ import me.kirimin.mitsumine.R
 
 class TagEditDialogFragmentAdapter(context: Context, tags: ArrayList<String>, private val onDeleteButtonClick: (view: View) -> Unit) : ArrayAdapter<String>(context, 0, tags) {
 
-    private val inflater: LayoutInflater
-
-    init {
-        inflater = LayoutInflater.from(context)
-    }
+    private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
