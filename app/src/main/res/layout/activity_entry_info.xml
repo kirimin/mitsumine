@@ -1,126 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical">
+    android:background="@android:color/white">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="?attr/actionBarSize"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/thumbnailImageView"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginRight="8dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/thumbnailImageView"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginRight="8dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/titleTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:minLines="2"
+                        android:scrollHorizontally="true"
+                        android:textColor="@color/text"
+                        android:textSize="@dimen/text_large"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/titleTextView"
-                    android:layout_width="0dp"
+                    android:id="@+id/tagsText"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:minLines="2"
-                    android:scrollHorizontally="true"
-                    android:textColor="@color/text"
-                    android:textSize="@dimen/text_large"
-                    android:textStyle="bold" />
+                    android:layout_marginBottom="2dp"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="@dimen/text_small"
+                    tools:text="android, test"/>
 
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tagsText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:lines="1"
-                android:singleLine="true"
-                android:textColor="@color/text_secondary"
-                android:textSize="@dimen/text_small"
-                tools:text="android, test" />
-
-            <LinearLayout
-                android:id="@+id/countLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="invisible">
-
-                <TextView
-                    android:id="@+id/bookmarkCountTextView"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/countLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/orange"
-                    android:textSize="@dimen/text_large3" />
+                    android:orientation="horizontal"
+                    android:visibility="invisible">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/users"
-                    android:textColor="@color/orange"
-                    android:textSize="@dimen/text_small" />
+                    <TextView
+                        android:id="@+id/bookmarkCountTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_large3"/>
 
-                <TextView
-                    android:id="@+id/commentCountTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:textColor="@color/blue"
-                    android:textSize="@dimen/text_large3" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/users"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_small"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="COMMENTS"
-                    android:textColor="@color/blue"
-                    android:textSize="@dimen/text_small2" />
+                    <TextView
+                        android:id="@+id/commentCountTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/text_large3"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/text_small2"
+                        tools:text="COMMENTS"/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/commentsViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <com.astuetz.PagerSlidingTabStrip
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/primary"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_medium"
+            tab:pstsIndicatorColor="@android:color/white"/>
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolBar"
+            style="@style/MyToolbarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"/>
+
+
     </LinearLayout>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/commentsViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <com.astuetz.PagerSlidingTabStrip
-        android:id="@+id/tabs"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/primary"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/text_medium"
-        tab:pstsIndicatorColor="@android:color/white" />
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolBar"
-        style="@style/MyToolbarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize" />
-
-
-</LinearLayout>
+</FrameLayout>

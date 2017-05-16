@@ -58,6 +58,8 @@ class EntryInfoPresenterTest {
         verify(viewMock, times(1)).initActionBar()
         verify(useCaseMock, times(1)).requestEntryInfo(URLEncoder.encode("http://sample", "utf-8"))
 
+        verify(viewMock, times(1)).showProgressBar()
+        verify(viewMock, times(1)).hideProgressBar()
         // 取得したものが設定される
         verify(viewMock, times(1)).setEntryInfo(entryInfo)
         // 非ログイン時は対象ページのブクマ登録Fragmentは設定されない
