@@ -84,6 +84,14 @@ class EntryInfoActivity : BaseActivity(), EntryInfoView {
         (application as MyApplication).getApplicationComponent().inject(this)
     }
 
+    override fun showProgressBar() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgressBar() {
+        progressBar.visibility = View.GONE
+    }
+
     companion object {
         val KEY_URL = "url"
 

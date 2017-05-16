@@ -17,4 +17,8 @@ interface EntryInfoView: BaseViewInterface {
     fun setViewPagerSettings(currentItem: Int, offscreenPageLimit: Int)
 
     fun setCommentCount(commentCount: String)
+
+    fun showProgressBar()
+
+    fun hideProgressBar()
 }
