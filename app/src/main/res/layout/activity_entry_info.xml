@@ -104,9 +104,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@string/comments"
                         android:textColor="@color/blue"
-                        android:textSize="@dimen/text_small2"
-                        tools:text="COMMENTS"/>
+                        android:textSize="@dimen/text_small2"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
