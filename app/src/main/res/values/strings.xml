@@ -62,7 +62,7 @@
     <string name="entry_info_all_bookmarks">すべて</string>
     <string name="entry_info_register_bookmark">ブックマークする</string>
     <string name="entry_info_comments">コメント</string>
-    <string name="entry_info_comments_stars">人気</string>
+    <string name="entry_info_comments_popular">人気</string>
     <string name="register_bookmark_limit">%1$d/100</string>
     <string name="register_bookmark_delete">ブックマーク削除</string>
     <string name="register_bookmark_resister">ブックマーク登録</string>

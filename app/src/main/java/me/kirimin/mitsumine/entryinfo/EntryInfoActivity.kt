@@ -1,11 +1,9 @@
 package me.kirimin.mitsumine.entryinfo
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 
 import com.squareup.picasso.Picasso
 
@@ -54,9 +52,9 @@ class EntryInfoActivity : BaseActivity(), EntryInfoView {
         actionBar.setHomeButtonEnabled(true)
     }
 
-    override fun setBookmarkFragments(allList: List<Bookmark>, hasCommentList: List<Bookmark>, stars: List<Bookmark>, entryId: String) {
+    override fun setBookmarkFragments(allList: List<Bookmark>, hasCommentList: List<Bookmark>, popular: List<Bookmark>, entryId: String) {
         adapter.addPage(BookmarkListFragment.newFragment(allList, entryId), getString(R.string.entry_info_all_bookmarks))
-        adapter.addPage(BookmarkListFragment.newFragment(stars, entryId), getString(R.string.entry_info_comments_stars))
+        adapter.addPage(BookmarkListFragment.newFragment(popular, entryId), getString(R.string.entry_info_comments_popular))
         adapter.addPage(BookmarkListFragment.newFragment(hasCommentList, entryId), getString(R.string.entry_info_comments))
     }
 
