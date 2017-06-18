@@ -2,6 +2,8 @@ package me.kirimin.mitsumine._common.di.module;
 
 import dagger.Module;
 import dagger.Provides;
+import me.kirimin.mitsumine.entryinfo.EntryInfoPresenter;
+import me.kirimin.mitsumine.entryinfo.EntryInfoUseCase;
 import me.kirimin.mitsumine.feed.FeedPresenter;
 import me.kirimin.mitsumine.feed.FeedUseCase;
 import me.kirimin.mitsumine.top.TopPresenter;
@@ -19,4 +21,7 @@ public class ViewModule {
     FeedPresenter provideFeedPresenter(FeedUseCase useCase) {
         return new FeedPresenter(useCase);
     }
+
+    @Provides
+    EntryInfoPresenter provideEntryInfoPresenter(EntryInfoUseCase useCase) { return new EntryInfoPresenter(useCase); }
 }

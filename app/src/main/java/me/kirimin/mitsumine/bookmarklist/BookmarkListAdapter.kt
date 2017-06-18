@@ -46,14 +46,15 @@ class BookmarkListAdapter(context: Context, val presenter: BookmarkListPresenter
         if (holder.stars.tag is Subscription) {
             (holder.stars.tag as Subscription).unsubscribe()
         }
-        holder.stars.tag = starRepository.requestCommentStar(bookmark.user, bookmark.timestamp, entryId).subscribe({
-            if (it == 0) {
-                holder.stars.visibility = View.GONE
-            } else {
+
+        holder.stars.visibility = View.GONE
+        bookmark.stars?.let {
+            if (it.allStarsCount > 0) {
                 holder.stars.visibility = View.VISIBLE
-                holder.stars.text = it.toString()
+                holder.stars.text = it.allStarsCount.toString()
             }
-        }, { holder.stars.visibility = View.GONE })
+        }
+
         val transformation = RoundedTransformationBuilder().borderWidthDp(0f).cornerRadiusDp(32f).oval(false).build()
         Picasso.with(context).load(bookmark.userIcon).fit().transform(transformation).into(holder.userIcon)
         holder.popupList.setOnItemClickListener { adapterView, view, i, l ->
