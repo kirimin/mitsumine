@@ -5,10 +5,9 @@ import me.kirimin.mitsumine._common.network.entity.BookmarkResponse
 import java.io.Serializable
 import java.util.regex.Pattern
 
-open class Bookmark(
-        private val response: BookmarkResponse,
-        private val stars: List<Star> = emptyList()) : Serializable {
-    private val urlLinkPattern = Pattern.compile("(http://|https://){1}[\\w\\.\\-/:\\#\\?\\=\\&\\;\\%\\~\\+]+", Pattern.CASE_INSENSITIVE)
+open class Bookmark(private val response: BookmarkResponse) : Serializable {
+
+    var stars: Stars? = null
 
     val user: String
         get() = response.user
@@ -36,4 +35,8 @@ open class Bookmark(
     }
 
     class EmptyBookmark : Bookmark(BookmarkResponse())
+
+    companion object {
+        private val urlLinkPattern = Pattern.compile("(http://|https://){1}[\\w\\.\\-/:\\#\\?\\=\\&\\;\\%\\~\\+]+", Pattern.CASE_INSENSITIVE)
+    }
 }

@@ -1,11 +1,9 @@
 package me.kirimin.mitsumine.entryinfo
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 
 import com.squareup.picasso.Picasso
 
@@ -18,10 +16,12 @@ import me.kirimin.mitsumine.registerbookmark.RegisterBookmarkFragment
 import kotlinx.android.synthetic.main.activity_entry_info.*
 import me.kirimin.mitsumine.MyApplication
 import me.kirimin.mitsumine._common.ui.BaseActivity
+import javax.inject.Inject
 
 class EntryInfoActivity : BaseActivity(), EntryInfoView {
 
-    private val presenter = EntryInfoPresenter()
+    @Inject
+    lateinit var presenter: EntryInfoPresenter
     private val adapter = EntryInfoPagerAdapter(supportFragmentManager)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +29,7 @@ class EntryInfoActivity : BaseActivity(), EntryInfoView {
         setContentView(R.layout.activity_entry_info)
 
         val url = intent.getStringExtra(KEY_URL) ?: let { finish(); return }
-        presenter.onCreate(this, EntryInfoUseCase(), url)
+        presenter.onCreate(this, url)
     }
 
     override fun onDestroy() {
@@ -52,8 +52,9 @@ class EntryInfoActivity : BaseActivity(), EntryInfoView {
         actionBar.setHomeButtonEnabled(true)
     }
 
-    override fun setBookmarkFragments(allList: List<Bookmark>, hasCommentList: List<Bookmark>, entryId: String) {
+    override fun setBookmarkFragments(allList: List<Bookmark>, hasCommentList: List<Bookmark>, popular: List<Bookmark>, entryId: String) {
         adapter.addPage(BookmarkListFragment.newFragment(allList, entryId), getString(R.string.entry_info_all_bookmarks))
+        adapter.addPage(BookmarkListFragment.newFragment(popular, entryId), getString(R.string.entry_info_comments_popular))
         adapter.addPage(BookmarkListFragment.newFragment(hasCommentList, entryId), getString(R.string.entry_info_comments))
     }
 
