@@ -5,7 +5,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "me.kirimin.mitsumine"
@@ -84,7 +84,6 @@ dependencies {
     testCompile "org.robolectric:robolectric:3.3.2"
 }
 buildscript {
-    ext.kotlin_version = '1.1.2-4'
     ext.support_library_version = '25.3.1'
     repositories {
         mavenCentral()
