@@ -3,6 +3,7 @@
     package="me.kirimin.mitsumine">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".MyApplication"
@@ -10,15 +11,9 @@
         android:icon="@drawable/ic_launcher"
         android:label="${appName}"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="AA_MODELS"
-            android:value="me.kirimin.mitsumine._common.database.entity.FeedTableEntity,
-                me.kirimin.mitsumine._common.domain.model.Account,
-                me.kirimin.mitsumine._common.domain.model.NGWord,
-                me.kirimin.mitsumine._common.domain.model.Keyword,
-                me.kirimin.mitsumine._common.domain.model.UserId,
-                " />
+            android:value="me.kirimin.mitsumine._common.database.entity.FeedTableEntity,                 me.kirimin.mitsumine._common.domain.model.Account,                 me.kirimin.mitsumine._common.domain.model.NGWord,                 me.kirimin.mitsumine._common.domain.model.Keyword,                 me.kirimin.mitsumine._common.domain.model.UserId,                 " />
 
         <activity
             android:name=".top.TopActivity"

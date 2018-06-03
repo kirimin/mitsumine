@@ -18,8 +18,6 @@ import rx.Subscription
 
 class BookmarkListAdapter(context: Context, val presenter: BookmarkListPresenter, val entryId: String) : ArrayAdapter<Bookmark>(context, 0) {
 
-    val starRepository = StarRepository()
-
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
         val holder: ViewHolder
