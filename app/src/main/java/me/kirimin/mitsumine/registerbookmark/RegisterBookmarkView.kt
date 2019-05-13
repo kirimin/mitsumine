@@ -6,12 +6,12 @@ import java.util.*
 
 interface RegisterBookmarkView {
 
-    open fun showViewWithoutBookmarkInfo()
-    open fun showViewWithBookmarkInfo(bookmark: Bookmark)
-    open fun showErrorToast()
-    open fun initView()
+    fun showViewWithoutBookmarkInfo()
+    fun showViewWithBookmarkInfo(bookmark: Bookmark)
+    fun showErrorToast()
+    fun initView()
     fun disableButtons()
-    open fun getViewStatus(): Triple<String, Boolean, Boolean>
+    fun getViewStatus(): Triple<String, Boolean, Boolean>
 
     fun showRegisterToast()
 
@@ -19,6 +19,6 @@ interface RegisterBookmarkView {
 
     fun getTagsText(): String
 
-    open fun showTagEditDialog(tags: ArrayList<String>)
-    open fun updateCommentCount(length: Int)
+    fun showTagEditDialog(tags: ArrayList<String>)
+    fun updateCommentCount(length: Int)
 }

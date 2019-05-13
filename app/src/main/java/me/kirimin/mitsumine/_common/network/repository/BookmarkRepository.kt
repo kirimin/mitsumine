@@ -23,7 +23,7 @@ class BookmarkRepository @Inject constructor() {
 
     fun requestAddBookmark(url: String, comment: String, tags: List<String>, isPrivate: Boolean, isTwitter: Boolean) =
             Client.authClient(Client.EndPoint.REST_API, AccountDAO.get()!!).build()
-                    .create(HatenaBookmarkService::class.java).addBookmark(url = URLEncoder.encode(url, "utf-8"), comment = comment, tags = tags, private = isPrivate, postTwitter = isTwitter)
+                    .create(HatenaBookmarkService::class.java).addBookmark(url = URLEncoder.encode(url, "utf-8"), comment = comment, tags = tags, private = if(isPrivate) 1 else 0, postTwitter = isTwitter)
                     .subscribeOn(Schedulers.newThread())
                     .map { responseHandling(it) }!!
                     .observeOn(AndroidSchedulers.mainThread())!!
