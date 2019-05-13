@@ -29,7 +29,7 @@ data class Feed(
     }
 
     private fun parseThumbnailUrl(content: String): String {
-        val urlStartIndex = content.indexOf("http://cdn-ak.b.st-hatena.com/entryimage/")
+        val urlStartIndex = content.indexOf("https://cdn-ak-scissors.b.st-hatena.com/image/square/")
         if (urlStartIndex != -1) {
             return content.substring(urlStartIndex, content.indexOf("\"", urlStartIndex))
         } else {
