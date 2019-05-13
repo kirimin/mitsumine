@@ -88,10 +88,10 @@ class FeedPresenter @Inject constructor(val useCase: FeedUseCase) {
 
     fun onGetView(holder: FeedAdapter.ViewHolder, item: Feed) {
         view.initListViewCell(holder, item)
-        if (!item.thumbnailUrl.isEmpty()) {
+        if (item.thumbnailUrl.isNotEmpty()) {
             view.loadThumbnailImage(holder, item.thumbnailUrl)
         }
-        if (!item.faviconUrl.isEmpty()) {
+        if (item.faviconUrl.isNotEmpty()) {
             view.loadFaviconImage(holder, item.faviconUrl)
         }
 

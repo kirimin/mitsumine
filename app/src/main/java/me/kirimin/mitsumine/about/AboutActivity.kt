@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
+import kotlinx.android.synthetic.main.activity_about.*
 import me.kirimin.mitsumine.MyApplication
 import me.kirimin.mitsumine._common.ui.BaseActivity
 
@@ -15,12 +16,12 @@ class AboutActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
-        setSupportActionBar(findViewById(R.id.tool_bar) as Toolbar)
+        setSupportActionBar(findViewById(R.id.tool_bar))
         val actionBar = supportActionBar ?: return
         actionBar.setTitle(R.string.about_title)
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setHomeButtonEnabled(true)
-        findViewById(R.id.aboutLicenseButton)?.setOnClickListener { startActivity(Intent(this@AboutActivity, LicenseActivity::class.java)) }
+        aboutLicenseButton.setOnClickListener { startActivity(Intent(this@AboutActivity, LicenseActivity::class.java)) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
