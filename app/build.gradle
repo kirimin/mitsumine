@@ -10,8 +10,8 @@ android {
     defaultConfig {
         applicationId "me.kirimin.mitsumine"
         testApplicationId "me.kirimin.mitsumine.test"
-        versionCode 20804
-        versionName "2.8.4"
+        versionCode 20805
+        versionName "2.8.5"
         minSdkVersion 22
         targetSdkVersion 26
         manifestPlaceholders = [appName: "@string/app_name"]
