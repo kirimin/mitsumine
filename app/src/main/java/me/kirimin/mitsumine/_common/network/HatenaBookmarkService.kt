@@ -18,7 +18,7 @@ interface HatenaBookmarkService {
                     @Query("comment") comment: String? = null,
                     @Query("tags") tags: List<String> = emptyList(),
                     @Query("private") private: Int = 0,
-                    @Query("post_twitter") postTwitter: Boolean = false): Observable<Response<BookmarkResponse>>
+                    @Query("post_twitter") postTwitter: Int = 0): Observable<Response<BookmarkResponse>>
 
     @DELETE("/1/my/bookmark")
     fun deleteBookmark(@Query(value = "url", encoded = true) url: String): Observable<Response<Boolean>>
