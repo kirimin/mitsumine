@@ -51,7 +51,7 @@
     <string name="login_success">ログインに成功しました。</string>
     <string name="login_error">認証に失敗したようです。</string>
     <string name="about_title">このアプリについて</string>
-    <string name="about_develop">開発：きりみん</string>
+    <string name="about_develop">開発：Kirimint, @kirimin</string>
     <string name="about_develop_url">http://kirimin.me</string>
     <string name="about_other_app">他にもいろいろなアプリを公開しています。</string>
     <string name="about_other_app_url">https://play.google.com/store/apps/developer?id=kirimin</string>
