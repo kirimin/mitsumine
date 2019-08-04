@@ -12,8 +12,8 @@ class MainFeedFragment : AbstractFeedFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val category = arguments.getSerializable(Category::class.java.canonicalName) as Category
-        val type = arguments.getSerializable(Type::class.java.canonicalName) as Type
+        val category = arguments!!.getSerializable(Category::class.java.canonicalName) as Category
+        val type = arguments!!.getSerializable(Type::class.java.canonicalName) as Type
         presenter.view = this
         presenter.onCreate(FeedPresenter.FeedMethod.MainFeed(category = category, type = type))
     }

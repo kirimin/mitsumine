@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit
 
 object FeedRssAccessor {
 
-    private val FEED_URL_HEADER = "http://b.hatena.ne.jp/"
+    private val FEED_URL_HEADER = "https://b.hatena.ne.jp/"
     private val FEED_URL_FOOTER = ".rss"
     private val MAX_AGE_SECOND = 60 * 5;
 

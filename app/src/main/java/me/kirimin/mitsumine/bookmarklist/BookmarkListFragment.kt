@@ -3,7 +3,6 @@ package me.kirimin.mitsumine.bookmarklist
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,6 @@ import me.kirimin.mitsumine.feed.user.UserSearchActivity
 import kotlinx.android.synthetic.main.fragment_bookmark_list.view.*
 import me.kirimin.mitsumine.MyApplication
 import me.kirimin.mitsumine._common.ui.BaseFragment
-import java.net.URL
 
 class BookmarkListFragment : BaseFragment(), BookmarkListView {
 
@@ -30,12 +28,12 @@ class BookmarkListFragment : BaseFragment(), BookmarkListView {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         presenter.view = this
-        presenter.onCreate(arguments.getSerializable("bookmarkList") as ArrayList<Bookmark>)
+        presenter.onCreate(arguments!!.getSerializable("bookmarkList") as ArrayList<Bookmark>)
     }
 
     override fun initViews(bookmarks: List<Bookmark>) {
         val view = view ?: return
-        val adapter = BookmarkListAdapter(context, presenter, arguments.getString("entryId"))
+        val adapter = BookmarkListAdapter(context!!, presenter, arguments!!.getString("entryId"))
         adapter.addAll(bookmarks)
         view.listView.adapter = adapter
     }
@@ -58,7 +56,7 @@ class BookmarkListFragment : BaseFragment(), BookmarkListView {
     }
 
     override fun injection() {
-        (activity.application as MyApplication).getApplicationComponent().inject(this)
+        (activity!!.application as MyApplication).getApplicationComponent().inject(this)
     }
 
     companion object {

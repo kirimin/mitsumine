@@ -18,7 +18,7 @@ public class UrlReceiveActivity : AppCompatActivity() {
             val url = intent.extras.getCharSequence(Intent.EXTRA_TEXT).toString().replace("#", "%23")
             val pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
             if (pref.getBoolean(getString(R.string.key_use_browser_to_comment_list), false)) {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://b.hatena.ne.jp/entry/" + url)))
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://b.hatena.ne.jp/entry/" + url)))
             } else {
                 val intent = Intent(applicationContext, EntryInfoActivity::class.java)
                 intent.putExtras(EntryInfoActivity.buildBundle(url))

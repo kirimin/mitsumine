@@ -10,7 +10,7 @@ class KeywordSearchFragment : AbstractFeedFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         presenter.view = this
-        presenter.onCreate(FeedPresenter.FeedMethod.KeywordSearch(arguments.getString("keyword", "")))
+        presenter.onCreate(FeedPresenter.FeedMethod.KeywordSearch(arguments!!.getString("keyword", "")))
     }
 
     companion object {

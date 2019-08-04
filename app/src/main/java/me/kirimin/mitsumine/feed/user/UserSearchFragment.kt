@@ -9,7 +9,7 @@ class UserSearchFragment : AbstractFeedFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         presenter.view = this
-        presenter.onCreate(FeedPresenter.FeedMethod.UserSearch(arguments.getString("user", "")))
+        presenter.onCreate(FeedPresenter.FeedMethod.UserSearch(arguments!!.getString("user", "")))
     }
 
     companion object {

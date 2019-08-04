@@ -29,7 +29,7 @@ class RegisterBookmarkFragment : RegisterBookmarkView, BaseFragment(), TagEditDi
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val url = arguments.getString("url") ?: throw IllegalStateException("url is null")
+        val url = arguments!!.getString("url") ?: throw IllegalStateException("url is null")
         presenter.onCreate(this, url)
     }
 
@@ -107,7 +107,7 @@ class RegisterBookmarkFragment : RegisterBookmarkView, BaseFragment(), TagEditDi
     override fun getTagsText() = tagListText.text.toString()
 
     override fun injection() {
-        (activity.application as MyApplication).getApplicationComponent().inject(this)
+        (activity!!.application as MyApplication).getApplicationComponent().inject(this)
     }
 
     companion object {

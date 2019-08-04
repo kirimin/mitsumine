@@ -33,7 +33,7 @@ class MyBookmarkSearchFragment : BaseFragment(), MyBookmarkSearchView, SwipeRefr
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.onCreate(this, arguments.getString("keyword"))
+        presenter.onCreate(this, arguments!!.getString("keyword"))
     }
 
     override fun onDestroyView() {
@@ -58,7 +58,7 @@ class MyBookmarkSearchFragment : BaseFragment(), MyBookmarkSearchView, SwipeRefr
         view.swipeLayout.setColorSchemeResources(R.color.blue, R.color.orange)
         view.swipeLayout.setOnRefreshListener(this)
         view.swipeLayout.setProgressViewOffset(false, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, resources.displayMetrics).toInt())
-        adapter = MyBookmarkSearchAdapter(activity, { v, myBookmark ->
+        adapter = MyBookmarkSearchAdapter(activity!!, { v, myBookmark ->
             presenter.onListItemClick(myBookmark)
         }, { v, myBookmark ->
             presenter.onListItemLongClick(myBookmark)
@@ -100,7 +100,7 @@ class MyBookmarkSearchFragment : BaseFragment(), MyBookmarkSearchView, SwipeRefr
     }
 
     override fun injection() {
-        (activity.application as MyApplication).getApplicationComponent().inject(this)
+        (activity!!.application as MyApplication).getApplicationComponent().inject(this)
     }
 
     companion object {

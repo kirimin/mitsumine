@@ -52,9 +52,9 @@ object Client {
     }
 
     enum class EndPoint(val value:String) {
-        API("http://b.hatena.ne.jp"),
-        REST_API("http://api.b.hatena.ne.jp"),
-        STAR("http://s.hatena.com"),
-        BOOKMARK_COUNT("http://api.b.st-hatena.com")
+        API("https://b.hatena.ne.jp"),
+        REST_API("https://api.b.hatena.ne.jp"),
+        STAR("https://s.hatena.com"),
+        BOOKMARK_COUNT("https://api.b.st-hatena.com")
     }
 }

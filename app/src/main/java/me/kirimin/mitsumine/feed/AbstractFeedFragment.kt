@@ -76,7 +76,7 @@ abstract class AbstractFeedFragment : BaseFragment(), FeedView, View.OnClickList
         view.swipeLayout.setColorSchemeResources(R.color.blue, R.color.orange)
         view.swipeLayout.setOnRefreshListener(this)
         view.swipeLayout.setProgressViewOffset(false, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, resources.displayMetrics).toInt())
-        adapter = FeedAdapter(context = activity.applicationContext, presenter = presenter, useReadLater = isUseReadLater, useRead = isUseRead)
+        adapter = FeedAdapter(context = activity!!.applicationContext, presenter = presenter, useReadLater = isUseReadLater, useRead = isUseRead)
         view.feedListView.adapter = adapter
     }
 
@@ -180,6 +180,6 @@ abstract class AbstractFeedFragment : BaseFragment(), FeedView, View.OnClickList
     }
 
     override fun injection() {
-        (activity.application as MyApplication).getApplicationComponent().inject(this)
+        (activity!!.application as MyApplication).getApplicationComponent().inject(this)
     }
 }
