@@ -12,7 +12,7 @@ class StarRepository @Inject constructor() {
 
     fun requestCommentStar(userId: String, timestamp: String, entryId: String): Observable<Stars> {
         val date = timestamp.replace("/", "")
-        val uri = "http://b.hatena.ne.jp/$userId/$date%23bookmark-$entryId"
+        val uri = "https://b.hatena.ne.jp/$userId/$date%23bookmark-$entryId"
         return Client.default(Client.EndPoint.STAR).build()
                 .create(HatenaBookmarkService::class.java)
                 .starOfBookmark(uri)
