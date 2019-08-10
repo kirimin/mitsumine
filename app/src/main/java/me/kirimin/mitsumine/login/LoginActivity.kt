@@ -3,7 +3,6 @@ package me.kirimin.mitsumine.login
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.Toast
 
@@ -31,10 +30,10 @@ class LoginActivity : BaseActivity() {
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setHomeButtonEnabled(true)
 
-        val OAuthApiManager = HatenaOAuth()
+        val oAuthApiManager = HatenaOAuth()
         authButton.setOnClickListener { v ->
             v.isEnabled = false
-            subscriptions.add(OAuthApiManager.requestAuthUrl()
+            subscriptions.add(oAuthApiManager.requestAuthUrl()
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ authUrl ->
@@ -47,14 +46,14 @@ class LoginActivity : BaseActivity() {
             )
         }
         loginButton.setOnClickListener {
-            subscriptions.add(OAuthApiManager.requestUserInfo(pinCodeEditText.getText().toString())
+            subscriptions.add(oAuthApiManager.requestUserInfo(pinCodeEditText.text.toString())
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ account ->
                         AccountDAO.save(account)
                         Toast.makeText(applicationContext, getString(R.string.login_success), Toast.LENGTH_SHORT).show()
                         finish()
-                    }, { e ->
+                    }, {
                         Toast.makeText(applicationContext, getString(R.string.login_error), Toast.LENGTH_SHORT).show()
                     })
             )

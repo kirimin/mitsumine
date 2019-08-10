@@ -5,7 +5,6 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.scribe.builder.ServiceBuilder
 import org.scribe.model.OAuthRequest
-import org.scribe.model.Response
 import org.scribe.model.Token
 import org.scribe.model.Verb
 import org.scribe.model.Verifier
@@ -14,9 +13,8 @@ import org.scribe.oauth.OAuthService
 import me.kirimin.mitsumine._common.domain.model.Account
 import me.kirimin.mitsumine._common.domain.exceptions.ApiRequestException
 import rx.Observable
-import rx.Subscriber
 
-public class HatenaOAuth {
+class HatenaOAuth {
 
     private val oAuthService: OAuthService
     private var requestToken: Token? = null
@@ -25,16 +23,16 @@ public class HatenaOAuth {
         oAuthService = ServiceBuilder().provider(HatenaOAuthProvider::class.java).apiKey(BuildConfig.OAUTH_KEY).apiSecret(BuildConfig.OAUTH_SECRET).build()
     }
 
-    public fun requestAuthUrl(): Observable<String> {
-        return Observable.create<String> { subscriber ->
+    fun requestAuthUrl(): Observable<String> {
+        return Observable.create { subscriber ->
             requestToken = oAuthService.requestToken
             subscriber.onNext(oAuthService.getAuthorizationUrl(requestToken))
             subscriber.onCompleted()
         }
     }
 
-    public fun requestUserInfo(pinCode: String): Observable<Account> {
-        return Observable.create<Account> { subscriber ->
+    fun requestUserInfo(pinCode: String): Observable<Account> {
+        return Observable.create { subscriber ->
             if (requestToken == null) {
                 subscriber.onError(ApiRequestException("Request token is not exist."))
             }
